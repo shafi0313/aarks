@@ -1,0 +1,32 @@
+Key = vuJBgi3rjad3xymO8eraAMcnzn6w2zVIaVupFYn7
+
+For checking clients:
+----------------------
+
+/api/client [get request]
+    param:
+        key=[API_KEY]
+        email=[CLIENT_EMAIL]
+
+For checking payment lists of a client:
+---------------------------------------
+
+/api/client/payment/list [get request]
+    param:
+        key=[API_KEY]
+        client_id=[CLIENT_ID]
+        per_page=[HOW MANY LIST WANNA SHOW (default 10)]
+
+For store payment lists of a client:
+---------------------------------------
+
+/api/client/payment/store [post request]
+    param:
+        key=[API_KEY]
+        client_id=[CLIENT_ID]
+        package=[PACKAGE ID {1-6}]
+        duration=[DURATION {1,2,3,6,12}]
+        amount=[AMOUNT ]
+        receipt=[PAYMENT RECEIPT {png,jpg,jpeg,pdf}]
+        note=[PAYMENT NOTE]
+

@@ -1,0 +1,40 @@
+name: AARKS DEPLOY
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Copy repository contents via scp
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.SSHKEY }}
+        source: "."
+        target: "/var/www/html/aarks"
+
+    - name: Executing remote command
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: |
+          cd /var/www/html/aarks
+          sudo chmod -R 777 storage
+          sudo chmod -R 777 bootstrap/cache
+          sudo chmod -R 777 public
+          sudo chmod -R 777 vendor
+          sudo php artisan optimize:clear
+

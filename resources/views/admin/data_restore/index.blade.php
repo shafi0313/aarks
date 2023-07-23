@@ -1,0 +1,84 @@
+@extends('admin.layout.master')
+@section('title','Client')
+@section('content')
+
+	<div class="main-content">
+		<div class="main-content-inner">
+			<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+				<ul class="breadcrumb">
+					<li>
+						<i class="ace-icon fa fa-home home-icon"></i>
+						<a href="{{ route('admin.dashboard') }}">Home</a>
+					</li>
+						<li>Close Year</li>
+						<li class="active">Closed Year Report Financial</li>
+				</ul><!-- /.breadcrumb -->
+
+				{{-- <div class="nav-search" id="nav-search">
+					<form class="form-search">
+						<span class="input-icon">
+							<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+							<i class="ace-icon fa fa-search nav-search-icon"></i>
+						</span>
+					</form>
+				</div><!-- /.nav-search --> --}}
+			</div>
+
+			<div class="page-content">
+				<!-- Settings -->
+					{{-- @include('admin.layout.settings') --}}
+				<!-- /Settings -->
+
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- PAGE CONTENT BEGINS -->
+						<div class="row">
+							<div class="col-xs-12" >
+							<div class="clearfix">
+								<div class="pull-right tableTools-container"></div>
+							</div>
+							<div class="table-header" style="text-align: right;"> </div>
+							<!-- div.table-responsive -->
+							<!-- div.dataTables_borderWrap -->
+							<div>
+								<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th class="center">SN</th>
+											<th>Company /Trust/Partner ship Name</th>
+											<th>First Name</th>
+											<th>Middle Name</th>
+											<th>Last Name</th>
+											<th>Email Address</th>
+											<th>ABN Number</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="center">1</td>
+											<td>B AL Haify & A ALZOUBAYDY </td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>alshmess@hotmail.com</td>
+											<td>47733241709</td>
+											<td><div class="  action-buttons"> <a class="red" href="{{ route('data_restore_select_profession') }}">Select Client</a> </div></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						</div>
+						<!-- PAGE CONTENT ENDS -->
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div><!-- /.page-content -->
+		</div>
+	</div><!-- /.main-content -->
+
+
+<script>
+    
+</script>
+@endsection

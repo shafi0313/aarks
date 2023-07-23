@@ -1,0 +1,16 @@
+.reportH .company_name{
+    font-size: 22px;
+    font-weight:bold
+}
+.reportH .report_name{
+    font-size: 18px;
+    font-weight:600;
+    text-transform:uppercase
+}
+
+._btn {
+    border-width: 1px;
+    font-size: 13px;
+    padding: 2px 2px;
+    line-height: 0.38;
+}
