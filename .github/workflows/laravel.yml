@@ -37,5 +37,4 @@ jobs:
           sudo chmod -R 777 public
           sudo chmod -R 777 vendor
           sudo php artisan optimize:clear
-          sudo php artisan optimize
 
