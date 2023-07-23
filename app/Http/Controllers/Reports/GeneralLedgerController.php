@@ -4,25 +4,13 @@ namespace App\Http\Controllers\Reports;
 
 use App\Models\Client;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
-use App\Models\Profession;
-use App\Models\Data_storage;
-use App\Models\JournalEntry;
 use Illuminate\Http\Request;
 use App\Models\GeneralLedger;
-use App\Models\Frontend\Dedotr;
 use App\Models\ClientAccountCode;
-use App\Models\Frontend\CashBook;
-use App\Models\Frontend\Creditor;
-use App\Models\BankStatementInput;
-use Illuminate\Support\Facades\DB;
-use App\Models\BankStatementImport;
 use App\Actions\GeneralLedgerAction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
-use RealRashid\SweetAlert\Facades\Alert;
-use App\Models\Frontend\DedotrPaymentReceive;
 use App\Http\Requests\ShowGeneralLedgerRequest;
-use App\Models\Frontend\CreditorPaymentReceive;
 
 class GeneralLedgerController extends Controller
 {
@@ -36,7 +24,12 @@ class GeneralLedgerController extends Controller
         if ($error = $this->sendPermissionError('admin.general_ledger.index')) {
             return $error;
         }
-        $clients = Client::all();
+        $clients = Client::leftJoin('client_payment_lists', 'clients.id', '=', 'client_payment_lists.client_id')
+            ->select('clients.id','clients.company', 'clients.first_name','clients.last_name','clients.email','clients.phone',
+                    'client_payment_lists.status', 'client_payment_lists.is_expire', 'client_payment_lists.status')
+            ->orderBy('client_payment_lists.status', 'desc')
+            ->orderBy('client_payment_lists.is_expire', 'desc')
+            ->get();
         return view('admin.reports.general_ledger.index', compact('clients'));
     }
 

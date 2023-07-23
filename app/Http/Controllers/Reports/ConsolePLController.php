@@ -17,7 +17,12 @@ class ConsolePLController extends Controller
         if ($error = $this->sendPermissionError('admin.console_accum_excl.index')) {
             return $error;
         }
-        $clients = client::all();
+        $clients = Client::leftJoin('client_payment_lists', 'clients.id', '=', 'client_payment_lists.client_id')
+            ->select('clients.id','clients.company', 'clients.first_name','clients.last_name','clients.email','clients.phone',
+                    'client_payment_lists.status', 'client_payment_lists.is_expire', 'client_payment_lists.status')
+            ->orderBy('client_payment_lists.status', 'desc')
+            ->orderBy('client_payment_lists.is_expire', 'desc')
+            ->get();
         return view('admin.reports.profit_loss.accum.excl.index', compact('clients'));
     }
     public function exclPeriod(Client $client)
@@ -42,7 +47,12 @@ class ConsolePLController extends Controller
         if ($error = $this->sendPermissionError('admin.console_accum_incl.index')) {
             return $error;
         }
-        $clients = client::all();
+        $clients = Client::leftJoin('client_payment_lists', 'clients.id', '=', 'client_payment_lists.client_id')
+            ->select('clients.id','clients.company', 'clients.first_name','clients.last_name','clients.email','clients.phone',
+                    'client_payment_lists.status', 'client_payment_lists.is_expire', 'client_payment_lists.status')
+            ->orderBy('client_payment_lists.status', 'desc')
+            ->orderBy('client_payment_lists.is_expire', 'desc')
+            ->get();
         return view('admin.reports.profit_loss.accum.incl.index', compact('clients'));
     }
     public function inclPeriod(Client $client)
