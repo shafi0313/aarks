@@ -6,14 +6,11 @@ $.ready(function() {
     });    
 });
 
-
-
-
 // Select 2
-$(document).ready(function() {
-    $('.select2').select2();
-    $('.select2Single').select2();
-});
+// $(document).ready(function() {
+//     $('.select2').select2();
+//     $('.select2Single').select2();
+// });
 
 function toast(status, header, msg) {
     // $.toast('Here you can put the text of the toast')

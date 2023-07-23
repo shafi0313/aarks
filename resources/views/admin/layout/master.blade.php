@@ -160,12 +160,13 @@
         {{-- <!-- /Footer --> --}}
         @include('admin.layout.includes.data_table_js')
         <script src="{{ asset('admin/assets/js/jquery-2.1.4.min.js') }}"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> --}}
         <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript">
             if ('ontouchstart' in document.documentElement) document.write(
                 "<script src='{{ asset('public/admin/assets/js/jquery.mobile.custom.min.js') }}'>" + "<" + "/script>");
         </script>        
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+        
         <script src="{{ asset('admin/assets/js/ace-elements.min.js?v=' . assetVersion('ace_elements_min_js')) }}"></script>
         <script src="{{ asset('admin/assets/js/ace.min.js?v=' . assetVersion('ace_min_js')) }}"></script>
         <script src="{{ asset('admin/assets/js/aarks.js?v=' . assetVersion('aarks_js')) }}"></script>
