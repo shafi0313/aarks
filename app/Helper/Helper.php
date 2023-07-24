@@ -8,6 +8,16 @@ use App\Models\Profession;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 
+if (!function_exists('getClientsWithPayment')) {
+    function getClientsWithPayment()
+    {
+        return Client::with(['payment' => function ($q) {
+                return $q->select('id', 'client_id')->latest();
+            }])
+            ->get(['id', 'company', 'first_name', 'last_name', 'email', 'phone', 'abn_number']);
+    }
+}
+
 if (!function_exists('modificationFields')) {
     function modificationFields(Blueprint $table)
     {

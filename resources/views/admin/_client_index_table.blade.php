@@ -24,11 +24,11 @@
                 <td>{{ $row->last_name }}</td>
                 <td>{{ $row->email }}</td>                
                 <td class="text-center">
-                    @if ($row->status == 1 && $row->expire_date == 0)
+                    @isset ($row->payment)
                     <span class="label label-sm label-success">Active</span>
                 @else                    
                     <span class="label label-sm label-danger">Expired</span>
-                @endif</td>
+                @endisset</td>
                 @if ($from == 'client_index')   
                 <td>{{ $row->phone }}</td>                 
                     @canany(['admin.client.edit'])

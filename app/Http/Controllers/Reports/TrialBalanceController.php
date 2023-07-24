@@ -25,12 +25,7 @@ class TrialBalanceController extends Controller
             return $error;
         }
         //Permission Will be changed
-        $clients = Client::leftJoin('client_payment_lists', 'clients.id', '=', 'client_payment_lists.client_id')
-            ->select('clients.id','clients.company', 'clients.first_name','clients.last_name','clients.email','clients.phone',
-                    'client_payment_lists.status', 'client_payment_lists.is_expire', 'client_payment_lists.status')
-            ->orderBy('client_payment_lists.status', 'desc')
-            ->orderBy('client_payment_lists.is_expire', 'desc')
-            ->get();
+        $clients = getClientsWithPayment();
         return view('admin.reports.trial_balance.index', compact('clients'));
     }
 
