@@ -2,15 +2,11 @@
     <tbody>
         <tr>
             <th class="text-center">Particulars</th>
-            {{-- <th>Amount ($)</th> --}}
             <th class="text-right">Amount ($)</th>
         </tr>
 
         @php
-            $totalRetain = 0;
-            if ($retain) {
-                $totalRetain = $retain;
-            }
+            $totalRetain = $retain ?? 0;
         @endphp
 
         @foreach ($accountCodeCategories as $accountCodeCategory)
@@ -18,9 +14,6 @@
                 $mainCodes = $accountCodes->where('category_id', $accountCodeCategory->id);
                 $gtDebit = $gtCredit = $gtBalance = 0;
             @endphp
-            {{-- <tr>
-            <td colspan="3" style="color: red">{{$accountCodeCategory->name}}</td>
-        </tr> --}}
             @foreach ($accountCodeCategory->subCategoryWithoutAdditional as $subCategory)
                 @php
                     $subCodes = $accountCodes->where('sub_category_id', $subCategory->id);
@@ -56,35 +49,35 @@
                                 $blncType = '';
                                 if ($accountCodeCategory->code == 5) {
                                     if ($ledger->balance_type == 1 && $ledgerBalance > 0) {
-                                        $gtBalance += abs($ledgerBalance);
+                                        $gtBalance        += abs($ledgerBalance);
                                         $subSubGrpBalance += abs($ledgerBalance);
-                                        $blncType = '';
+                                        $blncType          = '';
                                     } else {
-                                        $gtBalance -= abs($ledgerBalance);
+                                        $gtBalance        -= abs($ledgerBalance);
                                         $subSubGrpBalance -= abs($ledgerBalance);
-                                        $blncType = '-';
+                                        $blncType          = '-';
                                     }
                                 }
-
+                                
                                 if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998, 912101])) {
                                     if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
-                                        $gtBalance = $gtBalance += abs($ledgerBalance);
+                                        $gtBalance        = $gtBalance        += abs($ledgerBalance);
                                         $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
-                                        $blncType = '';
+                                        $blncType         = '';
                                     } else {
-                                        $gtBalance = $gtBalance -= abs($ledgerBalance);
+                                        $gtBalance        = $gtBalance        -= abs($ledgerBalance);
                                         $subSubGrpBalance = $subSubGrpBalance -= abs($ledgerBalance);
-                                        $blncType = '-';
-                                    }                                    
+                                        $blncType         = '-';
+                                    }
                                 }
-
+                                
                                 // For GST Clearing Account (912101)
                                 if ($accountCodeCategory->code == 9) {
                                     if ($ledger->chart_id == 912101) {
                                         if ($ledger->balance_type == 1 && $ledgerBalance > 0) {
-                                            $gtBalance =  $gtBalance        -= abs($ledgerBalance);
+                                            $gtBalance        = $gtBalance        -= abs($ledgerBalance);
                                             $subSubGrpBalance = $subSubGrpBalance -= abs($ledgerBalance);
-                                            $blncType          = '-';
+                                            $blncType         = '-';
                                         } else {
                                             $gtBalance        = $gtBalance        += abs($ledgerBalance);
                                             $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
@@ -92,7 +85,7 @@
                                         }
                                     }
                                 }
-
+                                
                                 if ($subCategory->id == 16 && $accountCode->code == 999998) {
                                     $subSubGrpBalance += $plRetain;
                                 } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {

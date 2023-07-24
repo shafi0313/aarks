@@ -63,15 +63,14 @@ class CompleteFinancialTFAction extends Controller
                 ->get();
 
             // Calculate total liabilities
-            $get_total_liabilities = GeneralLedger::with('client_account_code')
-                ->where('date', '<=', $end_date)
+            $get_total_liabilities = GeneralLedger::with(['client_account_code' => fn ($q) => $q->select('id', 'type')])->where('date', '<=', $end_date)
                 ->where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where(function ($q) {
-                    $q->where('chart_id', 'like', '91%')
-                        ->orWhere('chart_id', 'like', '954%');
+                    return $q->where('chart_id', 'like', '91%')
+                        ->orWhere('chart_id', 'like', '95%');
                 })
-                ->get();
+                ->get(['id', 'client_account_code_id', 'balance', 'balance_type']);
 
             $total_liability = 0;
             foreach ($get_total_liabilities as $get_total_liability) {
@@ -80,9 +79,17 @@ class CompleteFinancialTFAction extends Controller
                 $account_type = $get_total_liability->client_account_code->type;
 
                 if ($account_type == 1) {
-                    $total_liability += ($balance_type == 1) ? -$balance : $balance;
-                } else {
-                    $total_liability += ($balance_type == 2) ? $balance : -$balance;
+                    if ($balance_type == 1 && $balance > 0) {
+                        $total_liability -= abs($balance);
+                    } else {
+                        $total_liability += abs($balance);
+                    }
+                } elseif ($account_type == 2) {
+                    if ($balance_type == 2 && $balance > 0) {
+                        $total_liability += abs($balance);
+                    } else {
+                        $total_liability -= abs($balance);
+                    }
                 }
             }
 
@@ -103,10 +110,23 @@ class CompleteFinancialTFAction extends Controller
                 $account_type = $get_total_asset->client_account_code->type;
 
                 if ($account_type == 1) {
-                    $total_asset += ($balance_type == 1) ? $balance : -$balance;
-                } else {
-                    $total_asset += ($balance_type == 2) ? -$balance : $balance;
+                    if ($balance_type == 1 && $balance > 0) {
+                        $total_asset += abs($balance);
+                    } else {
+                        $total_asset -= abs($balance);
+                    }
+                } elseif ($account_type == 2) {
+                    if ($balance_type == 2 && $balance > 0) {
+                        $total_asset -= abs($balance);
+                    } else {
+                        $total_asset += abs($balance);
+                    }
                 }
+                // if ($account_type == 1) {
+                //     $total_asset += ($balance_type == 1) ? $balance : -$balance;
+                // } else {
+                //     $total_asset += ($balance_type == 2) ? -$balance : $balance;
+                // }
             }
 
             $data['total_asset'] = $total_asset;
