@@ -7,7 +7,7 @@
             <input type="hidden" name="profession_id" value="{{$dep->profession_id}}">
             <input type="hidden" name="depreciation_id" value="{{$dep->id}}">
             <div class="form-group row my-4">
-                <label for="rollover_year" class="col-sm-3 control-label">Rollover to the Financial Year(New Year)</label>
+                <label for="rollover_year" class="col-sm-3 control-label">Rollover <span style="color:red">to the Financial Year(New Year)</span></label>
                 <div class="col-sm-9">
                     <select onchange="rolloverCheck('rollover', $(this).val())" required class="form-control" id="rollover_year" name="rollover_year">
                         <option value="">--Year--</option>
@@ -25,7 +25,7 @@
                 <label for="rollover_asset" class="col-sm-3 control-label">Asset Name</label>
                 <div class="col-sm-9">
                     <select required class="form-control @error('rollover_asset') is-invalid @enderror" id="rollover_asset" name="rollover_asset">
-                        <option value="">--Plase Select Asset Name--</option>
+                        <option value="">--Please Select Asset Name--</option>
                     </select>
                     @error('rollover_asset')
                     <span class="text-danger">{{$message}} </span>
@@ -50,7 +50,7 @@
             <input type="hidden" name="depreciation_id" value="{{$dep->id}}">
             <br>
             <div class="form-group row my-4">
-                <label for="reinstated_year" class="col-sm-3 control-label">Reinstated form the Financial Year</label>
+                <label for="reinstated_year" class="col-sm-3 control-label">Reinstated <span style="color:red">form the Financial Year</span></label>
                 <div class="col-sm-9">
                     <select  onchange="rolloverCheck('reinstated', $(this).val())" class="form-control" id="reinstated_year" name="reinstated_year">
                         <option value="">--Year--</option>

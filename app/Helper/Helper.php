@@ -12,8 +12,8 @@ if (!function_exists('getClientsWithPayment')) {
     function getClientsWithPayment()
     {
         return Client::with(['payment' => function ($q) {
-                return $q->select('id', 'client_id')->latest();
-            }])
+            return $q->select('id', 'client_id')->latest();
+        }])
             ->get(['id', 'company', 'first_name', 'last_name', 'email', 'phone', 'abn_number']);
     }
 }
@@ -33,7 +33,7 @@ if (!function_exists('modificationFields')) {
 if (!function_exists('logo')) {
     function logo($logo = null)
     {
-        return $logo?asset($logo): asset('frontend/assets/images/logo/focus-icon.png');
+        return $logo ? asset($logo) : asset('frontend/assets/images/logo/focus-icon.png');
         if (auth()->guard('client')->check()) {
             return asset(client()->logo) ?? asset('frontend/assets/images/logo/focus-icon.png');
         }
@@ -61,7 +61,7 @@ if (!function_exists('logo')) {
 
 if (!function_exists('nF2')) {
     function nF2($data)
-    {        
+    {
         return number_format($data, 2);
     }
 }
@@ -371,20 +371,20 @@ if (!function_exists('accum_pl')) {
         }
 
         $incomes = GeneralLedger::where('client_id', $client->id)
-        ->where('date', '>=', $start_date)
-        ->where('date', '<=', $end_date)
-        ->where('chart_id', 'like', '1%')
-        ->selectRaw('chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
-        ->groupBy('chart_id')
-        ->get();
+            ->where('date', '>=', $start_date)
+            ->where('date', '<=', $end_date)
+            ->where('chart_id', 'like', '1%')
+            ->selectRaw('chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
+            ->groupBy('chart_id')
+            ->get();
 
         $expences = GeneralLedger::where('client_id', $client->id)
-        ->where('date', '>=', $start_date)
-        ->where('date', '<=', $end_date)
-        ->where('chart_id', 'like', '2%')
-        ->selectRaw('chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
-        ->groupBy('chart_id')
-        ->get();
+            ->where('date', '>=', $start_date)
+            ->where('date', '<=', $end_date)
+            ->where('chart_id', 'like', '2%')
+            ->selectRaw('chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
+            ->groupBy('chart_id')
+            ->get();
         $balance = $credit = $debit = 0;
         foreach ($incomes as $income) {
             if ($income->balance_type == 2) {
@@ -431,7 +431,7 @@ if (!function_exists('retain')) {
      * @param DateTime $date
      * @return mixed
      * @throws Exception
-    **/
+     **/
     function retain(Client $client, Profession $profession, DateTime $date)
     {
         $end_date = $date->format('Y-m-d');
@@ -443,33 +443,33 @@ if (!function_exists('retain')) {
 
 
         $incomes = GeneralLedger::where('client_id', $client->id)
-        ->where('profession_id', $profession->id)
-        ->where('date', '<', $start_date)
-        ->where('chart_id', 'like', '1%')
-        // ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
-        // ->groupBy('chart_id')
-        ->get(['debit', 'credit', 'balance', 'balance_type']);
+            ->where('profession_id', $profession->id)
+            ->where('date', '<', $start_date)
+            ->where('chart_id', 'like', '1%')
+            // ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
+            // ->groupBy('chart_id')
+            ->get(['debit', 'credit', 'balance', 'balance_type']);
         // return $incomes->sum('total_balance');
 
         $expences = GeneralLedger::where('client_id', $client->id)
-        ->where('profession_id', $profession->id)
-        ->where('date', '<', $start_date)
-        ->where('chart_id', 'like', '2%')
-        // ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
-        // ->groupBy('chart_id')
-        ->get(['debit', 'credit', 'balance', 'balance_type']);
+            ->where('profession_id', $profession->id)
+            ->where('date', '<', $start_date)
+            ->where('chart_id', 'like', '2%')
+            // ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
+            // ->groupBy('chart_id')
+            ->get(['debit', 'credit', 'balance', 'balance_type']);
 
-        $balance = $iCredit = $iDebit = $eDebit = $eCredit = 0;
+        $iCredit = $iDebit = $eDebit = $eCredit = 0;
         foreach ($incomes as $income) {
             if ($income->balance_type == 2) {
-                if ($income->credit > 0) {
+                if ($income->balance > 0) {
                     $iCredit += abs($income->balance);
                 } else {
                     $iDebit += abs($income->balance);
                 }
             }
             if ($income->balance_type == 1) {
-                if ($income->debit > 0) {
+                if ($income->balance > 0) {
                     $iDebit += abs($income->balance);
                 } else {
                     $iCredit += abs($income->balance);
@@ -478,32 +478,42 @@ if (!function_exists('retain')) {
         }
         foreach ($expences as $expense) {
             if ($expense->balance_type == 2) {
-                if ($expense->debit > 0) {
+                if ($expense->balance < 0) {
                     $eDebit += abs($expense->balance);
                 } else {
                     $eCredit += abs($expense->balance);
                 }
             }
             if ($expense->balance_type == 1) {
-                if ($expense->credit > 0) {
+                if ($expense->balance < 0) {
                     $eCredit += abs($expense->balance);
                 } else {
                     $eDebit += abs($expense->balance);
                 }
             }
         }
-        $exp    = $eDebit - $eCredit;
-        $inc    = $iCredit - $iDebit;
-        $retain = $inc - $exp;
+        $exp    = abs($eDebit) - abs($eCredit);  //Debit
+        $inc    = abs($iCredit) - abs($iDebit);  //Credit
+        $retain = ($inc - $exp);
 
         $opn = GeneralLedger::where('client_id', $client->id)
-        ->where('profession_id', $profession->id)
-        ->where('date', '<', $start_date)
-        ->where('source', 'OPN')
-        ->where('chart_id', '999999')
-        ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
-        ->groupBy('chart_id')
-        ->first()?->total_balance;
+            ->where('profession_id', $profession->id)
+            ->where('date', '<', $start_date)
+            ->where('source', 'OPN')
+            ->where('chart_id', '999999')
+            ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
+            ->groupBy('chart_id')
+            ->first()?->total_balance;
+
+        // if($retain > 0 && $opn > 0){
+        //     return $retain + $opn;
+        // }elseif($retain > 0 && $opn < 0){
+        //         return $opn - $retain;
+
+        // }
+
+
+
         if ($retain == 0) {
             return $opn;
         } elseif ($opn == 0) {
@@ -527,7 +537,6 @@ if (!function_exists('retain')) {
                 return $retain + $opn;
             }
         }
-
     }
 }
 // Console Retained Earnings Calculations
@@ -538,7 +547,7 @@ if (!function_exists('console_retain')) {
      * @param DateTime $date
      * @return mixed
      * @throws Exception
-    **/
+     **/
     function console_retain(Client $client, DateTime $date)
     {
         $end_date = $date->format('Y-m-d');
@@ -549,61 +558,66 @@ if (!function_exists('console_retain')) {
         }
 
         $incomes = GeneralLedger::where('client_id', $client->id)
-        ->where('date', '<', $start_date)
-        ->where('chart_id', 'like', '1%')
-        ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
-        ->groupBy('chart_id')
-        ->get();
+            // ->where('profession_id', $profession->id)
+            ->where('date', '<', $start_date)
+            ->where('chart_id', 'like', '1%')
+            // ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
+            // ->groupBy('chart_id')
+            ->get(['debit', 'credit', 'balance', 'balance_type']);
         // return $incomes->sum('total_balance');
 
         $expences = GeneralLedger::where('client_id', $client->id)
-        ->where('date', '<', $start_date)
-        ->where('chart_id', 'like', '2%')
-        ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
-        ->groupBy('chart_id')
-        ->get();
+            // ->where('profession_id', $profession->id)
+            ->where('date', '<', $start_date)
+            ->where('chart_id', 'like', '2%')
+            // ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
+            // ->groupBy('chart_id')
+            ->get(['debit', 'credit', 'balance', 'balance_type']);
 
-        $balance = $credit = $debit = 0;
+        $iCredit = $iDebit = $eDebit = $eCredit = 0;
         foreach ($incomes as $income) {
             if ($income->balance_type == 2) {
-                if ($income->credit > 0) {
-                    $credit += abs($income->total_balance);
+                if ($income->balance > 0) {
+                    $iCredit += abs($income->balance);
                 } else {
-                    $debit += abs($income->total_balance);
+                    $iDebit += abs($income->balance);
                 }
             }
             if ($income->balance_type == 1) {
-                if ($income->debit > 0) {
-                    $debit += abs($income->total_balance);
+                if ($income->balance > 0) {
+                    $iDebit += abs($income->balance);
                 } else {
-                    $credit += abs($income->total_balance);
+                    $iCredit += abs($income->balance);
                 }
             }
         }
         foreach ($expences as $expense) {
             if ($expense->balance_type == 2) {
-                if ($expense->debit > 0) {
-                    $debit += abs($expense->total_balance);
+                if ($expense->balance < 0) {
+                    $eDebit += abs($expense->balance);
                 } else {
-                    $credit += abs($expense->total_balance);
+                    $eCredit += abs($expense->balance);
                 }
             }
             if ($expense->balance_type == 1) {
-                if ($expense->credit > 0) {
-                    $credit += abs($expense->total_balance);
+                if ($expense->balance < 0) {
+                    $eCredit += abs($expense->balance);
                 } else {
-                    $debit += abs($expense->total_balance);
+                    $eDebit += abs($expense->balance);
                 }
             }
         }
-        $retain = ($credit - $debit);
+        $exp    = abs($eDebit) - abs($eCredit);  //Debit
+        $inc    = abs($iCredit) - abs($iDebit);  //Credit
+        $retain = ($inc - $exp);
         $opn = GeneralLedger::where('client_id', $client->id)
-        ->where('date', '<', $start_date)
-        ->where('source', 'OPN')
-        ->where('chart_id', '999999')
-        ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
-        ->groupBy('chart_id')
-        ->first()?->total_balance;
+            ->where('date', '<', $start_date)
+            ->where('source', 'OPN')
+            ->where('chart_id', '999999')
+            ->selectRaw('id,chart_id,debit,credit,balance,balance_type, sum(balance) as total_balance')
+            ->groupBy('chart_id')
+            ->first()?->total_balance;
+
         if ($retain == 0) {
             return $opn;
         } elseif ($opn == 0) {
@@ -627,7 +641,6 @@ if (!function_exists('console_retain')) {
                 return $retain + $opn;
             }
         }
-
     }
 }
 if (!function_exists('numberToRoman')) {
@@ -658,21 +671,21 @@ if (!function_exists('numberToRoman')) {
 if (!function_exists('ledgerHidden')) {
     function ledgerHidden()
     {
-        return ['narration','loan','client_account_code_id','transaction_for','payable_liabilty','batch','updated_at','created_at','created_by','created_by_type','created_by_name','updated_by','updated_by_type','updated_by_name'];
+        return ['narration', 'loan', 'client_account_code_id', 'transaction_for', 'payable_liabilty', 'batch', 'updated_at', 'created_at', 'created_by', 'created_by_type', 'created_by_name', 'updated_by', 'updated_by_type', 'updated_by_name'];
     }
 }
 
 if (!function_exists('ledgerSetVisible')) {
     function ledgerSetVisible()
     {
-        return ['id','chart_id','date','narration','source','debit','credit','gst','balance','balance_type','client_id','profession_id','client_account_code_id','transaction_id'];
+        return ['id', 'chart_id', 'date', 'narration', 'source', 'debit', 'credit', 'gst', 'balance', 'balance_type', 'client_id', 'profession_id', 'client_account_code_id', 'transaction_id'];
     }
 }
 
 if (!function_exists('clientSetVisible')) {
     function clientSetVisible()
     {
-        return ['id','company','first_name','last_name','abn_number','email'];
+        return ['id', 'company', 'first_name', 'last_name', 'abn_number', 'email'];
     }
 }
 if (!function_exists('fullFormOfSource')) {

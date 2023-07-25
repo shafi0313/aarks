@@ -56,7 +56,7 @@ class BalanceSheet extends Controller
             ->where('client_id', $client->id)
             ->where('profession_id', $profession->id)->get();
 
-        $retain = retain($client, $profession, $date);;
+        $retain   = retain($client, $profession, $date);;
         $plRetain = pl($client, $profession, $date);
         return compact('accountCodeCategories', 'accountCodes', 'industryCategories', 'ledgers', 'date', 'client', 'retain', 'plRetain', 'profession');
     }
@@ -87,13 +87,14 @@ class BalanceSheet extends Controller
             ->whereIn('profession_id', $professions)
             ->get();
 
-        $retain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
-            ->where('client_id', $client->id)
-            ->where('chart_id', 999999)
-            ->whereIn('profession_id', $professions)
-            ->where('date', '<', $start_date)
-            ->groupBy('chart_id')
-            ->first();
+        // $retain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
+        //     ->where('client_id', $client->id)
+        //     ->where('chart_id', 999999)
+        //     ->whereIn('profession_id', $professions)
+        //     ->where('date', '<', $start_date)
+        //     ->groupBy('chart_id')
+        //     ->first();
+        $retain   = console_retain($client, $date);
         $plRetain = accum_pl($client, $date);
         return compact('accountCodeCategories', 'accountCodes', 'ledgers', 'date', 'client', 'retain', 'plRetain');
     }

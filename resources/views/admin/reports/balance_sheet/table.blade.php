@@ -6,7 +6,7 @@
         </tr>
 
         @php
-            $totalRetain = $retain ?? 0;
+            $totalRetain = $retain ? $retain : 0;
         @endphp
 
         @foreach ($accountCodeCategories as $accountCodeCategory)
