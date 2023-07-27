@@ -120,13 +120,32 @@ if (!function_exists('invoice')) {
         return $source . '#' . str_pad($value, $length, '0', STR_PAD_LEFT);
     }
 }
+
+// Number Format
 if (!function_exists('abs_number')) {
     // function abs_number($value, $separetor = ',')
     function abs_number($num = 0, int $decimals = 2, ?string $decimal_separator = '.', ?string $thousands_separator = ''): string
     {
-        return number_format(abs($num), $decimals, $decimal_separator, $thousands_separator);
+        // return number_format(abs($num), $decimals, $decimal_separator, $thousands_separator);
+        return number_format(abs($num), $decimals, $decimal_separator);
     }
 }
+
+if (!function_exists('nF2')) {
+    function nF2($num)
+    {
+        return number_format($num, 2);
+    }
+}
+
+if (!function_exists('nFA2')) {
+    function nFA2($num)
+    {
+        return number_format(abs($num), 2);
+    }
+}
+// /Number Format
+
 if (!function_exists('assetVersion')) {
     function assetVersion($filename)
     {
@@ -688,6 +707,7 @@ if (!function_exists('clientSetVisible')) {
         return ['id', 'company', 'first_name', 'last_name', 'abn_number', 'email'];
     }
 }
+
 if (!function_exists('fullFormOfSource')) {
     function fullFormOfSource($src)
     {

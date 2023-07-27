@@ -57,6 +57,7 @@ class GeneralLedgerController extends Controller
         $end_date   = makeBackendCompatibleDate($request->end_date);
         $client     = Client::findOrFail($request->client_id);
         // $profession = Profession::findOrFail($request->profession_id);
+        // return
         $data       = $action->show($request, $client, $start_date, $end_date);
         // return $data['open_balances'];
         // $data['profession']   = $profession;
