@@ -33,7 +33,7 @@ class GeneralLedgerAction
         $client_account_codes = ClientAccountCode::with([
             'generalLedger' => fn ($q) => 
                 $q->select(ledgerSetVisible())
-                ->where('date', '>=', $start_date)->where('date', '<=', $end_date)
+                ->where('date', '>=', $format_start_date)->where('date', '<=', $end_date->format('Y-m-d'))
             ])
             ->where('client_id', $client->id)
             ->where(function ($q) {
@@ -46,30 +46,30 @@ class GeneralLedgerAction
             ->groupBy('code')
             ->get(['id', 'code', 'name', 'client_id']);
 
-        $inExPreData = GeneralLedger::where('client_id', $client->id)
-            // ->where('profession_id', $request->profession_id)
-            ->where('date', '>=', $start_year)
-            ->where('date', '<', $format_start_date)
-            ->where(function ($q) {
-                $q->where('chart_id', 'like', '1%')
-                    ->orWhere('chart_id', 'like', '2%');
-            })
-            ->select('*', DB::raw('sum(credit) as credit, sum(debit) as debit, sum(balance) as balance, sum(gst) as gst'))
-            ->groupBy('chart_id')->orderBy('chart_id')
-            ->get();
+        // $inExPreData = GeneralLedger::where('client_id', $client->id)
+        //     // ->where('profession_id', $request->profession_id)
+        //     ->where('date', '>=', $start_year)
+        //     ->where('date', '<', $format_start_date)
+        //     ->where(function ($q) {
+        //         $q->where('chart_id', 'like', '1%')
+        //             ->orWhere('chart_id', 'like', '2%');
+        //     })
+        //     ->select('*', DB::raw('sum(credit) as credit, sum(debit) as debit, sum(balance) as balance, sum(gst) as gst'))
+        //     ->groupBy('chart_id')->orderBy('chart_id')
+        //     ->get();
 
-        $assetLailaPreData = GeneralLedger::where('client_id', $client->id)
-            // ->where('profession_id', $request->profession_id)
-            ->where('date', '>=', $start_year)
-            ->where('date', '<', $format_start_date)
-            ->where(function ($q) {
-                $q->where('chart_id', 'like', '5%')
-                    ->orWhere('chart_id', 'like', '9%');
-            })
-            // ->whereNotIn('chart_id', [954100,999999,912100,912101])
-            ->select('*', DB::raw('sum(credit) as credit, sum(debit) as debit, sum(balance) as balance, sum(gst) as gst'))
-            ->groupBy('chart_id')->orderBy('chart_id')
-            ->get();
+        // $assetLailaPreData = GeneralLedger::where('client_id', $client->id)
+        //     // ->where('profession_id', $request->profession_id)
+        //     ->where('date', '>=', $start_year)
+        //     ->where('date', '<', $format_start_date)
+        //     ->where(function ($q) {
+        //         $q->where('chart_id', 'like', '5%')
+        //             ->orWhere('chart_id', 'like', '9%');
+        //     })
+        //     // ->whereNotIn('chart_id', [954100,999999,912100,912101])
+        //     ->select('*', DB::raw('sum(credit) as credit, sum(debit) as debit, sum(balance) as balance, sum(gst) as gst'))
+        //     ->groupBy('chart_id')->orderBy('chart_id')
+        //     ->get();
 
         $preAssLilas = GeneralLedger::where('client_id', $client->id)
             // ->where('profession_id', $request->profession_id)
@@ -110,7 +110,8 @@ class GeneralLedgerAction
             ->where('date', '<', $start_year)
             ->where('chart_id', 999999)
             ->get();
-        return compact('start_date', 'end_date', 'client_account_codes', 'client', 'inExPreData', 'assetLailaPreData', 'retains', 'preAssLilas', 'ledgers', 'open_balances');
+        // return compact('start_date', 'end_date', 'client_account_codes', 'client', 'inExPreData', 'assetLailaPreData', 'retains', 'preAssLilas', 'ledgers', 'open_balances');
+        return compact('start_date', 'end_date', 'client_account_codes', 'client',  'retains', 'preAssLilas', 'ledgers', 'open_balances');
     }
 
     public static function showTran($transaction_id, $source)

@@ -15,7 +15,7 @@
             <td>Net amt</td>
             <td>Balance</td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td colspan="8">Opening Balance</td>
             @php
                 $obl_balance = $AL_obl = 0;
@@ -65,6 +65,48 @@
                     }
                 @endphp
             @endif
+        </tr> --}}
+        <tr>
+            <td colspan="8">Opening Balance</td>
+            @php
+                $obl_balance = $AL_obl = 0;
+                $oblType = '';
+            @endphp
+            @if ($client_account_code->generalLedger->count())
+                @php
+                    $first_ledger = $client_account_code->generalLedger->first();
+                    $AssLai       = $preAssLilas->where('chart_id', $first_ledger->chart_id)->first();
+                    $diff_balance = number_format($first_ledger->balance - $first_ledger->net_amount, 2);
+                    $balance_type = $diff_balance > 0 ? $first_ledger->balance_type : !$first_ledger->balance_type;
+                    
+                    $start       = $start_date->format('dm');
+                    $fromDate    = $start_date->format('Y-m-d');
+                    $obl_balance = $blnc = optional($open_balances->where('chart_id', $first_ledger->chart_id)->first())->openBl;
+                    // if($start == '0107'){
+                    // if(str_split($first_ledger->chart_id)[0]==1 || str_split($first_ledger->chart_id)[0]==2){
+                    // $obl_balance = 0;
+                    // }elseif(str_split($first_ledger->chart_id)[0]==5 || str_split($first_ledger->chart_id)[0]==9){
+                    // $obl_balance = $AL_obl??0;
+                    // }
+                    // }else{
+                    // if(str_split($first_ledger->chart_id)[0]==1 || str_split($first_ledger->chart_id)[0]==2){
+                    // $inExbalance = $inExPreData->where('chart_id', $first_ledger->chart_id)->first();
+                    // $obl_balance = $inExbalance?$inExbalance->balance:0;
+                    // }elseif(str_split($first_ledger->chart_id)[0]==5 || str_split($first_ledger->chart_id)[0]==9){
+                    // $lailaBalance = $assetLailaPreData->where('chart_id', $first_ledger->chart_id)->first();
+                    // $lal_balance = $lailaBalance?$lailaBalance->balance:0;
+                    // $obl_balance = $lal_balance + $AL_obl ?? 0;
+                    // }
+                    // }
+                    if ($first_ledger->balance_type == 1) {
+                        $oblType = $obl_balance > 0 ? 'Dr' : 'Cr';
+                    } else {
+                        $oblType = $obl_balance < 0 ? 'Dr' : 'Cr';
+                    }
+                @endphp
+            @endif
+            <td>{{ nFA2($obl_balance) . ' ' . $oblType }}
+            </td>
         </tr>
         @php
             $blnc = $obl_balance;
@@ -105,7 +147,7 @@
                     for narration view click <i class="fa fa-hand-o-right" aria-hidden="true"></i>
                 </td>
                 <td class="center">
-                    <a href="{{ route('general_ledger.transaction', [$generalLedger->transaction_id, $generalLedger->source]) }}"
+                    <a href="{{ route($url, [$generalLedger->transaction_id, $generalLedger->source]) }}"
                         style="color: green;text-decoration: underline">{{ $generalLedger->transaction_id }}</a>
                 </td>
                 <td>{{ $generalLedger->source }}</td>
@@ -114,7 +156,7 @@
                 <td>{{ abs($generalLedger->gst) }}</td>
                 <td>{{ abs($generalLedger->balance) }}</td>
                 <td>
-                    {{ abs($blnc) . ' ' . $blncType }}
+                    {{ nFA2($blnc) . ' ' . $blncType }}
                 </td>
             </tr>
         @endforeach

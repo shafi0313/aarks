@@ -142,12 +142,14 @@
             <td colspan="8">Opening Balance</td>
             <td>{{ abs($retainBalance) . ' ' . ($retainBalance <= 0 ? 'Dr' : 'Cr') }}</td>
         </tr>
-    @endif --}}
-    {{-- </table> --}}
+    @endif
+    </table> --}}
 
 
 
     {{-- 5 & 9 --}}
+    {{-- <table class="table" style="margin: 10px;"> --}}
+
     {{-- <table class="table" style="margin: 10px;"> --}}
     @foreach ($client_account_codes as $client_account_code)
         <tr>
@@ -173,66 +175,29 @@
             @endphp
             @if ($client_account_code->generalLedger->count())
                 @php
-                    $fgl = $client_account_code->generalLedger->first();
-                    $AssLai = $preAssLilas->where('chart_id', $fgl->chart_id)->first();
-                    $diff_balance = number_format($fgl->balance - $fgl->net_amount, 2);
-                    $balance_type = $diff_balance > 0 ? $fgl->balance_type : !$fgl->balance_type;
-                    
-                    // $first_ledger = $client_account_code->generalLedger->first();
-                    // $AssLai       = $preAssLilas->where('chart_id', $fgl->chart_id)->first();
-                    // $diff_balance = number_format($first_ledger->balance - $first_ledger->net_amount, 2);
-                    // $balance_type = $diff_balance > 0 ? $first_ledger->balance_type : !$first_ledger->balance_type;
+                    $first_ledger = $client_account_code->generalLedger->first();
+                    $AssLai = $preAssLilas->where('chart_id', $first_ledger->chart_id)->first();
+                    $diff_balance = number_format($first_ledger->balance - $first_ledger->net_amount, 2);
+                    $balance_type = $diff_balance > 0 ? $first_ledger->balance_type : !$first_ledger->balance_type;
                     
                     $start = $start_date->format('dm');
                     $fromDate = $start_date->format('Y-m-d');
-                    if ($start == '0107') {
-                        if (str_split($fgl->chart_id)[0] == 1 || str_split($fgl->chart_id)[0] == 2) {
-                            $obl_balance = 0;
-                        } elseif (str_split($fgl->chart_id)[0] == 5 || str_split($fgl->chart_id)[0] == 9) {
-                            $obl_balance = $AL_obl ?? 0;
-                        }
-                    } else {
-                        if (str_split($fgl->chart_id)[0] == 1 || str_split($fgl->chart_id)[0] == 2) {
-                            $inExbalance = $inExPreData->where('chart_id', $fgl->chart_id)->first();
-                            $obl_balance = $inExbalance ? $inExbalance->balance : 0;
-                        } elseif (str_split($fgl->chart_id)[0] == 5 || str_split($fgl->chart_id)[0] == 9) {
-                            $lailaBalance = $assetLailaPreData->where('chart_id', $fgl->chart_id)->first();
-                            $lal_balance = $lailaBalance ? $lailaBalance->balance : 0;
-                            $obl_balance = $lal_balance + $AL_obl ?? 0;
-                        }
+                    $obl_balance = $blnc = optional($open_balances->where('chart_id', $first_ledger->chart_id)->first())->openBl;
+                    
+                    if ($client_account_code->type == 1) {
+                        $oblType = $first_ledger->balance_type == 1 ? ($obl_balance > 0 ? 'Dr' : 'Cr') : ($obl_balance < 0 ? 'Dr' : 'Cr');
+                    } elseif ($client_account_code->type == 2) {
+                        $oblType = $first_ledger->balance_type == 2 ? ($obl_balance < 0 ? 'Dr' : 'Cr') : ($obl_balance > 0 ? 'Dr' : 'Cr');
                     }
-                    // if ($client_account_code->type == 1) {
-                    if ($fgl->balance_type == 1) {
-                        $oblType = $obl_balance > 0 ? 'Dr' : 'Cr';
-                    } else {
-                        $oblType = $obl_balance < 0 ? 'Dr' : 'Cr';
-                    }
-                    // } elseif ($client_account_code->type == 2) {
-                    //     if ($fgl->balance_type == 2) {
-                    //         $oblType = $obl_balance < 0 ? 'Dr' : 'Cr';
-                    //     } else {
-                    //         $oblType = $obl_balance > 0 ? 'Dr' : 'Cr';
-                    //     }
+                    // if ($client_account_code->type ==1 && $first_ledger->balance_type == 1) {
+                    //     $oblType = $obl_balance > 0 ? 'Dr' : 'Cr';
+                    // } else {
+                    //     $oblType = $obl_balance < 0 ? 'Dr' : 'Cr';
                     // }
                 @endphp
-                <td>{{ nFA2($obl_balance) . ' ' . $oblType }} </td>
-            @else
-                @php
-                    if ($preAssLilas->count()) {
-                        foreach ($preAssLilas as $preAssLila) {
-                            if ($client_account_code->id == $preAssLila->client_account_code_id) {
-                                $Obl = $preAssLila->OpenBl;
-                                if ($preAssLila->balance_type == 1) {
-                                    $oblType = $Obl > 0 ? 'Dr' : 'Cr';
-                                } else {
-                                    $oblType = $Obl < 0 ? 'Dr' : 'Cr';
-                                }
-                                echo '<td>' . nFA2($Obl) .' '. $oblType . '</td>';
-                            }
-                        }
-                    }
-                @endphp
             @endif
+            <td>{{ nFA2($obl_balance) . ' ' . $oblType }}
+            </td>
         </tr>
         @php
             $blnc = $obl_balance;
@@ -273,14 +238,14 @@
                     for narration view click <i class="fa fa-hand-o-right" aria-hidden="true"></i>
                 </td>
                 <td class="center">
-                    <a href="{{ route('general_ledger.transaction', [$generalLedger->transaction_id, $generalLedger->source]) }}"
+                    <a href="{{ route($url, [$generalLedger->transaction_id, $generalLedger->source]) }}"
                         style="color: green;text-decoration: underline">{{ $generalLedger->transaction_id }}</a>
                 </td>
                 <td>{{ $generalLedger->source }}</td>
-                <td>{{ nFA2($debit) }}</td>
-                <td>{{ nFA2($credit) }}</td>
-                <td>{{ nFA2($generalLedger->gst) }}</td>
-                <td>{{ nFA2($generalLedger->balance) }}</td>
+                <td>{{ abs($debit) }}</td>
+                <td>{{ abs($credit) }}</td>
+                <td>{{ abs($generalLedger->gst) }}</td>
+                <td>{{ abs($generalLedger->balance) }}</td>
                 <td>
                     {{ nFA2($blnc) . ' ' . $blncType }}
                 </td>
@@ -288,15 +253,15 @@
         @endforeach
         <tr>
             <td colspan="4">Total</td>
-            <td style="color: red">{{ nFA2($Sdebit) }}
+            <td style="color: red">{{ abs($Sdebit) }}
             </td>
-            <td style="color: red">{{ nFA2($Scredit) }}
-            </td>
-            <td style="color: red">
-                {{ nFA2($client_account_code->generalLedger->sum('gst')) }}
+            <td style="color: red">{{ abs($Scredit) }}
             </td>
             <td style="color: red">
-                {{ nFA2($client_account_code->generalLedger->sum('balance')) }}</td>
+                {{ abs($client_account_code->generalLedger->sum('gst')) }}
+            </td>
+            <td style="color: red">
+                {{ abs($client_account_code->generalLedger->sum('balance')) }}</td>
             <td></td>
         </tr>
     @endforeach
@@ -321,7 +286,7 @@
         @endphp
         <tr>
             <td colspan="8">Opening Balance</td>
-            <td>{{ nFA2($retainBalance) . ' ' . ($retainBalance <= 0 ? 'Dr' : 'Cr') }}</td>
+            <td>{{ abs($retainBalance) . ' ' . ($retainBalance <= 0 ? 'Dr' : 'Cr') }}</td>
         </tr>
     @endif
 </table>
