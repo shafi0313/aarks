@@ -2,7 +2,7 @@
     @foreach ($client_account_codes as $client_account_code)
         <tr>
             <td colspan="9" class="bolder" style="margin: 0;padding: 4px">
-                {{ $client_account_code->name }}</td>
+                {{ $client_account_code->name }} - {{ $client_account_code->code }}</td>
         </tr>
         <tr>
             <td>Date</td>

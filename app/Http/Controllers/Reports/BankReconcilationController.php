@@ -79,9 +79,9 @@ class BankReconcilationController extends Controller
             'from_date' => 'required',
             'to_date'   => 'required',
         ]);
-        $from_date = makeBackendCompatibleDate($data['from_date'])->format('Y-m-d');
-        $to_date = makeBackendCompatibleDate($data['to_date'])->format('Y-m-d');
-        $client    = Client::findOrFail($request->client_id);
+        $from_date    = makeBackendCompatibleDate($data['from_date'])->format('Y-m-d');
+        $to_date      = makeBackendCompatibleDate($data['to_date'])->format('Y-m-d');
+        $client       = Client::findOrFail($request->client_id);
         $transactions = GeneralLedger::where('client_id', $client->id)
             ->where('chart_id', $request->code)
             ->whereBetween('date', [$from_date, $to_date])

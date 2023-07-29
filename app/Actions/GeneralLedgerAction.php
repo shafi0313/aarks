@@ -40,6 +40,7 @@ class GeneralLedgerAction
                 $q->where('code', 'like', '5%')
                     ->orWhere('code', 'like', '9%');
             })
+            ->whereBetween('code', [$request->from_account, $request->to_account])
             ->where('code', '!=', 999999)
             ->orderBy('code', 'asc')
             ->groupBy('code')

@@ -2,7 +2,7 @@
     @foreach ($ledgers as $ledger)
         <tr>
             <td colspan="9" class="bolder" style="margin: 0;padding: 4px">
-                {{ $ledger->first()->client_account_code->name }}
+                {{ $ledger->first()->client_account_code->name }} - {{ $ledger->first()->client_account_code->code }}
             </td>
         </tr>
         <tr>
@@ -150,12 +150,9 @@
     {{-- 5 & 9 --}}
     {{-- <table class="table" style="margin: 10px;"> --}}
     @foreach ($client_account_codes as $client_account_code)
-        {{-- {{ dd($client_account_code->generalLedger) }} --}}
-        {{-- @if ($client_account_code->generalLedger->count())
-    @endif --}}
         <tr>
             <td colspan="9" class="bolder" style="margin: 0;padding: 4px">
-                {{ $client_account_code->name }}</td>
+                {{ $client_account_code->name }} - {{ $client_account_code->code }}</td>
         </tr>
         <tr>
             <td>Date</td>
