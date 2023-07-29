@@ -169,7 +169,7 @@ class BankReconcilationController extends Controller
             ->get()->toArray();
         $recons = array_merge($bst, $inp, $pin, $pbp, $jnp, $cbe, $trade);
         array_multisort(array_column($recons, 'date'), SORT_ASC, $recons);
-        // return $recons;
+        
         $bank_recons = BankReconciliationAdmin::where('client_id', $client->id)
             ->whereIn('tran_id', $transactions)
             ->whereBetween('date', [$from_date, $to_date])

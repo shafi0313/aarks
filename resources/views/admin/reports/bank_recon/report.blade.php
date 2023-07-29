@@ -92,26 +92,29 @@
                                                     @endphp
                                                     @forelse ($recons as $i => $recon)
                                                         @php
-                                                            $date = \Carbon\Carbon::parse($recon['date'])->addDay();
-                                                            $debit = abs_number($recon['debit']);
-                                                            $credit = abs_number($recon['credit']);
+                                                            $debit = $credit = $diff = 0;
+                                                            $date   = \Carbon\Carbon::parse($recon['date'])->addDay();
+                                                            
+                                                            $debit  = abs($recon['debit']);
+                                                            $credit = abs($recon['credit']);
                                                             if ($recon['debit'] < 0) {
                                                                 $debit = 0;
-                                                                $credit = abs_number($recon['debit']);
+                                                                $credit = abs($recon['debit']);
                                                             }
                                                             if ($recon['credit'] < 0) {
                                                                 $credit = 0;
-                                                                $debit = abs_number($recon['credit']);
+                                                                $debit  = abs($recon['credit']);
                                                             }
-                                                            $diff = abs_number($debit - $credit);
+                                                            $diff       = abs($debit - $credit);
                                                             $identifier = $recon['tran_id'] . $recon['code'] . abs_number($diff, 2, '_') . $date->format('Ymd');
                                                         @endphp
                                                         @if (!in_array($identifier, $posted_identify))
                                                             @php
                                                                 
-                                                                $totalDebit += $debit;
+                                                                $totalDebit  += $debit;
                                                                 $totalCredit += $credit;
-                                                                $totalDiff += $diff;
+                                                                $totalDiff   += $diff;
+                                                                
                                                             @endphp
                                                             <script>
                                                                 diff_array[{{ $i }}] = 0;
@@ -146,8 +149,8 @@
                                                         {{$identifier}} --}}
                                                                 </td>
                                                                 <td>{{ $recon['narration'] }}</td>
-                                                                <td>{{ $debit }}</td>
-                                                                <td>{{ $credit }}</td>
+                                                                <td class="text-right">{{ nFA2($debit) }}</td>
+                                                                <td class="text-right">{{ nFA2($credit) }}</td>
                                                                 <td>
                                                                     <input type="checkbox" name="diff[]"
                                                                         data-id="{{ $i }}"
@@ -157,7 +160,7 @@
                                                                         {{ in_array($identifier, $bank_recons->pluck('identifier')->toArray()) ? 'checked' : '' }}>
                                                                     &nbsp;
                                                                     <label for="diff_{{ $i }}">
-                                                                        {{ $diff }}
+                                                                        {{ nFA2($diff) }}
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -169,16 +172,16 @@
                                                     @endforelse
                                                     <tr>
                                                         <td colspan="4">Total:</td>
-                                                        <td>{{ abs_number($totalCredit) }}</td>
-                                                        <td>{{ abs_number($totalDebit) }}</td>
+                                                        <td class="text-right">{{ nFA2($totalCredit) }}</td>
+                                                        <td class="text-right">{{ nFA2($totalDebit) }}</td>
                                                         @if (empty($bank_recons))
-                                                            <td>
+                                                            <td class="text-right">
                                                                 <span id="total_diff">
-                                                                    {{ abs_number($totalDiff) }}
+                                                                    {{ nFA2($totalDiff) }}                                                                    
                                                                 </span>
                                                             </td>
                                                         @else
-                                                            <td>
+                                                            <td class="text-right">
                                                                 <span id="total_diff">
                                                                     {{ number_format($bank_recons->sum('diff'), 2) }}
                                                                 </span>
@@ -291,29 +294,29 @@
         });
 
         // $(document).ready(function() {
-        //     var diff_array = []; // Assuming this array is defined somewhere in your code.
+            // var diff_array = []; // Assuming this array is defined somewhere in your code.
 
-        //     $('input[type="checkbox"]').on('change', function() {
-        //         var i = $(this).data('id');
-        //         var identifier = $(this).data('identifier');
-        //         var totalDiff = 0;
-        //         var diff = $("#diff_" + identifier);
+            // $('input[type="checkbox"]').on('change', function() {
+            //     var i = $(this).data('id');
+            //     var identifier = $(this).data('identifier');
+            //     var totalDiff = 0;
+            //     var diff = $("#diff_" + identifier);
 
-        //         if ($(this).is(':checked')) {
-        //             diff_array[i] = parseFloat($(this).val()).toFixed(2);
-        //             diff.val(parseFloat($(this).val()).toFixed(2));
-        //         } else {
-        //             diff_array[i] = 0.00;
-        //             diff.val(0.00);
-        //         }
+            //     if ($(this).is(':checked')) {
+            //         diff_array[i] = parseFloat($(this).val()).toFixed(2);
+            //         diff.val(parseFloat($(this).val()).toFixed(2));
+            //     } else {
+            //         diff_array[i] = 0.00;
+            //         diff.val(0.00);
+            //     }
 
-        //         $('input[type="checkbox"]:checked').each(function() {
-        //             totalDiff += parseFloat($(this).val());
-        //         });
+            //     $('input[type="checkbox"]:checked').each(function() {
+            //         totalDiff += parseFloat($(this).val());
+            //     });
 
-        //         $('#total_diff').text(totalDiff.toFixed(2));
-        //         $('#diff_arr_inp').val(JSON.stringify(diff_array)); // Convert array to JSON string
-        //     });
+            //     $('#total_diff').text(totalDiff.toFixed(2));
+            //     $('#diff_arr_inp').val(JSON.stringify(diff_array)); // Convert array to JSON string
+            // });
         // });
     </script>
 @endsection
