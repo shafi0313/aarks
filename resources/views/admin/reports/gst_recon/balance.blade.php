@@ -50,154 +50,154 @@
                                 $june = $year.'-06-30';
                                 // G1
                                 $recon_g1 = optional($recons->where('item', 'g1')->first());
-                                $re_g1_jul_sep_ato = abs_number($recon_g1->jul_sep_ato);
-                                $re_g1_oct_dec_ato = abs_number($recon_g1->oct_dec_ato);
-                                $re_g1_jan_mar_ato = abs_number($recon_g1->jan_mar_ato);
-                                $re_g1_apr_jun_ato = abs_number($recon_g1->apr_jun_ato);
+                                $re_g1_jul_sep_ato = abs($recon_g1->jul_sep_ato);
+                                $re_g1_oct_dec_ato = abs($recon_g1->oct_dec_ato);
+                                $re_g1_jan_mar_ato = abs($recon_g1->jan_mar_ato);
+                                $re_g1_apr_jun_ato = abs($recon_g1->apr_jun_ato);
 
-                                $re_g1_jul_sep_diff = number_format(abs_number($recon_g1->jul_sep_gl) - abs_number($recon_g1->jul_sep_ato), 2, '.','');
-                                $re_g1_oct_dec_diff = number_format(abs_number($recon_g1->oct_dec_gl) - abs_number( $recon_g1->oct_dec_ato), 2, '.','');
-                                $re_g1_jan_mar_diff = number_format(abs_number($recon_g1->jan_mar_gl) - abs_number( $recon_g1->jan_mar_ato), 2, '.','');
-                                $re_g1_apr_jun_diff = number_format(abs_number($recon_g1->apr_jun_gl) - abs_number( $recon_g1->apr_jun_ato), 2, '.','');
+                                $re_g1_jul_sep_diff = abs($recon_g1->jul_sep_gl) - abs($recon_g1->jul_sep_ato);
+                                $re_g1_oct_dec_diff = abs($recon_g1->oct_dec_gl) - abs( $recon_g1->oct_dec_ato);
+                                $re_g1_jan_mar_diff = abs($recon_g1->jan_mar_gl) - abs( $recon_g1->jan_mar_ato);
+                                $re_g1_apr_jun_diff = abs($recon_g1->apr_jun_gl) - abs( $recon_g1->apr_jun_ato);
 
-                                $re_g1_total = abs_number($re_g1_jul_sep_ato + $re_g1_oct_dec_ato + $re_g1_jan_mar_ato +
+                                $re_g1_total = abs($re_g1_jul_sep_ato + $re_g1_oct_dec_ato + $re_g1_jan_mar_ato +
                                 $re_g1_apr_jun_ato);
-                                $re_g1_total_diff = number_format($re_g1_jul_sep_diff + $re_g1_oct_dec_diff+ $re_g1_jan_mar_diff + $re_g1_apr_jun_diff , 2, '.','');
+                                $re_g1_total_diff = $re_g1_jul_sep_diff + $re_g1_oct_dec_diff+ $re_g1_jan_mar_diff + $re_g1_apr_jun_diff ;
                                 // G1
 
                                 // G3
                                 $recon_g3 = optional($recons->where('item', 'g3')->first());
-                                $re_g3_jul_sep_ato = abs_number($recon_g3->jul_sep_ato);
-                                $re_g3_oct_dec_ato = abs_number($recon_g3->oct_dec_ato);
-                                $re_g3_jan_mar_ato = abs_number($recon_g3->jan_mar_ato);
-                                $re_g3_apr_jun_ato = abs_number($recon_g3->apr_jun_ato);
+                                $re_g3_jul_sep_ato = abs($recon_g3->jul_sep_ato);
+                                $re_g3_oct_dec_ato = abs($recon_g3->oct_dec_ato);
+                                $re_g3_jan_mar_ato = abs($recon_g3->jan_mar_ato);
+                                $re_g3_apr_jun_ato = abs($recon_g3->apr_jun_ato);
 
-                                $re_g3_jul_sep_diff = number_format(abs_number($recon_g3->jul_sep_gl) - abs_number($recon_g3->jul_sep_ato), 2, '.','');
-                                $re_g3_oct_dec_diff = number_format(abs_number($recon_g3->oct_dec_gl) - abs_number($recon_g3->oct_dec_ato), 2, '.','');
-                                $re_g3_jan_mar_diff = number_format(abs_number($recon_g3->jan_mar_gl) - abs_number($recon_g3->jan_mar_ato), 2, '.','');
-                                $re_g3_apr_jun_diff = number_format(abs_number($recon_g3->apr_jun_gl) - abs_number($recon_g3->apr_jun_ato), 2, '.','');
+                                $re_g3_jul_sep_diff = abs($recon_g3->jul_sep_gl) - abs($recon_g3->jul_sep_ato);
+                                $re_g3_oct_dec_diff = abs($recon_g3->oct_dec_gl) - abs($recon_g3->oct_dec_ato);
+                                $re_g3_jan_mar_diff = abs($recon_g3->jan_mar_gl) - abs($recon_g3->jan_mar_ato);
+                                $re_g3_apr_jun_diff = abs($recon_g3->apr_jun_gl) - abs($recon_g3->apr_jun_ato);
 
-                                $re_g3_total = abs_number($re_g3_jul_sep_ato + $re_g3_oct_dec_ato + $re_g3_jan_mar_ato +
+                                $re_g3_total = abs($re_g3_jul_sep_ato + $re_g3_oct_dec_ato + $re_g3_jan_mar_ato +
                                 $re_g3_apr_jun_ato);
-                                $re_g3_total_diff = number_format($re_g3_jul_sep_diff + $re_g3_oct_dec_diff+ $re_g3_jan_mar_diff + $re_g3_apr_jun_diff , 2, '.','');
+                                $re_g3_total_diff = $re_g3_jul_sep_diff + $re_g3_oct_dec_diff+ $re_g3_jan_mar_diff + $re_g3_apr_jun_diff ;
                                 // g3
 
                                 // 1a
                                 $recon_1a = optional($recons->where('item', '1a')->first());
-                                $re_1a_jul_sep_ato = abs_number($recon_1a->jul_sep_ato);
-                                $re_1a_oct_dec_ato = abs_number($recon_1a->oct_dec_ato);
-                                $re_1a_jan_mar_ato = abs_number($recon_1a->jan_mar_ato);
-                                $re_1a_apr_jun_ato = abs_number($recon_1a->apr_jun_ato);
+                                $re_1a_jul_sep_ato = abs($recon_1a->jul_sep_ato);
+                                $re_1a_oct_dec_ato = abs($recon_1a->oct_dec_ato);
+                                $re_1a_jan_mar_ato = abs($recon_1a->jan_mar_ato);
+                                $re_1a_apr_jun_ato = abs($recon_1a->apr_jun_ato);
 
-                                $re_1a_jul_sep_diff = number_format(abs_number($recon_1a->jul_sep_gl) - abs_number($recon_1a->jul_sep_ato), 2, '.','');
-                                $re_1a_oct_dec_diff = number_format(abs_number($recon_1a->oct_dec_gl) - abs_number($recon_1a->oct_dec_ato), 2, '.','');
-                                $re_1a_jan_mar_diff = number_format(abs_number($recon_1a->jan_mar_gl) - abs_number($recon_1a->jan_mar_ato), 2, '.','');
-                                $re_1a_apr_jun_diff = number_format(abs_number($recon_1a->apr_jun_gl) - abs_number($recon_1a->apr_jun_ato), 2, '.','');
+                                $re_1a_jul_sep_diff = abs($recon_1a->jul_sep_gl) - abs($recon_1a->jul_sep_ato);
+                                $re_1a_oct_dec_diff = abs($recon_1a->oct_dec_gl) - abs($recon_1a->oct_dec_ato);
+                                $re_1a_jan_mar_diff = abs($recon_1a->jan_mar_gl) - abs($recon_1a->jan_mar_ato);
+                                $re_1a_apr_jun_diff = abs($recon_1a->apr_jun_gl) - abs($recon_1a->apr_jun_ato);
 
-                                $re_1a_total = abs_number($re_1a_jul_sep_ato + $re_1a_oct_dec_ato + $re_1a_jan_mar_ato + $re_1a_apr_jun_ato);
-                                $re_1a_total_diff = number_format($re_1a_jul_sep_diff + $re_1a_oct_dec_diff + $re_1a_jan_mar_diff + $re_1a_apr_jun_diff, 2, '.','');
+                                $re_1a_total = abs($re_1a_jul_sep_ato + $re_1a_oct_dec_ato + $re_1a_jan_mar_ato + $re_1a_apr_jun_ato);
+                                $re_1a_total_diff = $re_1a_jul_sep_diff + $re_1a_oct_dec_diff + $re_1a_jan_mar_diff + $re_1a_apr_jun_diff;
                                 // 1a
 
                                 // g11
                                 $recon_g11 = optional($recons->where('item', 'g11')->first());
-                                $re_g11_jul_sep_ato = abs_number($recon_g11->jul_sep_ato);
-                                $re_g11_oct_dec_ato = abs_number($recon_g11->oct_dec_ato);
-                                $re_g11_jan_mar_ato = abs_number($recon_g11->jan_mar_ato);
-                                $re_g11_apr_jun_ato = abs_number($recon_g11->apr_jun_ato);
+                                $re_g11_jul_sep_ato = abs($recon_g11->jul_sep_ato);
+                                $re_g11_oct_dec_ato = abs($recon_g11->oct_dec_ato);
+                                $re_g11_jan_mar_ato = abs($recon_g11->jan_mar_ato);
+                                $re_g11_apr_jun_ato = abs($recon_g11->apr_jun_ato);
 
-                                $re_g11_jul_sep_diff = number_format(abs_number($recon_g11->jul_sep_gl) - abs_number($recon_g11->jul_sep_ato), 2, '.','');
-                                $re_g11_oct_dec_diff = number_format(abs_number($recon_g11->oct_dec_gl) - abs_number($recon_g11->oct_dec_ato), 2, '.','');
-                                $re_g11_jan_mar_diff = number_format(abs_number($recon_g11->jan_mar_gl) - abs_number($recon_g11->jan_mar_ato), 2, '.','');
-                                $re_g11_apr_jun_diff = number_format(abs_number($recon_g11->apr_jun_gl) - abs_number($recon_g11->apr_jun_ato), 2, '.','');
+                                $re_g11_jul_sep_diff = abs($recon_g11->jul_sep_gl) - abs($recon_g11->jul_sep_ato);
+                                $re_g11_oct_dec_diff = abs($recon_g11->oct_dec_gl) - abs($recon_g11->oct_dec_ato);
+                                $re_g11_jan_mar_diff = abs($recon_g11->jan_mar_gl) - abs($recon_g11->jan_mar_ato);
+                                $re_g11_apr_jun_diff = abs($recon_g11->apr_jun_gl) - abs($recon_g11->apr_jun_ato);
 
-                                $re_g11_total = abs_number($re_g11_jul_sep_ato + $re_g11_oct_dec_ato +
+                                $re_g11_total = abs($re_g11_jul_sep_ato + $re_g11_oct_dec_ato +
                                 $re_g11_jan_mar_ato + $re_g11_apr_jun_ato);
-                                $re_g11_total_diff = number_format($re_g11_jul_sep_diff + $re_g11_oct_dec_diff+ $re_g11_jan_mar_diff + $re_g11_apr_jun_diff , 2, '.','');
+                                $re_g11_total_diff = $re_g11_jul_sep_diff + $re_g11_oct_dec_diff+ $re_g11_jan_mar_diff + $re_g11_apr_jun_diff ;
                                 // g11
 
                                 // 1b
                                 $recon_1b = optional($recons->where('item', '1b')->first());
-                                $re_1b_jul_sep_ato = abs_number($recon_1b->jul_sep_ato);
-                                $re_1b_oct_dec_ato = abs_number($recon_1b->oct_dec_ato);
-                                $re_1b_jan_mar_ato = abs_number($recon_1b->jan_mar_ato);
-                                $re_1b_apr_jun_ato = abs_number($recon_1b->apr_jun_ato);
+                                $re_1b_jul_sep_ato = abs($recon_1b->jul_sep_ato);
+                                $re_1b_oct_dec_ato = abs($recon_1b->oct_dec_ato);
+                                $re_1b_jan_mar_ato = abs($recon_1b->jan_mar_ato);
+                                $re_1b_apr_jun_ato = abs($recon_1b->apr_jun_ato);
 
-                                $re_1b_jul_sep_diff = number_format(abs_number($recon_1b->jul_sep_gl) - abs_number($recon_1b->jul_sep_ato), 2, '.','');
-                                $re_1b_oct_dec_diff = number_format(abs_number($recon_1b->oct_dec_gl) - abs_number($recon_1b->oct_dec_ato), 2, '.','');
-                                $re_1b_jan_mar_diff = number_format(abs_number($recon_1b->jan_mar_gl) - abs_number($recon_1b->jan_mar_ato), 2, '.','');
-                                $re_1b_apr_jun_diff = number_format(abs_number($recon_1b->apr_jun_gl) - abs_number($recon_1b->apr_jun_ato), 2, '.','');
+                                $re_1b_jul_sep_diff = abs($recon_1b->jul_sep_gl) - abs($recon_1b->jul_sep_ato);
+                                $re_1b_oct_dec_diff = abs($recon_1b->oct_dec_gl) - abs($recon_1b->oct_dec_ato);
+                                $re_1b_jan_mar_diff = abs($recon_1b->jan_mar_gl) - abs($recon_1b->jan_mar_ato);
+                                $re_1b_apr_jun_diff = abs($recon_1b->apr_jun_gl) - abs($recon_1b->apr_jun_ato);
 
-                                $re_1b_total = abs_number($re_1b_jul_sep_ato + $re_1b_oct_dec_ato + $re_1b_jan_mar_ato +
+                                $re_1b_total = abs($re_1b_jul_sep_ato + $re_1b_oct_dec_ato + $re_1b_jan_mar_ato +
                                 $re_1b_apr_jun_ato);
-                                $re_1b_total_diff = number_format($re_1b_jul_sep_diff + $re_1b_oct_dec_diff+ $re_1b_jan_mar_diff + $re_1b_apr_jun_diff , 2, '.','');
+                                $re_1b_total_diff = $re_1b_jul_sep_diff + $re_1b_oct_dec_diff+ $re_1b_jan_mar_diff + $re_1b_apr_jun_diff ;
                                 // 1b
 
                                 // w1
                                 $recon_w1 = optional($recons->where('item', 'w1')->first());
-                                $re_w1_jul_sep_ato = abs_number($recon_w1->jul_sep_ato);
-                                $re_w1_oct_dec_ato = abs_number($recon_w1->oct_dec_ato);
-                                $re_w1_jan_mar_ato = abs_number($recon_w1->jan_mar_ato);
-                                $re_w1_apr_jun_ato = abs_number($recon_w1->apr_jun_ato);
+                                $re_w1_jul_sep_ato = abs($recon_w1->jul_sep_ato);
+                                $re_w1_oct_dec_ato = abs($recon_w1->oct_dec_ato);
+                                $re_w1_jan_mar_ato = abs($recon_w1->jan_mar_ato);
+                                $re_w1_apr_jun_ato = abs($recon_w1->apr_jun_ato);
 
-                                $re_w1_jul_sep_diff = number_format(abs_number($recon_w1->jul_sep_gl) - abs_number($recon_w1->jul_sep_ato), 2, '.','');
-                                $re_w1_oct_dec_diff = number_format(abs_number($recon_w1->oct_dec_gl) - abs_number($recon_w1->oct_dec_ato), 2, '.','');
-                                $re_w1_jan_mar_diff = number_format(abs_number($recon_w1->jan_mar_gl) - abs_number($recon_w1->jan_mar_ato), 2, '.','');
-                                $re_w1_apr_jun_diff = number_format(abs_number($recon_w1->apr_jun_gl) - abs_number($recon_w1->apr_jun_ato), 2, '.','');
+                                $re_w1_jul_sep_diff = abs($recon_w1->jul_sep_gl) - abs($recon_w1->jul_sep_ato);
+                                $re_w1_oct_dec_diff = abs($recon_w1->oct_dec_gl) - abs($recon_w1->oct_dec_ato);
+                                $re_w1_jan_mar_diff = abs($recon_w1->jan_mar_gl) - abs($recon_w1->jan_mar_ato);
+                                $re_w1_apr_jun_diff = abs($recon_w1->apr_jun_gl) - abs($recon_w1->apr_jun_ato);
 
-                                $re_w1_total = abs_number($re_w1_jul_sep_ato + $re_w1_oct_dec_ato + $re_w1_jan_mar_ato +
+                                $re_w1_total = abs($re_w1_jul_sep_ato + $re_w1_oct_dec_ato + $re_w1_jan_mar_ato +
                                 $re_w1_apr_jun_ato);
-                                $re_w1_total_diff = number_format($re_w1_jul_sep_diff + $re_w1_oct_dec_diff+ $re_w1_jan_mar_diff + $re_w1_apr_jun_diff , 2, '.','');
+                                $re_w1_total_diff = $re_w1_jul_sep_diff + $re_w1_oct_dec_diff+ $re_w1_jan_mar_diff + $re_w1_apr_jun_diff ;
                                 // w1
 
                                 // w2
                                 $recon_w2 = optional($recons->where('item', 'w2')->first());
-                                $re_w2_jul_sep_ato = abs_number($recon_w2->jul_sep_ato);
-                                $re_w2_oct_dec_ato = abs_number($recon_w2->oct_dec_ato);
-                                $re_w2_jan_mar_ato = abs_number($recon_w2->jan_mar_ato);
-                                $re_w2_apr_jun_ato = abs_number($recon_w2->apr_jun_ato);
+                                $re_w2_jul_sep_ato = abs($recon_w2->jul_sep_ato);
+                                $re_w2_oct_dec_ato = abs($recon_w2->oct_dec_ato);
+                                $re_w2_jan_mar_ato = abs($recon_w2->jan_mar_ato);
+                                $re_w2_apr_jun_ato = abs($recon_w2->apr_jun_ato);
 
-                                $re_w2_jul_sep_diff = number_format(abs_number($recon_w2->jul_sep_gl) - abs_number($recon_w2->jul_sep_ato), 2, '.','');
-                                $re_w2_oct_dec_diff = number_format(abs_number($recon_w2->oct_dec_gl) - abs_number($recon_w2->oct_dec_ato), 2, '.','');
-                                $re_w2_jan_mar_diff = number_format(abs_number($recon_w2->jan_mar_gl) - abs_number($recon_w2->jan_mar_ato), 2, '.','');
-                                $re_w2_apr_jun_diff = number_format(abs_number($recon_w2->apr_jun_gl) - abs_number($recon_w2->apr_jun_ato), 2, '.','');
+                                $re_w2_jul_sep_diff = abs($recon_w2->jul_sep_gl) - abs($recon_w2->jul_sep_ato);
+                                $re_w2_oct_dec_diff = abs($recon_w2->oct_dec_gl) - abs($recon_w2->oct_dec_ato);
+                                $re_w2_jan_mar_diff = abs($recon_w2->jan_mar_gl) - abs($recon_w2->jan_mar_ato);
+                                $re_w2_apr_jun_diff = abs($recon_w2->apr_jun_gl) - abs($recon_w2->apr_jun_ato);
 
-                                $re_w2_total = abs_number($re_w2_jul_sep_ato + $re_w2_oct_dec_ato + $re_w2_jan_mar_ato +
+                                $re_w2_total = abs($re_w2_jul_sep_ato + $re_w2_oct_dec_ato + $re_w2_jan_mar_ato +
                                 $re_w2_apr_jun_ato);
-                                $re_w2_total_diff = number_format($re_w2_jul_sep_diff + $re_w2_oct_dec_diff+ $re_w2_jan_mar_diff + $re_w2_apr_jun_diff , 2, '.','');
+                                $re_w2_total_diff = $re_w2_jul_sep_diff + $re_w2_oct_dec_diff+ $re_w2_jan_mar_diff + $re_w2_apr_jun_diff ;
                                 // w2
 
                                 // g10
                                 $recon_g10 = optional($recons->where('item', 'g10')->first());
-                                $re_g10_jul_sep_ato = abs_number($recon_g10->jul_sep_ato);
-                                $re_g10_oct_dec_ato = abs_number($recon_g10->oct_dec_ato);
-                                $re_g10_jan_mar_ato = abs_number($recon_g10->jan_mar_ato);
-                                $re_g10_apr_jun_ato = abs_number($recon_g10->apr_jun_ato);
+                                $re_g10_jul_sep_ato = abs($recon_g10->jul_sep_ato);
+                                $re_g10_oct_dec_ato = abs($recon_g10->oct_dec_ato);
+                                $re_g10_jan_mar_ato = abs($recon_g10->jan_mar_ato);
+                                $re_g10_apr_jun_ato = abs($recon_g10->apr_jun_ato);
 
-                                $re_g10_jul_sep_diff = number_format(abs_number($recon_g10->jul_sep_gl) - abs_number($recon_g10->jul_sep_ato), 2, '.','');
-                                $re_g10_oct_dec_diff = number_format(abs_number($recon_g10->oct_dec_gl) - abs_number($recon_g10->oct_dec_ato), 2, '.','');
-                                $re_g10_jan_mar_diff = number_format(abs_number($recon_g10->jan_mar_gl) - abs_number($recon_g10->jan_mar_ato), 2, '.','');
-                                $re_g10_apr_jun_diff = number_format(abs_number($recon_g10->apr_jun_gl) - abs_number($recon_g10->apr_jun_ato), 2, '.','');
+                                $re_g10_jul_sep_diff = abs($recon_g10->jul_sep_gl) - abs($recon_g10->jul_sep_ato);
+                                $re_g10_oct_dec_diff = abs($recon_g10->oct_dec_gl) - abs($recon_g10->oct_dec_ato);
+                                $re_g10_jan_mar_diff = abs($recon_g10->jan_mar_gl) - abs($recon_g10->jan_mar_ato);
+                                $re_g10_apr_jun_diff = abs($recon_g10->apr_jun_gl) - abs($recon_g10->apr_jun_ato);
 
-                                $re_g10_total = abs_number($re_g10_jul_sep_ato + $re_g10_oct_dec_ato +
+                                $re_g10_total = abs($re_g10_jul_sep_ato + $re_g10_oct_dec_ato +
                                 $re_g10_jan_mar_ato + $re_g10_apr_jun_ato);
-                                $re_g10_total_diff = number_format($re_g10_jul_sep_diff + $re_g10_oct_dec_diff+
-                                $re_g10_jan_mar_diff + $re_g10_apr_jun_diff , 2, '.','');
+                                $re_g10_total_diff = $re_g10_jul_sep_diff + $re_g10_oct_dec_diff+
+                                $re_g10_jan_mar_diff + $re_g10_apr_jun_diff ;
                                 // g10
 
                                 // 9
                                 $recon_9 = optional($recons->where('item', '9')->first());
-                                $re_9_jul_sep_ato = abs_number($recon_9->jul_sep_ato);
-                                $re_9_oct_dec_ato = abs_number($recon_9->oct_dec_ato);
-                                $re_9_jan_mar_ato = abs_number($recon_9->jan_mar_ato);
-                                $re_9_apr_jun_ato = abs_number($recon_9->apr_jun_ato);
+                                $re_9_jul_sep_ato = abs($recon_9->jul_sep_ato);
+                                $re_9_oct_dec_ato = abs($recon_9->oct_dec_ato);
+                                $re_9_jan_mar_ato = abs($recon_9->jan_mar_ato);
+                                $re_9_apr_jun_ato = abs($recon_9->apr_jun_ato);
 
-                                $re_9_jul_sep_diff = number_format(abs_number($recon_9->jul_sep_gl) - abs_number($recon_9->jul_sep_ato), 2, '.','');
-                                $re_9_oct_dec_diff = number_format(abs_number($recon_9->oct_dec_gl) - abs_number($recon_9->oct_dec_ato), 2, '.','');
-                                $re_9_jan_mar_diff = number_format(abs_number($recon_9->jan_mar_gl) - abs_number($recon_9->jan_mar_ato), 2, '.','');
-                                $re_9_apr_jun_diff = number_format(abs_number($recon_9->apr_jun_gl) - abs_number($recon_9->apr_jun_ato), 2, '.','');
+                                $re_9_jul_sep_diff = abs($recon_9->jul_sep_gl) - abs($recon_9->jul_sep_ato);
+                                $re_9_oct_dec_diff = abs($recon_9->oct_dec_gl) - abs($recon_9->oct_dec_ato);
+                                $re_9_jan_mar_diff = abs($recon_9->jan_mar_gl) - abs($recon_9->jan_mar_ato);
+                                $re_9_apr_jun_diff = abs($recon_9->apr_jun_gl) - abs($recon_9->apr_jun_ato);
 
-                                $re_9_total = abs_number($re_9_jul_sep_ato + $re_9_oct_dec_ato + $re_9_jan_mar_ato + $re_9_apr_jun_ato);
-                                $re_9_total_diff = number_format($re_9_jul_sep_diff + $re_9_oct_dec_diff+ $re_9_jan_mar_diff + $re_9_apr_jun_diff, 2, '.','');
+                                $re_9_total = abs($re_9_jul_sep_ato + $re_9_oct_dec_ato + $re_9_jan_mar_ato + $re_9_apr_jun_ato);
+                                $re_9_total_diff = $re_9_jul_sep_diff + $re_9_oct_dec_diff+ $re_9_jan_mar_diff + $re_9_apr_jun_diff;
                                 // 9
                                 @endphp
                                 <form action="{{route('gst_recon.store', [$client->id,$profession->id,$period->id])}}"
@@ -242,7 +242,7 @@
                                                 <tr>
                                                     <td class="tg-e1kv">G1</td>
                                                     <td class="tg-wtqs">
-                                                        {{$jul_sep_g1_gl = abs_number($income->whereBetween('trn_date',
+                                                        {{$jul_sep_g1_gl = abs($income->whereBetween('trn_date',
                                                         [$july, $sep])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jul_sep_gl[]" id="jul_sep_g1_gl"
                                                             value="{{$jul_sep_g1_gl}}">
@@ -262,7 +262,7 @@
                                                     </td>
 
                                                     <td class="tg-4o99">
-                                                        {{$oct_dec_g1_gl = abs_number($income->whereBetween('trn_date',
+                                                        {{$oct_dec_g1_gl = abs($income->whereBetween('trn_date',
                                                         [$oct, $dec])->sum('gross_amount'))}}
                                                         <input type="hidden" name="oct_dec_gl[]" id="oct_dec_g1_gl"
                                                             value="{{$oct_dec_g1_gl}}">
@@ -282,7 +282,7 @@
                                                     </td>
 
                                                     <td class="tg-o5ew">
-                                                        {{$jan_mar_g1_gl = abs_number($income->whereBetween('trn_date',
+                                                        {{$jan_mar_g1_gl = abs($income->whereBetween('trn_date',
                                                         [$jan, $mar])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jan_mar_gl[]" id="jan_mar_g1_gl"
                                                             value="{{$jan_mar_g1_gl}}">
@@ -302,7 +302,7 @@
                                                     </td>
 
                                                     <td class="tg-9459">
-                                                        {{$apr_jun_g1_gl = abs_number($income->whereBetween('trn_date',
+                                                        {{$apr_jun_g1_gl = abs($income->whereBetween('trn_date',
                                                         [$apr, $june])->sum('gross_amount'))}}
                                                         <input type="hidden" name="apr_jun_gl[]" id="apr_jun_g1_gl"
                                                             value="{{$apr_jun_g1_gl}}">
@@ -322,7 +322,7 @@
                                                     </td>
 
                                                     <td class="tg-be25">
-                                                        {{$total_g1 = abs_number($income->sum('gross_amount'))}}
+                                                        {{$total_g1 = abs($income->sum('gross_amount'))}}
                                                         <input type="hidden" id="g1_total" value="{{$total_g1}}">
                                                     </td>
                                                     <td class="tg-5q6i">
@@ -338,7 +338,7 @@
                                                     <td class="tg-e1kv">G3</td>
                                                     <td class="tg-wtqs">
                                                         {{$jul_sep_g3_gl =
-                                                        abs_number($incomeNonGst->whereBetween('trn_date', [$july,
+                                                        abs($incomeNonGst->whereBetween('trn_date', [$july,
                                                         $sep])->sum('net_amount'))}}
                                                         <input type="hidden" name="jul_sep_gl[]" id="jul_sep_g3_gl"
                                                             value="{{$jul_sep_g3_gl}}">
@@ -358,7 +358,7 @@
                                                     </td>
                                                     <td class="tg-4o99">
                                                         {{$oct_dec_g3_gl =
-                                                        abs_number($incomeNonGst->whereBetween('trn_date', [$oct,
+                                                        abs($incomeNonGst->whereBetween('trn_date', [$oct,
                                                         $dec])->sum('net_amount'))}}
                                                         <input type="hidden" name="oct_dec_gl[]" id="oct_dec_g3_gl"
                                                             value="{{$oct_dec_g3_gl}}">
@@ -378,7 +378,7 @@
                                                     </td>
                                                     <td class="tg-o5ew">
                                                         {{$jan_mar_g3_gl =
-                                                        abs_number($incomeNonGst->whereBetween('trn_date', [$jan,
+                                                        abs($incomeNonGst->whereBetween('trn_date', [$jan,
                                                         $mar])->sum('net_amount'))}}
                                                         <input type="hidden" name="jan_mar_gl[]" id="jan_mar_g3_gl"
                                                             value="{{$jan_mar_g3_gl}}">
@@ -398,7 +398,7 @@
                                                     </td>
                                                     <td class="tg-9459">
                                                         {{$apr_jun_g3_gl =
-                                                        abs_number($incomeNonGst->whereBetween('trn_date', [$apr,
+                                                        abs($incomeNonGst->whereBetween('trn_date', [$apr,
                                                         $june])->sum('net_amount'))}}
                                                         <input type="hidden" name="apr_jun_gl[]" id="apr_jun_g3_gl"
                                                             value="{{$apr_jun_g3_gl}}">
@@ -417,7 +417,7 @@
                                                             id="apr_jun_g3_diff_inp" value={{$re_g3_apr_jun_diff}}>
                                                     </td>
                                                     <td class="tg-be25">
-                                                        {{$total_g3 = abs_number($incomeNonGst->sum('net_amount'))}}
+                                                        {{$total_g3 = abs($incomeNonGst->sum('net_amount'))}}
                                                         <input type="hidden" id="g3_total" value="{{$total_g3}}">
                                                     </td>
                                                     <td class="tg-5q6i">
@@ -431,7 +431,7 @@
                                                 <tr>
                                                     <td class="tg-e1kv">1A</td>
                                                     <td class="tg-wtqs">
-                                                        {{$jul_sep_1a_gl = abs_number($income->whereBetween('trn_date',
+                                                        {{$jul_sep_1a_gl = abs($income->whereBetween('trn_date',
                                                         [$july, $sep])->sum('gst_cash_amount'))}}
                                                         <input type="hidden" name="jul_sep_gl[]" id="jul_sep_1a_gl"
                                                             value="{{$jul_sep_1a_gl}}">
@@ -451,7 +451,7 @@
                                                             id="jul_sep_1a_diff_inp" value="{{$re_1a_jul_sep_diff}}">
                                                     </td>
                                                     <td class="tg-4o99">
-                                                        {{$oct_dec_1a_gl = abs_number($income->whereBetween('trn_date',
+                                                        {{$oct_dec_1a_gl = abs($income->whereBetween('trn_date',
                                                         [$oct, $dec])->sum('gst_cash_amount'))}}
                                                         <input type="hidden" name="oct_dec_gl[]" id="oct_dec_1a_gl"
                                                             value="{{$oct_dec_1a_gl}}">
@@ -470,7 +470,7 @@
                                                             id="oct_dec_1a_diff_inp" value="{{$re_1a_oct_dec_diff}}">
                                                     </td>
                                                     <td class="tg-o5ew">
-                                                        {{$jan_mar_1a_gl = abs_number($income->whereBetween('trn_date',
+                                                        {{$jan_mar_1a_gl = abs($income->whereBetween('trn_date',
                                                         [$jan, $mar])->sum('gst_cash_amount'))}}
                                                         <input type="hidden" name="jan_mar_gl[]" id="jan_mar_1a_gl"
                                                             value="{{$jan_mar_1a_gl}}">
@@ -489,7 +489,7 @@
                                                             id="jan_mar_1a_diff_inp" value="{{$re_1a_jan_mar_diff}}">
                                                     </td>
                                                     <td class="tg-9459">
-                                                        {{$apr_jun_1a_gl = abs_number($income->whereBetween('trn_date',
+                                                        {{$apr_jun_1a_gl = abs($income->whereBetween('trn_date',
                                                         [$apr, $june])->sum('gst_cash_amount'))}}
                                                         <input type="hidden" name="apr_jun_gl[]" id="apr_jun_1a_gl"
                                                             value="{{$apr_jun_1a_gl}}">
@@ -508,7 +508,7 @@
                                                             id="apr_jun_1a_diff_inp" value="{{$re_1a_apr_jun_diff}}">
                                                     </td>
                                                     <td class="tg-be25">
-                                                        {{$total_1a = abs_number($income->sum('gst_cash_amount'))}}
+                                                        {{$total_1a = abs($income->sum('gst_cash_amount'))}}
                                                         <input type="hidden" id="1a_total" value="{{$total_1a}}">
                                                     </td>
                                                     <td class="tg-5q6i">
@@ -524,7 +524,7 @@
                                                     <td class="tg-e1kv">G11</td>
                                                     <td class="tg-wtqs">
                                                         {{$jul_sep_g11_gl =
-                                                        abs_number($expense_code->whereBetween('trn_date', [$july,
+                                                        abs($expense_code->whereBetween('trn_date', [$july,
                                                         $sep])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jul_sep_gl[]" id="jul_sep_g11_gl"
                                                             value="{{$jul_sep_g11_gl}}">
@@ -544,7 +544,7 @@
                                                     </td>
                                                     <td class="tg-4o99">
                                                         {{$oct_dec_g11_gl =
-                                                        abs_number($expense_code->whereBetween('trn_date', [$oct,
+                                                        abs($expense_code->whereBetween('trn_date', [$oct,
                                                         $dec])->sum('gross_amount'))}}
                                                         <input type="hidden" name="oct_dec_gl[]" id="oct_dec_g11_gl"
                                                             value="{{$oct_dec_g11_gl}}">
@@ -564,7 +564,7 @@
                                                     </td>
                                                     <td class="tg-o5ew">
                                                         {{$jan_mar_g11_gl =
-                                                        abs_number($expense_code->whereBetween('trn_date', [$jan,
+                                                        abs($expense_code->whereBetween('trn_date', [$jan,
                                                         $mar])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jan_mar_gl[]" id="jan_mar_g11_gl"
                                                             value="{{$jan_mar_g11_gl}}">
@@ -584,7 +584,7 @@
                                                     </td>
                                                     <td class="tg-9459">
                                                         {{$apr_jun_g11_gl =
-                                                        abs_number($expense_code->whereBetween('trn_date', [$apr,
+                                                        abs($expense_code->whereBetween('trn_date', [$apr,
                                                         $june])->sum('gross_amount'))}}
                                                         <input type="hidden" name="apr_jun_gl[]" id="apr_jun_g11_gl"
                                                             value="{{$apr_jun_g11_gl}}">
@@ -603,7 +603,7 @@
                                                             id="apr_jun_g11_diff_inp" value="{{$re_g11_apr_jun_diff}}">
                                                     </td>
                                                     <td class="tg-be25">
-                                                        {{$total_g11 = abs_number($expense_code->sum('gross_amount'))}}
+                                                        {{$total_g11 = abs($expense_code->sum('gross_amount'))}}
                                                         <input type="hidden" id="g11_total" value="{{$total_g11}}">
                                                     </td>
                                                     <td class="tg-5q6i">
@@ -618,7 +618,7 @@
                                                 <tr>
                                                     <td class="tg-e1kv">1B</td>
                                                     <td class="tg-wtqs">
-                                                        {{$jul_sep_1b_gl = abs_number($expense->whereBetween('trn_date',
+                                                        {{$jul_sep_1b_gl = abs($expense->whereBetween('trn_date',
                                                         [$july, $sep])->sum('gst_cash_amount'))}}
                                                         <input type="hidden" name="jul_sep_gl[]" id="jul_sep_1b_gl"
                                                             value="{{$jul_sep_1b_gl}}">
@@ -637,7 +637,7 @@
                                                             id="jul_sep_1b_diff_inp" value="{{$re_1b_jul_sep_diff}}">
                                                     </td>
                                                     <td class="tg-4o99">
-                                                        {{$oct_dec_1b_gl = abs_number($expense->whereBetween('trn_date',
+                                                        {{$oct_dec_1b_gl = abs($expense->whereBetween('trn_date',
                                                         [$oct, $dec])->sum('gst_cash_amount'))}}
                                                         <input type="hidden" name="oct_dec_gl[]" id="oct_dec_1b_gl"
                                                             value="{{$oct_dec_1b_gl}}">
@@ -656,7 +656,7 @@
                                                             id="oct_dec_1b_diff_inp" value="{{$re_1b_oct_dec_diff}}">
                                                     </td>
                                                     <td class="tg-o5ew">
-                                                        {{$jan_mar_1b_gl = abs_number($expense->whereBetween('trn_date',
+                                                        {{$jan_mar_1b_gl = abs($expense->whereBetween('trn_date',
                                                         [$jan, $mar])->sum('gst_cash_amount'))}}
                                                         <input type="hidden" name="jan_mar_gl[]" id="jan_mar_1b_gl"
                                                             value="{{$jan_mar_1b_gl}}">
@@ -675,7 +675,7 @@
                                                             id="jan_mar_1b_diff_inp" value="{{$re_1b_jan_mar_diff}}">
                                                     </td>
                                                     <td class="tg-9459">
-                                                        {{$apr_jun_1b_gl = abs_number($expense->whereBetween('trn_date',
+                                                        {{$apr_jun_1b_gl = abs($expense->whereBetween('trn_date',
                                                         [$apr, $june])->sum('gst_cash_amount'))}}
                                                         <input type="hidden" name="apr_jun_gl[]" id="apr_jun_1b_gl"
                                                             value="{{$apr_jun_1b_gl}}">
@@ -694,7 +694,7 @@
                                                             id="apr_jun_1b_diff_inp" value="{{$re_1b_apr_jun_diff}}">
                                                     </td>
                                                     <td class="tg-be25">
-                                                        {{$total_1b = abs_number($expense->sum('gst_cash_amount'))}}
+                                                        {{$total_1b = abs($expense->sum('gst_cash_amount'))}}
                                                         <input type="hidden" id="1b_total" value="{{$total_1b}}">
                                                     </td>
                                                     <td class="tg-5q6i">
@@ -709,7 +709,7 @@
                                                 <tr>
                                                     <td class="tg-e1kv">W1</td>
                                                     <td class="tg-wtqs">
-                                                        {{$jul_sep_w1_gl = abs_number($w1->whereBetween('trn_date',
+                                                        {{$jul_sep_w1_gl = abs($w1->whereBetween('trn_date',
                                                         [$july, $sep])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jul_sep_gl[]" id="jul_sep_w1_gl"
                                                             value="{{$jul_sep_w1_gl}}">
@@ -728,7 +728,7 @@
                                                             id="jul_sep_w1_diff_inp">
                                                     </td>
                                                     <td class="tg-4o99">
-                                                        {{$oct_dec_w1_gl = abs_number($w1->whereBetween('trn_date',
+                                                        {{$oct_dec_w1_gl = abs($w1->whereBetween('trn_date',
                                                         [$oct, $dec])->sum('gross_amount'))}}
                                                         <input type="hidden" name="oct_dec_gl[]" id="oct_dec_w1_gl"
                                                             value="{{$oct_dec_w1_gl}}">
@@ -747,7 +747,7 @@
                                                             id="oct_dec_w1_diff_inp">
                                                     </td>
                                                     <td class="tg-o5ew">
-                                                        {{$jan_mar_w1_gl = abs_number($w1->whereBetween('trn_date',
+                                                        {{$jan_mar_w1_gl = abs($w1->whereBetween('trn_date',
                                                         [$jan, $mar])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jan_mar_gl[]" id="jan_mar_w1_gl"
                                                             value="{{$jan_mar_w1_gl}}">
@@ -766,7 +766,7 @@
                                                             id="jan_mar_w1_diff_inp">
                                                     </td>
                                                     <td class="tg-9459">
-                                                        {{$apr_jun_w1_gl = abs_number($w1->whereBetween('trn_date',
+                                                        {{$apr_jun_w1_gl = abs($w1->whereBetween('trn_date',
                                                         [$apr, $june])->sum('gross_amount'))}}
                                                         <input type="hidden" name="apr_jun_gl[]" id="apr_jun_w1_gl"
                                                             value="{{$apr_jun_w1_gl}}">
@@ -785,7 +785,7 @@
                                                             id="apr_jun_w1_diff_inp">
                                                     </td>
                                                     <td class="tg-be25">
-                                                        {{$total_w1 = abs_number($w1->sum('gross_amount'))}}
+                                                        {{$total_w1 = abs($w1->sum('gross_amount'))}}
                                                         <input type="hidden" id="w1_total" value="{{$total_w1}}">
                                                     </td>
                                                     <td class="tg-5q6i">
@@ -800,7 +800,7 @@
                                                 <tr>
                                                     <td class="tg-e1kv">W2</td>
                                                     <td class="tg-wtqs">
-                                                        {{$jul_sep_w2_gl = abs_number($w2->whereBetween('trn_date',
+                                                        {{$jul_sep_w2_gl = abs($w2->whereBetween('trn_date',
                                                         [$july, $sep])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jul_sep_gl[]" id="jul_sep_w2_gl"
                                                             value="{{$jul_sep_w2_gl}}">
@@ -819,7 +819,7 @@
                                                             id="jul_sep_w2_diff_inp" value="{{$re_w2_jul_sep_diff}}">
                                                     </td>
                                                     <td class="tg-4o99">
-                                                        {{$oct_dec_w2_gl = abs_number($w2->whereBetween('trn_date',
+                                                        {{$oct_dec_w2_gl = abs($w2->whereBetween('trn_date',
                                                         [$oct, $dec])->sum('gross_amount'))}}
                                                         <input type="hidden" name="oct_dec_gl[]" id="oct_dec_w2_gl"
                                                             value="{{$oct_dec_w2_gl}}">
@@ -838,7 +838,7 @@
                                                             id="oct_dec_w2_diff_inp" value="{{$re_w2_oct_dec_diff}}">
                                                     </td>
                                                     <td class="tg-o5ew">
-                                                        {{$jan_mar_w2_gl = abs_number($w2->whereBetween('trn_date',
+                                                        {{$jan_mar_w2_gl = abs($w2->whereBetween('trn_date',
                                                         [$jan, $mar])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jan_mar_gl[]" id="jan_mar_w2_gl"
                                                             value="{{$jan_mar_w2_gl}}">
@@ -857,7 +857,7 @@
                                                             id="jan_mar_w2_diff_inp" value="{{$re_w2_jan_mar_diff}}">
                                                     </td>
                                                     <td class="tg-9459">
-                                                        {{$apr_jun_w2_gl = abs_number($w2->whereBetween('trn_date',
+                                                        {{$apr_jun_w2_gl = abs($w2->whereBetween('trn_date',
                                                         [$apr, $june])->sum('gross_amount'))}}
                                                         <input type="hidden" name="apr_jun_gl[]" id="apr_jun_w2_gl"
                                                             value="{{$apr_jun_w2_gl}}">
@@ -876,7 +876,7 @@
                                                             id="apr_jun_w2_diff_inp" value="{{$re_w2_apr_jun_diff}}">
                                                     </td>
                                                     <td class="tg-be25">
-                                                        {{$total_w2 = abs_number($w2->sum('gross_amount'))}}
+                                                        {{$total_w2 = abs($w2->sum('gross_amount'))}}
                                                         <input type="hidden" id="w2_total" value="{{$total_w2}}">
                                                     </td>
                                                     <td class="tg-5q6i">
@@ -891,7 +891,7 @@
                                                 <tr>
                                                     <td class="tg-e1kv">G10</td>
                                                     <td class="tg-wtqs">
-                                                        {{$jul_sep_g10_gl = abs_number($asset->whereBetween('trn_date',
+                                                        {{$jul_sep_g10_gl = abs($asset->whereBetween('trn_date',
                                                         [$july, $sep])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jul_sep_gl[]" id="jul_sep_g10_gl"
                                                             value="{{$jul_sep_g10_gl}}">
@@ -910,7 +910,7 @@
                                                             id="jul_sep_g10_diff_inp" value="{{$re_g10_jul_sep_diff}}">
                                                     </td>
                                                     <td class="tg-4o99">
-                                                        {{$oct_dec_g10_gl = abs_number($asset->whereBetween('trn_date',
+                                                        {{$oct_dec_g10_gl = abs($asset->whereBetween('trn_date',
                                                         [$oct, $dec])->sum('gross_amount'))}}
                                                         <input type="hidden" name="oct_dec_gl[]" id="oct_dec_g10_gl"
                                                             value="{{$oct_dec_g10_gl}}">
@@ -929,7 +929,7 @@
                                                             id="oct_dec_g10_diff_inp" value="{{$re_g10_oct_dec_diff}}">
                                                     </td>
                                                     <td class="tg-o5ew">
-                                                        {{$jan_mar_g10_gl = abs_number($asset->whereBetween('trn_date',
+                                                        {{$jan_mar_g10_gl = abs($asset->whereBetween('trn_date',
                                                         [$jan, $mar])->sum('gross_amount'))}}
                                                         <input type="hidden" name="jan_mar_gl[]" id="jan_mar_g10_gl"
                                                             value="{{$jan_mar_g10_gl}}">
@@ -948,7 +948,7 @@
                                                             id="jan_mar_g10_diff_inp" value="{{$re_g10_jan_mar_diff}}">
                                                     </td>
                                                     <td class="tg-9459">
-                                                        {{$apr_jun_g10_gl = abs_number($asset->whereBetween('trn_date',
+                                                        {{$apr_jun_g10_gl = abs($asset->whereBetween('trn_date',
                                                         [$apr, $june])->sum('gross_amount'))}}
                                                         <input type="hidden" name="apr_jun_gl[]" id="apr_jun_g10_gl"
                                                             value="{{$apr_jun_g10_gl}}">
@@ -967,7 +967,7 @@
                                                             id="apr_jun_g10_diff_inp" value="{{$re_g10_apr_jun_diff}}">
                                                     </td>
                                                     <td class="tg-be25">
-                                                        {{$total_g10 = abs_number($asset->sum('gross_amount'))}}
+                                                        {{$total_g10 = abs($asset->sum('gross_amount'))}}
                                                         <input type="hidden" id="g10_total" value="{{$total_g10}}">
                                                     </td>
                                                     <td class="tg-5q6i">
@@ -982,7 +982,7 @@
                                                 <tr>
                                                     <td class="tg-e1kv">9</td>
                                                     <td class="tg-wtqs">
-                                                        {{$jul_sep_9_gl = abs_number($jul_sep_1a_gl - $jul_sep_1b_gl)}}
+                                                        {{$jul_sep_9_gl = abs($jul_sep_1a_gl - $jul_sep_1b_gl)}}
                                                         <input type="hidden" name="jul_sep_gl[]" id="jul_sep_9_gl"
                                                             value="{{$jul_sep_9_gl}}">
                                                     </td>
@@ -1000,7 +1000,7 @@
                                                             id="jul_sep_9_diff_inp" value="{{$re_9_jul_sep_diff}}">
                                                     </td>
                                                     <td class="tg-4o99">
-                                                        {{$oct_dec_9_gl = abs_number($oct_dec_1a_gl - $oct_dec_1b_gl)}}
+                                                        {{$oct_dec_9_gl = abs($oct_dec_1a_gl - $oct_dec_1b_gl)}}
                                                         <input type="hidden" name="oct_dec_gl[]" id="oct_dec_9_gl"
                                                             value="{{$oct_dec_9_gl}}">
                                                     </td>
@@ -1018,7 +1018,7 @@
                                                             id="oct_dec_9_diff_inp" value="{{$re_9_oct_dec_diff}}">
                                                     </td>
                                                     <td class="tg-o5ew">
-                                                        {{$jan_mar_9_gl = abs_number($jan_mar_1a_gl - $jan_mar_1b_gl)}}
+                                                        {{$jan_mar_9_gl = abs($jan_mar_1a_gl - $jan_mar_1b_gl)}}
                                                         <input type="hidden" name="jan_mar_gl[]" id="jan_mar_9_gl"
                                                             value="{{$jan_mar_9_gl}}">
                                                     </td>
@@ -1036,7 +1036,7 @@
                                                             id="jan_mar_9_diff_inp" value="{{$re_9_jan_mar_diff}}">
                                                     </td>
                                                     <td class="tg-9459">
-                                                        {{$apr_jun_9_gl = abs_number($apr_jun_1a_gl - $apr_jun_1b_gl)}}
+                                                        {{$apr_jun_9_gl = abs($apr_jun_1a_gl - $apr_jun_1b_gl)}}
                                                         <input type="hidden" name="apr_jun_gl[]" id="apr_jun_9_gl"
                                                             value="{{$apr_jun_9_gl}}">
                                                     </td>
@@ -1054,7 +1054,7 @@
                                                             id="apr_jun_9_diff_inp" value="{{$re_9_apr_jun_diff}}">
                                                     </td>
                                                     <td class="tg-be25">
-                                                        {{$total_9 = abs_number($total_1a - $total_1b)}}
+                                                        {{$total_9 = abs($total_1a - $total_1b)}}
                                                         <input type="hidden" id="9_total" value="{{$total_9}}">
                                                     </td>
                                                     <td class="tg-5q6i">
@@ -1072,60 +1072,60 @@
                                     <div class="tax_return mt-5 col-md-5">
                                         @php
                                         $sales_bf = optional($recons_taxes->where('particular', 'Sales before GST')->first());
-                                        $sales_bf_bas = abs_number($sales_bf->bas);
-                                        $sales_bf_report = abs_number($sales_bf->report);
-                                        $sales_bf_ato = abs_number($sales_bf->ato);
-                                        $sales_bf_diff = number_format(max([$sales_bf_bas, $sales_bf_report,
-                                        $sales_bf_ato]) - min([$sales_bf_bas, $sales_bf_report, $sales_bf_ato]), 2, '.','');
+                                        $sales_bf_bas = abs($sales_bf->bas);
+                                        $sales_bf_report = abs($sales_bf->report);
+                                        $sales_bf_ato = abs($sales_bf->ato);
+                                        $sales_bf_diff = max([$sales_bf_bas, $sales_bf_report,
+                                        $sales_bf_ato]) - min([$sales_bf_bas, $sales_bf_report, $sales_bf_ato]);
 
                                         $sales = optional($recons_taxes->where('particular', 'GST amount in sales')->first());
-                                        $sales_bas = abs_number($sales->bas);
-                                        $sales_report = abs_number($sales->report);
-                                        $sales_ato = abs_number($sales->ato);
-                                        $sales_diff = number_format(max([$sales_bas, $sales_report, $sales_ato])-
-                                        min([$sales_bas, $sales_report, $sales_ato]) , 2, '.','');
+                                        $sales_bas = abs($sales->bas);
+                                        $sales_report = abs($sales->report);
+                                        $sales_ato = abs($sales->ato);
+                                        $sales_diff = max([$sales_bas, $sales_report, $sales_ato])-
+                                        min([$sales_bas, $sales_report, $sales_ato]) ;
 
                                         $sales_af = optional($recons_taxes->where('particular', 'Sales After GST')->first());
-                                        $sales_af_bas = abs_number($sales_af->bas);
-                                        $sales_af_report = abs_number($sales_af->report);
-                                        $sales_af_ato = abs_number($sales_af->ato);
-                                        $sales_af_diff = number_format(max([$sales_af_bas, $sales_af_report,
-                                        $sales_af_ato]) - min([$sales_af_bas, $sales_af_report, $sales_af_ato]), 2, '.','');
+                                        $sales_af_bas = abs($sales_af->bas);
+                                        $sales_af_report = abs($sales_af->report);
+                                        $sales_af_ato = abs($sales_af->ato);
+                                        $sales_af_diff = max([$sales_af_bas, $sales_af_report,
+                                        $sales_af_ato]) - min([$sales_af_bas, $sales_af_report, $sales_af_ato]);
 
                                         $exp_bf = optional($recons_taxes->where('particular', 'Expesnes before GST')->first());
-                                        $exp_bf_bas = abs_number($exp_bf->bas);
-                                        $exp_bf_report = abs_number($exp_bf->report);
-                                        $exp_bf_ato = abs_number($exp_bf->ato);
-                                        $exp_bf_diff = number_format(max([$exp_bf_bas, $exp_bf_report, $exp_bf_ato])-
-                                        min([$exp_bf_bas, $exp_bf_report, $exp_bf_ato]), 2, '.','');
+                                        $exp_bf_bas = abs($exp_bf->bas);
+                                        $exp_bf_report = abs($exp_bf->report);
+                                        $exp_bf_ato = abs($exp_bf->ato);
+                                        $exp_bf_diff = max([$exp_bf_bas, $exp_bf_report, $exp_bf_ato])-
+                                        min([$exp_bf_bas, $exp_bf_report, $exp_bf_ato]);
 
                                         $exp = optional($recons_taxes->where('particular', 'GST ON EXPESNSE')->first());
-                                        $exp_bas = abs_number($exp->bas);
-                                        $exp_report = abs_number($exp->report);
-                                        $exp_ato = abs_number($exp->ato);
-                                        $exp_diff = number_format(max([$exp_bas, $exp_report, $exp_ato]) - min([$exp_bas,
-                                        $exp_report, $exp_ato]), 2, '.','');
+                                        $exp_bas = abs($exp->bas);
+                                        $exp_report = abs($exp->report);
+                                        $exp_ato = abs($exp->ato);
+                                        $exp_diff = max([$exp_bas, $exp_report, $exp_ato]) - min([$exp_bas,
+                                        $exp_report, $exp_ato]);
 
                                         $exp_af = optional($recons_taxes->where('particular', 'Expense after GST')->first());
-                                        $exp_af_bas = abs_number($exp_af->bas);
-                                        $exp_af_report = abs_number($exp_af->report);
-                                        $exp_af_ato = abs_number($exp_af->ato);
-                                        $exp_af_diff = number_format(max([$exp_af_bas, $exp_af_report, $exp_af_ato]) -
-                                        min([$exp_af_bas, $exp_af_report, $exp_af_ato]), 2, '.','');
+                                        $exp_af_bas = abs($exp_af->bas);
+                                        $exp_af_report = abs($exp_af->report);
+                                        $exp_af_ato = abs($exp_af->ato);
+                                        $exp_af_diff = max([$exp_af_bas, $exp_af_report, $exp_af_ato]) -
+                                        min([$exp_af_bas, $exp_af_report, $exp_af_ato]);
 
                                         $wages = optional($recons_taxes->where('particular', 'Total wages')->first());
-                                        $wages_bas = abs_number($wages->bas);
-                                        $wages_report = abs_number($wages->report);
-                                        $wages_ato = abs_number($wages->ato);
-                                        $wages_diff = number_format(max([$wages_bas, $wages_report, $wages_ato]) -
-                                        min([$wages_bas, $wages_report, $wages_ato]), 2, '.','');
+                                        $wages_bas = abs($wages->bas);
+                                        $wages_report = abs($wages->report);
+                                        $wages_ato = abs($wages->ato);
+                                        $wages_diff = max([$wages_bas, $wages_report, $wages_ato]) -
+                                        min([$wages_bas, $wages_report, $wages_ato]);
 
                                         $payg = optional($recons_taxes->where('particular', 'PAYG')->first());
-                                        $payg_bas = abs_number($payg->bas);
-                                        $payg_report = abs_number($payg->report);
-                                        $payg_ato = abs_number($payg->ato);
-                                        $payg_diff = number_format(max([$payg_bas, $payg_report, $payg_ato]) -
-                                        min([$payg_bas, $payg_report, $payg_ato]), 2, '.','');
+                                        $payg_bas = abs($payg->bas);
+                                        $payg_report = abs($payg->report);
+                                        $payg_ato = abs($payg->ato);
+                                        $payg_diff = max([$payg_bas, $payg_report, $payg_ato]) -
+                                        min([$payg_bas, $payg_report, $payg_ato]);
 
                                         @endphp
                                         <h1 class="text-center">Income Tax Return Reconciliation</h1>
@@ -1145,14 +1145,14 @@
                                                 <tr>
                                                     <td>Sales before GST</td>
                                                     <td>
-                                                        <span class="tax_gl_g1">{{abs_number($total_g1)}}</span>
+                                                        <span class="tax_gl_g1">{{abs($total_g1)}}</span>
                                                         <input type="hidden" name="bas[]"
-                                                            value="{{abs_number($total_g1)}}">
+                                                            value="{{abs($total_g1)}}">
                                                     </td>
                                                     <td>
-                                                        <span class="tax_pl_g1">{{abs_number($totalCredit)}}</span>
+                                                        <span class="tax_pl_g1">{{abs($totalCredit)}}</span>
                                                         <input type="hidden" name="report[]"
-                                                            value="{{abs_number($totalCredit)}}">
+                                                            value="{{abs($totalCredit)}}">
                                                     </td>
                                                     <td>
                                                         <span class="g1 tax_g1 tax_ato_g1">{{$sales_bf_ato}}</span>
@@ -1166,9 +1166,9 @@
                                                 <tr>
                                                     <td>GST amount on Sales</td>
                                                     <td>
-                                                        <span class="tax_gl_1a">{{abs_number($total_1a)}}</span>
+                                                        <span class="tax_gl_1a">{{abs($total_1a)}}</span>
                                                         <input type="hidden" name="bas[]"
-                                                            value="{{abs_number($total_1a)}}">
+                                                            value="{{abs($total_1a)}}">
                                                     </td>
                                                     <td>
                                                         <span class="tax_pl_1a">0.00</span>
@@ -1186,15 +1186,15 @@
                                                 <tr>
                                                     <td>Sales after GST</td>
                                                     <td>
-                                                        <span class="tax_gl_1a_g1">{{abs_number($total_g1) -
-                                                            abs_number($total_1a)}}</span>
+                                                        <span class="tax_gl_1a_g1">{{abs($total_g1) -
+                                                            abs($total_1a)}}</span>
                                                         <input type="hidden" name="bas[]"
-                                                            value="{{abs_number($total_g1) - abs_number($total_1a)}}">
+                                                            value="{{abs($total_g1) - abs($total_1a)}}">
                                                     </td>
                                                     <td>
-                                                        <span class="tax_pl_1a_g1">{{abs_number($totalIncome)}}</span>
+                                                        <span class="tax_pl_1a_g1">{{abs($totalIncome)}}</span>
                                                         <input type="hidden" name="report[]"
-                                                            value="{{abs_number($totalIncome)}}">
+                                                            value="{{abs($totalIncome)}}">
                                                     </td>
                                                     <td>
                                                         <span
@@ -1209,14 +1209,14 @@
                                                 <tr>
                                                     <td>Expense before GST</td>
                                                     <td>
-                                                        <span class="tax_gl_g11">{{abs_number($total_g11)}}</span>
+                                                        <span class="tax_gl_g11">{{abs($total_g11)}}</span>
                                                         <input type="hidden" name="bas[]"
-                                                            value="{{abs_number($total_g11)}}">
+                                                            value="{{abs($total_g11)}}">
                                                     </td>
                                                     <td>
-                                                        <span class="tax_pl_g11">{{abs_number($totalDebit)}}</span>
+                                                        <span class="tax_pl_g11">{{abs($totalDebit)}}</span>
                                                         <input type="hidden" name="report[]"
-                                                            value="{{abs_number($totalDebit)}}">
+                                                            value="{{abs($totalDebit)}}">
                                                     </td>
                                                     <td>
                                                         <span class="g11 tax_g11 tax_ato_g11">{{$exp_bf_ato}}</span>
@@ -1230,9 +1230,9 @@
                                                 <tr>
                                                     <td> GST on expense</td>
                                                     <td>
-                                                        <span class="tax_gl_1b">{{abs_number($total_1b)}}</span>
+                                                        <span class="tax_gl_1b">{{abs($total_1b)}}</span>
                                                         <input type="hidden" name="bas[]"
-                                                            value="{{abs_number($total_1b)}}">
+                                                            value="{{abs($total_1b)}}">
                                                     </td>
                                                     <td>
                                                         <span class="tax_pl_1b">0.00</span>
@@ -1250,15 +1250,15 @@
                                                 <tr>
                                                     <td>Expense after GST+Wages</td>
                                                     <td>
-                                                        <span class="tax_gl_g11_1b">{{abs_number($total_g11) -
-                                                            abs_number($total_1b)+abs_number($total_w1)}}</span>
+                                                        <span class="tax_gl_g11_1b">{{abs($total_g11) -
+                                                            abs($total_1b)+abs($total_w1)}}</span>
                                                         <input type="hidden" name="bas[]"
-                                                            value="{{abs_number($total_g11) - abs_number($total_1b)+abs_number($total_w1)}}">
+                                                            value="{{abs($total_g11) - abs($total_1b)+abs($total_w1)}}">
                                                     </td>
                                                     <td>
-                                                        <span class="tax_pl_g11_1b">{{abs_number($totalExpense)}}</span>
+                                                        <span class="tax_pl_g11_1b">{{abs($totalExpense)}}</span>
                                                         <input type="hidden" name="report[]"
-                                                            value="{{abs_number($totalExpense)}}">
+                                                            value="{{abs($totalExpense)}}">
                                                     </td>
                                                     <td>
                                                         <span
@@ -1273,9 +1273,9 @@
                                                 <tr>
                                                     <td>Total wages</td>
                                                     <td>
-                                                        <span class="tax_gl_w1">{{abs_number($total_w1)}}</span>
+                                                        <span class="tax_gl_w1">{{abs($total_w1)}}</span>
                                                         <input type="hidden" name="bas[]"
-                                                            value="{{abs_number($total_w1)}}">
+                                                            value="{{abs($total_w1)}}">
                                                     </td>
                                                     <td>
                                                         <span class="tax_pl_w1">0.00</span>
@@ -1293,9 +1293,9 @@
                                                 <tr>
                                                     <td>PAYG</td>
                                                     <td>
-                                                        <span class="tax_gl_w2">{{abs_number($total_w2)}}</span>
+                                                        <span class="tax_gl_w2">{{abs($total_w2)}}</span>
                                                         <input type="hidden" name="bas[]"
-                                                            value="{{abs_number($total_w2)}}">
+                                                            value="{{abs($total_w2)}}">
                                                     </td>
                                                     <td>
                                                         <span class="tax_pl_w2">0.00</span>
@@ -1377,7 +1377,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reconNoteLabel">Add Reconcilation Note</h5>
+                    <h5 class="modal-title" id="reconNoteLabel">Add Reconciliation Note</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

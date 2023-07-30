@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Bank Reconcilation')
+@section('title', 'Bank Reconciliation')
 @section('style')
 @endsection
 @section('content')
@@ -13,7 +13,7 @@
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
                     <li>Report</li>
-                    <li class="active">Bank Reconcilation</li>
+                    <li class="active">Bank Reconciliation</li>
                 </ul><!-- /.breadcrumb -->
             </div>
 
@@ -292,31 +292,5 @@
                 $('#diff_arr_inp').val(diff_array);
             });
         });
-
-        // $(document).ready(function() {
-            // var diff_array = []; // Assuming this array is defined somewhere in your code.
-
-            // $('input[type="checkbox"]').on('change', function() {
-            //     var i = $(this).data('id');
-            //     var identifier = $(this).data('identifier');
-            //     var totalDiff = 0;
-            //     var diff = $("#diff_" + identifier);
-
-            //     if ($(this).is(':checked')) {
-            //         diff_array[i] = parseFloat($(this).val()).toFixed(2);
-            //         diff.val(parseFloat($(this).val()).toFixed(2));
-            //     } else {
-            //         diff_array[i] = 0.00;
-            //         diff.val(0.00);
-            //     }
-
-            //     $('input[type="checkbox"]:checked').each(function() {
-            //         totalDiff += parseFloat($(this).val());
-            //     });
-
-            //     $('#total_diff').text(totalDiff.toFixed(2));
-            //     $('#diff_arr_inp').val(JSON.stringify(diff_array)); // Convert array to JSON string
-            // });
-        // });
     </script>
 @endsection
