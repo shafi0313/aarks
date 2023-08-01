@@ -19,6 +19,7 @@
                         @php
                             $totalRetain = $data['bs_retain'] ? $data['bs_retain'] : 0;
                             $totalPl = $data['bs_plRetain'];
+                            $addNewRow = 0;
                         @endphp
 
                         @foreach ($data['bs_accountCodeCategories'] as $accountCodeCategory)
@@ -150,21 +151,35 @@
                                     </tr>
                                     {{-- Account Code End --}}
                                 @endforeach
-                                <tr>
-                                    <td style="color: green;text-align:right">
+                                <tr style="{{ $subCategory->name == 'Capital & Equity'?'color:#d35400':'color: green' }}" class="text-right">
+                                    <td>
                                         Total {{ $subCategory->name }}
                                     </td>
-                                    <td style="color: green;text-align: right;font-weight: bold;">
+                                    <td style="font-weight: bold;">
                                         <span style="border-top:1px solid;border-bottom:1px solid;float:right">
                                             {{ number_format($subGrpBalance, 2) }}
                                         </span>
                                     </td>
                                 </tr>
-                                {{-- Additonal Category End --}}
+                                {{-- Additional Category End --}}
+                                {{-- Add a row for one time --}}
+                                @php $addNewRow++ @endphp
+                                @if ($addNewRow == 4)
+                                    <tr style="text-align:right;color: green;">
+                                        <td>Total Liability</td>
+                                        <td>{{ nF2($data['total_liability']) }}</td>
+                                    </tr>
+                                    <tr style="color: #d35400">
+                                        <td class="text-right" >Net Assets</td>
+                                        <td class="text-right">
+                                            <span style="border-top:1px solid;border-bottom-style:double;font-weight: bold;">{{ nF2($data['total_asset'] - $data['total_liability']) }}</span>
+                                        </td>
+                                    </tr>
+                                @endif  
                             @endforeach
                             {{-- Sub Category End --}}
-                            <tr style="text-align:right;color: #d35400;">
-                                <td class="text-center" style="font-size: 15px;">Total
+                            <tr style="text-align:right;color: green; {{ $accountCodeCategory->name == 'Liability and Equity'?'display:none':'' }}">
+                                <td style="font-size: 15px;">Total
                                     {{ $accountCodeCategory->name }}:</td>
                                 <td>
                                     <span

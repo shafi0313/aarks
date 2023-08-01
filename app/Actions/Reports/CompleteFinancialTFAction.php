@@ -159,6 +159,8 @@ class CompleteFinancialTFAction extends Controller
                 ->where('chart_id', 999998)
                 ->first();
         }
+
+        // Detail Balance Sheet
         if ($request->has('details_balance_sheet')) {
             $data['is_details_balance_sheet'] = true;
             $data['details_balance_sheet'] = 'Details Balance Sheet';
@@ -179,18 +181,73 @@ class CompleteFinancialTFAction extends Controller
                 $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
                     ->where('client_id', $client->id)->where('profession_id', $profession->id)->get();
 
-                // $data['bs_retain'] = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
-                //     ->where('chart_id', 999999)
-                //     ->where('client_id', $client->id)
-                //     ->where('profession_id', $profession->id)
-                //     ->where('date', '<', $start_date)
-                //     ->groupBy('chart_id')
-                //     ->first();
-                // $data['bs_plRetain'] = pl($client, $profession, $date);
+                // Calculate total liabilities
+                $get_total_liabilities = GeneralLedger::with(['client_account_code' => fn ($q) => $q->select('id', 'type')])->where('date', '<=', $end_date)
+                    ->where('client_id', $client->id)
+                    ->where('profession_id', $profession->id)
+                    ->where(function ($q) {
+                        return $q->where('chart_id', 'like', '91%')
+                            ->orWhere('chart_id', 'like', '95%');
+                    })
+                    ->get(['id', 'client_account_code_id', 'balance', 'balance_type']);
+
+                $total_liability = 0;
+                foreach ($get_total_liabilities as $get_total_liability) {
+                    $balance = $get_total_liability->balance;
+                    $balance_type = $get_total_liability->balance_type;
+                    $account_type = $get_total_liability->client_account_code->type;
+
+                    if ($account_type == 1) {
+                        if ($balance_type == 1 && $balance > 0) {
+                            $total_liability -= abs($balance);
+                        } else {
+                            $total_liability += abs($balance);
+                        }
+                    } elseif ($account_type == 2) {
+                        if ($balance_type == 2 && $balance > 0) {
+                            $total_liability += abs($balance);
+                        } else {
+                            $total_liability -= abs($balance);
+                        }
+                    }
+                }
+                $data['total_liability'] = $total_liability;
+
+                // Calculate total assets
+                $get_total_assets = GeneralLedger::with('client_account_code')
+                    ->where('date', '<=', $end_date)
+                    ->where('client_id', $client->id)
+                    ->where('profession_id', $profession->id)
+                    ->where('chart_id', 'like', '5%')
+                    ->get();
+
+                $total_asset = 0;
+                foreach ($get_total_assets as $get_total_asset) {
+                    $balance = $get_total_asset->balance;
+                    $balance_type = $get_total_asset->balance_type;
+                    $account_type = $get_total_asset->client_account_code->type;
+
+                    if ($account_type == 1) {
+                        if ($balance_type == 1 && $balance > 0) {
+                            $total_asset += abs($balance);
+                        } else {
+                            $total_asset -= abs($balance);
+                        }
+                    } elseif ($account_type == 2) {
+                        if ($balance_type == 2 && $balance > 0) {
+                            $total_asset -= abs($balance);
+                        } else {
+                            $total_asset += abs($balance);
+                        }
+                    }
+                }
+
+                $data['total_asset'] = $total_asset;
                 $data['bs_retain'] = retain($client, $profession, $date);
                 $data['bs_plRetain'] = pl($client, $profession, $date);
             }
         }
+
         if ($request->has('trading_profit_loss')) {
             $data['is_trading_profit_loss']    = true;
             $data['trading_profit_loss']       = 'Trading Profit Loss';
