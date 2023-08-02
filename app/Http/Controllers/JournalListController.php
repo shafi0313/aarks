@@ -76,15 +76,18 @@ class JournalListController extends Controller
         return view('admin.journal_entry.list.tran-show', compact('client', 'profession', 'journals'));
     }
 
-    public function listEdit(JournalEntry $journal)
+    public function listEdit($trn_id)
     {
+        // return $trn_id;
         if ($error = $this->sendPermissionError('admin.journal_list.edit')) {
             return $error;
         }
+        $journal = JournalEntry::where('tran_id', $trn_id)->first();
         $journals = JournalEntry::with('client_account_code')->where('client_id', $journal->client_id)
             ->where('profession_id', $journal->profession_id)
             ->where('tran_id', $journal->tran_id)
             ->where('journal_number', $journal->journal_number)->get();
+
         $client = Client::findOrFail($journal->client_id);
         $profession = Profession::findOrFail($journal->profession_id);
 
@@ -96,6 +99,8 @@ class JournalListController extends Controller
 
         return view('admin.journal_entry.list.edit', compact('client', 'profession', 'journals', 'journal', 'client_account_codes'));
     }
+
+    // List Delete
     public function listDelete(JournalEntry $journal)
     {
         if ($error = $this->sendPermissionError('admin.journal_list.delete')) {
@@ -109,59 +114,59 @@ class JournalListController extends Controller
             ->where('trn_id', $journal->tran_id)->delete();
 
         // Retains Update start
-        $inRetain   = GeneralLedger::where('client_id', $journal->client_id)
-            ->where('profession_id', $journal->profession_id)
-            ->where('source', 'JNP')
-            ->where('chart_id', 'LIKE', '1%')
-            ->where('transaction_id', $journal->tran_id)->get();
+        // $inRetain   = GeneralLedger::where('client_id', $journal->client_id)
+        //     ->where('profession_id', $journal->profession_id)
+        //     ->where('source', 'JNP')
+        //     ->where('chart_id', 'LIKE', '1%')
+        //     ->where('transaction_id', $journal->tran_id)->get();
 
-        $inRetainData = $exRetainData = 0;
-        foreach ($inRetain as $intr) {
-            if ($intr->balance_type == 2 && $intr->balance > 0) {
-                $inRetainData += abs($intr->balance);
-            } else {
-                $inRetainData -= abs($intr->balance);
-            }
-        }
+        // $inRetainData = $exRetainData = 0;
+        // foreach ($inRetain as $intr) {
+        //     if ($intr->balance_type == 2 && $intr->balance > 0) {
+        //         $inRetainData += abs($intr->balance);
+        //     } else {
+        //         $inRetainData -= abs($intr->balance);
+        //     }
+        // }
 
-        $exRetain   = GeneralLedger::where('client_id', $journal->client_id)
-            ->where('profession_id', $journal->profession_id)
-            ->where('source', 'JNP')
-            ->where('chart_id', 'LIKE', '2%')
-            ->where('transaction_id', $journal->tran_id)->get();
-        foreach ($exRetain as $intr) {
-            if ($intr->balance_type == 1 && $intr->balance > 0) {
-                $exRetainData += abs($intr->balance);
-            } else {
-                $exRetainData -= abs($intr->balance);
-            }
-        }
+        // $exRetain   = GeneralLedger::where('client_id', $journal->client_id)
+        //     ->where('profession_id', $journal->profession_id)
+        //     ->where('source', 'JNP')
+        //     ->where('chart_id', 'LIKE', '2%')
+        //     ->where('transaction_id', $journal->tran_id)->get();
+        // foreach ($exRetain as $intr) {
+        //     if ($intr->balance_type == 1 && $intr->balance > 0) {
+        //         $exRetainData += abs($intr->balance);
+        //     } else {
+        //         $exRetainData -= abs($intr->balance);
+        //     }
+        // }
 
-        if (in_array($journal->date->format('m'), range(1, 6))) {
-            $start_year = $journal->date->format('Y') - 1 . '-07-01';
-            $end_year   = $journal->date->format('Y') . '-06-30';
-        } else {
-            $start_year = $journal->date->format('Y') . '-07-01';
-            $end_year   = $journal->date->format('Y') + 1 . '-06-30';
-        }
-        $retain = GeneralLedger::where('client_id', $journal->client_id)
-            ->where('profession_id', $journal->profession_id)
-            ->where('source', 'JNP')
-            ->where('chart_id', 999999)
-            ->where('date', '>=', $start_year)
-            ->where('date', '<=', $end_year)
-            ->first();
-        $retainData = $retain->balance - ($inRetainData - $exRetainData);
-        $data['balance']  = $retainData;
+        // if (in_array($journal->date->format('m'), range(1, 6))) {
+        //     $start_year = $journal->date->format('Y') - 1 . '-07-01';
+        //     $end_year   = $journal->date->format('Y') . '-06-30';
+        // } else {
+        //     $start_year = $journal->date->format('Y') . '-07-01';
+        //     $end_year   = $journal->date->format('Y') + 1 . '-06-30';
+        // }
+        // $retain = GeneralLedger::where('client_id', $journal->client_id)
+        //     ->where('profession_id', $journal->profession_id)
+        //     ->where('source', 'JNP')
+        //     ->where('chart_id', 999999)
+        //     ->where('date', '>=', $start_year)
+        //     ->where('date', '<=', $end_year)
+        //     ->first();
+        // $retainData = $retain->balance - ($inRetainData - $exRetainData);
+        // $data['balance']  = $retainData;
 
-        if ($retainData > 0) {
-            $data['credit'] = abs($retainData);
-            $data['debit']  = 0;
-        } else {
-            $data['debit']  = abs($retainData);
-            $data['credit'] = 0;
-        }
-        $retain->update($data);
+        // if ($retainData > 0) {
+        //     $data['credit'] = abs($retainData);
+        //     $data['debit']  = 0;
+        // } else {
+        //     $data['debit']  = abs($retainData);
+        //     $data['credit'] = 0;
+        // }
+        // $retain->update($data);
         // Retain Update end
 
 
@@ -191,6 +196,7 @@ class JournalListController extends Controller
             ->log('Add/Edit Data > Journal Entry > ' . $client->fullname . ' > ' . $profession->name . ' Journal list Deleted');
         toast('Delete Successful!', 'success');
         return redirect()->route('journal_list_profession', $client->id);
+        // return back();
     }
 
     public function listUpdate(Request $request, JournalEntry $journal)
@@ -408,4 +414,56 @@ class JournalListController extends Controller
         }
         return back();
     }
+
+    public function singleDelete(JournalEntry $journal)
+    {
+        if ($error = $this->sendPermissionError('admin.journal_list.delete')) {
+            return $error;
+        }
+        $client     = Client::findOrFail($journal->client_id);
+        $profession = Profession::findOrFail($journal->profession_id);
+
+        Gsttbl::where('client_id', $journal->client_id)
+            ->where('source', 'JNP')
+            ->where('trn_id', $journal->tran_id)->delete();
+
+        GeneralLedger::where('client_id', $journal->client_id)
+            ->where('profession_id', $journal->profession_id)
+            ->where('source', 'JNP')
+            ->where('chart_id', '!=', 999999)
+            ->where('transaction_id', $journal->tran_id)->delete();
+
+        $journals = JournalEntry::where('client_id', $journal->client_id)
+            ->where('profession_id', $journal->profession_id)
+            ->where('is_posted', 1)->count();
+
+        if ($journals <= 0) {
+            Alert::error('No Data Found!');
+            return redirect()->route('journal_list_profession', $journal->client_id);
+        }
+
+        JournalEntry::where('client_id', $journal->client_id)
+            ->where('profession_id', $journal->profession_id)
+            ->where('id', $journal->id)
+            ->where('is_posted', 1)->delete();
+        activity()
+            ->performedOn(new GeneralLedger())
+            ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Journal List Deleted'])
+            ->log('Add/Edit Data > Journal Entry > ' . $client->fullname . ' > ' . $profession->name . ' Journal list Deleted');
+        toast('Delete Successful!', 'success');
+        // return redirect()->route('journal_list_profession', $client->id);
+        return redirect()->back();
+    }
+
+    // public function singleDelete($id)
+    // {
+    //     $journal = JournalEntry::find($id);
+    //     $journal->delete();
+    //     activity()
+    //         ->performedOn(new GeneralLedger())
+    //         ->withProperties(['client' => $journal->client->fullname, 'profession' => $journal->profession->name, 'report' => 'Journal List Deleted'])
+    //         ->log('Add/Edit Data > Journal Entry > ' . $journal->client->fullname . ' > ' . $journal->profession->name . ' Journal list Deleted');
+    //     Alert::success('Journal Deleted Success');
+    //     return back();
+    // }
 }

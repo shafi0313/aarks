@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\GeneralLedger;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaygController;
 use App\Http\Controllers\RoleController;
@@ -242,6 +241,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
         Route::get('transaction/details/{client}/{profession}/{tran}', [JournalListController::class, 'transShow'])->name('journal_list_trans_show');
         Route::get('edit/{journal}', [JournalListController::class, 'listEdit'])->name('journal_list_edit');
         Route::delete('delete/{journal}', [JournalListController::class, 'listDelete'])->name('journal_list_delete');
+        Route::get('singleDelete/{journal}', [JournalListController::class, 'singleDelete'])->name('journal_list_singleDelete');
         Route::put('update/{journal}', [JournalListController::class, 'listUpdate'])->name('journal_list_update');
     });
 

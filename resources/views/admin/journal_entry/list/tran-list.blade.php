@@ -65,7 +65,7 @@
                                             <td>{{$journal->tran_id}}</td>
                                             <td>
                                                 @can('admin.journal_list.edit')
-                                                <a title="Journal List Edit" href="{{route('journal_list_edit', $journal->id)}}" class="fa fa-pencil btn btn-info btn-sm"></a>
+                                                <a title="Journal List Edit" href="{{route('journal_list_edit', $journal->tran_id)}}" class="fa fa-pencil btn btn-info btn-sm"></a>
                                                 @endcan
                                                 @can('admin.journal_list.delete')
                                                 <form action="{{route('journal_list_delete', $journal->id)}}" method="post" style="display: inline-block;">
