@@ -58,7 +58,7 @@ class GstReconcilationController extends Controller
         $professions = $client->professions;
         $get         = 'profession';
         $html        = view('admin.reports.gst_recon.profession', compact('professions', 'client', 'get'))->render();
-        return response()->json(['data'=>$html]);
+        return response()->json(['data' => $html]);
     }
     public function period(Client $client, Profession $profession)
     {
@@ -68,7 +68,7 @@ class GstReconcilationController extends Controller
         $periods = Period::where('client_id', $client->id)->where('profession_id', $profession->id)->groupBy('year')->get(['id', 'year']);
         $get         = 'period';
         $html        = view('admin.reports.gst_recon.profession', compact('periods', 'profession', 'client', 'get'))->render();
-        return response()->json(['data'=>$html]);
+        return response()->json(['data' => $html]);
     }
     public function report(Request $request, Client $client, Profession $profession, Period $period)
     {
@@ -80,8 +80,8 @@ class GstReconcilationController extends Controller
 
         // return view('admin.reports.gst_recon.balance', compact('client', 'profession', 'period'));
 
-        $dateFrom          = ($period->year-1).'-07-01';
-        $dateTo            = ($period->year).'-06-30';
+        $dateFrom          = ($period->year - 1) . '-07-01';
+        $dateTo            = ($period->year) . '-06-30';
         // $dateFrom          = makeBackendCompatibleDate('01/07/'.(int) $period->year-1)->format('Y-m-d');
         // $dateTo            = makeBackendCompatibleDate('30/06/'.(int) $period->year)->format('Y-m-d');
         $expense_code_from = '245000';
@@ -92,19 +92,19 @@ class GstReconcilationController extends Controller
         $periods = Period::whereClientId($client_id)->whereProfessionId($profession_id)->where('year', $period->year)->pluck('id')->toArray();
 
 
-        $income = Gsttbl::where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->whereBetween('trn_date', [$dateFrom, $dateTo])
-            // ->where('source', '!=', 'INV')
-            ->where('chart_code', 'like', '1%')
-            ->get(['gst_cash_amount', 'gross_amount','trn_date']);
+        // $income = Gsttbl::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->whereBetween('trn_date', [$dateFrom, $dateTo])
+        //     // ->where('source', '!=', 'INV')
+        //     ->where('chart_code', 'like', '1%')
+        //     ->get(['gst_cash_amount', 'gross_amount', 'trn_date']);
 
         $income = Gsttbl::where('client_id', $client_id)
             ->where('profession_id', $profession_id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('source', '!=', 'INV')
             ->where('chart_code', 'like', '1%')
-            ->get(['gst_cash_amount', 'gross_amount','trn_date']); // _________G1 & A1_________
+            ->get(['gst_cash_amount', 'gross_amount', 'trn_date']); // _________G1 & A1_________
 
         $expense = Gsttbl::where('client_id', $client_id)
             ->where('profession_id', $profession_id)
@@ -113,7 +113,7 @@ class GstReconcilationController extends Controller
             ->where(function ($q) {
                 $q->where('chart_code', 'like', '2%')
                     ->orWhere('chart_code', 'like', '5%');
-            })->get(['gst_cash_amount', 'gross_amount','trn_date']); // _________1B_________
+            })->get(['gst_cash_amount', 'gross_amount', 'trn_date']); // _________1B_________
 
         $incomeNonGst = Gsttbl::where('client_id', $client_id)
             ->where('profession_id', $profession_id)
@@ -121,20 +121,20 @@ class GstReconcilationController extends Controller
             ->where('chart_code', 'like', '1%')
             ->where('gst_accrued_amount', '<', 0)
             ->where('gst_cash_amount', '<', 0)
-            ->get(['gst_cash_amount', 'gross_amount', 'net_amount','trn_date']); // _________G3_________
+            ->get(['gst_cash_amount', 'gross_amount', 'net_amount', 'trn_date']); // _________G3_________
 
         $asset = Gsttbl::where('client_id', $client_id)
             ->where('profession_id', $profession_id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', 'like', '56%')
-            ->get(['gst_cash_amount', 'gross_amount','trn_date']); // _________G10_________
+            ->get(['gst_cash_amount', 'gross_amount', 'trn_date']); // _________G10_________
 
         $expense_code = Gsttbl::where('client_id', $client_id)
             ->where('profession_id', $profession_id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereNotBetween('chart_code', [$expense_code_from, $expense_code_to])
             ->where('chart_code', 'like', '2%')
-            ->get(['gst_cash_amount', 'gross_amount','trn_date']); // _________G11_________
+            ->get(['gst_cash_amount', 'gross_amount', 'trn_date']); // _________G11_________
 
 
 
@@ -142,71 +142,72 @@ class GstReconcilationController extends Controller
             ->where('profession_id', $profession_id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereBetween('chart_code', [$w1_from, $w1_to])
-            ->get(['gst_cash_amount', 'gross_amount','trn_date']);// _________W1_________
+            ->get(['gst_cash_amount', 'gross_amount', 'trn_date']); // _________W1_________
 
         $w2 = Gsttbl::where('client_id', $client_id)
             ->where('profession_id', $profession_id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', '245103')
-            ->get(['gst_cash_amount', 'gross_amount','trn_date']);// _________w2_________
+            ->get(['gst_cash_amount', 'gross_amount', 'trn_date']); // _________w2_________
 
         // Income Tax
         $creditTax   = GeneralLedger::where('date', '>=', $dateFrom)
-        ->where('date', '<=', $dateTo)
-        ->where('client_id', $client_id)
-        ->where('profession_id', $profession_id)
-        ->where('chart_id', 'like', '1%')
-        ->get();
+            ->where('date', '<=', $dateTo)
+            ->where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->where('chart_id', 'like', '1%')
+            ->get();
         $totalCredit = $creditTax->where('balance_type', 2)->sum('credit') - $creditTax->where('balance_type', 1)->sum('debit');
 
         $debitTax  = GeneralLedger::where('client_id', $client_id)
-        ->where('profession_id', $profession_id)
-        ->where('date', '>=', $dateFrom)
-        ->where('date', '<=', $dateTo)
-        ->where('chart_id', 'like', '2%')->get();
+            ->where('profession_id', $profession_id)
+            ->where('date', '>=', $dateFrom)
+            ->where('date', '<=', $dateTo)
+            ->where('chart_id', 'like', '2%')->get();
         $totalDebit = $debitTax->where('balance_type', 2)->sum('debit') - $debitTax->where('balance_type', 1)->sum('credit');
         // ================
         $incomeTax   = GeneralLedger::where('date', '>=', $dateFrom)
-        ->where('date', '<=', $dateTo)
-        ->where('client_id', $client_id)
-        ->where('profession_id', $profession_id)
-        ->where('chart_id', 'like', '1%')
-        ->get();
+            ->where('date', '<=', $dateTo)
+            ->where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->where('chart_id', 'like', '1%')
+            ->get();
         $totalIncome = $incomeTax->where('balance_type', 1)->sum('balance') - $incomeTax->where('balance_type', 2)->sum('balance');
 
         $expTax  = GeneralLedger::where('client_id', $client_id)
-        ->where('profession_id', $profession_id)
-        ->where('date', '>=', $dateFrom)
-        ->where('date', '<=', $dateTo)
-        ->where('chart_id', 'like', '2%')->get();
+            ->where('profession_id', $profession_id)
+            ->where('date', '>=', $dateFrom)
+            ->where('date', '<=', $dateTo)
+            ->where('chart_id', 'like', '2%')->get();
         $totalExpense = $expTax->where('balance_type', 1)->sum('balance') - $expTax->where('balance_type', 2)->sum('balance');
         // Income Tax
 
         // return $income;
 
         $recons = Reconcilation::whereClientId($client->id)
-        ->whereProfessionId($profession->id)
-        ->wherePeriodId($period->id)
-        ->where('year', $period->year)
-        ->get();
+            ->whereProfessionId($profession->id)
+            ->wherePeriodId($period->id)
+            ->where('year', $period->year)
+            ->get();
         $note = Note::whereClientId($client->id)
-        ->whereProfessionId($profession->id)
-        ->where('year', $period->year)
-        ->where('model', 'reconcilation')
-        ->first();
+            ->whereProfessionId($profession->id)
+            ->where('year', $period->year)
+            ->where('model', 'reconcilation')
+            ->first();
         $recons_taxes = ReconcilationTax::whereClientId($client->id)
-        ->whereProfessionId($profession->id)
-        ->wherePeriodId($period->id)
-        ->where('year', $period->year)
-        ->get();
+            ->whereProfessionId($profession->id)
+            ->wherePeriodId($period->id)
+            ->where('year', $period->year)
+            ->get();
         // return $recons->where('item', 'g1')->first();
 
         activity()
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, 'report' => 'Gst Reconciliation Report'])
             ->log('Report > Gst Reconciliation Report > ' . $client->fullname);
-        return view('admin.reports.gst_recon.balance', compact(['client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'period','totalIncome', 'totalExpense','totalCredit','totalDebit','profession','recons','recons_taxes','note']));
+        return view('admin.reports.gst_recon.balance', compact(['client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'period', 'totalIncome', 'totalExpense', 'totalCredit', 'totalDebit', 'profession', 'recons', 'recons_taxes', 'note']));
     }
+
     public function store(Request $request, Client $client, Profession $profession, Period $period)
     {
         $request->validate([
@@ -229,15 +230,15 @@ class GstReconcilationController extends Controller
 
         if ($request->type == 'Print/PDF') {
             $reconcilations = Reconcilation::whereClientId($client->id)
-                    ->whereProfessionId($profession->id)
-                    ->wherePeriodId($period->id)
-                    ->where('year', $period->year)
-                    ->get();
+                ->whereProfessionId($profession->id)
+                ->wherePeriodId($period->id)
+                ->where('year', $period->year)
+                ->get();
             $taxes = ReconcilationTax::whereClientId($client->id)
-                    ->whereProfessionId($profession->id)
-                    ->wherePeriodId($period->id)
-                    ->where('year', $period->year)
-                    ->get();
+                ->whereProfessionId($profession->id)
+                ->wherePeriodId($period->id)
+                ->where('year', $period->year)
+                ->get();
             // return view('admin.reports.gst_recon.print', compact(['client', 'request', 'profession', 'period', 'reconcilations', 'taxes']));
             $pdf = PDF::loadView('admin.reports.gst_recon.print', compact(['client', 'request', 'profession', 'period', 'reconcilations', 'taxes']));
             return $pdf->setPaper('a4', 'landscape')->setWarnings(false)->stream();
@@ -250,7 +251,7 @@ class GstReconcilationController extends Controller
         }
 
 
-        $item            = ['g1', 'g3', '1a', 'g11', '1b', 'w1', 'w2', 'g10','9'];
+        $item            = ['g1', 'g3', '1a', 'g11', '1b', 'w1', 'w2', 'g10', '9'];
         $particular      = [
             'Sales before GST',
             'GST amount in sales',
@@ -261,8 +262,8 @@ class GstReconcilationController extends Controller
             'Total wages',
             'PAYG'
         ];
-        $is_posted = $request->type == 'Post'? 1 : 0;
-        $recons= $tax= [];
+        $is_posted = $request->type == 'Post' ? 1 : 0;
+        $recons = $tax = [];
         $tran_id = transaction_id('GSTR');
         DB::beginTransaction();
         foreach ($request->jul_sep_gl as $key => $value) {
@@ -335,17 +336,17 @@ class GstReconcilationController extends Controller
         $admin = Admin::findOrFail(admin()->id);
         if (Hash::check($request->password, $admin->password)) {
             Reconcilation::whereClientId($client->id)
-            ->whereProfessionId($profession->id)
-            ->wherePeriodId($period->id)
-            ->where('year', $period->year)
-            ->whereIsPosted(1)
-            ->update(['is_posted' => 0]);
+                ->whereProfessionId($profession->id)
+                ->wherePeriodId($period->id)
+                ->where('year', $period->year)
+                ->whereIsPosted(1)
+                ->update(['is_posted' => 0]);
             ReconcilationTax::whereClientId($client->id)
-            ->whereProfessionId($profession->id)
-            ->wherePeriodId($period->id)
-            ->where('year', $period->year)
-            ->whereIsPosted(1)
-            ->update(['is_posted' => 0]);
+                ->whereProfessionId($profession->id)
+                ->wherePeriodId($period->id)
+                ->where('year', $period->year)
+                ->whereIsPosted(1)
+                ->update(['is_posted' => 0]);
             Alert::success('GST Reconciliation Report has been restore successfully');
             return redirect()->back();
         } else {
