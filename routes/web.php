@@ -1,8 +1,5 @@
 <?php
 
-use App\Actions\RecurringGenerate\RecurringAutoGenerateAction;
-use App\ClientAccountCode;
-use App\Models\GeneralLedger;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
@@ -15,7 +12,7 @@ use App\Http\Controllers\Frontend\AtoDataController;
 use App\Http\Controllers\Frontend\BsbTableController;
 use App\Http\Controllers\Frontend\CashBookController;
 use App\Http\Controllers\Frontend\AdtPeriodController;
-use App\Http\Controllers\Frontend\ClientLeaveController;
+use App\Http\Controllers\Frontend\PeriodLockController;
 use App\Http\Controllers\Frontend\ClientWagesController;
 use App\Http\Controllers\Frontend\PayAccumAmtController;
 use App\Http\Controllers\Frontend\Report\ExclController;
@@ -26,12 +23,12 @@ use App\Http\Controllers\Frontend\EmployeeCardController;
 use App\Http\Controllers\Frontend\PersonalCardController;
 use App\Http\Controllers\Frontend\SupplierCardController;
 use App\Http\Controllers\Frontend\InventoryItemController;
-use App\Http\Controllers\Frontend\Report\ReportController;
 use App\Http\Controllers\Frontend\PreparePayrollController;
 use App\Http\Controllers\Frontend\ClientDeductionController;
 use App\Http\Controllers\Frontend\EClassificationController;
 use App\Http\Controllers\Frontend\Setting\ProfileController;
 use App\Http\Controllers\Frontend\Report\CashBasisController;
+use App\Actions\RecurringGenerate\RecurringAutoGenerateAction;
 use App\Http\Controllers\Frontend\InventoryCategoryController;
 use App\Http\Controllers\Frontend\ClientJournalEntryController;
 use App\Http\Controllers\Frontend\Report\AccumulatedPlGstReport;
@@ -74,7 +71,7 @@ Route::get('fresh', function () {
         DB::table('general_ledgers')->delete();
         DB::table('gsttbls')->delete();
         DB::table('data_storages')->delete();
-        // DB::table('bank_statement_inputs')->delete();
+        DB::table('bank_statement_inputs')->delete();
         DB::table('bank_statement_imports')->delete();
         DB::table('dedotr_quote_orders')->delete();
         DB::table('dedotrs')->delete();
@@ -107,6 +104,9 @@ Route::middleware('clientAuth')->group(function () {
 });
 
 Route::middleware(['subsCheck', 'clientAuth'])->group(function () {
+    // Period Lock
+    Route::resource('period_lock', App\Http\Controllers\Frontend\PeriodLockController::class);
+
     // Category
     Route::get('inv_category/report/{client}/{profession}', [InventoryCategoryController::class, 'report'])->name('inv_category.report');
     Route::post('inv_category/addSub/', [InventoryCategoryController::class, 'addSub'])->name('inv_category.addSub');
@@ -224,7 +224,7 @@ Route::middleware(['subsCheck', 'clientAuth'])->group(function () {
 
 
     // period_lock
-    Route::get('period-lock', [AllPageController::class, 'period_lock_index'])->name('period_lock_index');
+    // Route::get('period-lock', [AllPageController::class, 'period_lock_index'])->name('period_lock_index');
 
     // employee card
     Route::group(['prefix' => 'add-card'], function () {

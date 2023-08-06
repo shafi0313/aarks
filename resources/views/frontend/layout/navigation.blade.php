@@ -403,7 +403,7 @@
                                                 href="{{ route('invoice_layout.index') }}">Invoice Layout</a>
                                             <a class="menu_dropdown-item" href="#">Purchase Layout</a>
                                             <a class="menu_dropdown-item {{ $p == 'pl' ? 'active' : '' }}"
-                                                href="{{ route('period_lock_index') }}">Period Lock</a>
+                                                href="{{ route('period_lock.index') }}">Period Lock</a>
                                             <a class="menu_dropdown-item" href="{{ route('paymentList') }}">Payment
                                                 List</a>
                                         </div>

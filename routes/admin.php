@@ -246,8 +246,6 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     });
 
 
-
-
     /*===================
     =! Add Depreciations
     ====================*/
@@ -352,16 +350,11 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('period/sub-pro/{sub_id}/{sub_code}/{Period_id}/{pro_id}/{client_id}', [PeriodController::class, 'sub_pro_show'])->name('sub_pro_show');
 
 
-
-
     // Add new IMP data Route
-
     Route::post('/bank-statement/imp/store', [InputController::class, 'bstImpStore'])->name('bst.imp.store');
     Route::get('/bank-statement/imp/update/{bst}', [InputController::class, 'bstImpEdit'])->name('bst.imp.edit');
     Route::put('/bank-statement/imp/update/{bst}', [InputController::class, 'bstImpUpdate'])->name('bst.imp.update');
     Route::get('/bank-statement/imp/delete/{bst}', [InputController::class, 'bstImpDelete'])->name('bst.imp.delete');
-
-
 
 
     Route::get('/bank-statement/store', [InputController::class, 'bankStatementStore'])->name('bank-statement.store');

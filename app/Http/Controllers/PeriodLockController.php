@@ -35,7 +35,7 @@ class PeriodLockController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date' => 'required|date_format:d/m/Y',
+            'date'     => 'required|date_format:d/m/Y',
             'password' => 'required|string'
         ]);
         $client = Client::find($request->client_id);
@@ -58,42 +58,8 @@ class PeriodLockController extends Controller
                 ->log('Add/Edit Data > Verify Account > period locked > ' . $client->fullname . ' Locked ');
             toast('Period Locked Success!', 'success');
         } else {
-            toast('password not match!', 'error');
+            toast('Password not match!', 'error');
         }
         return back();
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\PeriodLock  $periodLock
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PeriodLock $periodLock)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PeriodLock  $periodLock
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, PeriodLock $periodLock)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\PeriodLock  $periodLock
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PeriodLock $periodLock)
-    {
-        //
     }
 }

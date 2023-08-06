@@ -65,14 +65,14 @@ class AllPageController extends Controller
 
 
     // period
-    public function period_index()
-    {
-        return view('frontend.accounts.period.index');
-    }
-    public function period_create()
-    {
-        return view('frontend.accounts.period.create');
-    }
+    // public function period_index()
+    // {
+    //     return view('frontend.accounts.period.index');
+    // }
+    // public function period_create()
+    // {
+    //     return view('frontend.accounts.period.create');
+    // }
 
     // invoice_layout
     public function invoiceIndex()
