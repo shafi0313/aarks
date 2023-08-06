@@ -14,3 +14,9 @@
     padding: 2px 2px;
     line-height: 0.38;
 }
+
+.required::after {
+    content: "*";
+    color: red;
+    font-weight: bold;
+}

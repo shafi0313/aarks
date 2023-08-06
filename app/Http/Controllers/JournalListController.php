@@ -425,13 +425,13 @@ class JournalListController extends Controller
 
         Gsttbl::where('client_id', $journal->client_id)
             ->where('source', 'JNP')
-            ->where('trn_id', $journal->tran_id)->delete();
+            ->where('trn_id', $journal->tran_id)->forceDelete();
 
         GeneralLedger::where('client_id', $journal->client_id)
             ->where('profession_id', $journal->profession_id)
             ->where('source', 'JNP')
             ->where('chart_id', '!=', 999999)
-            ->where('transaction_id', $journal->tran_id)->delete();
+            ->where('transaction_id', $journal->tran_id)->forceDelete();
 
         $journals = JournalEntry::where('client_id', $journal->client_id)
             ->where('profession_id', $journal->profession_id)
@@ -445,7 +445,7 @@ class JournalListController extends Controller
         JournalEntry::where('client_id', $journal->client_id)
             ->where('profession_id', $journal->profession_id)
             ->where('id', $journal->id)
-            ->where('is_posted', 1)->delete();
+            ->where('is_posted', 1)->forceDelete();
         activity()
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Journal List Deleted'])
@@ -454,16 +454,4 @@ class JournalListController extends Controller
         // return redirect()->route('journal_list_profession', $client->id);
         return redirect()->back();
     }
-
-    // public function singleDelete($id)
-    // {
-    //     $journal = JournalEntry::find($id);
-    //     $journal->delete();
-    //     activity()
-    //         ->performedOn(new GeneralLedger())
-    //         ->withProperties(['client' => $journal->client->fullname, 'profession' => $journal->profession->name, 'report' => 'Journal List Deleted'])
-    //         ->log('Add/Edit Data > Journal Entry > ' . $journal->client->fullname . ' > ' . $journal->profession->name . ' Journal list Deleted');
-    //     Alert::success('Journal Deleted Success');
-    //     return back();
-    // }
 }
