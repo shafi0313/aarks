@@ -10,7 +10,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('period_lock.store') }}" method="post">
+                            <form action="{{ route('front_period_lock.store') }}" method="post">
                                 @csrf @method('POST')
                                 <label class="required">Date Lock </label>
                                 <div class="input-group">

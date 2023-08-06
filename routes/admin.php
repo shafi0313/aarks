@@ -674,7 +674,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
 
     // period_lock
     Route::get('period_lock/client/{client}', [PeriodLockController::class, 'client'])->name('period_lock.client');
-    Route::resource('period_lock', PeriodLockController::class);
+    Route::resource('period_lock', PeriodLockController::class)->only(['index','store']);
 
 
     // financial_year_close & data backup
