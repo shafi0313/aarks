@@ -33,7 +33,7 @@ class GeneralLedgerAction
         $client_account_codes = ClientAccountCode::with([
             'generalLedger' => fn ($q) => 
                 $q->select(ledgerSetVisible())
-                ->where('date', '>=', $format_start_date)->where('date', '<=', $end_date->format('Y-m-d'))
+                ->where('date', '>=', $format_start_date)->where('date', '<=', $end_date->format('Y-m-d'))->orderBy('date', 'asc')
             ])
             ->where('client_id', $client->id)
             ->where(function ($q) {
@@ -94,7 +94,9 @@ class GeneralLedgerAction
             ->whereBetween('chart_id', [$request->from_account, $request->to_account])
             ->where('source', '!=', 'OPN')
             // ->select('*', DB::raw('sum(credit) as credit, sum(debit) as debit, sum(balance) as balance, sum(gst) as gst'))
-            ->get()->groupBy('chart_id')->sortBy('chart_id');
+            ->get()
+            ->groupBy('chart_id')
+            ->sortBy('chart_id');
 
         $open_balances = GeneralLedger::whereClientId($client->id)
             ->where('date', '<', $format_start_date)

@@ -79,9 +79,9 @@ class JournalListController extends Controller
     public function listEdit($trn_id)
     {
         // return $trn_id;
-        if ($error = $this->sendPermissionError('admin.journal_list.edit')) {
-            return $error;
-        }
+        // if ($error = $this->sendPermissionError('admin.journal_list.edit')) {
+        //     return $error;
+        // }
         $journal = JournalEntry::where('tran_id', $trn_id)->first();
         $journals = JournalEntry::with('client_account_code')->where('client_id', $journal->client_id)
             ->where('profession_id', $journal->profession_id)

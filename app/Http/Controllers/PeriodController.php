@@ -12,11 +12,13 @@ use App\Models\Data_storage;
 use Illuminate\Http\Request;
 use App\Models\Fuel_tax_credit;
 use App\Models\ClientAccountCode;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Spatie\DbDumper\Databases\MySql;
+use Illuminate\Support\Facades\Schema;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\CreateClientPeriodRequest;
 use App\Actions\ClientPeriod\CreateClientPeriodAction;
+use App\Models\GeneralLedger;
 
 class PeriodController extends Controller
 {
@@ -63,15 +65,13 @@ class PeriodController extends Controller
             $createClientPeriodAction->setData($data)->execute();
             Alert::success('Client Period', 'Client Period Recorded Successfully');
         } catch (\Exception $exception) {
-            // return $exception->getMessage();
             Alert::error('Client Period', $exception->getMessage());
         }
         activity()
             ->performedOn(new Period())
             ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'New Period created'])
-            ->log('Add/Edit Data > Period > '.$client->fullname .' > '. $profession->name.' Add Period');
+            ->log('Add/Edit Data > Period > ' . $client->fullname . ' > ' . $profession->name . ' Add Period');
 
-        // return redirect()->route('period.indexow',$request->client_id);
         return redirect()->back();
     }
 
@@ -80,7 +80,6 @@ class PeriodController extends Controller
         if ($error = $this->sendPermissionError('admin.period.index')) {
             return $error;
         }
-        // $client = Client::with('periods')->find($client_id);
         $profession = Profession::with('clients')->find($client_id);
 
         foreach ($profession->clients as $client) {
@@ -88,38 +87,8 @@ class PeriodController extends Controller
         }
 
         $client = Client::with('periods')->find($c_id);
-        // return $client->periods;
         return view('admin.period.index', compact(['client', 'profession']));
     }
-    public function destroy(Period $period)
-    {
-        if ($error = $this->sendPermissionError('admin.period.index')) {
-            return $error;
-        }
-        $gst = Gsttbl::where('period_id', $period->id)->where('client_id', $period->client_id)->first();
-        if ($gst) {
-            Alert::error('Client Period', 'You can not delete this period because GST is already added');
-            return back();
-        }
-
-        // Check Period Lock
-        if (periodLock($period->client_id, $period->end_date)) {
-            Alert::error('Your enter data period is locked, check administration');
-            return back();
-        }
-        try {
-            $period->delete();
-            Alert::success('Deleted', 'Period Deleted Successfully');
-        } catch (\Exception $exception) {
-            Alert::error('Deleted', $exception->getMessage());
-        }
-        activity()
-            ->performedOn(new Period())
-            ->withProperties(['client' => $period->client->fullname, 'profession' => $period->profession->name, 'report' => 'Period Deleted'])
-            ->log('Add/Edit Data > Period > '.$period->client->fullname .' > '. $period->profession->name.' Delete Period');
-        return redirect()->back();
-    }
-
 
 
     public function getClient(Request $request)
@@ -130,7 +99,6 @@ class PeriodController extends Controller
             ->map(function ($client) {
                 return [
                     'id' => route('client-pro', $client->id),
-                    // 'id' => route('period.indexow',$client->id),
                     "text" => $client->company . '-' . $client->full_name
                 ];
             })->toArray();
@@ -156,11 +124,12 @@ class PeriodController extends Controller
         $client     = Client::find($client_id);
         $profession = Profession::find($pro_id);
         $periods    = Period::where('client_id', $client_id)
-        ->where('profession_id', $pro_id)
-        ->orderBy('end_date', 'desc')
-        ->get();
-        return view('admin.period.index', compact(['client', 'profession','periods']));
+            ->where('profession_id', $pro_id)
+            ->orderBy('end_date', 'desc')
+            ->get();
+        return view('admin.period.index', compact(['client', 'profession', 'periods']));
     }
+
     public function editperiod($profession_id, $period_id, $client_id)
     {
         if ($error = $this->sendPermissionError('admin.adt.edit')) {
@@ -171,11 +140,11 @@ class PeriodController extends Controller
         $period      = Period::find($period_id);
         $client      = Client::find($client_id);
         $account_codes = ClientAccountCode::where('client_id', $client->id)
-        ->where('profession_id', $profession_id)
-        ->where('code', 'not like', '912%')
-        ->where('code', 'not like', '954%')
-        ->where('code', 'not like', '999%')
-        ->orderBy('code')->get();
+            ->where('profession_id', $profession_id)
+            ->where('code', 'not like', '912%')
+            ->where('code', 'not like', '954%')
+            ->where('code', 'not like', '999%')
+            ->orderBy('code')->get();
         $fuel    = Fuel_tax_credit::where('start_date', '<=', $period->end_date)->where('end_date', '>=', $period->end_date)->first();
         $fuelLtr = FuelTaxLtr::where('client_id', $client_id)->where('profession_id', $profession_id)->where('period_id', $period_id)->get();
         $payable = Payable::where('client_id', $client_id)->where('profession_id', $profession_id)->first();
@@ -186,8 +155,9 @@ class PeriodController extends Controller
             return back();
         }
 
-        return view('admin.period.edit', compact(['payable','profession', 'period', 'client','fuel', 'fuelLtr', 'account_codes']));
+        return view('admin.period.edit', compact(['payable', 'profession', 'period', 'client', 'fuel', 'fuelLtr', 'account_codes']));
     }
+
     public function sub_pro_show($sub_id, $sub_code, $period_id, $pro_id, $client_id)
     {
         if ($error = $this->sendPermissionError('admin.adt.edit')) {
@@ -212,6 +182,78 @@ class PeriodController extends Controller
             ->where('period_id', $period_id)->get();
         $payable = Payable::where('client_id', $client_id)
             ->where('profession_id', $pro_id)->first();
-        return view('admin.period.sub_pro_edit', compact(['payable', 'period', 'profession', 'client', 'data', 'client_account','fuel', 'fuelLtr','account_codes']));
+        return view('admin.period.sub_pro_edit', compact(['payable', 'period', 'profession', 'client', 'data', 'client_account', 'fuel', 'fuelLtr', 'account_codes']));
+    }
+
+    public function destroy(Period $period)
+    {
+        if ($error = $this->sendPermissionError('admin.period.index')) {
+            return $error;
+        }
+    
+        $start_date = $period->start_date->format('Y-m-d');
+        $end_date = $period->end_date->format('Y-m-d');
+        $profession_id = $period->profession_id;
+        $client_id = $period->client_id;
+
+        // Data_storage::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->where('period_id', $period->id)
+        //     ->delete();
+
+        // Gsttbl::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->where('period_id', $period->id)
+        //     ->delete();
+
+        return GeneralLedger::where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->whereBetween('date', [$start_date, $end_date])
+            ->get();
+
+
+        $client_id = $period->client_id; // replace with the actual client ID
+        return$tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
+        $affected_rows = 0;
+
+        DB::beginTransaction();
+
+        foreach ($tables as $table) {
+            if (Schema::hasColumn($table, 'client_id')) {
+                $affected_rows += DB::table($table)->where('client_id', $client_id)->delete();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        // $gst = Gsttbl::where('period_id', $period->id)->where('client_id', $period->client_id)->first();
+        // if ($gst) {
+        //     Alert::error('Client Period', 'You can not delete this period because GST is already added');
+        //     return back();
+        // }
+
+        // // Check Period Lock
+        // if (periodLock($period->client_id, $period->end_date)) {
+        //     Alert::error('Your enter data period is locked, check administration');
+        //     return back();
+        // }
+        // try {
+        //     $period->delete();
+        //     Alert::success('Deleted', 'Period Deleted Successfully');
+        // } catch (\Exception $exception) {
+        //     Alert::error('Deleted', $exception->getMessage());
+        // }
+        activity()
+            ->performedOn(new Period())
+            ->withProperties(['client' => $period->client->fullname, 'profession' => $period->profession->name, 'report' => 'Period Deleted'])
+            ->log('Add/Edit Data > Period > ' . $period->client->fullname . ' > ' . $period->profession->name . ' Delete Period');
+        return redirect()->back();
     }
 }
