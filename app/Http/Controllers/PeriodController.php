@@ -10,15 +10,20 @@ use App\Models\FuelTaxLtr;
 use App\Models\Profession;
 use App\Models\Data_storage;
 use Illuminate\Http\Request;
+use App\Models\GeneralLedger;
 use App\Models\Fuel_tax_credit;
 use App\Models\ClientAccountCode;
+use App\Models\BankReconciliation;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Schema;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\CreateClientPeriodRequest;
 use App\Actions\ClientPeriod\CreateClientPeriodAction;
-use App\Models\GeneralLedger;
+use App\Models\BankReconciliationAdmin;
+use App\Models\BankReconciliationLedger;
+use App\Models\BankStatementImport;
+use App\Models\BankStatementInput;
 
 class PeriodController extends Controller
 {
@@ -196,20 +201,45 @@ class PeriodController extends Controller
         $profession_id = $period->profession_id;
         $client_id = $period->client_id;
 
-        // Data_storage::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->where('period_id', $period->id)
-        //     ->delete();
+        Data_storage::where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->where('period_id', $period->id)
+            ->delete();
 
-        // Gsttbl::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->where('period_id', $period->id)
-        //     ->delete();
-
-        return GeneralLedger::where('client_id', $client_id)
+        BankReconciliation::where('client_id', $client_id)
             ->where('profession_id', $profession_id)
             ->whereBetween('date', [$start_date, $end_date])
-            ->get();
+            ->delete();
+
+        BankReconciliationAdmin::where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->whereBetween('date', [$start_date, $end_date])
+            ->delete();
+
+        BankReconciliationLedger::where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->whereBetween('date', [$start_date, $end_date])
+            ->delete();
+
+        BankStatementImport::where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->whereBetween('date', [$start_date, $end_date])
+            ->delete();
+
+        BankStatementInput::where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->whereBetween('date', [$start_date, $end_date])
+            ->delete();
+
+        Gsttbl::where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->where('period_id', $period->id)
+            ->delete();
+
+        GeneralLedger::where('client_id', $client_id)
+            ->where('profession_id', $profession_id)
+            ->whereBetween('date', [$start_date, $end_date])
+            ->delete();
 
 
         $client_id = $period->client_id; // replace with the actual client ID

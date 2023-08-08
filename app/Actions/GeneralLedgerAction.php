@@ -31,10 +31,10 @@ class GeneralLedgerAction
         $format_start_date = $start_date->format('Y-m-d');
 
         $client_account_codes = ClientAccountCode::with([
-            'generalLedger' => fn ($q) => 
-                $q->select(ledgerSetVisible())
+            'generalLedger' => fn ($q) =>
+            $q->select(ledgerSetVisible())
                 ->where('date', '>=', $format_start_date)->where('date', '<=', $end_date->format('Y-m-d'))->orderBy('date', 'asc')
-            ])
+        ])
             ->where('client_id', $client->id)
             ->where(function ($q) {
                 $q->where('code', 'like', '5%')
@@ -100,12 +100,19 @@ class GeneralLedgerAction
 
         $open_balances = GeneralLedger::whereClientId($client->id)
             ->where('date', '<', $format_start_date)
-            ->where(fn ($q) => $q->where('chart_id', 'like', '5%')
-            ->orWhere('chart_id', 'like', '9%'))
+            ->where(
+                fn ($q) =>
+                $q->where('chart_id', 'like', '5%')
+                    ->orWhere('chart_id', 'like', '9%')
+            )
             ->whereBetween('chart_id', [$request->from_account, $request->to_account])
             ->where('source', '!=', 'OPN')
             ->selectRaw("chart_id,sum(balance) as openBl")
-            ->groupBy('chart_id')->get()->sortBy('chart_id');
+            ->groupBy('chart_id')
+            ->get()
+            ->sortBy('chart_id');
+
+            // info($open_balances);
 
         $retains = GeneralLedger::where('client_id', $client->id)
             // ->where('profession_id', $request->profession_id)

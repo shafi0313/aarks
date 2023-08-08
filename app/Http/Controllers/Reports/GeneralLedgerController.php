@@ -48,6 +48,7 @@ class GeneralLedgerController extends Controller
                             ->orderBy('code', 'asc')->groupBy('code')->get();
         return view('admin.reports.general_ledger.date', compact('client', 'client_account_codes'));
     }
+
     public function report(ShowGeneralLedgerRequest $request, GeneralLedgerAction $action)
     {
         if ($error = $this->sendPermissionError('admin.general_ledger.index')) {

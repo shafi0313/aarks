@@ -195,6 +195,10 @@
                     //     $oblType = $obl_balance < 0 ? 'Dr' : 'Cr';
                     // }
                 @endphp
+            @elseif ($open_balances)
+                @php
+                    $obl_balance = $blnc = $open_balances->where('chart_id', $client_account_code->code)->first()->openBl ?? 0;
+                @endphp
             @endif
             <td>{{ nFA2($obl_balance) . ' ' . $oblType }}
             </td>
