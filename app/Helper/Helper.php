@@ -701,6 +701,13 @@ if (!function_exists('ledgerSetVisible')) {
     }
 }
 
+if (!function_exists('clientAccountCodeSetVisible')) {
+    function clientAccountCodeSetVisible()
+    {
+        return ['id', 'name', 'code'];
+    }
+}
+
 if (!function_exists('clientSetVisible')) {
     function clientSetVisible()
     {

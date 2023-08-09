@@ -37,22 +37,23 @@ class ProfitLossReport
             $profession_id = $profession->id;
             $client        = Client::find($client_id);
             // $totalIncome   = GeneralLedger::select('*', DB::raw("(sum(balance)) as totalIncome"))
-            $income   = GeneralLedger::where('date', '>=', $start_date)
+            $income   = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])->where('date', '>=', $start_date)
                 ->where('date', '<=', $end_date)
                 ->where('client_id', $client_id)
                 ->where('profession_id', $profession_id)
                 ->where('chart_id', 'like', '1%')
-                ->get();
+                ->get(ledgerSetVisible());
             $totalIncome = $income->where('balance_type', 1)->sum('balance') - $income->where('balance_type', 2)->sum('balance');
 
-            $expense  = GeneralLedger::where('date', '>=', $start_date)
+            $expense  = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])->where('date', '>=', $start_date)
                 ->where('date', '<=', $end_date)
                 ->where('client_id', $client_id)
                 ->where('profession_id', $profession_id)
-                ->where('chart_id', 'like', '2%')->get();
+                ->where('chart_id', 'like', '2%')
+                ->get(ledgerSetVisible());
             $totalExpense = $expense->where('balance_type', 1)->sum('balance') - $expense->where('balance_type', 2)->sum('balance');
 
-            $incomeCodes = GeneralLedger::with('client_account_code')
+            $incomeCodes = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(balance) as inBalance'))
                 ->where('chart_id', 'like', '1%')
                 ->where('date', '>=', $start_date)
@@ -61,8 +62,8 @@ class ProfitLossReport
                 ->where('profession_id', $profession_id)
                 ->groupBy('chart_id')
                 ->orderBy('chart_id')
-                ->get();
-            $expensCodes = GeneralLedger::with('client_account_code')
+                ->get(ledgerSetVisible());
+            $expensCodes = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(balance) as exBalance'))
                 ->Where('chart_id', 'like', '2%')
                 ->where('date', '>=', $start_date)
@@ -71,7 +72,7 @@ class ProfitLossReport
                 ->where('profession_id', $profession_id)
                 ->groupBy('chart_id')
                 ->orderBy('chart_id')
-                ->get();
+                ->get(ledgerSetVisible());
             // if($expensCodes){
             //     return $expensCodes;
             // }
@@ -79,7 +80,7 @@ class ProfitLossReport
                 ->where('date', '<=', $end_date)
                 ->where('client_id', $client_id)
                 ->where('profession_id', $profession_id)
-                ->get();
+                ->get(ledgerSetVisible());
             if ($checkLedger->count()) {
                 activity()
                     ->performedOn(new GeneralLedger())
@@ -107,7 +108,7 @@ class ProfitLossReport
             $profession_id = $profession->id;
             $client        = Client::find($client_id);
 
-            $incomeCodes = GeneralLedger::with('client_account_code')
+            $incomeCodes = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(credit) as inCredit'),DB::raw('sum(debit) as iDebit'))
                 ->where('chart_id', 'like', '1%')
                 ->where('date', '>=', $start_date)
@@ -118,7 +119,7 @@ class ProfitLossReport
                 ->orderBy('chart_id')
                 // ->dd();
                 ->get();
-            $expensCodes = GeneralLedger::with('client_account_code')
+            $expensCodes = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(debit) as inDebit', DB::raw('sum(credit) as eCredit')))
                 ->Where('chart_id', 'like', '2%')
                 ->where('date', '>=', $start_date)
@@ -178,7 +179,7 @@ class ProfitLossReport
                 ->get();
             $totalExpense = $expense->where('balance_type', 1)->sum('balance') - $expense->where('balance_type', 2)->sum('balance');
 
-            $incomeCodes = GeneralLedger::with('client_account_code')
+            $incomeCodes = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(balance) as inBalance'))
                 ->where('chart_id', 'like', '1%')
                 ->where('date', '>=', $start_date)
@@ -188,7 +189,7 @@ class ProfitLossReport
                 ->groupBy('chart_id')
                 ->orderBy('chart_id')
                 ->get();
-            $expensCodes = GeneralLedger::with('client_account_code')
+            $expensCodes = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(balance) as exBalance'))
                 ->Where('chart_id', 'like', '2%')
                 ->where('date', '>=', $start_date)
@@ -232,7 +233,7 @@ class ProfitLossReport
             $client        = Client::find($client_id);
             $professions = $client->professions->pluck('id')->toArray();
 
-            $incomeCodes = GeneralLedger::with('client_account_code')
+            $incomeCodes = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(credit) as inCredit'))
                 ->where('chart_id', 'like', '1%')
                 ->where('date', '>=', $start_date)
@@ -243,7 +244,7 @@ class ProfitLossReport
                 ->orderBy('chart_id')
                 // ->dd();
                 ->get();
-            $expensCodes = GeneralLedger::with('client_account_code')
+            $expensCodes = GeneralLedger::with(['client_account_code' => fn($q) =>$q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(debit) as inDebit'))
                 ->Where('chart_id', 'like', '2%')
                 ->where('date', '>=', $start_date)

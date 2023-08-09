@@ -24,6 +24,10 @@ use App\Models\BankReconciliationAdmin;
 use App\Models\BankReconciliationLedger;
 use App\Models\BankStatementImport;
 use App\Models\BankStatementInput;
+use App\Models\BudgetEntry;
+use App\Models\Frontend\CashBook;
+use App\Models\Frontend\Creditor;
+use App\Models\Frontend\CreditorPaymentReceive;
 
 class PeriodController extends Controller
 {
@@ -201,45 +205,101 @@ class PeriodController extends Controller
         $profession_id = $period->profession_id;
         $client_id = $period->client_id;
 
-        Data_storage::where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->where('period_id', $period->id)
-            ->delete();
+        // Data_storage::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->where('period_id', $period->id)
+        //     ->delete();
 
-        BankReconciliation::where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->whereBetween('date', [$start_date, $end_date])
-            ->delete();
+        // BankReconciliation::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->whereBetween('date', [$start_date, $end_date])
+        //     ->delete();
 
-        BankReconciliationAdmin::where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->whereBetween('date', [$start_date, $end_date])
-            ->delete();
+        // BankReconciliationAdmin::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->whereBetween('date', [$start_date, $end_date])
+        //     ->delete();
 
-        BankReconciliationLedger::where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->whereBetween('date', [$start_date, $end_date])
-            ->delete();
+        // BankReconciliationLedger::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->whereBetween('date', [$start_date, $end_date])
+        //     ->delete();
 
-        BankStatementImport::where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->whereBetween('date', [$start_date, $end_date])
-            ->delete();
+        // BankStatementImport::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->whereBetween('date', [$start_date, $end_date])
+        //     ->delete();
 
-        BankStatementInput::where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->whereBetween('date', [$start_date, $end_date])
-            ->delete();
+        // BankStatementInput::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->whereBetween('date', [$start_date, $end_date])
+        //     ->delete();
 
-        Gsttbl::where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->where('period_id', $period->id)
-            ->delete();
+        // Gsttbl::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->where('period_id', $period->id)
+        //     ->delete();
 
-        GeneralLedger::where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->whereBetween('date', [$start_date, $end_date])
-            ->delete();
+        // GeneralLedger::where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->whereBetween('date', [$start_date, $end_date])
+        //     ->delete();
+            
+
+
+            $commonConditions = [
+                'client_id' => $client_id,
+                'profession_id' => $profession_id,
+            ];
+            
+            $commonDateConditions = [
+                ['date', '>=', $start_date],
+                ['date', '<=', $end_date],
+            ];
+            
+            $commonTranDateConditions = [
+                ['tran_date', '>=', $start_date],
+                ['tran_date', '<=', $end_date],
+            ];
+            
+            Data_storage::where($commonConditions)
+                ->where('period_id', $period->id)
+                ->delete();
+
+            Gsttbl::where($commonConditions)
+                ->where('period_id', $period->id)
+                ->delete();
+
+            CashBook::where($commonConditions)
+                ->where('period_id', $period->id)
+                ->delete();
+
+            Creditor::where($commonConditions)
+                ->where($commonTranDateConditions)
+                ->delete();
+
+            CreditorPaymentReceive::where($commonConditions)
+                ->where($commonTranDateConditions)
+                ->delete();
+            
+            $otherTables = [
+                BankReconciliation::class,
+                BankReconciliationAdmin::class,
+                BankReconciliationLedger::class,
+                BankStatementImport::class,
+                BankStatementInput::class,
+                // BudgetEntry::class,
+                
+                GeneralLedger::class,
+            ];
+            
+            foreach ($otherTables as $table) {
+                $table::where($commonConditions)
+                    ->where($commonDateConditions)
+                    ->delete();
+            }
+            
+
 
 
         $client_id = $period->client_id; // replace with the actual client ID

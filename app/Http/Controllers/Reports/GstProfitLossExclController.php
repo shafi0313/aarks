@@ -41,6 +41,7 @@ class GstProfitLossExclController extends Controller
         if ($error = $this->sendPermissionError('admin.profit_loss_excl.index')) {
             return $error;
         }
+        
         return $report->excl($request, 'admin.reports.profit_loss.excl.final_report');
     }
 }
