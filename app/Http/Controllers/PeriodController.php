@@ -8,7 +8,6 @@ use App\Models\Period;
 use App\Models\Payable;
 use App\Models\FuelTaxLtr;
 use App\Models\Profession;
-use App\Models\BudgetEntry;
 use App\Models\Data_storage;
 use App\Models\JournalEntry;
 use Illuminate\Http\Request;
@@ -26,7 +25,6 @@ use App\Models\Frontend\Recurring;
 use Illuminate\Support\Facades\DB;
 use App\Models\BankStatementImport;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Schema;
 use App\Models\BankReconciliationAdmin;
 use App\Models\BankReconciliationLedger;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -115,7 +113,7 @@ class PeriodController extends Controller
             ->get()
             ->map(function ($client) {
                 return [
-                    'id' => route('client-pro', $client->id),
+                    'id'   => route('client-pro', $client->id),
                     "text" => $client->company . '-' . $client->full_name
                 ];
             })->toArray();
@@ -153,9 +151,9 @@ class PeriodController extends Controller
             return $error;
         }
 
-        $profession = Profession::find($profession_id);
-        $period      = Period::find($period_id);
-        $client      = Client::find($client_id);
+        $profession    = Profession::find($profession_id);
+        $period        = Period::find($period_id);
+        $client        = Client::find($client_id);
         $account_codes = ClientAccountCode::where('client_id', $client->id)
             ->where('profession_id', $profession_id)
             ->where('code', 'not like', '912%')
@@ -214,7 +212,7 @@ class PeriodController extends Controller
         $client_id     = $period->client_id;
 
         $commonConditions = [
-            'client_id' => $client_id,
+            'client_id'     => $client_id,
             'profession_id' => $profession_id,
         ];
 
@@ -223,7 +221,7 @@ class PeriodController extends Controller
             ['date', '<=', $end_date],
         ];
         DB::beginTransaction();
-        
+
         CreditorServiceOrder::where($commonConditions)
             ->where('start_date', '>=', $start_date)
             ->where('end_date', '<=', $end_date)
@@ -240,9 +238,9 @@ class PeriodController extends Controller
 
         // Common Data With Period
         $periodConditions = [
-            'client_id' => $client_id,
+            'client_id'     => $client_id,
             'profession_id' => $profession_id,
-            'period_id' => $period->id,
+            'period_id'     => $period->id,
         ];
         $tableWithPeriods = [
             Data_storage::class,
