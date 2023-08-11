@@ -71,6 +71,8 @@ use App\Http\Controllers\Reports\ComperativeBalanceReportController;
 use App\Http\Controllers\Reports\CompleteFinancialReportTFController;
 use App\Http\Controllers\Reports\ComperativeFinancialReportController;
 
+Route::get('/gst', [TestController::class, 'gst'])->name('gst');
+
 Route::get('/', function () {
     return redirect()->route('index');
 });

@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Gsttbl;
 use Spatie\Activitylog\Models\Activity;
 
 class TestController extends Controller
 {
+    public function gst()
+    {
+        return Gsttbl::where('client_id', 58)->where('profession_id', 1)->whereDate('created_at', '2023-08-10')->get();
+    }
+
     public function blank()
     {
         return view('admin.blank');

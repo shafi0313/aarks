@@ -8,26 +8,34 @@ use App\Models\Period;
 use App\Models\Payable;
 use App\Models\FuelTaxLtr;
 use App\Models\Profession;
+use App\Models\BudgetEntry;
 use App\Models\Data_storage;
+use App\Models\JournalEntry;
 use Illuminate\Http\Request;
 use App\Models\GeneralLedger;
+use App\Models\Reconcilation;
+use App\Models\Frontend\Dedotr;
 use App\Models\Fuel_tax_credit;
+use App\Models\ReconcilationTax;
 use App\Models\ClientAccountCode;
-use App\Models\BankReconciliation;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Schema;
-use RealRashid\SweetAlert\Facades\Alert;
-use App\Http\Requests\CreateClientPeriodRequest;
-use App\Actions\ClientPeriod\CreateClientPeriodAction;
-use App\Models\BankReconciliationAdmin;
-use App\Models\BankReconciliationLedger;
-use App\Models\BankStatementImport;
-use App\Models\BankStatementInput;
-use App\Models\BudgetEntry;
 use App\Models\Frontend\CashBook;
 use App\Models\Frontend\Creditor;
+use App\Models\BankReconciliation;
+use App\Models\BankStatementInput;
+use App\Models\Frontend\Recurring;
+use Illuminate\Support\Facades\DB;
+use App\Models\BankStatementImport;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Schema;
+use App\Models\BankReconciliationAdmin;
+use App\Models\BankReconciliationLedger;
+use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\Frontend\DedotrQuoteOrder;
+use App\Models\Frontend\CreditorServiceOrder;
+use App\Models\Frontend\DedotrPaymentReceive;
 use App\Models\Frontend\CreditorPaymentReceive;
+use App\Http\Requests\CreateClientPeriodRequest;
+use App\Actions\ClientPeriod\CreateClientPeriodAction;
 
 class PeriodController extends Controller
 {
@@ -199,151 +207,110 @@ class PeriodController extends Controller
         if ($error = $this->sendPermissionError('admin.period.index')) {
             return $error;
         }
-    
-        $start_date = $period->start_date->format('Y-m-d');
-        $end_date = $period->end_date->format('Y-m-d');
+
+        $start_date    = $period->start_date->format('Y-m-d');
+        $end_date      = $period->end_date->format('Y-m-d');
         $profession_id = $period->profession_id;
-        $client_id = $period->client_id;
+        $client_id     = $period->client_id;
 
-        // Data_storage::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->where('period_id', $period->id)
-        //     ->delete();
+        $commonConditions = [
+            'client_id' => $client_id,
+            'profession_id' => $profession_id,
+        ];
 
-        // BankReconciliation::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->whereBetween('date', [$start_date, $end_date])
-        //     ->delete();
-
-        // BankReconciliationAdmin::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->whereBetween('date', [$start_date, $end_date])
-        //     ->delete();
-
-        // BankReconciliationLedger::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->whereBetween('date', [$start_date, $end_date])
-        //     ->delete();
-
-        // BankStatementImport::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->whereBetween('date', [$start_date, $end_date])
-        //     ->delete();
-
-        // BankStatementInput::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->whereBetween('date', [$start_date, $end_date])
-        //     ->delete();
-
-        // Gsttbl::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->where('period_id', $period->id)
-        //     ->delete();
-
-        // GeneralLedger::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->whereBetween('date', [$start_date, $end_date])
-        //     ->delete();
-            
-
-
-            $commonConditions = [
-                'client_id' => $client_id,
-                'profession_id' => $profession_id,
-            ];
-            
-            $commonDateConditions = [
-                ['date', '>=', $start_date],
-                ['date', '<=', $end_date],
-            ];
-            
-            $commonTranDateConditions = [
-                ['tran_date', '>=', $start_date],
-                ['tran_date', '<=', $end_date],
-            ];
-            
-            Data_storage::where($commonConditions)
-                ->where('period_id', $period->id)
-                ->delete();
-
-            Gsttbl::where($commonConditions)
-                ->where('period_id', $period->id)
-                ->delete();
-
-            CashBook::where($commonConditions)
-                ->where('period_id', $period->id)
-                ->delete();
-
-            Creditor::where($commonConditions)
-                ->where($commonTranDateConditions)
-                ->delete();
-
-            CreditorPaymentReceive::where($commonConditions)
-                ->where($commonTranDateConditions)
-                ->delete();
-            
-            $otherTables = [
-                BankReconciliation::class,
-                BankReconciliationAdmin::class,
-                BankReconciliationLedger::class,
-                BankStatementImport::class,
-                BankStatementInput::class,
-                // BudgetEntry::class,
-                
-                GeneralLedger::class,
-            ];
-            
-            foreach ($otherTables as $table) {
-                $table::where($commonConditions)
-                    ->where($commonDateConditions)
-                    ->delete();
-            }
-            
-
-
-
-        $client_id = $period->client_id; // replace with the actual client ID
-        return$tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
-        $affected_rows = 0;
-
+        $commonDateConditions = [
+            ['date', '>=', $start_date],
+            ['date', '<=', $end_date],
+        ];
         DB::beginTransaction();
+        
+        CreditorServiceOrder::where($commonConditions)
+            ->where('start_date', '>=', $start_date)
+            ->where('end_date', '<=', $end_date)
+            ->delete();
 
-        foreach ($tables as $table) {
-            if (Schema::hasColumn($table, 'client_id')) {
-                $affected_rows += DB::table($table)->where('client_id', $client_id)->delete();
-            }
+        DedotrQuoteOrder::where($commonConditions)
+            ->where('start_date', '>=', $start_date)
+            ->where('end_date', '<=', $end_date)
+            ->delete();
+
+        BankReconciliationAdmin::where('client_id', $client_id)
+            ->whereBetween('date', [$start_date, $end_date])
+            ->delete();
+
+        // Common Data With Period
+        $periodConditions = [
+            'client_id' => $client_id,
+            'profession_id' => $profession_id,
+            'period_id' => $period->id,
+        ];
+        $tableWithPeriods = [
+            Data_storage::class,
+            Gsttbl::class,
+            CashBook::class,
+            FuelTaxLtr::class,
+            Reconcilation::class,
+            ReconcilationTax::class,
+        ];
+        foreach ($tableWithPeriods as $table3) {
+            $table3::where($periodConditions)
+                ->delete();
         }
 
+        // Common Data With Trn_date
+        $commonTranDateConditions = [
+            ['tran_date', '>=', $start_date],
+            ['tran_date', '<=', $end_date],
+        ];
+        $trnDateTables = [
+            Creditor::class,
+            CreditorPaymentReceive::class,
+            Dedotr::class,
+            DedotrPaymentReceive::class,
+            Recurring::class,
+        ];
 
+        foreach ($trnDateTables as $table) {
+            $table::where($commonConditions)
+                ->where($commonTranDateConditions)
+                ->delete();
+        }
 
+        // Common Data Conditions
+        $otherTables = [
+            BankReconciliation::class,
+            BankReconciliationLedger::class,
+            BankStatementImport::class,
+            BankStatementInput::class,
+            // BudgetEntry::class,
+            GeneralLedger::class,
+            JournalEntry::class,
+        ];
 
+        foreach ($otherTables as $table2) {
+            $table2::where($commonConditions)
+                ->where($commonDateConditions)
+                ->delete();
+        }
 
+        // Check Period Lock Check
+        if (periodLock($period->client_id, $period->end_date)) {
+            Alert::error('Your enter data period is locked, check administration');
+            return back();
+        }
 
-
-
-
-
-        // $gst = Gsttbl::where('period_id', $period->id)->where('client_id', $period->client_id)->first();
-        // if ($gst) {
-        //     Alert::error('Client Period', 'You can not delete this period because GST is already added');
-        //     return back();
-        // }
-
-        // // Check Period Lock
-        // if (periodLock($period->client_id, $period->end_date)) {
-        //     Alert::error('Your enter data period is locked, check administration');
-        //     return back();
-        // }
-        // try {
-        //     $period->delete();
-        //     Alert::success('Deleted', 'Period Deleted Successfully');
-        // } catch (\Exception $exception) {
-        //     Alert::error('Deleted', $exception->getMessage());
-        // }
+        try {
+            $period->delete();
+            DB::commit();
+            Alert::success('Success', 'Period deleted Successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error', 'Something Went Wrong, Please Try Again');
+        }
         activity()
             ->performedOn(new Period())
-            ->withProperties(['client' => $period->client->fullname, 'profession' => $period->profession->name, 'report' => 'Period Deleted'])
-            ->log('Add/Edit Data > Period > ' . $period->client->fullname . ' > ' . $period->profession->name . ' Delete Period');
+            ->withProperties(['client' => $period->client->fullname, 'profession' => $period->profession->name, 'report' => 'Period deleted'])
+            ->log('Add/Edit Data > Period > ' . $period->client->fullname . ' > ' . $period->profession->name . ' delete Period');
         return redirect()->back();
     }
 }
