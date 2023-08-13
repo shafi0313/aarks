@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend\Sales\Services;
 
 use PDF;
-use Carbon\Carbon;
 use App\Models\Client;
 use App\Models\Period;
 use App\Models\Profession;
@@ -29,13 +28,13 @@ class ServiceRecurringController extends Controller
     }
     public function show($id)
     {
-        $client    = client();
+        $client     = client();
         $profession = Profession::findOrFail($id);
-        $customers = CustomerCard::where('client_id', $client->id)
+        $customers  = CustomerCard::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('type', 1)
             ->orderBy('name')->get();
-        $codes     = ClientAccountCode::where('client_id', $client->id)
+        $codes = ClientAccountCode::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('code', 'like', '1%')
             ->where('type', '2')
@@ -61,7 +60,7 @@ class ServiceRecurringController extends Controller
 
     public function store(DedotrQuoteRequest $request)
     {
-        $data          = $request->validated();
+        $data                = $request->validated();
         $data['tran_date']   = $data['updated_at'] = $tran_date = makeBackendCompatibleDate($request->start_date);
         $data['recurring']   = $request->recurring ?? 1;
         $data['untill_date'] = $request->untill_date ? makeBackendCompatibleDate($request->untill_date) : null;
@@ -182,7 +181,7 @@ class ServiceRecurringController extends Controller
     {
         // return $request;
 
-        $data                 = $request->validated();
+        $data                = $request->validated();
         $data['tran_date']   = $data['updated_at'] = $tran_date = makeBackendCompatibleDate($request->start_date);
         $data['recurring']   = $request->recurring ?? 1;
         $data['untill_date'] = $request->untill_date ? makeBackendCompatibleDate($request->untill_date) : null;

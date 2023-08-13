@@ -288,12 +288,12 @@ class RecurringAutoGenerateAction
                 GeneralLedger::create($ledger);
 
                 // Gst Payable code
-                $gstpay = $codes->where('code', 912100)->first();
+                $gstpay                           = $codes->where('code', 912100)->first();
                 $ledger['balance_type']           = 2;
                 $ledger['chart_id']               = $gstpay->code;
                 $ledger['client_account_code_id'] = $gstpay->id;
                 $ledger['balance']                = $ledger['credit'] = $gstData->sum('gst_accrued_amount');
-                $ledger['debit']                 = $ledger['gst']   = 0;
+                $ledger['debit']                  = $ledger['gst']    = 0;
                 GeneralLedger::create($ledger);
 
                 //RetailEarning Calculation
