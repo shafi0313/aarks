@@ -51,6 +51,7 @@ use App\Http\Controllers\Frontend\Accounts\Depreciation\DesposalController;
 use App\Http\Controllers\Frontend\Accounts\Depreciation\RolloverController;
 use App\Http\Controllers\Frontend\Report\ComparativeBalanceSheetController;
 use App\Http\Controllers\Frontend\Report\IncomeExpenseComparisonController;
+use App\Http\Controllers\Frontend\Report\CompleteFinancialReportTFController;
 use App\Http\Controllers\Frontend\Report\ComperativeFinancialReportController;
 use App\Http\Controllers\Frontend\Accounts\Depreciation\DepreciationController;
 use App\Http\Controllers\Frontend\Banking\BankReconciliationStatementController;
@@ -570,6 +571,14 @@ Route::middleware(['subsCheck', 'clientAuth'])->group(function () {
             Route::get('index', [CompleteReportController::class, 'index'])->name('index');
             Route::get('select-report', [CompleteReportController::class, 'selectReport'])->name('select_report');
             Route::get('final-report/{profession}', [CompleteReportController::class, 'report'])->name('report');
+        });
+
+        // Complete Financial Report T Form
+        Route::controller(CompleteFinancialReportTFController::class)->prefix('complete-financial-report-t-form')->as('front_complete_financial_report_tf.')->group(function () {
+            Route::get('index',  'index')->name('index');
+            Route::get('select-report',  'selectReport')->name('select_report');
+            Route::get('final-report/{profession}',  'report')->name('report');
+            // Route::get('final-report-print/{client}/{profession}', 'print')->name('print');
         });
 
         // console financial report

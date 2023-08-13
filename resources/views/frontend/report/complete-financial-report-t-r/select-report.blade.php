@@ -1,5 +1,5 @@
 @extends('frontend.layout.master')
-@section('title', 'Complete Balance Sheet Report')
+@section('title', 'Complete Financial Report T Form')
 @section('content')
 <?php $p="cbs"; $mp="advr";?>
 <!-- Page Content Start -->
@@ -40,7 +40,7 @@
                 <div class="card">
                     <div class="card-body ">
                         <form
-                            action="{{route('cr_complete_financial.report', $request->profession_id)}}"
+                            action="{{route('front_complete_financial_report_tf.report', $request->profession_id)}}"
                             method="get" autocomplete="off" class="form-horizontal row justify-content-center">
                             <div class="col-md-7">
                                 <div class="row">

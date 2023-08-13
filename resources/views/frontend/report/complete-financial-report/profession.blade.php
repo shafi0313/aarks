@@ -1,5 +1,5 @@
 @extends('frontend.layout.master')
-@section('title', 'Complete Balance Sheet Report')
+@section('title', 'Complete Financial Report')
 @section('content')
 <?php $p="cfr"; $mp="advr";?>
 <!-- Page Content Start -->
@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-heading">
-                        <h3>Complete Balance Sheet Report Select Date</h3>
+                        <h3>Complete Financial Report Select Date</h3>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -24,7 +24,7 @@
                             <div class="row justify-content-center">
                                 <input type="hidden" name="client_id" value="{{$client->id}}">
                                 <div class="form-inline">
-                                    <label class="mr-2 t_b">Select Bussiness Activity: </label>
+                                    <label class="mr-2 t_b">Select Business Activity: </label>
                                     <select required class="form-control" type="submit" name="profession_id">
                                         <option disabled selected value>Select Profession</option>
                                         @foreach ($client->professions as $profession)

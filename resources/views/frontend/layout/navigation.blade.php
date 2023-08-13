@@ -370,6 +370,9 @@
                                             <a class="menu_dropdown-item {{ $p == 'cfr' ? 'active' : '' }}"
                                                 href="{{ route('cr_complete_financial.index') }}">Complete Financial
                                                 Report</a>
+                                            <a class="menu_dropdown-item" {{ activeNav('front_complete_financial_report_tf.*') }}
+                                                href="{{ route('front_complete_financial_report_tf.index') }}">Complete Financial
+                                                Report(T Form)</a>
                                             <a class="menu_dropdown-item {{ $p == 'cconfr' ? 'active' : '' }}"
                                                 href="{{ route('cr_console_financial.index') }}">Console Financial
                                                 Report</a>
