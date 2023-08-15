@@ -105,7 +105,7 @@ class BankStatementTranList extends Controller
     ==============*/
     protected function import($client, $profession, $tran_id, $src)
     {
-        $bank    = GeneralLedger::where('client_id', $client->id)
+        $bank = GeneralLedger::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where('transaction_id', $tran_id)
                 ->where('chart_id', 'like', '551%')
@@ -113,9 +113,9 @@ class BankStatementTranList extends Controller
                 ->where('narration', 'BST_BANK')->first();
         $codes = ClientAccountCode::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
-                ->where('code', '!=', $bank->chart_id)
+                // ->where('code', '!=', $bank->chart_id)
                 ->orderBy('code')
-                ->get();
+                ->get(clientAccountCodeSetVisible());
         $imports = BankStatementImport::with('client_account_code')
                 ->where('client_id', $client->id)
                 ->where('profession_id', $profession->id)

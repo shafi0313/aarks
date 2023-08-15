@@ -28,10 +28,10 @@ class ImportBS
 
 
         $raw_statements = BankStatementImport::where('client_id', $client->id)
-        ->where('profession_id', $profession->id)
-        ->where('is_posted', 0)
-        ->whereNotNull('account_code')
-        ->get();
+            ->where('profession_id', $profession->id)
+            ->where('is_posted', 0)
+            ->whereNotNull('account_code')
+            ->get();
 
         // Check if all dates in the collection belong to the same month
         $month = null;
@@ -96,10 +96,10 @@ class ImportBS
                 $gst_code = $bank_statement->client_account_code->gst_code;  // GST,NILL,FREE,CAP,INP
                 if ($type == 1) {
                     $balance_type = $debit == 0 ? 2 : 1;
-                    $debit        = $debit == 0 ? - $credit : $debit;
+                    $debit        = $debit == 0 ? -$credit : $debit;
                 } else {
                     $balance_type = $credit == 0 ? 1 : 2;
-                    $credit       = $credit == 0 ? - $debit : $credit;
+                    $credit       = $credit == 0 ? -$debit : $credit;
                 }
                 // if ($credit == -2) {
                 //     return [$credit, $debit, $balance_type];
@@ -329,10 +329,10 @@ class ImportBS
 
                 if ($type == 1) {
                     $balance_type = $debit == 0 ? 2 : 1;
-                    $debit        = $debit == 0 ? - $credit : $debit;
+                    $debit        = $debit == 0 ? -$credit : $debit;
                 } else {
                     $balance_type = $credit == 0 ? 1 : 2;
-                    $credit       = $credit == 0 ? - $debit : $credit;
+                    $credit       = $credit == 0 ? -$debit : $credit;
                 }
                 // GST Table
                 $gst['client_id']          = $client->id;

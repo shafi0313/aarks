@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Period;
-use App\Models\PeriodLock;
 use App\Models\Profession;
 use Illuminate\Http\Request;
-use App\Models\GeneralLedger;
 use App\Models\ClientAccountCode;
 use Illuminate\Support\Facades\DB;
 use App\Models\BankStatementImport;
@@ -17,7 +15,6 @@ use App\Http\Requests\UploadBSRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Aarks\BankStatementImportCollection;
 use App\Actions\BankStatementActions\ImportBS;
-use App\Http\Requests\BankStatementPostRequest;
 
 class ImportController extends Controller
 {
@@ -33,18 +30,6 @@ class ImportController extends Controller
         }
         $clients = Client::all(clientSetVisible());
         return view('admin.bs_import.index', compact('clients'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        if ($error = $this->sendPermissionError('admin.bs_import.create')) {
-            return $error;
-        }
     }
 
     /**
@@ -81,35 +66,6 @@ class ImportController extends Controller
             return response()->json(['status'=>200,'message'=> 'Account code successfully updated.']);
         } catch (\Exception $e) {
             return response()->json(['status'=>500,'message'=> $e->getMessage()]);
-        }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Import  $import
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BankStatementImport $import)
-    {
-        if ($error = $this->sendPermissionError('admin.bs_import.edit')) {
-            return $error;
-        }
-    }
-
-    
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Import  $import
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, BankStatementImport $import)
-    {
-        if ($error = $this->sendPermissionError('admin.bs_import.edit')) {
-            return $error;
         }
     }
 
