@@ -224,7 +224,8 @@ class ImportBS
                     ->where('profession_id', $profession->id)
                     ->where('chart_id', 'not like', '99999%')
                     ->whereNotIn('narration', ['BST_PAYABLE', 'BST_CLEARING', 'BST_BANK'])
-                    ->get();
+                    ->get(ledgerSetVisible());
+
                 $genBl = $gen_bank->sum('credit') - $gen_bank->sum('debit');
 
                 $ledger['balance']                = $genBl;
@@ -245,7 +246,8 @@ class ImportBS
                     ->where('client_id', $client->id)
                     ->where('profession_id', $profession->id)
                     ->where('source', 'BST')
-                    ->where('transaction_id', $tran_id)->first();
+                    ->where('transaction_id', $tran_id)
+                    ->first(ledgerSetVisible());
                 if ($bac) {
                     $bac->update($ledger);
                 } else {
@@ -276,6 +278,8 @@ class ImportBS
             toast('Please Add Account Code', 'warning');
         }
     }
+
+    // Update Bank Statement
     public function update(Request $request)
     {
         $bankAccount = ClientAccountCode::findOrFail($request->bank_account);
@@ -301,7 +305,7 @@ class ImportBS
             return back();
         }
 
-        $period     = Period::where('client_id', $client->id)
+        $period = Period::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             // ->where('start_date', '<=', $bank_statements->first()->date)
             ->where('end_date', '>=', $bank_statements->first()->date)->first();
@@ -310,22 +314,24 @@ class ImportBS
         GeneralLedger::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('transaction_id', $tran_id)
-            ->where('source', 'BST')->delete();
+            ->where('source', 'BST')
+            ->forceDelete();
 
         Gsttbl::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('trn_id', $tran_id)
-            ->where('source', 'BST')->delete();
+            ->where('source', 'BST')
+            ->forceDelete();
 
         if ($bank_statements->count()) {
             foreach ($bank_statements as $bank_statement) {
                 $retain_date = $bank_statement->date;
                 $tran_date   = $bank_statement->date->format('Y-m-d');
-                $debit    = $bank_statement->debit;
-                $credit   = $bank_statement->credit;
-                $chart_id = $bank_statement->client_account_code->code;
-                $type     = $bank_statement->client_account_code->type;  // 1=Debit , 2=Credit
-                $gst_code = $bank_statement->client_account_code->gst_code;  // GST,NILL,FREE,CAP,INP
+                $debit       = $bank_statement->debit;
+                $credit      = $bank_statement->credit;
+                $chart_id    = $bank_statement->client_account_code->code;
+                $type        = $bank_statement->client_account_code->type;      // 1=Debit , 2=Credit
+                $gst_code    = $bank_statement->client_account_code->gst_code;  // GST,NILL,FREE,CAP,INP
 
                 if ($type == 1) {
                     $balance_type = $debit == 0 ? 2 : 1;
@@ -391,7 +397,6 @@ class ImportBS
                 }
                 Gsttbl::create($gst);
 
-
                 $gst_amt = $gst['gst_accrued_amount'] == 0 ? $gst['gst_cash_amount'] : $gst['gst_accrued_amount'];
                 $ledger['chart_id']               = $chart_id;
                 $ledger['date']                   = $tran_date;
@@ -406,7 +411,6 @@ class ImportBS
                 $ledger['debit']                  = $ledger['credit'] = 0;
                 $ledger['gst']                    = abs($gst_amt);
 
-
                 if ($balance_type == 1) {
                     $ledger['debit']        = abs($gst['gross_amount']);
                     $ledger['credit']       = 0;
@@ -415,7 +419,7 @@ class ImportBS
                     $ledger['credit']       = abs($gst['gross_amount']);
                 }
 
-                //! Leadger Data Calculation
+                //! Leader Data Calculation
                 GeneralLedger::create($ledger);
 
                 if ($gstEnabled == 1 && ($gst_code == 'GST' || $gst_code == 'CAP' || $gst_code == 'INP')) {
@@ -479,20 +483,21 @@ class ImportBS
                     ->where('client_id', $client->id)
                     ->where('profession_id', $profession->id)
                     ->where('source', 'BST')
-                    ->where('transaction_id', $tran_id)->first();
+                    ->where('transaction_id', $tran_id)
+                    ->first(ledgerSetVisible());
                 if ($bac) {
                     $bac->update($ledger);
                 } else {
                     GeneralLedger::create($ledger);
                 }
-                //RetailEarning Calculation
-                RetainEarning::retain($client->id, $profession->id, $retain_date, $ledger, ['BST', 'BST']);
-                // Retain Earning For each Transection
-                RetainEarning::tranRetain($client->id, $profession->id, $tran_id, $ledger, ['BST', 'BST']);
+                // RetailEarning Calculation
+                // RetainEarning::retain($client->id, $profession->id, $retain_date, $ledger, ['BST', 'BST']);
+                // Retain Earning For each Transaction
+                // RetainEarning::tranRetain($client->id, $profession->id, $tran_id, $ledger, ['BST', 'BST']);
             }
             try {
                 DB::commit();
-                Alert::success('Data Imported', 'Bank Statement Successfully Updated');
+                Alert::success('Success', 'Bank Statement Successfully Updated');
             } catch (\Exception $ex) {
                 DB::rollBack();
                 Alert::error('Opps! Sever Side Error!');

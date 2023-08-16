@@ -704,7 +704,7 @@ if (!function_exists('ledgerSetVisible')) {
 if (!function_exists('clientAccountCodeSetVisible')) {
     function clientAccountCodeSetVisible()
     {
-        return ['id', 'name', 'code'];
+        return ['id', 'name', 'code', 'type'];
     }
 }
 

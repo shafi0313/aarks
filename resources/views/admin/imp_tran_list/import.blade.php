@@ -78,33 +78,19 @@
                                     @foreach ($imports as $import)
                                         <tr>
                                             <td>
-                                                {{-- <select class="form-control" name="account_id[]"
-                                                    title="If you want to update the code,please delete the line and re-enter but you can edit date,narration & amount.Caution! Be aware that same account code data in this transaction will be deleted."
-                                                    required> --}}
-                                                    @php
-                                                        $selectedCode = $import->client_account_code;
-                                                    @endphp
-                                                    {{-- <option value="{{ $code->id }}">{{ $code->name }} =>
-                                                        {{ $code->code }}
-                                                    </option> --}}
-                                                    {{-- @foreach ($codes as $code)
-                                                        <option value="{{ $code->id }}" @selected($selectedCode->id == $code->id)>{{ $code->name }} =>
-                                                            {{ $code->code }}</option>
-                                                    @endforeach --}}
-
-
-
-
-
-                                                    <select class="form-control account_code" name="account_code[]" data-route="{{ route('bs_import.updateCode', $import->id) }}">
-                                                    
+                                                @php
+                                                    $selectedCode = $import->client_account_code;
+                                                @endphp
+                                                <select class="form-control account_code" name="account_code[]"
+                                                    data-route="{{ route('bs_import.updateCode', $import->id) }}">
                                                     @foreach ($codes as $code)
-                                                        <option value="{{ $code->id }}" style="color:{{ $code->type == 1 ? '#f542e9' : 'blue' }}" @selected($selectedCode->id == $code->id)>
+                                                        <option value="{{ $code->id }}"
+                                                            style="color:{{ $code->type == 1 ? '#f542e9' : 'blue' }}"
+                                                            @selected($selectedCode->id == $code->id)>
                                                             {{ $code->name }} => {{ $code->code }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                {{-- </select> --}}
                                             </td>
                                             <td>
                                                 <input type="hidden" name="chart_id[]" value="{{ $code->code }}">
@@ -135,7 +121,7 @@
                                                         class="btn btn-sm btn-danger text-light fa fa-trash"
                                                         style="cursor: pointer"
                                                         href="{{ route('bs_tran_list.import.destroy', [$client->id, $profession->id, $import->id]) }}"
-                                                        onclick="return confirm('Are you sure to delete the Transaction?')"></a>
+                                                        onclick="return confirm('Are you sure to delete the transaction?')"></a>
                                                 </td>
                                             @endif
                                         </tr>

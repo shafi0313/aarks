@@ -46,7 +46,7 @@ class BankStatementTranList extends Controller
                 ->where('profession_id', $request->profession)
                 ->whereIs_posted(0);
             $input_sum = $inputs->sum('credit') - $inputs->sum('debit');
-                
+
             $get_balance = 0;
             foreach ($ledger_balances as $ledger_balance) {
                 if ($ledger_balance->credit != 0 || $ledger_balance->debit != 0) {
@@ -55,9 +55,9 @@ class BankStatementTranList extends Controller
                     $get_balance += $ledger_balance->balance;
                 }
             }
-            
+
             $balance = number_format($get_balance, 2);
-            $current_balance = number_format($get_balance + $input_sum,2);
+            $current_balance = number_format($get_balance + $input_sum, 2);
             return response()->json(['balance' => $balance, 'current_balance' => $current_balance, 'status' => 200]);
         }
     }
@@ -68,19 +68,19 @@ class BankStatementTranList extends Controller
             return $error;
         }
         $ledgers = GeneralLedger::where('client_id', $client->id)
-        ->where('profession_id', $profession->id)
-        ->where('balance', '!=', 0)
-        ->where(function ($q) {
-            $q->where('source', 'BST')
-            ->orWhere('source', 'INP');
-        })
-        ->where('chart_id', 'not like', '99999%')
-        ->get();
+            ->where('profession_id', $profession->id)
+            ->where('balance', '!=', 0)
+            ->where(function ($q) {
+                $q->where('source', 'BST')
+                    ->orWhere('source', 'INP');
+            })
+            ->where('chart_id', 'not like', '99999%')
+            ->get(ledgerSetVisible());
 
         activity()
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Bank Statement Report'])
-            ->log('Transaction List > Bank Statement List > '.$client->fullname .' > '. $profession->name.' > All List');
+            ->log('Transaction List > Bank Statement List > ' . $client->fullname . ' > ' . $profession->name . ' > All List');
 
         return view('admin.imp_tran_list.report', compact('client', 'profession', 'ledgers'));
     }
@@ -97,7 +97,7 @@ class BankStatementTranList extends Controller
         activity()
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Bank Statement Details Report'])
-            ->log('Transaction List > Bank Statement Details report > '.$client->fullname .' > '. $profession->name.' > Details Report');
+            ->log('Transaction List > Bank Statement Details report > ' . $client->fullname . ' > ' . $profession->name . ' > Details Report');
         return redirect()->route('index');
     }
     /*=============
@@ -106,23 +106,26 @@ class BankStatementTranList extends Controller
     protected function import($client, $profession, $tran_id, $src)
     {
         $bank = GeneralLedger::where('client_id', $client->id)
-                ->where('profession_id', $profession->id)
-                ->where('transaction_id', $tran_id)
-                ->where('chart_id', 'like', '551%')
-                ->where('source', 'BST')
-                ->where('narration', 'BST_BANK')->first();
+            ->where('profession_id', $profession->id)
+            ->where('transaction_id', $tran_id)
+            ->where('chart_id', 'like', '551%')
+            ->where('source', 'BST')
+            ->where('narration', 'BST_BANK')
+            ->first(ledgerSetVisible());
+            
         $codes = ClientAccountCode::where('client_id', $client->id)
-                ->where('profession_id', $profession->id)
-                // ->where('code', '!=', $bank->chart_id)
-                ->orderBy('code')
-                ->get(clientAccountCodeSetVisible());
+            ->where('profession_id', $profession->id)
+            // ->where('code', '!=', $bank->chart_id)
+            ->orderBy('code')
+            ->get(clientAccountCodeSetVisible());
+
         $imports = BankStatementImport::with('client_account_code')
-                ->where('client_id', $client->id)
-                ->where('profession_id', $profession->id)
-                ->where('tran_id', $tran_id)
-                ->where('is_posted', 1)
-                ->where('account_code', '!=', null)
-                ->get();
+            ->where('client_id', $client->id)
+            ->where('profession_id', $profession->id)
+            ->where('tran_id', $tran_id)
+            ->where('is_posted', 1)
+            ->where('account_code', '!=', null)
+            ->get();
 
         return view('admin.imp_tran_list.import', compact('codes', 'client', 'profession', 'imports', 'bank', 'tran_id'));
     }
@@ -167,7 +170,7 @@ class BankStatementTranList extends Controller
             ->where('is_posted', 1)
             ->count();
         if ($inpCount == 1) {
-            Alert::error('You can not delete this record, because it is last record of this transaction','If you want to delete this transaction, please delete it from Bank Statement Transaction List');
+            Alert::error('You can not delete this record, because it is last record of this transaction', 'If you want to delete this transaction, please delete it from Bank Statement Transaction List');
             return back();
         }
 
@@ -187,25 +190,30 @@ class BankStatementTranList extends Controller
         }
         try {
             BankStatementImport::whereClientId($client->id)
-            ->whereProfessionId($profession->id)
-            ->where('tran_id', $tran_id)
-            ->whereIsPosted(1)->delete();
+                ->whereProfessionId($profession->id)
+                ->where('tran_id', $tran_id)
+                ->whereIsPosted(1)
+                ->delete();
+
             Gsttbl::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where('trn_id', $tran_id)
-                ->where('source', 'BST')->delete();
+                ->where('source', 'BST')
+                ->delete();
 
             $ledger = GeneralLedger::where('client_id', $client->id)
-            ->where('profession_id', $profession->id)
-            ->where('transaction_id', $tran_id)
-            ->where('source', 'BST')->first();
+                ->where('profession_id', $profession->id)
+                ->where('transaction_id', $tran_id)
+                ->where('source', 'BST')
+                ->first();
 
             GeneralLedger::where('client_id', $client->id)
-            ->where('profession_id', $profession->id)
-            ->where('transaction_id', $tran_id)
-            ->where('source', 'BST')
-            ->where('chart_id', '!=', 999999)
-            ->delete();
+                ->where('profession_id', $profession->id)
+                ->where('transaction_id', $tran_id)
+                ->where('source', 'BST')
+                ->where('chart_id', '!=', 999999)
+                ->delete();
+
             $this->retain($ledger, $client, $profession, 'BST');
             Alert::success('Bank Statement Deleted');
         } catch (\Exception $e) {
@@ -222,22 +230,22 @@ class BankStatementTranList extends Controller
     protected function input($client, $profession, $tran_id, $src)
     {
         $bank   = GeneralLedger::where('transaction_id', $tran_id)
-                ->where('client_id', $client->id)
-                ->where('profession_id', $profession->id)
-                ->where('chart_id', 'like', '551%')
-                ->where('narration', 'INP_BANK')->first();
+            ->where('client_id', $client->id)
+            ->where('profession_id', $profession->id)
+            ->where('chart_id', 'like', '551%')
+            ->where('narration', 'INP_BANK')->first();
         $codes = ClientAccountCode::where('client_id', $client->id)
-                ->where('profession_id', $profession->id)
-                ->where('code', '!=', $bank->chart_id)
-                ->orderBy('code')
-                ->get();
+            ->where('profession_id', $profession->id)
+            ->where('code', '!=', $bank->chart_id)
+            ->orderBy('code')
+            ->get();
         $inputs = BankStatementInput::with('client_account_code')
-                ->where('client_id', $client->id)
-                ->where('profession_id', $profession->id)
-                ->where('tran_id', $tran_id)
-                ->where('is_posted', 1)
-                ->where('account_code', '!=', null)
-                ->get();
+            ->where('client_id', $client->id)
+            ->where('profession_id', $profession->id)
+            ->where('tran_id', $tran_id)
+            ->where('is_posted', 1)
+            ->where('account_code', '!=', null)
+            ->get();
 
         return view('admin.imp_tran_list.input', compact('codes', 'client', 'profession', 'bank', 'tran_id', 'inputs'));
     }
@@ -280,7 +288,7 @@ class BankStatementTranList extends Controller
             ->where('is_posted', 1)
             ->count();
         if ($inpCount == 1) {
-            Alert::error('You can not delete this record, because it is last record of this transaction','If you want to delete this transaction, please delete it from Bank Statement Transaction List');
+            Alert::error('You can not delete this record, because it is last record of this transaction', 'If you want to delete this transaction, please delete it from Bank Statement Transaction List');
             return back();
         }
 
@@ -300,25 +308,25 @@ class BankStatementTranList extends Controller
         }
         try {
             BankStatementInput::whereClientId($client->id)
-            ->whereProfessionId($profession->id)
-            ->where('tran_id', $tran_id)
-            ->whereIsPosted(1)->delete();
+                ->whereProfessionId($profession->id)
+                ->where('tran_id', $tran_id)
+                ->whereIsPosted(1)->delete();
             Gsttbl::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where('trn_id', $tran_id)
                 ->where('source', 'INP')->delete();
 
             $ledger = GeneralLedger::where('client_id', $client->id)
-            ->where('profession_id', $profession->id)
-            ->where('transaction_id', $tran_id)
-            ->where('source', 'INP')->first();
+                ->where('profession_id', $profession->id)
+                ->where('transaction_id', $tran_id)
+                ->where('source', 'INP')->first();
 
             GeneralLedger::where('client_id', $client->id)
-            ->where('profession_id', $profession->id)
-            ->where('transaction_id', $tran_id)
-            ->where('source', 'INP')
-            ->where('chart_id', '!=', 999999)
-            ->delete();
+                ->where('profession_id', $profession->id)
+                ->where('transaction_id', $tran_id)
+                ->where('source', 'INP')
+                ->where('chart_id', '!=', 999999)
+                ->delete();
             $this->retain($ledger, $client, $profession, 'INP');
             Alert::success('Bank Statement Deleted');
         } catch (\Exception $e) {
@@ -336,16 +344,16 @@ class BankStatementTranList extends Controller
             $end_year   = $tran_date->format('Y') . '-06-30';
         } else {
             $start_year = $tran_date->format('Y') . '-07-01';
-            $end_year   = $tran_date->format('Y')+1 . '-06-30';
+            $end_year   = $tran_date->format('Y') + 1 . '-06-30';
         }
 
         $inRetain   = GeneralLedger::where('client_id', $client->id)
-                    ->where('profession_id', $profession->id)
-                    ->where('date', '>=', $start_year)
-                    ->where('date', '<=', $end_year)
-                    ->where('chart_id', 'LIKE', '1%')
-                    ->where('source', $source)
-                    ->get();
+            ->where('profession_id', $profession->id)
+            ->where('date', '>=', $start_year)
+            ->where('date', '<=', $end_year)
+            ->where('chart_id', 'LIKE', '1%')
+            ->where('source', $source)
+            ->get();
         $inRetainData = 0;
         foreach ($inRetain as $intr) {
             if ($intr->balance_type == 2 && $intr->balance > 0) {
@@ -355,12 +363,12 @@ class BankStatementTranList extends Controller
             }
         }
         $exRetain = GeneralLedger::where('client_id', $client->id)
-                    ->where('profession_id', $profession->id)
-                    ->where('date', '>=', $start_year)
-                    ->where('date', '<=', $end_year)
-                    ->where('chart_id', 'LIKE', '2%')
-                    ->where('source', $source)
-                    ->get();
+            ->where('profession_id', $profession->id)
+            ->where('date', '>=', $start_year)
+            ->where('date', '<=', $end_year)
+            ->where('chart_id', 'LIKE', '2%')
+            ->where('source', $source)
+            ->get();
         $exRetainData = 0;
         foreach ($exRetain as $intr) {
             if ($intr->balance_type == 1 && $intr->balance > 0) {
@@ -373,7 +381,7 @@ class BankStatementTranList extends Controller
         $retainData = $inRetainData - $exRetainData;
 
         $ledger['source']                 = $source;
-        $ledger['narration']              = $source. ' Retain Earning';
+        $ledger['narration']              = $source . ' Retain Earning';
         $ledger['chart_id']               = 999999;
         $ledger['client_account_code_id'] = $ledger['gst'] = 0;
         $ledger['balance']                = $retainData;
