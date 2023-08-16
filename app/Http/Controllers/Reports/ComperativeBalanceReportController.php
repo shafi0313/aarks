@@ -44,7 +44,7 @@ class ComperativeBalanceReportController extends Controller
         $data = $balance->report($request, $client, $profession);
         activity()
             ->performedOn(new GeneralLedger())
-            ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Comperative Balance Sheet Report'])
+            ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Comparative Balance Sheet Report'])
             ->log('Report > Comperative Balance Sheet Report > ' . $client->fullname . ' > ' . $profession->name);
         return view('admin.reports.comperative_balance_sheet.report', $data);
     }

@@ -299,7 +299,7 @@
                 <li class="">
                     <a href="{{ route('helpdesk.index') }}">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Help Memu Manage
+                        Help Menu Manage
                     </a>
                     <b class="arrow"></b>
                 </li>
@@ -453,92 +453,13 @@
                 <li class="{{activeNav('payment_sync.*')}}">
                     <a href="{{route('payment_sync.index')}}">
                         <i class="menu-icon fa fa-download" aria-hidden="true"></i>
-                        <span class="menu-text">payment trn adv.delete</span>
+                        <span class="menu-text">Payment Trn Adv.Delete</span>
                     </a>
                     <b class="arrow"></b>
                 </li>
             </ul>
         </li>
         @endcanany
-
-        {{--
-        @canany(['admin.close_year.create','admin.close_year.index','admin.close_year.edit','admin.close_year.delete'])
-        <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-desktop"></i>
-                <span class="menu-text">
-                    Backup &amp; Restore
-                </span>
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-            <ul class="submenu">
-                @canany(['admin.user.create','admin.role.index'])
-                <li class="">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Data Backup
-                        <b class="arrow fa fa-angle-down"></b>
-                    </a>
-                    <b class="arrow"></b>
-                    <ul class="submenu">
-                        @can('admin.user.create')
-                        <li class="">
-                            <a href="{{ route('user.index') }}">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Full Backup
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                        @endcan
-                        @can('admin.role.index')
-                        <li class="">
-                            <a href="{{route('role.index')}}">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Year Only
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-                        @endcan
-                    </ul>
-                </li>
-                @endcanany
-
-                @canany(['admin.user.create','admin.role.index'])
-                <li class="">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Data Restore
-                        <b class="arrow fa fa-angle-down"></b>
-                    </a>
-                    <b class="arrow"></b>
-                    <ul class="submenu">
-                        @can('admin.user.create')
-                        <li class="">
-                            <a href="{{ route('user.index') }}">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Full Restore
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                        @endcan
-                        @can('admin.role.index')
-                        <li class="">
-                            <a href="{{route('role.index')}}">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Year Only
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-                        @endcan
-                    </ul>
-                </li>
-                @endcanany
-            </ul>
-        </li>
-        @endcanany --}}
 
         <!-- Reports -->
         @canany([
@@ -563,7 +484,7 @@
         <li class="{{ activeOpenNav(
                         ['gst_recon.*',
                         'cash_basis.*',
-                        'admin.accrued_basis.*',
+                        'accrued_basis.*',
                         'cash_periodic.*',
                         'accrued_periodic.*',
                         'general_ledger.*',
@@ -609,7 +530,7 @@
                 </li>
                 @endcan
                 @can('admin.accrued_basis.index')
-                <li class="{{ activeNav('admin.accrued_basis.*') }}">
+                <li class="{{ activeNav('accrued_basis.*') }}">
                     <a href="{{ route('accrued_basis.index') }}">
                         <i class="menu-icon fa fa-caret-right"></i>
                         GST/BAS (<span style="color: green">Cnosol.</span>Acured)
@@ -682,7 +603,7 @@
                 </li>
                 @endcan
                 @can('admin.console_accum_excl.index')
-                <li class="{{ activeNav('console_accum.*') }}">
+                <li class="{{ activeNav('console_accum.excl_index') }}">
                     <a href="{{ route('console_accum.excl_index') }}">
                         <i class="menu-icon fa fa-caret-right"></i>
                         <span style="color: green">Cnosol.</span>
@@ -692,7 +613,7 @@
                 </li>
                 @endcan
                 @can('admin.console_accum_incl.index')
-                <li class="{{ activeNav('console_accum.*') }}">
+                <li class="{{ activeNav('console_accum.incl_index') }}">
                     <a href="{{ route('console_accum.incl_index') }}">
                         <i class="menu-icon fa fa-caret-right"></i>
                         <span style="color: green">Cnosol.</span> P/L(GST <span style="color: red;">Incl</span>)

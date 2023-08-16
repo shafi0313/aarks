@@ -28,11 +28,10 @@
 
         <div class="page-content">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-md-12">
                     <!-- PAGE CONTENT BEGINS -->
-
                     <div class="row" id="printarea">
-                        <div class="col-lg-12">
+                        <div class="col-md-12">
                             <div align="center">
                                 @include('admin.reports.profit_loss.header')
                                 <div align="center" style="padding-top:20px;">
@@ -52,18 +51,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-11">
-                            <div style="padding-right:200px;">
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div style="padding-right:200px; padding-left:10px;">
-                                <button onclick="printDiv('printarea')" class="btn btn-primary">Print</button>
-                            </div>
+                    <div class="row text-right">
+                        <div style="max-width: 1327px; margin: 0 auto">
+                            <button onclick="printDiv('printarea')" class="btn btn-primary">Print</button>
                         </div>
                     </div>
-                </div><!-- /.col -->
+                </div>
             </div><!-- /.row -->
         </div><!-- /.page-content -->
     </div>

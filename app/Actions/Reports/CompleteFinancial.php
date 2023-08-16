@@ -24,10 +24,10 @@ class CompleteFinancial extends Controller
             $start_date     = $date->format('Y') . '-07-01';
             $pre_start_date = $pre_year - 1 . '-07-01';
         } else {
-            $year               = $date->format('Y');
-            $pre_year           = $date->format('Y') - 1;
-            $start_date         = $date->format('Y') - 1 . '-07-01';
-            $pre_start_date     = $date->format('Y') - 2 . '-07-01';
+            $year           = $date->format('Y');
+            $pre_year       = $date->format('Y') - 1;
+            $start_date     = $date->format('Y') - 1 . '-07-01';
+            $pre_start_date = $date->format('Y') - 2 . '-07-01';
         }
         $data = [
             'year'           => $year,
@@ -59,7 +59,7 @@ class CompleteFinancial extends Controller
             $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
                 ->where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
-                ->get();
+                ->get(ledgerSetVisible());
 
             // $data['bs_retain'] = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
             //     ->where('chart_id', 999999)
@@ -71,7 +71,7 @@ class CompleteFinancial extends Controller
             $data['bs_retain']   = retain($client, $profession, $date);
             $data['bs_plRetain'] = pl($client, $profession, $date);
         }
-        
+
         if ($request->has('incomestatment_note')) {
             $data['is_incomestatment_note']  = true;
             $data['incomestatment_note']     = 'Income Statment Note';
@@ -88,14 +88,15 @@ class CompleteFinancial extends Controller
                 ->where('profession_id', $profession->id)
                 ->where('chart_id', 999999)
                 ->groupBy('chart_id')
-                ->first();
+                ->first(ledgerSetVisible());
+
             $data['IECRetain'] = GeneralLedger::select('*', DB::raw("sum(balance) as CRetain"))
                 ->where('date', '>=', $start_date)
                 ->where('date', '<=', $end_date)
                 ->where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where('chart_id', 999998)
-                ->first();
+                ->first(ledgerSetVisible());
         }
 
         // DETAIL BALANCE SHEET
@@ -117,7 +118,9 @@ class CompleteFinancial extends Controller
                     })->orderBy('code', 'asc')->get();
 
                 $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
-                    ->where('client_id', $client->id)->where('profession_id', $profession->id)->get();
+                    ->where('client_id', $client->id)
+                    ->where('profession_id', $profession->id)
+                    ->get(ledgerSetVisible());
 
                 $data['bs_retain']   = retain($client, $profession, $date);
                 $data['bs_plRetain'] = pl($client, $profession, $date);
@@ -135,7 +138,7 @@ class CompleteFinancial extends Controller
                 ->where('profession_id', $profession->id)
                 ->groupBy('chart_id')
                 ->orderBy('chart_id')
-                ->get();
+                ->get(ledgerSetVisible());
             $data['tpl_preLedgers'] = GeneralLedger::select('*', DB::raw("sum(balance) as balance, sum(credit) as credit,sum(debit) as debit"))
                 ->where('date', '>=', $pre_start_date)
                 ->where('date', '<=', $start_date)
@@ -143,7 +146,7 @@ class CompleteFinancial extends Controller
                 ->where('profession_id', $profession->id)
                 ->groupBy('chart_id')
                 ->orderBy('chart_id')
-                ->get();
+                ->get(ledgerSetVisible());
             $industry_categories = $profession->industryCategories->pluck('id')->toArray();
             $profession->load([
                 'accountCodeCategories' => function ($query) use ($industry_categories) {
@@ -181,7 +184,7 @@ class CompleteFinancial extends Controller
                 ->where('profession_id', $profession->id)
                 ->where('date', '<', $start_date)
                 ->groupBy('chart_id')
-                ->first();
+                ->first(ledgerSetVisible());
             $data["tpl_totalRetain"] = $retain->totalRetain ?? 0;
             $plRetain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalPl"))
                 ->where('chart_id', 999998)
@@ -198,7 +201,7 @@ class CompleteFinancial extends Controller
                 ->where('profession_id', $profession->id)
                 ->where('date', '<', $pre_start_date)
                 ->groupBy('chart_id')
-                ->first();
+                ->first(ledgerSetVisible());
             $data["tpl_totalPreRetain"] = $preRetain->totalRetain ?? 0;
             $prePlRetain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalPl"))
                 ->where('chart_id', 999998)
@@ -206,7 +209,7 @@ class CompleteFinancial extends Controller
                 ->where('profession_id', $profession->id)
                 ->where('date', '>=', $pre_start_date)
                 ->where('date', '<=', $start_date)
-                ->first();
+                ->first(ledgerSetVisible());
             $data["tpl_totalPrePl"] = $prePlRetain->totalPl ?? 0;
         }
         if ($request->has('trial_balance')) {
@@ -227,7 +230,7 @@ class CompleteFinancial extends Controller
                     ->where('chart_id', 'not like', '2%')
                     ->groupBy('chart_id')
                     ->orderBy('chart_id')
-                    ->get();
+                    ->get(ledgerSetVisible());
             } else {
                 $data['trial_ledgers'] = GeneralLedger::select('*', DB::raw("sum(balance) as trail_balance"))
                     ->where('client_id', $client_id)
@@ -252,7 +255,7 @@ class CompleteFinancial extends Controller
                     ->where('chart_id', '!=', 999999)
                     ->where('chart_id', '!=', 999998)
                     ->groupBy('chart_id')
-                    ->get();
+                    ->get(ledgerSetVisible());
             }
             $data['trial_retains'] = GeneralLedger::select('*', DB::raw("sum(balance) as totalRetain"))
                 ->where('client_id', $client_id)
@@ -260,7 +263,7 @@ class CompleteFinancial extends Controller
                 ->where('date', '<', $start_date)
                 ->where('chart_id', 999999)
                 ->groupBy('chart_id')
-                ->first();
+                ->first(ledgerSetVisible());
             $data['trial_CRetains'] = pl($client, $profession, $date);
 
             $data['trial_codes'] = ClientAccountCode::where('client_id', $client->id)
@@ -277,14 +280,14 @@ class CompleteFinancial extends Controller
                 ->whereIn('source', ['BST', 'INP'])
                 ->where('date', '<=', $end_date)
                 ->select('*', DB::raw("sum(balance) as balance, sum(credit) as credit, sum(debit) as debit"))
-                ->first();
+                ->first(ledgerSetVisible());
             $pin = GeneralLedger::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where('chart_id', '!=', "551800")
                 ->where('source', 'PIN')
                 ->where('date', '<=', $end_date)
                 ->select('*', DB::raw("sum(balance) as balance, sum(credit) as credit, sum(debit) as debit"))
-                ->first();
+                ->first(ledgerSetVisible());
             $data['cfs_receipt'] = $bst_inp->debit + $pin->debit;
 
             $data['cfs_ledger'] = GeneralLedger::where('client_id', $client->id)
@@ -294,42 +297,42 @@ class CompleteFinancial extends Controller
                 ->whereIn('source', ['PIN', 'INP'])
                 ->where('date', '<=', $end_date)
                 ->select('*', DB::raw("sum(balance) as balance, sum(credit) as credit, sum(debit) as debit"))
-                ->first();
+                ->first(ledgerSetVisible());
 
             $data['cfs_income_cr'] = GeneralLedger::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
-                ->where(function($q){
+                ->where(function ($q) {
                     $q->where('chart_id', 'like', "1%")
-                    ->orWhere('chart_id', "552100");
+                        ->orWhere('chart_id', "552100");
                 })
                 // ->where('chart_id', 'like', "1%")
                 // ->Where('chart_id', 'like', "552100%")
                 ->where('source', '!=', 'INV')
                 ->where('date', '<=', $end_date)
                 ->select('*', DB::raw("sum(credit) as credit"))
-                ->first();
+                ->first(ledgerSetVisible());
 
             $data['cfs_expense_dr'] = GeneralLedger::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where('chart_id', 'like', "2%")
-                ->whereNotIn('source', ['INV','PBP'])
+                ->whereNotIn('source', ['INV', 'PBP'])
                 // ->where('date', '>=', $start_date)
                 ->where('date', '<=', $end_date)
                 ->select('*', DB::raw("sum(debit) as debit"))
-                ->first();
+                ->first(ledgerSetVisible());
 
             // $data['cfs_debtors_cr'] = GeneralLedger::where('client_id', $client->id)
             //     ->where('profession_id', $profession->id)
-                // ->where(function($q){
-                //     $q->where('chart_id', 'like', "1%")
-                //     ->orWhere('chart_id', 'like', "552100%");
-                // })
-                // ->where('chart_id', 'like', "1%")
-                // ->Where('chart_id', "552100")
-                // ->where('source', 'PIN')
-                // ->where('date', '<=', $end_date)
-                // ->select('*', DB::raw("sum(debit) as debit"))
-                // ->first();
+            // ->where(function($q){
+            //     $q->where('chart_id', 'like', "1%")
+            //     ->orWhere('chart_id', 'like', "552100%");
+            // })
+            // ->where('chart_id', 'like', "1%")
+            // ->Where('chart_id', "552100")
+            // ->where('source', 'PIN')
+            // ->where('date', '<=', $end_date)
+            // ->select('*', DB::raw("sum(debit) as debit"))
+            // ->first();
 
             // $data['cfs_liquid_assets_dr'] = GeneralLedger::where('client_id', $client->id)
             //     ->where('profession_id', $profession->id)
@@ -340,9 +343,9 @@ class CompleteFinancial extends Controller
             //     ->select('*', DB::raw("sum(debit) as debit"))
             //     ->first();
 
-            
 
-                //  dd($data['cfs_income_cr'], $data['cfs_debtors_cr'], $data['cfs_liquid_assets_dr']);
+
+            //  dd($data['cfs_income_cr'], $data['cfs_debtors_cr'], $data['cfs_liquid_assets_dr']);
         }
         if ($request->has('statement_of_receipts_and_payments')) {
             // return $financial_year;
@@ -353,14 +356,14 @@ class CompleteFinancial extends Controller
                 ->where('chart_id', 'like', "551%")
                 ->where('date', '<=', $pre_year . '-06-30')
                 ->select('*', DB::raw("sum(balance) as balance, sum(credit) as credit, sum(debit) as debit"))
-                ->first();
+                ->first(ledgerSetVisible());
             $data['srp_ledger'] = GeneralLedger::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where('chart_id', 'like', "551%")
                 ->where('date', '>=', $start_date)
                 ->where('date', '<=', $end_date)
                 ->select('*', DB::raw("sum(balance) as balance, sum(credit) as credit, sum(debit) as debit"))
-                ->first();
+                ->first(ledgerSetVisible());
         }
         if ($request->has('depreciation')) {
             $data['is_depreciation'] = true;
@@ -377,14 +380,14 @@ class CompleteFinancial extends Controller
                 ->where('profession_id', $profession->id)
                 ->select(DB::raw("sum(balance) as balance, sum(credit) as credit, sum(debit) as debit"))
                 ->where('chart_id', 'like', "1%")
-                ->first();
+                ->first(ledgerSetVisible());
             $totalExpence = GeneralLedger::where('date', '>=', $start_date)
                 ->where('date', '<=', $end_date)
                 ->where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->select(DB::raw("sum(balance) as balance, sum(credit) as credit, sum(debit) as debit"))
                 ->where('chart_id', 'like', "2%")
-                ->first();
+                ->first(ledgerSetVisible());
             $data['is_directors_report'] = true;
             $data['directors_pl']        = abs($totalIncome->balance) - abs($totalExpence->balance);
             $data['directors_report']    = 'Directors Report';

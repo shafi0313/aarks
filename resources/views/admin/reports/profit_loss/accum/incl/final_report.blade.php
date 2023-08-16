@@ -46,22 +46,14 @@
 
                                     <div align="center" style="padding-top:0px;">
                                         @include('admin.reports.profit_loss.incl.table')
-                                        {{-- @include('admin.reports.profit_loss.accum.incl.table') --}}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-11">
-                            <div style="padding-right:200px;">
-
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div style="padding-right:200px; padding-left:10px;">
-                                <button onclick="printDiv('printarea')" class="btn btn-primary">Print</button>
-                            </div>
+                    <div class="row text-right">
+                        <div style="max-width: 1327px; margin: 0 auto">
+                            <button onclick="printDiv('printarea')" class="btn btn-primary">Print</button>
                         </div>
                     </div>
                 </div><!-- /.col -->

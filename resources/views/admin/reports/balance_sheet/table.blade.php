@@ -49,25 +49,25 @@
                                 $blncType = '';
                                 if ($accountCodeCategory->code == 5) {
                                     if ($ledger->balance_type == 1 && $ledgerBalance > 0) {
-                                        $gtBalance        += abs($ledgerBalance);
+                                        $gtBalance += abs($ledgerBalance);
                                         $subSubGrpBalance += abs($ledgerBalance);
-                                        $blncType          = '';
+                                        $blncType = '';
                                     } else {
-                                        $gtBalance        -= abs($ledgerBalance);
+                                        $gtBalance -= abs($ledgerBalance);
                                         $subSubGrpBalance -= abs($ledgerBalance);
-                                        $blncType          = '-';
+                                        $blncType = '-';
                                     }
                                 }
                                 
                                 if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998, 912101])) {
                                     if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
-                                        $gtBalance        = $gtBalance        += abs($ledgerBalance);
+                                        $gtBalance = $gtBalance += abs($ledgerBalance);
                                         $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
-                                        $blncType         = '';
+                                        $blncType = '';
                                     } else {
-                                        $gtBalance        = $gtBalance        -= abs($ledgerBalance);
+                                        $gtBalance = $gtBalance -= abs($ledgerBalance);
                                         $subSubGrpBalance = $subSubGrpBalance -= abs($ledgerBalance);
-                                        $blncType         = '-';
+                                        $blncType = '-';
                                     }
                                 }
                                 
@@ -75,13 +75,13 @@
                                 if ($accountCodeCategory->code == 9) {
                                     if ($ledger->chart_id == 912101) {
                                         if ($ledger->balance_type == 1 && $ledgerBalance > 0) {
-                                            $gtBalance        = $gtBalance        -= abs($ledgerBalance);
+                                            $gtBalance = $gtBalance -= abs($ledgerBalance);
                                             $subSubGrpBalance = $subSubGrpBalance -= abs($ledgerBalance);
-                                            $blncType         = '-';
+                                            $blncType = '-';
                                         } else {
-                                            $gtBalance        = $gtBalance        += abs($ledgerBalance);
+                                            $gtBalance = $gtBalance += abs($ledgerBalance);
                                             $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
-                                            $blncType         = '';
+                                            $blncType = '';
                                         }
                                     }
                                 }

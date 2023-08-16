@@ -44,6 +44,7 @@ class BalanceSheetReportController extends Controller
         if ($error = $this->sendPermissionError('admin.balance_sheet.index')) {
             return $error;
         }
+        // return
         $data = $balance->report($request, $client, $profession);
         activity()
             ->performedOn(new GeneralLedger())
