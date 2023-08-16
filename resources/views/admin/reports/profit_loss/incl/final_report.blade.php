@@ -1,9 +1,6 @@
 @extends('admin.layout.master')
 @section('title', 'Profit & Loss GST Include')
 @section('content')
-
-
-
     <div class="main-content">
         <div class="main-content-inner">
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -13,11 +10,11 @@
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
                     <li>Report</li>
-                    <<li>{{ $client->fullname }}</li>
-                        <li class="active">{{ $profession->name }}</li>
+                    <li>{{ $client->fullname }}</li>
+                    <li class="active">{{ $profession->name }}</li>
                 </ul><!-- /.breadcrumb -->
 
-                <div class="nav-search" id="nav-search">
+                {{-- <div class="nav-search" id="nav-search">
                     <form class="form-search">
                         <span class="input-icon">
                             <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input"
@@ -25,7 +22,7 @@
                             <i class="ace-icon fa fa-search nav-search-icon"></i>
                         </span>
                     </form>
-                </div><!-- /.nav-search -->
+                </div><!-- /.nav-search --> --}}
             </div>
 
             <div class="page-content">
@@ -48,6 +45,7 @@
                                                 Statement</b></strong><br />
                                         <strong><b><u>For the Period From {{ $from_date }} -
                                                     {{ $to_date }}</u></b></strong>
+
                                         <div align="center" style="padding-top:0px;">
                                             @include('admin.reports.profit_loss.incl.table')
                                         </div>
@@ -56,14 +54,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-11">
-                                <div style="padding-right:200px;">
-
-                                </div>
-                            </div>
-
-                            <div class="col-md-1">
-                                <div style="padding-right:200px; padding-left:10px;">
+                            <div class="col-md-12 text-right">
+                                <div style="padding-right:15px;">
                                     <button onclick="printDiv('printarea')" class="btn btn-primary">Print</button>
                                 </div>
                             </div>
@@ -77,7 +69,6 @@
                                     <input type="hidden" name="endStart2" value="2020-03-25" />
                                     <input type="hidden" name="client_id2" value="628" />
                                     <input type="hidden" name="professionid2" value="14" />
-
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="subject" name="subject"
                                             placeholder="Subject" required>
@@ -97,7 +88,5 @@
             </div><!-- /.page-content -->
         </div>
     </div><!-- /.main-content -->
-
     @include('admin.reports.profit_loss.print_div')
-
 @endsection

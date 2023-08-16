@@ -154,7 +154,7 @@
                                         <tr>
                                             <td colspan="7">
                                                 <button onclick="return confirm('Are you sure?')" type="submit"
-                                                    class="btn btn-info mt-4 form-control" style="float: right; ">
+                                                    class="btn btn-info mt-4 form-control" style="float: right;">
                                                     Update</button>
                                             </td>
                                         </tr>

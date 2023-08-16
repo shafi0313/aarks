@@ -7,7 +7,7 @@
         @if ($incomeCode->id != '')
             <tr>
                 <th>{{ $incomeCode->client_account_code->name }}</th>
-                <th style="text-align: right;">                    
+                <th style="text-align: right;">
                     {{ abs_number($incomeCode->inCredit != 0 ? $incomeCode->inCredit : $incomeCode->iDebit, 2) }}</th>
             </tr>
         @endif
@@ -20,7 +20,10 @@
         <th width="82%">Total Turnover/Income</th>
         <th width="18%" align="right"
             style="border-bottom:1px solid #000000; border-top:1px solid #000000; text-align:right;">
-            $ {{ $totalIncome = abs_number($incomeCodes->sum('inCredit') - $incomeCodes->sum('iDebit')) }}
+            @php
+                $totalIncome = $incomeCodes->sum('inCredit') - $incomeCodes->sum('iDebit');
+            @endphp
+            $ {{ nFA2($totalIncome) }}
         </th>
     </tr>
     <tr>
@@ -43,7 +46,10 @@
     <tr>
         <th>Total Expenses</th>
         <th style="border-bottom:1px solid #000000; border-top:1px solid #000000; text-align:right;">
-            $ {{ $totalExpense = abs_number($expensCodes->sum('inDebit') - $expensCodes->sum('eCredit')) }}
+            @php
+                $totalExpense = $expensCodes->sum('inDebit') - $expensCodes->sum('eCredit');
+            @endphp
+            $ {{ nFA2($totalExpense) }}
         </th>
     </tr>
     <tr>

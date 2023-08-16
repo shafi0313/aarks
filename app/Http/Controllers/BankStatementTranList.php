@@ -101,7 +101,7 @@ class BankStatementTranList extends Controller
         return redirect()->route('index');
     }
     /*=============
-    == Bankstatement Import
+    == Bank statement Import
     ==============*/
     protected function import($client, $profession, $tran_id, $src)
     {
