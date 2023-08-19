@@ -75,6 +75,7 @@ class BankStatementTranList extends Controller
                     ->orWhere('source', 'INP');
             })
             ->where('chart_id', 'not like', '99999%')
+            ->orderBy('date', 'desc')
             ->get(ledgerSetVisible());
 
         activity()
@@ -286,7 +287,7 @@ class BankStatementTranList extends Controller
         $inputBS->update($request);
         return back();
     }
-    
+
     public function inputDestroy(Client $client, Profession $profession, BankStatementInput $bank_statement)
     {
         if ($error = $this->sendPermissionError('admin.bs_tranlist.delete')) {

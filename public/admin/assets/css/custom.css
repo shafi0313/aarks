@@ -20,3 +20,12 @@
     color: red;
     font-weight: bold;
 }
+
+thead tr th {
+    text-align: center;
+}
+
+.jumbotron {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
