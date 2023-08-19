@@ -224,12 +224,26 @@ class BankStatementTranList extends Controller
     }
 
     /*=================
-    == Bankstatement Input
+    == Bank statement Input
     ==================*/
+
+    public function inpUpdateAccountCode(Request $request, $id)
+    {
+        try {
+            $input = BankStatementInput::find($id);
+            if (periodLock($input->client_id, ($input->date))) {
+                return response()->json(['status'=>500,'message'=> 'Your enter data period is locked, check administration']);
+            }
+            $input->update(['account_code' => $request->accountCode]);
+            return response()->json(['status'=>200,'message'=> 'Account code successfully updated.']);
+        } catch (\Exception $e) {
+            return response()->json(['status'=>500,'message'=> $e->getMessage()]);
+        }
+    }
 
     protected function input($client, $profession, $tran_id, $src)
     {
-        $bank   = GeneralLedger::where('transaction_id', $tran_id)
+        $bank = GeneralLedger::where('transaction_id', $tran_id)
             ->where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('chart_id', 'like', '551%')
@@ -272,6 +286,7 @@ class BankStatementTranList extends Controller
         $inputBS->update($request);
         return back();
     }
+    
     public function inputDestroy(Client $client, Profession $profession, BankStatementInput $bank_statement)
     {
         if ($error = $this->sendPermissionError('admin.bs_tranlist.delete')) {

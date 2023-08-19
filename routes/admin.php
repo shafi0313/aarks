@@ -169,7 +169,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
         Route::get('client-account-code', [InputController::class, 'getCodes'])->name('getcodes');
         Route::get('/client-account-balance', [InputController::class, 'getBalance'])->name('getBalance');
         Route::get('{client}', [InputController::class, 'showProfessions'])->name('professions');
-        Route::get('{client}/{profession}', [InputController::class, 'inputBS'])->name('BS');
+        Route::get('{client}/{profession}', [InputController::class, 'inputBS'])->name('BS');        
     });
 
 
@@ -183,6 +183,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
         Route::get('/client-account-balance', [BankStatementTranList::class, 'getBalance'])->name('getBalance');
         Route::get('/all/{client}/{profession}', [BankStatementTranList::class, 'report'])->name('report');
         Route::get('/details/{client}/{profession}/{tran_id}/{src}', [BankStatementTranList::class, 'detailsReport'])->name('details');
+        Route::get('update-account-name/{id}', [BankStatementTranList::class, 'inpUpdateAccountCode'])->name('updateCode');
 
         // Import
         Route::group(['prefix' => 'details-import', 'as' => 'import.'], function () {

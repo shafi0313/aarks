@@ -314,12 +314,14 @@ class InputBS
             ->where('profession_id', $profession->id)
             ->where('transaction_id', $tran_id)
             ->where('chart_id', '!=', '999999')
-            ->where('source', 'INP')->delete();
+            ->where('source', 'INP')
+            ->forceDelete();
 
         Gsttbl::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('trn_id', $tran_id)
-            ->where('source', 'INP')->delete();
+            ->where('source', 'INP')
+            ->forceDelete();
 
         if ($bank_statements->count()) {
             foreach ($bank_statements as $bank_statement) {
@@ -483,15 +485,15 @@ class InputBS
             }
 
             //RetailEarning Calculation
-            RetainEarning::retain($client->id, $profession->id, $retain_date, $ledger, ['INP', 'INP']);
+            // RetainEarning::retain($client->id, $profession->id, $retain_date, $ledger, ['INP', 'INP']);
 
             // Retain Earning For each Transection
-            RetainEarning::tranRetain($client->id, $profession->id, $tran_id, $ledger, ['INP', 'INP']);
+            // RetainEarning::tranRetain($client->id, $profession->id, $tran_id, $ledger, ['INP', 'INP']);
             //RetailEarning Calculation End....
 
             try {
                 DB::commit();
-                Alert::success('Bankstatement List', 'Transaction Successfully Updated');
+                Alert::success('Bank Statement List', 'Transaction Successfully Updated');
             } catch (\Exception $ex) {
                 DB::rollBack();
                 Alert::error('Sever Side Error!');
