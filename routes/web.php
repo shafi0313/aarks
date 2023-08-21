@@ -45,7 +45,9 @@ use App\Http\Controllers\Frontend\Report\CompleteReportController;
 use App\Http\Controllers\Frontend\Banking\ClientBsImportController;
 use App\Http\Controllers\Frontend\Report\GstAccruedBasisController;
 use App\Http\Controllers\Frontend\Report\DepreciationReportController;
+use App\Http\Controllers\Frontend\Report\PeriodicCashReportController;
 use App\Http\Controllers\Frontend\Banking\BankReconciliationController;
+use App\Http\Controllers\Frontend\Report\PeriodicAccruedReportController;
 use App\Http\Controllers\Frontend\Report\ConsoleFinancialReportController;
 use App\Http\Controllers\Frontend\Accounts\Depreciation\DesposalController;
 use App\Http\Controllers\Frontend\Accounts\Depreciation\RolloverController;
@@ -544,6 +546,21 @@ Route::middleware(['subsCheck', 'clientAuth'])->group(function () {
             Route::get('/', [GstAccruedBasisController::class, 'index'])->name('index');
             Route::get('report', [GstAccruedBasisController::class, 'report'])->name('report');
         });
+
+        // Periodic Cash Basis
+        Route::controller(PeriodicCashReportController::class)->prefix('periodic-cash-basis')->name('c.periodicCash.')->group(function () {
+            Route::get('/', 'profession')->name('profession');
+            Route::get('/date/{profession}', 'date')->name('date');
+            Route::get('/report/{profession}', 'report')->name('report');
+        });
+
+        // Periodic Accrued Basis
+        Route::controller(PeriodicAccruedReportController::class)->prefix('periodic-accrued-basis')->name('c.periodicAccrued.')->group(function () {
+            Route::get('/', 'profession')->name('profession');
+            Route::get('/date/{profession}', 'date')->name('date');
+            Route::get('/report/{profession}', 'report')->name('report');
+        });
+
         //! Accum P/L Gst
         Route::prefix('accum')->name('c.')->group(function () {
             // Accum GST Excl

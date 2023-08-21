@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-4">
+    <div class=" col-md-4 ">
         <div class="row">
             <table class="table table-bordered table-hover table-striped">
                 <tr style="background:#178BFF; color:white;">
@@ -61,123 +61,164 @@
     @foreach ($periods as $period)
         <div class=" col-md-1 ">
             <div class="row">
-                <table class="table table-bordered table-hover table-striped text-right">
+                <table class="table table-bordered table-hover table-striped">
                     <tr style="background:#178BFF; color:white;">
                         <th colspan="2" style="text-align:right;">
                             {{ $period->end_date->format(aarks('frontend_date_format')) }}
                         </th>
                     </tr>
                     <!-----1a = ac 1 er gst total------>
-                    @php
-                        $income_gst = $income->where('period_id', $period->id)->sum('gst_cash_amount');
-                    @endphp
+                    <div style="display: none">{{ $income_gst = 0 }}</div>
+                    @foreach ($income as $item)
+                        @if ($period->id == $item->period_id)
+                            <td style="display: none">
+                                {{ $income_gst += $item->gst_cash_amount }}</td>
+                        @endif
+                    @endforeach
                     <tr>
-                        <td>{{ number_format($income_gst, 2) }}</td>
+                        <td>{{ $income_gst }}</td>
                     </tr>
                     <!----1b  = ac 2 - 4(inp total) n 6(cap total) (5 baad)------>
                     <tr>
                         @php
                             if (count($expense) > 0) {
-                                $gst_item = $expense->where('period_id', $period->id)->first()?->gst_cash_amount;
+                                $gst_item = $expense->where('period_id', $period->id)?->first()->gst_cash_amount;
                             } else {
                                 $gst_item = 0;
                             }
                             if (count($sum95) > 0) {
-                                $gst_95 = $sum95->where('period_id', $period->id)->first()?->gst_cash_amount;
+                                $gst_95 = $sum95->where('period_id', $period->id)?->first()->gst_cash_amount;
                             } else {
                                 $gst_95 = 0;
                             }
                             
-                            $expense_gst = $gst_95 > 0 ? $gst_item - abs($gst_95) : $gst_item + abs($gst_95);
+                            $expense_gst = $expense_gst_amt = $gst_95 > 0 ? $gst_item - abs($gst_95) : $gst_item + abs($gst_95);
                         @endphp
-                        <td>{{ number_format($expense_gst, 2) }}</td>
+                        <td>{{ $expense_gst }}</td>
                     </tr>
+
+
                     <tr>
-                        <td>{{ number_format($income_gst - $expense_gst, 2) }}</td>
+                        <td>{{ $income_gst - $expense_gst }}</td>
                     </tr>
+
+
                     <!----------g1 = ac 1 gross total----->
-                    @php
-                        $income_gross = abs($income->where('period_id', $period->id)->sum('gross_amount'));
-                    @endphp
+                    <div style="display: none">{{ $income_gross = 0 }}</div>
+                    @foreach ($income as $item)
+                        @if ($period->id == $item->period_id)
+                            <td style="display: none">
+                                {{ $income_gross += $item->gross_amount }}</td>
+                        @endif
+                    @endforeach
                     <tr>
-                        <td>{{ number_format($income_gross, 2) }}</td>
+                        <td>{{ $income_gross }}</td>
                     </tr>
                     <!----------g3 = ac 1 er free gross total----->
+                    <div style="display: none">{{ $nonGst = 0 }}</div>
+                    @foreach ($incomeNonGst as $item)
+                        @if ($period->id == $item->period_id)
+                            <td style="display: none">{{ $nonGst += $item->net_amount }}
+                            </td>
+                        @endif
+                    @endforeach
                     <tr>
-                        <td>{{ number_format(abs($incomeNonGst->where('period_id', $period->id)->sum('net_amount')), 2) }}
-                        </td>
+                        <td>{{ $nonGst }}</td>
                     </tr>
                     <!----------g10 ----->
+                    <div style="display: none">{{ $asset_gross = 0 }}</div>
+                    @foreach ($asset as $item)
+                        @if ($period->id == $item->period_id)
+                            <td style="display: none">
+                                {{ $asset_gross += $item->gross_amount }}</td>
+                        @endif
+                    @endforeach
                     <tr>
-                        <td>{{ number_format(abs($asset->where('period_id', $period->id)->sum('gross_amount')), 2) }}
-                        </td>
+                        <td>{{ $asset_gross }}</td>
                     </tr>
                     <!----------g11 = ac 2 - 4 gross total----->
+                    <div style="display: none">{{ $expense_code_betwen = 0 }}</div>
+                    @foreach ($expense_code as $item)
+                        @if ($period->id == $item->period_id)
+                            <td style="display: none">
+                                {{ $expense_code_betwen += $item->gross_amount }}</td>
+                        @endif
+                    @endforeach
                     <tr>
-                        <td>{{ number_format(abs($expense_code->where('period_id', $period->id)->sum('gross_amount')), 2) }}
-                        </td>
+                        <td>{{ $expense_code_betwen }}</td>
                     </tr>
                     <!-----w1 = w1+w2 er gross total------->
+                    <div style="display: none">{{ $w1_gross = 0 }}</div>
+                    @foreach ($w1 as $item)
+                        @if ($period->id == $item->period_id)
+                            <td style="display: none">
+                                {{ $w1_gross += $item->gross_amount }}</td>
+                        @endif
+                    @endforeach
                     <tr>
-                        <td>{{ number_format(abs($w1->where('period_id', $period->id)->sum('gross_amount')), 2) }}
-                        </td>
+                        <td>{{ $w1_gross }}</td>
                     </tr>
                     <!----- w2 = w2 er gross total ------>
-                    @php
-                        $w2_gross = $w2->where('period_id', $period->id)->sum('gross_amount');
-                    @endphp
+                    <div style="display: none">{{ $w2_gross = 0 }}</div>
+                    @foreach ($w2 as $item)
+                        @if ($period->id == $item->period_id)
+                            <td style="display: none">
+                                {{ $w2_gross += $item->gross_amount }}</td>
+                        @endif
+                    @endforeach
                     <tr>
-                        <td>{{ number_format(abs($w2_gross), 2) }}</td>
+                        <td>{{ $w2_gross }}</td>
                     </tr>
                     <tr>
-                        <td colspan="2">0.00</td>
+                        <td colspan="2">0</td>
                     </tr>
                     <!----- 7d = pore(between the perod add data  fuel Ltr X rate ) ------>
-                    @php
-                        $tax_ltr = $fuel_tax_ltr->where('period_id', $period->id)->sum('amount');
-                    @endphp
+                    <div style="display: none">{{ $tax_ltr = 0 }}</div>
+                    @foreach ($fuel_tax_ltr as $item)
+                        @if ($period->id == $item->period_id)
+                            <td style="display: none">{{ $tax_ltr += $item->amount }}
+                            </td>
+                        @endif
+                    @endforeach
                     <tr>
-                        <td>{{ number_format(abs($tax_ltr), 2) }}</td>
+                        <td>{{ $tax_ltr }}</td>
                     </tr>
                     <!----- t1 = g1 - 1a ------>
                     <tr>
-                        <td>{{ number_format($income_gross - $income_gst, 2) }}</td>
+                        <td>{{ $income_gross - $income_gst }}</td>
                     </tr>
                     <!-----percentage = add data theke asbe------>
-                    @php
-                        $payPersent = $payAmount = 0;
-                    @endphp
+                    <div style="display: none">{{ $payPersent = 0 }}</div>
+                    <div style="display: none">{{ $payAmount = 0 }}</div>
                     @foreach ($payg as $item)
                         @if ($period->id == $item->period_id)
-                            @php
-                                $payPersent = $item->percent;
-                                $payAmount = $item->amount;
-                            @endphp
+                            <td style="display: none">{{ $payPersent = $item->percent }}
+                            </td>
+                            <td style="display: none">{{ $payAmount = $item->amount }}
+                            </td>
                         @endif
                     @endforeach
                     <tr>
                         <td>{{ $payPersent }}</td>
                     </tr>
                     <tr>
-                        @php
-                            $payg_percent = ($income_gross - $income_gst) * ($payPersent / 100);
-                        @endphp
+                        <div style="display: none">
+                            {{ $payg_percent = ($income_gross - $income_gst) * ($payPersent / 100) }}
+                        </div>
                         <td>
                             {{ $payPersent == '' ? $payAmount : $payg_percent }}
                         </td>
                     </tr>
                     <tr class="table-customm">
-                        <td>
+                        <td align="left">
                             <!-- Total Payable = 1a - 1b + w2 - 7d + payg amount -->
-                            @php
-                                $total_payable = abs($income_gst) - abs($expense_gst) + abs($w2_gross) - abs($tax_ltr) + ($payPersent == '' ? abs($payAmount) : abs($payg_percent));
-                            @endphp
+                            <span
+                                style="display: none;">{{ $total_payable = $income_gst - $expense_gst + $w2_gross - $tax_ltr + ($payPersent == '' ? $payAmount : $payg_percent) }}</span>
                             <span style="color:#000000;">
                                 @if ($total_payable < 0)
                                     <span style="color: red">{{ $total_payable }}</span>
                                 @else
-                                    <span>&nbsp;
-                                        {{ number_format($total_payable, 2) }}</span>
+                                    <span>&nbsp; {{ $total_payable }}</span>
                                 @endif
                             </span>
                         </td>

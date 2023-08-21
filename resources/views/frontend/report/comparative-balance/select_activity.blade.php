@@ -24,7 +24,7 @@
                             <div class="row justify-content-center">
                             <input type="hidden" name="client_id" value="{{$client->id}}">
                                 <div class="form-inline">
-                                    <label class="mr-2 t_b">Select Bussiness Activity: </label>
+                                    <label class="mr-2 t_b">Select Business Activity: </label>
                                     <select class="form-control" type="submit" name="profession_id">
                                         <option disabled selected value>Select Profession</option>
                                         @foreach ($client->professions as $profession)

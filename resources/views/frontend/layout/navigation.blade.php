@@ -19,8 +19,9 @@
                                 ])->findOrFail(client()->id);
                             @endphp
                             <li class="nav-item">
-                                <a class="nav-link text-primary" style="font-size: 15px" href="{{ route('index') }}" title="Home/Dashboard"><i class="fa-solid fa-house-chimney"></i></a>
-                              </li>
+                                <a class="nav-link text-primary" style="font-size: 15px" href="{{ route('index') }}"
+                                    title="Home/Dashboard"><i class="fa-solid fa-house-chimney"></i></a>
+                            </li>
                             @if ($client->paylist->count() > 0)
                                 @if ($client->paylist->first()->status != 0)
                                     @if ($client->invoiceLayout != '')
@@ -108,7 +109,8 @@
                                                     <a class="menu_dropdown-item {{ $p == 'invAdd' ? 'active' : '' }}"
                                                         href="{{ route('inv_item.index') }}">Add Item</a>
                                                     <a class="menu_dropdown-item {{ $p == 'invEdit' ? 'active' : '' }}"
-                                                        href="{{ route('inv_item.listItem') }}">Item List/Edit Item</a>
+                                                        href="{{ route('inv_item.listItem') }}">Item List/Edit
+                                                        Item</a>
                                                     <a class="menu_dropdown-item {{ $p == 'sl' ? 'active' : '' }}"
                                                         href="#">Adjust
                                                         Item</a>
@@ -334,35 +336,47 @@
                                         <a class="nav-link menu_dropdown-toggle {{ $mp == 'advr' ? 'active' : '' }}"
                                             href="#" id="navbarmenu_dropdown" role="button"
                                             data-toggle="menu_dropdown" aria-haspopup="true"
-                                            aria-expanded="false">Adv
-                                            Rep.<i class="fa-solid fa-angle-down"></i></a>
+                                            aria-expanded="false">Adv Rep.<i class="fa-solid fa-angle-down"></i></a>
                                         <div class="menu_dropdown-menu" aria-labelledby="navbarmenu_dropdown">
-                                            {{-- <a class="menu_dropdown-item" href="#">Acum. P/L(GST <span
-                                    style="color: red;">Excl</span>)</a>
-                            <a class="menu_dropdown-item" href="#">Acum. P/L(GST <span
-                                    style="color: red;">Incl</span>)</a>
-                            --}}
-
-                                            <a class="menu_dropdown-item {{ $p == 'cbasis' ? 'active' : '' }}"
-                                                href="{{ route('client_cash_basis.index') }}">GST/BAS(<span class="text-success">Cnosol</span> Cash)</a>
-                                            <a class="menu_dropdown-item {{ $p == 'abasis' ? 'active' : '' }}"
-                                                href="{{ route('client_accrued_basis.index') }}">GST/BAS(<span class="text-success">Cnosol</span> Accrued)</a>
-
-                                            <a class="menu_dropdown-item {{ $p == 'accumex' ? 'active' : '' }}" href="{{ route('c.accum_excl_index') }}">Accumulated GST/BAS(Cash Basis)
+                                            {{-- GST Bash --}}
+                                            <a class="menu_dropdown-item"
+                                                href="{{ route('client_cash_basis.index') }}">GST/BAS(
+                                                <span class="text-success">Cnosol</span> Cash)
                                             </a>
-                                            <a class="menu_dropdown-item {{ $p == 'accumex' ? 'active' : '' }}" href="{{ route('c.accum_excl_index') }}">Accumulated GST/BAS(Accrued Basis)
+                                            <a class="menu_dropdown-item"
+                                                href="{{ route('client_accrued_basis.index') }}">GST/BAS(
+                                                <span class="text-success">Cnosol</span> Accrued)
                                             </a>
-                                            <a class="menu_dropdown-item {{ $p == 'accumex' ? 'active' : '' }}" href="{{ route('c.accum_excl_index') }}">Accumulated P/L (GST
+
+                                            {{-- Periodic Bash --}}
+                                            <a class="menu_dropdown-item"
+                                                href="{{ route('c.periodicCash.profession') }}">Periodic BAS(<span
+                                                    class="text-success">s/actv</span> Cash)</a>
+                                            <a class="menu_dropdown-item"
+                                                href="{{ route('c.periodicAccrued.profession') }}">Periodic BAS(<span
+                                                    class="text-success">s/actv</span> Accrued)</a>
+
+                                            <a class="menu_dropdown-item"
+                                                href="{{ route('c.accum_excl_index') }}">Accumulated GST/BAS(Cash
+                                                Basis)
+                                            </a>
+                                            <a class="menu_dropdown-item"
+                                                href="{{ route('c.accum_excl_index') }}">Accumulated GST/BAS(Accrued
+                                                Basis)
+                                            </a>
+                                            <a class="menu_dropdown-item"
+                                                href="{{ route('c.accum_excl_index') }}">Accumulated P/L (GST
                                                 <span style="color:red">Excl</span>)
                                             </a>
-                                            <a class="menu_dropdown-item {{ $p == 'accumin' ? 'active' : '' }}"
+                                            <a class="menu_dropdown-item"
                                                 href="{{ route('c.accum_incl_index') }}">Accumulated P/L (GST
                                                 <span style="color:red">Incl</span>)
                                             </a>
-                                            <a class="menu_dropdown-item {{ $p == 'depr' ? 'active' : '' }}"
+                                            <a class="menu_dropdown-item"
                                                 href="{{ route('cdep_report.index') }}">Deprecation Report</a>
                                             <a class="menu_dropdown-item {{ $p == 'iec' ? 'active' : '' }}"
-                                                href="{{ route('client-avd.income_expense_comparison.index') }}">Income & Expense Comparison</a>
+                                                href="{{ route('client-avd.income_expense_comparison.index') }}">Income
+                                                & Expense Comparison</a>
                                             <a class="menu_dropdown-item {{ $p == 'cbs' ? 'active' : '' }}"
                                                 href="{{ route('cbalance.select') }}">Comparative Profit & Loss</a>
                                             <a class="menu_dropdown-item {{ $p == 'cbs' ? 'active' : '' }}"
@@ -370,8 +384,10 @@
                                             <a class="menu_dropdown-item {{ $p == 'cfr' ? 'active' : '' }}"
                                                 href="{{ route('cr_complete_financial.index') }}">Complete Financial
                                                 Report</a>
-                                            <a class="menu_dropdown-item" {{ activeNav('front_complete_financial_report_tf.*') }}
-                                                href="{{ route('front_complete_financial_report_tf.index') }}">Complete Financial
+                                            <a class="menu_dropdown-item"
+                                                {{ activeNav('front_complete_financial_report_tf.*') }}
+                                                href="{{ route('front_complete_financial_report_tf.index') }}">Complete
+                                                Financial
                                                 Report(T Form)</a>
                                             <a class="menu_dropdown-item {{ $p == 'cconfr' ? 'active' : '' }}"
                                                 href="{{ route('cr_console_financial.index') }}">Console Financial

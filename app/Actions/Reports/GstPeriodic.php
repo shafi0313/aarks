@@ -289,6 +289,8 @@ class GstPeriodic extends Controller
             ->log('Report >Console Cash Periodic Report > '.$client->fullname);
         return compact(['periods', 'client', 'accrueds', 'income', 'expense', 'incomeNonGst', 'asset', 'expense_code', 'w1', 'w2', 'payg', 'fuel_tax_ltr','sum95']);
     }
+
+    
     public function acrued(Request $request, $path = null)
     {
         $client_id         = $request->client_id;
