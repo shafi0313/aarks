@@ -333,6 +333,9 @@ class GstReconcilationController extends Controller
     }
     public function permission(Request $request, Client $client, Profession $profession, Period $period)
     {
+        if ($error = $this->sendPermissionError('admin.gst-reconciliation-for-tr.edit')) {
+            return $error;
+        }
         $request->validate([
             'password' => 'required|string|max:64',
         ]);

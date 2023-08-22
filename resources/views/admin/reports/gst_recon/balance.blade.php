@@ -1313,14 +1313,14 @@
                                                 class="btn"
                                                 style="background: blue !important; border-color: blue !important">
                                             @if (optional($recons->first())->is_posted == 0)
-                                                @can('admin.gst-reconciliation-for-tr.save')
+                                                @canany('admin.gst-reconciliation-for-tr.save')
                                                     <input type="submit" name="type" value="Save" class="btn"
                                                         style="background: green !important; border-color: green !important">
-                                                @endcan
-                                                @can('admin.gst-reconciliation-for-tr.post')
+                                                @endcanany
+                                                @canany('admin.gst-reconciliation-for-tr.post')
                                                     <input type="submit" name="type" value="Post"
                                                         class="btn btn-warning">
-                                                @endcan
+                                                @endcanany
                                             @endif
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-danger" data-toggle="modal"
