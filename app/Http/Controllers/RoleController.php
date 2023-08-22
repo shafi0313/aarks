@@ -87,7 +87,7 @@ class RoleController extends Controller
     public function prepareDataForCreateRole($request)
     {
         return [
-            'name' => $request->name,
+            'name'       => $request->name,
             'permission' => $request->permission,
             'guard_name' => 'admin',
         ];

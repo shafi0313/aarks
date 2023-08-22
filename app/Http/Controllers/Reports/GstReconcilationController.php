@@ -25,7 +25,7 @@ class GstReconcilationController extends Controller
     // GST/BAS (Cash Basis)
     public function index()
     {
-        if ($error = $this->sendPermissionError('admin.gst_recon.index')) {
+        if ($error = $this->sendPermissionError('admin.gst-reconciliation-for-tr.index')) {
             return $error;
         }
 
@@ -34,7 +34,7 @@ class GstReconcilationController extends Controller
 
     public function getClient(Request $request)
     {
-        if ($error = $this->sendPermissionError('admin.gst_recon.index')) {
+        if ($error = $this->sendPermissionError('admin.gst-reconciliation-for-tr.index')) {
             return $error;
         }
         $clients = Client::where('first_name', 'like', '%' . $request->q . '%')->orWhere('company', 'like', '%' . $request->q . '%')
@@ -52,7 +52,7 @@ class GstReconcilationController extends Controller
     }
     public function profession(Client $client)
     {
-        if ($error = $this->sendPermissionError('admin.gst_recon.index')) {
+        if ($error = $this->sendPermissionError('admin.gst-reconciliation-for-tr.index')) {
             return $error;
         }
         $professions = $client->professions;
@@ -62,7 +62,7 @@ class GstReconcilationController extends Controller
     }
     public function period(Client $client, Profession $profession)
     {
-        if ($error = $this->sendPermissionError('admin.gst_recon.index')) {
+        if ($error = $this->sendPermissionError('admin.gst-reconciliation-for-tr.index')) {
             return $error;
         }
         $periods = Period::where('client_id', $client->id)->where('profession_id', $profession->id)->groupBy('year')->get(['id', 'year']);
@@ -72,7 +72,7 @@ class GstReconcilationController extends Controller
     }
     public function report(Request $request, Client $client, Profession $profession, Period $period)
     {
-        if ($error = $this->sendPermissionError('admin.gst_recon.index')) {
+        if ($error = $this->sendPermissionError('admin.gst-reconciliation-for-tr.index')) {
             return $error;
         }
         $client_id         = $client->id;
@@ -210,6 +210,9 @@ class GstReconcilationController extends Controller
 
     public function store(Request $request, Client $client, Profession $profession, Period $period)
     {
+        if ($error = $this->sendPermissionError('admin.gst-reconciliation-for-tr.save')) {
+            return $error;
+        }
         $request->validate([
             'jul_sep_gl'  => 'required|array',
             'jul_sep_ato' => 'required|array',
