@@ -172,9 +172,9 @@
                                                     <p>
                                                         Please forward your payment to BSB :
                                                         <b style="font-size: 18px">{{ $client->bsb->bsb_number }}</b>
-                                                        &nbsp;Account
+                                                        &nbsp;Account number 
                                                         <b style="font-size: 18px">{{ $client->bsb->account_number }}</b>
-                                                        no Account Name :
+                                                        Account Name :
                                                         {{ $client->company ?? $client->first_name . ' ' . $client->last_name }}
                                                     </p>
                                                 </td>

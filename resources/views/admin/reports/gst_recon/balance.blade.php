@@ -192,7 +192,8 @@
                                         $re_9_total_diff = $re_9_jul_sep_diff + $re_9_oct_dec_diff + $re_9_jan_mar_diff + $re_9_apr_jun_diff;
                                         // 9
                                     @endphp
-                                    <form action="{{ route('gst_recon.store', [$client->id, $profession->id, $period->id]) }}"
+                                    <form
+                                        action="{{ route('gst_recon.store', [$client->id, $profession->id, $period->id]) }}"
                                         method="post" enctype="multipart/form-data">
                                         @csrf
                                         <div class="tg-wrap">
@@ -1317,10 +1318,9 @@
                                                         style="background: green !important; border-color: green !important">
                                                 @endcan
                                                 @can('admin.gst-reconciliation-for-tr.post')
-                                                <input type="submit" name="type" value="Post"
-                                                class="btn btn-warning">
+                                                    <input type="submit" name="type" value="Post"
+                                                        class="btn btn-warning">
                                                 @endcan
-                                                
                                             @endif
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-danger" data-toggle="modal"
