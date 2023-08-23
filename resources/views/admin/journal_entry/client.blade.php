@@ -1,7 +1,6 @@
 @extends('admin.layout.master')
 @section('title', 'Journal Entry')
 @section('content')
-
     <div class="main-content">
         <div class="main-content-inner">
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -27,20 +26,15 @@
             </div>
 
             <div class="page-content">
-
-
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
                         <div class="row">
-                            <div class="col-xs-12">
-                                <div class="clearfix">
-                                    <div class="pull-right tableTools-container"></div>
-                                </div>
-                                <div class="table-header" style="text-align: right;"> </div>
-                                <!-- div.table-responsive -->
-                                <!-- div.dataTables_borderWrap -->
-                                <div>
+                            <div class="jumbotron">
+                                <div class="col-xs-12">
+                                    <div class="table-header">
+                                        List of Clients
+                                    </div>
                                     <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
@@ -92,10 +86,5 @@
             </div><!-- /.page-content -->
         </div>
     </div><!-- /.main-content -->
-
-
-
-    <!-- inline scripts related to this page -->
-    <script></script>
 
 @endsection
