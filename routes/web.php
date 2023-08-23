@@ -108,7 +108,7 @@ Route::middleware('clientAuth')->group(function () {
 
 Route::middleware(['subsCheck', 'clientAuth'])->group(function () {
     // Period Lock
-    Route::resource('front_period_lock', PeriodLockController::class)->only(['index', 'store']);
+    Route::resource('front_period_lock', App\Http\Controllers\Frontend\PeriodLockController::class)->only(['index', 'store']);
 
     // Category
     Route::get('inv_category/report/{client}/{profession}', [InventoryCategoryController::class, 'report'])->name('inv_category.report');
