@@ -14,7 +14,7 @@
         <a class="menu_dropdown-item {{$p=='ul'?'active':''}}" href="{{ route('profile.logo') }}">Upload Logo</a>
         <a class="menu_dropdown-item {{$p=='il'?'active':''}}" href="{{ route('invoice_layout.index') }}">Invoice Layout</a>
         <a class="menu_dropdown-item" href="#">Purchase Layout</a>
-        <a class="menu_dropdown-item {{$p=='pl'?'active':''}}" href="{{ route('period_lock_index') }}">Period Lock</a>
+        <a class="menu_dropdown-item {{$p=='pl'?'active':''}}" href="{{ route('front_period_lock.index') }}">Period Lock</a>
         <a class="menu_dropdown-item" href="#">Payment List</a>
     </div>
 </li>
