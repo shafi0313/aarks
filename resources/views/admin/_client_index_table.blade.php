@@ -22,15 +22,16 @@
                 <td>{{ $row->company }}</td>
                 <td>{{ $row->first_name }}</td>
                 <td>{{ $row->last_name }}</td>
-                <td>{{ $row->email }}</td>                
+                <td>{{ $row->email }}</td>
                 <td class="text-center">
-                    @isset ($row->payment)
-                    <span class="label label-sm label-success">Active</span>
-                @else                    
-                    <span class="label label-sm label-danger">Expired</span>
-                @endisset</td>
-                @if ($from == 'client_index')   
-                <td>{{ $row->phone }}</td>                 
+                    @isset($row->payment)
+                        <span class="label label-sm label-success">Active</span>
+                    @else
+                        <span class="label label-sm label-danger">Expired</span>
+                    @endisset
+                </td>
+                @if ($from == 'client_index')
+                    <td>{{ $row->phone }}</td>
                     @canany(['admin.client.edit'])
                         <td>
                             <div>
