@@ -408,13 +408,23 @@ class InputBS
                 $ledger['debit']                  = $ledger['credit'] = 0;
                 $ledger['gst']                    = $gst['gst_accrued_amount'] == 0 ? $gst['gst_cash_amount'] : $gst['gst_accrued_amount'];
 
+                // if ($type == 1) {
+                //     $ledger['debit']        = $gst['gross_amount'];
+                //     $ledger['credit']       = 0;
+                //     $ledger['balance_type'] = 1;
+                // } elseif ($type == 2) {
+                //     $ledger['debit']        = 0;
+                //     $ledger['credit']       = $gst['gross_amount'];
+                //     $ledger['balance_type'] = 2;
+                // }
+
                 if ($type == 1) {
-                    $ledger['debit']        = $gst['gross_amount'];
-                    $ledger['credit']       = 0;
+                    $ledger['debit']        = $gst['gross_amount'] > 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['credit']       = $gst['gross_amount'] < 0 ? abs($gst['gross_amount']) : 0;
                     $ledger['balance_type'] = 1;
                 } elseif ($type == 2) {
-                    $ledger['debit']        = 0;
-                    $ledger['credit']       = $gst['gross_amount'];
+                    $ledger['debit']        = $gst['gross_amount'] < 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['credit']       = $gst['gross_amount'] > 0 ? abs($gst['gross_amount']) : 0;
                     $ledger['balance_type'] = 2;
                 }
                 GeneralLedger::create($ledger);

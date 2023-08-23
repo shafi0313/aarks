@@ -422,8 +422,7 @@
         <b class="arrow"></b>
     </li>
 
-    <li
-        class="{{ activeNav(['admin.period.*', 'dmin.bs_import.*', 'admin.bs_input.*', 'admin.depreciation.*', 'admin.manage_invest.*', 'journal_entry.*']) }}">
+    <li class="{{ activeNav(['select_method','admin.period.*', 'bs_import.*', 'bs_input.*', 'depreciation.*', 'manage_invest.*', 'journal_entry.*']) }}">
         @canany(['admin.period.index', 'admin.bs_import.create', 'admin.bs_input.create', 'admin.journal_entry.create',
             'admin.depreciation.create', 'admin.manage_invest.create'])
             <a href="{{ route('select_method') }}">
