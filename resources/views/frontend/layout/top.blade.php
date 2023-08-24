@@ -16,8 +16,6 @@
     href="{{ asset('frontend/assets/bootstrap-datepicker/dist/css/bootstrap-datepicker3.standalone.min.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
 <link rel="stylesheet" href="{{ asset('admin/assets/css/font-awesome.min.css') }}">
-{{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> --}}
-{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/> --}}
 <script src="{{ asset('frontend/assets/js/jquery3.4.1.js') }}"></script>
 <script src="{{ asset('admin/assets/cdn/toastr.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('admin/assets/cdn/toastrv2.1.3.css') }}">

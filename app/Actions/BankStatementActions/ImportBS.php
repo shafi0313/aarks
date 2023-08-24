@@ -25,8 +25,6 @@ class ImportBS
         $gstMethod   = $client->gst_method; // 0=None,1=Cash, 2=Accrued,
         $gstEnabled  = $client->is_gst_enabled; // 1=YES , 0=NO
 
-
-
         $raw_statements = BankStatementImport::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('is_posted', 0)
@@ -55,8 +53,6 @@ class ImportBS
             ->whereNotNull('account_code')
             ->whereMonth('date', $month)
             ->get();
-
-
 
         // $bank_statements = BankStatementImport::where('client_id', $client->id)
         //     ->where('profession_id', $profession->id)
@@ -175,12 +171,22 @@ class ImportBS
                 $ledger['debit']                  = $ledger['credit'] = 0;
                 $ledger['gst']                    = abs($gst_amt);
 
-                if ($balance_type == 1) {
-                    $ledger['debit']        = abs($gst['gross_amount']);
-                    $ledger['credit']       = 0;
-                } elseif ($balance_type == 2) {
-                    $ledger['debit']        = 0;
-                    $ledger['credit']       = abs($gst['gross_amount']);
+                // if ($balance_type == 1) {
+                //     $ledger['debit']        = abs($gst['gross_amount']);
+                //     $ledger['credit']       = 0;
+                // } elseif ($balance_type == 2) {
+                //     $ledger['debit']        = 0;
+                //     $ledger['credit']       = abs($gst['gross_amount']);
+                // }
+
+                if ($type == 1) {
+                    $ledger['debit']        = $gst['gross_amount'] > 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['credit']       = $gst['gross_amount'] < 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['balance_type'] = 1;
+                } elseif ($type == 2) {
+                    $ledger['debit']        = $gst['gross_amount'] < 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['credit']       = $gst['gross_amount'] > 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['balance_type'] = 2;
                 }
 
                 //! Leadger Data Calculation
@@ -242,7 +248,7 @@ class ImportBS
                     $ledger['credit']  = 0;
                 }
 
-                $bac    = GeneralLedger::where('chart_id', $bankAccount->code)
+                $bac = GeneralLedger::where('chart_id', $bankAccount->code)
                     ->where('client_id', $client->id)
                     ->where('profession_id', $profession->id)
                     ->where('source', 'BST')
@@ -254,9 +260,9 @@ class ImportBS
                     GeneralLedger::create($ledger);
                 }
                 //RetailEarning Calculation
-                RetainEarning::retain($client->id, $profession->id, $retain_date, $ledger, ['BST', 'BST']);
-                // Retain Earning For each Transection
-                RetainEarning::tranRetain($client->id, $profession->id, $tran_id, $ledger, ['BST', 'BST']);
+                // RetainEarning::retain($client->id, $profession->id, $retain_date, $ledger, ['BST', 'BST']);
+                // Retain Earning For each Transaction
+                // RetainEarning::tranRetain($client->id, $profession->id, $tran_id, $ledger, ['BST', 'BST']);
                 $bank_statement->update([
                     'is_posted' => 1,
                     'tran_id' => $tran_id,
@@ -327,12 +333,20 @@ class ImportBS
             foreach ($bank_statements as $bank_statement) {
                 $retain_date = $bank_statement->date;
                 $tran_date   = $bank_statement->date->format('Y-m-d');
-                $debit       = $bank_statement->debit;
-                $credit      = $bank_statement->credit;
-                $chart_id    = $bank_statement->client_account_code->code;
-                $type        = $bank_statement->client_account_code->type;      // 1=Debit , 2=Credit
-                $gst_code    = $bank_statement->client_account_code->gst_code;  // GST,NILL,FREE,CAP,INP
+                $period      = Period::where('client_id', $client->id)
+                    ->where('profession_id', $profession->id)
+                    // ->where('start_date', '<=', $tran_date)
+                    ->where('end_date', '>=', $tran_date)->first();
+                if (!$period) {
+                    Alert::warning('We could\'t find any period on this transaction date!');
+                    return back();
+                }
 
+                $debit    = $bank_statement->debit;
+                $credit   = $bank_statement->credit;
+                $chart_id = $bank_statement->client_account_code->code;
+                $type     = $bank_statement->client_account_code->type;  // 1=Debit , 2=Credit
+                $gst_code = $bank_statement->client_account_code->gst_code;  // GST,NILL,FREE,CAP,INP
                 if ($type == 1) {
                     $balance_type = $debit == 0 ? 2 : 1;
                     $debit        = $debit == 0 ? -$credit : $debit;
@@ -340,6 +354,9 @@ class ImportBS
                     $balance_type = $credit == 0 ? 1 : 2;
                     $credit       = $credit == 0 ? -$debit : $credit;
                 }
+                // if ($credit == -2) {
+                //     return [$credit, $debit, $balance_type];
+                // }
                 // GST Table
                 $gst['client_id']          = $client->id;
                 $gst['profession_id']      = $profession->id;
@@ -354,8 +371,8 @@ class ImportBS
                     $gst['net_amount']         = 0;
 
                 if ($type == 1) { //Debit
-                    $gst['gross_amount'] =
-                        $gst['net_amount']   = $debit;
+                    $gst['gross_amount']       =
+                        $gst['net_amount']         = $debit;
                     if ($gstEnabled == 1) {
                         if ($gstMethod == 1 && ($gst_code == 'GST' || $gst_code == 'CAP' || $gst_code == 'INP')) { //Cash
                             $gst['gst_accrued_amount'] = 0;
@@ -395,8 +412,8 @@ class ImportBS
                         $gst['gst_cash_amount']    = 0;
                     }
                 }
-                Gsttbl::create($gst);
 
+                Gsttbl::create($gst);
                 $gst_amt = $gst['gst_accrued_amount'] == 0 ? $gst['gst_cash_amount'] : $gst['gst_accrued_amount'];
                 $ledger['chart_id']               = $chart_id;
                 $ledger['date']                   = $tran_date;
@@ -411,15 +428,25 @@ class ImportBS
                 $ledger['debit']                  = $ledger['credit'] = 0;
                 $ledger['gst']                    = abs($gst_amt);
 
-                if ($balance_type == 1) {
-                    $ledger['debit']        = abs($gst['gross_amount']);
-                    $ledger['credit']       = 0;
-                } elseif ($balance_type == 2) {
-                    $ledger['debit']        = 0;
-                    $ledger['credit']       = abs($gst['gross_amount']);
+                // if ($balance_type == 1) {
+                //     $ledger['debit']        = abs($gst['gross_amount']);
+                //     $ledger['credit']       = 0;
+                // } elseif ($balance_type == 2) {
+                //     $ledger['debit']        = 0;
+                //     $ledger['credit']       = abs($gst['gross_amount']);
+                // }
+
+                if ($type == 1) {
+                    $ledger['debit']        = $gst['gross_amount'] > 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['credit']       = $gst['gross_amount'] < 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['balance_type'] = 1;
+                } elseif ($type == 2) {
+                    $ledger['debit']        = $gst['gross_amount'] < 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['credit']       = $gst['gross_amount'] > 0 ? abs($gst['gross_amount']) : 0;
+                    $ledger['balance_type'] = 2;
                 }
 
-                //! Leader Data Calculation
+                //! Ledger Data Calculation
                 GeneralLedger::create($ledger);
 
                 if ($gstEnabled == 1 && ($gst_code == 'GST' || $gst_code == 'CAP' || $gst_code == 'INP')) {
@@ -444,7 +471,7 @@ class ImportBS
                         $ledger['gst']                    = 0;
                     } elseif ($type == 2) {
                         $ledger['balance_type']           = 2;
-                        $ledger['debit']                  = abs($gst_amt);
+                        $ledger['credit']                 = abs($gst_amt);
                         $ledger['balance']                = $gst_amt;
                         $ledger['debit']                  = 0;
                         $ledger['chart_id']               = $payableAc->code;
@@ -454,15 +481,14 @@ class ImportBS
                     }
                     GeneralLedger::create($ledger);
                 }
-
                 //! Bank Ac Calculation
                 $gen_bank = GeneralLedger::where('transaction_id', $tran_id)
                     ->where('client_id', $client->id)
                     ->where('profession_id', $profession->id)
                     ->where('chart_id', 'not like', '99999%')
                     ->whereNotIn('narration', ['BST_PAYABLE', 'BST_CLEARING', 'BST_BANK'])
-                    ->get();
-                // ->where('chart_id', 'not like', '912%')
+                    ->get(ledgerSetVisible());
+
                 $genBl = $gen_bank->sum('credit') - $gen_bank->sum('debit');
 
                 $ledger['balance']                = $genBl;

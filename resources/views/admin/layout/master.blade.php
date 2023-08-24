@@ -137,7 +137,7 @@
     {{-- <!-- Header --> --}}
     @include('admin.layout.header')
     {{-- <!-- /Header --> --}}
-    
+
     @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
     <div class="main-container ace-save-state" id="main-container">
         <script type="text/javascript">
@@ -153,7 +153,7 @@
         {{-- <!-- PAGE CONTENT BEGINS --> --}}
         @yield('content')
         {{-- <!-- PAGE CONTENT ENDS --> --}}
-        
+
         @include('admin.common._delete')
         {{-- <!-- Footer --> --}}
         @include('admin.layout.footer')
@@ -165,16 +165,18 @@
         <script type="text/javascript">
             if ('ontouchstart' in document.documentElement) document.write(
                 "<script src='{{ asset('public/admin/assets/js/jquery.mobile.custom.min.js') }}'>" + "<" + "/script>");
-        </script>        
-        
+        </script>
+
         <script src="{{ asset('admin/assets/js/ace-elements.min.js?v=' . assetVersion('ace_elements_min_js')) }}"></script>
         <script src="{{ asset('admin/assets/js/ace.min.js?v=' . assetVersion('ace_min_js')) }}"></script>
         <script src="{{ asset('admin/assets/js/aarks.js?v=' . assetVersion('aarks_js')) }}"></script>
         <script src="{{ asset('admin/assets/js/main.js') }}"></script>
+        <script src="{{ asset('js/custom.js') }}"></script>
         @include('admin.layout.alert')
-       
-        @yield('script')        
+
+        @yield('script')
         @stack('custom_scripts')
     </div>
 </body>
+
 </html>
