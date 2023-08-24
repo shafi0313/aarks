@@ -253,11 +253,11 @@ class InputBS
                 GeneralLedger::create($ledger);
             }
             //RetailEarning Calculation
-            RetainEarning::retain($client->id, $profession->id, $tran_date, $ledger, ['INP', 'INP']);
+            // RetainEarning::retain($client->id, $profession->id, $tran_date, $ledger, ['INP', 'INP']);
 
-            // Retain Earning For each Transection
-            RetainEarning::tranRetain($client->id, $profession->id, $tran_id, $ledger, ['INP', 'INP']);
-            //RetailEarning Calculation End....
+            // // Retain Earning For each Transection
+            // RetainEarning::tranRetain($client->id, $profession->id, $tran_id, $ledger, ['INP', 'INP']);
+            // //RetailEarning Calculation End....
             try {
                 activity()
                 ->performedOn(new GeneralLedger())
