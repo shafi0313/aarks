@@ -198,18 +198,18 @@ class InputBS
                     $ledger['payable_liabilty'] = $chart_id;
                     if ($type == 1) {
                         $ledger['balance_type']           = 1;
-                        $ledger['debit']                  = abs($ledger['gst']);
+                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
+                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
                         $ledger['balance']                = $ledger['gst'];
-                        $ledger['credit']                 = 0;
                         $ledger['chart_id']               = $clearingAc->code;
                         $ledger['client_account_code_id'] = $clearingAc->id;
                         $ledger['narration']              = 'INP_CLEARING';
                         $ledger['gst']                    = 0;
                     } elseif ($type == 2) {
                         $ledger['balance_type']           = 2;
-                        $ledger['credit']                 = abs($ledger['gst']);
+                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
+                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
                         $ledger['balance']                = $ledger['gst'];
-                        $ledger['debit']                  = 0;
                         $ledger['chart_id']               = $payableAc->code;
                         $ledger['client_account_code_id'] = $payableAc->id;
                         $ledger['narration']              = 'INP_PAYABLE';
@@ -440,18 +440,37 @@ class InputBS
                         ->where('code', 912101)
                         ->first();
                     $ledger['payable_liabilty'] = $chart_id;
+                    // if ($type == 1) {
+                    //     $ledger['balance_type']           = 1;
+                    //     $ledger['debit']                  = $ledger['balance'] = $ledger['gst'];
+                    //     $ledger['credit']                 = 0;
+                    //     $ledger['chart_id']               = $clearingAc->code;
+                    //     $ledger['client_account_code_id'] = $clearingAc->id;
+                    //     $ledger['narration']              = 'INP_CLEARING';
+                    //     $ledger['gst']                    = 0;
+                    // } elseif ($type == 2) {
+                    //     $ledger['balance_type']           = 2;
+                    //     $ledger['credit']                 = $ledger['balance'] = $ledger['gst'];
+                    //     $ledger['debit']                  = 0;
+                    //     $ledger['chart_id']               = $payableAc->code;
+                    //     $ledger['client_account_code_id'] = $payableAc->id;
+                    //     $ledger['narration']              = 'INP_PAYABLE';
+                    //     $ledger['gst']                    = 0;
+                    // }
                     if ($type == 1) {
                         $ledger['balance_type']           = 1;
-                        $ledger['debit']                  = $ledger['balance'] = $ledger['gst'];
-                        $ledger['credit']                 = 0;
+                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
+                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
+                        $ledger['balance']                = $ledger['gst'];
                         $ledger['chart_id']               = $clearingAc->code;
                         $ledger['client_account_code_id'] = $clearingAc->id;
                         $ledger['narration']              = 'INP_CLEARING';
                         $ledger['gst']                    = 0;
                     } elseif ($type == 2) {
                         $ledger['balance_type']           = 2;
-                        $ledger['credit']                 = $ledger['balance'] = $ledger['gst'];
-                        $ledger['debit']                  = 0;
+                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
+                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
+                        $ledger['balance']                = $ledger['gst'];
                         $ledger['chart_id']               = $payableAc->code;
                         $ledger['client_account_code_id'] = $payableAc->id;
                         $ledger['narration']              = 'INP_PAYABLE';

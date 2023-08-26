@@ -205,18 +205,18 @@ class ImportBS
                     $ledger['payable_liabilty'] = $chart_id;
                     if ($type == 1) {
                         $ledger['balance_type']           = 1;
-                        $ledger['debit']                  = abs($gst_amt);
-                        $ledger['balance']                = $gst_amt;
-                        $ledger['credit']                 = 0;
+                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
+                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
+                        $ledger['balance']                = $ledger['gst'];
                         $ledger['chart_id']               = $clearingAc->code;
                         $ledger['client_account_code_id'] = $clearingAc->id;
                         $ledger['narration']              = 'BST_CLEARING';
                         $ledger['gst']                    = 0;
                     } elseif ($type == 2) {
                         $ledger['balance_type']           = 2;
-                        $ledger['credit']                 = abs($gst_amt);
-                        $ledger['balance']                = $gst_amt;
-                        $ledger['debit']                  = 0;
+                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
+                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
+                        $ledger['balance']                = $ledger['gst'];
                         $ledger['chart_id']               = $payableAc->code;
                         $ledger['client_account_code_id'] = $payableAc->id;
                         $ledger['narration']              = 'BST_PAYABLE';
@@ -462,18 +462,18 @@ class ImportBS
                     $ledger['payable_liabilty'] = $chart_id;
                     if ($type == 1) {
                         $ledger['balance_type']           = 1;
-                        $ledger['debit']                  = abs($gst_amt);
-                        $ledger['balance']                = $gst_amt;
-                        $ledger['credit']                 = 0;
+                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
+                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
+                        $ledger['balance']                = $ledger['gst'];
                         $ledger['chart_id']               = $clearingAc->code;
                         $ledger['client_account_code_id'] = $clearingAc->id;
                         $ledger['narration']              = 'BST_CLEARING';
                         $ledger['gst']                    = 0;
                     } elseif ($type == 2) {
                         $ledger['balance_type']           = 2;
-                        $ledger['credit']                 = abs($gst_amt);
-                        $ledger['balance']                = $gst_amt;
-                        $ledger['debit']                  = 0;
+                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
+                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
+                        $ledger['balance']                = $ledger['gst'];
                         $ledger['chart_id']               = $payableAc->code;
                         $ledger['client_account_code_id'] = $payableAc->id;
                         $ledger['narration']              = 'BST_PAYABLE';
