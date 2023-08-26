@@ -254,9 +254,9 @@ class JournalListController extends Controller
         }
         DB::beginTransaction();
 
-        GeneralLedger::where('transaction_id', $journal->tran_id)->where('client_id', $clientId)->where('profession_id', $professionId)->where('source', 'JNP')->delete();
+        GeneralLedger::where('transaction_id', $journal->tran_id)->where('client_id', $clientId)->where('profession_id', $professionId)->where('source', 'JNP')->forceDelete();
 
-        Gsttbl::where('client_id', $clientId)->where('profession_id', $professionId)->where('trn_id', $journal->tran_id)->where('source', 'JNP')->delete();
+        Gsttbl::where('client_id', $clientId)->where('profession_id', $professionId)->where('trn_id', $journal->tran_id)->where('source', 'JNP')->forceDelete();
 
         foreach ($request->id as $i => $id) {
             $gst['period_id']  = $periodId = $period->id;
@@ -347,13 +347,23 @@ class JournalListController extends Controller
 
             $ledger['gst'] = $gst['gst_accrued_amount'] == '' ? $gst['gst_cash_amount'] : $gst['gst_accrued_amount'];
 
+            // if ($type == 1) {
+            //     $ledger['debit']        = $gst['gross_amount'];
+            //     $ledger['credit']       = 0;
+            //     $ledger['balance_type'] = 1;
+            // } elseif ($type == 2) {
+            //     $ledger['debit']        = 0;
+            //     $ledger['credit']       = $gst['gross_amount'];
+            //     $ledger['balance_type'] = 2;
+            // }
+
             if ($type == 1) {
-                $ledger['debit']        = $gst['gross_amount'];
-                $ledger['credit']       = 0;
+                $ledger['debit']        = $gst['gross_amount'] > 0 ? abs($gst['gross_amount']) : 0;
+                $ledger['credit']       = $gst['gross_amount'] < 0 ? abs($gst['gross_amount']) : 0;
                 $ledger['balance_type'] = 1;
             } elseif ($type == 2) {
-                $ledger['debit']        = 0;
-                $ledger['credit']       = $gst['gross_amount'];
+                $ledger['debit']        = $gst['gross_amount'] < 0 ? abs($gst['gross_amount']) : 0;
+                $ledger['credit']       = $gst['gross_amount'] > 0 ? abs($gst['gross_amount']) : 0;
                 $ledger['balance_type'] = 2;
             }
 
