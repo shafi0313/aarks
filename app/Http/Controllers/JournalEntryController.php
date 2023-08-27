@@ -371,10 +371,10 @@ class JournalEntryController extends Controller
                 }
 
                 //RetailEarning Calculation
-                RetainEarning::retain($clientId, $professionId, $date, $ledger, ['JNP', 'JNP']);
+                // RetainEarning::retain($clientId, $professionId, $date, $ledger, ['JNP', 'JNP']);
 
                 // Retain Earning For each Transection
-                RetainEarning::tranRetain($clientId, $professionId, $tranId, $ledger, ['JNP', 'JNP']);
+                // RetainEarning::tranRetain($clientId, $professionId, $tranId, $ledger, ['JNP', 'JNP']);
                 //RetailEarning Calculation End....
 
                 try {

@@ -6,6 +6,7 @@ use App\Models\Period;
 use App\Models\ClientProfession;
 use App\Models\Frontend\Recurring;
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Frontend\CustomerCard;
 use RealRashid\SweetAlert\Facades\Alert;
 

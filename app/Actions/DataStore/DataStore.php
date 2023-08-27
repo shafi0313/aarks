@@ -606,9 +606,9 @@ class DataStore
             }
 
             //RetailEarning Calculation
-            RetainEarning::retain($request->clientId, $request->professionId, $date, $ledger, ['ADT', 'ADT']);
+            // RetainEarning::retain($request->clientId, $request->professionId, $date, $ledger, ['ADT', 'ADT']);
             // Retain Earning For each Transection
-            RetainEarning::tranRetain($request->clientId, $request->professionId, $tranId, $ledger, ['ADT', 'ADT']);
+            // RetainEarning::tranRetain($request->clientId, $request->professionId, $tranId, $ledger, ['ADT', 'ADT']);
         //RetailEarning Calculation End....
         // }
         } else {
@@ -714,73 +714,73 @@ class DataStore
             $loan->update($loanUpdate);
         }
 
-        // Tran Retain
-        $intData = GeneralLedger::select(DB::raw('sum(balance) as balance'))
-            ->where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->where('transaction_id', $trn_id)
-            ->where('source', 'ADT')
-            ->where('chart_id', 'LIKE', '1%')
-            ->first();
-        $expData = GeneralLedger::select(DB::raw('sum(balance) as balance'))
-            ->where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->where('transaction_id', $trn_id)
-            ->where('source', 'ADT')
-            ->where('chart_id', 'LIKE', '2%')
-            ->first();
-        // Pl Calculation
-        $pl        = $ledger->where('chart_id', 999998)->first();
-        $plData    = $intData->balance - $expData->balance;
-        $plUpdate['balance'] = $plData;
-        if ($intData->balance > $expData->balance) {
-            $plUpdate['credit'] = abs($plData);
-            $plUpdate['debit']  = 0;
-        } else {
-            $plUpdate['debit']  = abs($plData);
-            $plUpdate['credit'] = 0;
-        }
-        if ($pl) {
-            $pl->update($plUpdate);
-        }
+        // // Tran Retain
+        // $intData = GeneralLedger::select(DB::raw('sum(balance) as balance'))
+        //     ->where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->where('transaction_id', $trn_id)
+        //     ->where('source', 'ADT')
+        //     ->where('chart_id', 'LIKE', '1%')
+        //     ->first();
+        // $expData = GeneralLedger::select(DB::raw('sum(balance) as balance'))
+        //     ->where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->where('transaction_id', $trn_id)
+        //     ->where('source', 'ADT')
+        //     ->where('chart_id', 'LIKE', '2%')
+        //     ->first();
+        // // Pl Calculation
+        // $pl        = $ledger->where('chart_id', 999998)->first();
+        // $plData    = $intData->balance - $expData->balance;
+        // $plUpdate['balance'] = $plData;
+        // if ($intData->balance > $expData->balance) {
+        //     $plUpdate['credit'] = abs($plData);
+        //     $plUpdate['debit']  = 0;
+        // } else {
+        //     $plUpdate['debit']  = abs($plData);
+        //     $plUpdate['credit'] = 0;
+        // }
+        // if ($pl) {
+        //     $pl->update($plUpdate);
+        // }
 
         // Retain
-        if ($trn_date->format('m') >= 07 & $trn_date->format('m') <= 12) {
-            $start_year = $trn_date->format('Y') . '-07-01'; //2020-07-01==2021-06-30
-            $end_year   = $trn_date->format('Y') + 1 . '-06-30';
-        } else {
-            $start_year = $trn_date->format('Y') - 1 . '-07-01'; //2019-07-01==2020-06-30
-            $end_year   = $trn_date->format('Y') . '-06-30';
-        }
-        $inRetain   = GeneralLedger::select(DB::raw('sum(balance) as balance'))
-            ->where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->where('date', '>=', $start_year)
-            ->where('date', '<=', $end_year)
-            ->where('chart_id', 'LIKE', '1%')
-            ->first();
-        $expRetain   = GeneralLedger::select(DB::raw('sum(balance) as balance'))
-            ->where('client_id', $client_id)
-            ->where('profession_id', $profession_id)
-            ->where('date', '>=', $start_year)
-            ->where('date', '<=', $end_year)
-            ->where('chart_id', 'LIKE', '2%')
-            ->first();
+        // if ($trn_date->format('m') >= 07 & $trn_date->format('m') <= 12) {
+        //     $start_year = $trn_date->format('Y') . '-07-01'; //2020-07-01==2021-06-30
+        //     $end_year   = $trn_date->format('Y') + 1 . '-06-30';
+        // } else {
+        //     $start_year = $trn_date->format('Y') - 1 . '-07-01'; //2019-07-01==2020-06-30
+        //     $end_year   = $trn_date->format('Y') . '-06-30';
+        // }
+        // $inRetain   = GeneralLedger::select(DB::raw('sum(balance) as balance'))
+        //     ->where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->where('date', '>=', $start_year)
+        //     ->where('date', '<=', $end_year)
+        //     ->where('chart_id', 'LIKE', '1%')
+        //     ->first();
+        // $expRetain   = GeneralLedger::select(DB::raw('sum(balance) as balance'))
+        //     ->where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->where('date', '>=', $start_year)
+        //     ->where('date', '<=', $end_year)
+        //     ->where('chart_id', 'LIKE', '2%')
+        //     ->first();
 
-        // Reatin Calculation
-        $retain     = $ledger->where('chart_id', 999999)->first();
-        $retainData = $inRetain->balance - $expRetain->balance;
-        $retainUpdate['balance']  = $retainData;
-        if ($inRetain->balance > $expRetain->balance) {
-            $retainUpdate['credit'] = abs($retainData);
-            $retainUpdate['debit']  = 0;
-        } else {
-            $retainUpdate['debit']  = abs($retainData);
-            $retainUpdate['credit'] = 0;
-        }
-        if ($retain) {
-            $retain->update($retainUpdate);
-        }
+        // // Reatin Calculation
+        // $retain     = $ledger->where('chart_id', 999999)->first();
+        // $retainData = $inRetain->balance - $expRetain->balance;
+        // $retainUpdate['balance']  = $retainData;
+        // if ($inRetain->balance > $expRetain->balance) {
+        //     $retainUpdate['credit'] = abs($retainData);
+        //     $retainUpdate['debit']  = 0;
+        // } else {
+        //     $retainUpdate['debit']  = abs($retainData);
+        //     $retainUpdate['credit'] = 0;
+        // }
+        // if ($retain) {
+        //     $retain->update($retainUpdate);
+        // }
 
         GeneralLedger::where('client_id', $dataStore->client_id)
             ->where('profession_id', $dataStore->profession_id)

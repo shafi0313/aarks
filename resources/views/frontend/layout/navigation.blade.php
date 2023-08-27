@@ -11,19 +11,29 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav">
                             @php
+                                // $client = \App\Models\Client::with([
+                                //     'paylist' => function ($q) {
+                                //         $q->where('is_expire', 0);
+                                //     },
+                                //     'invoiceLayout',
+                                // ])->findOrFail(client()->id);
+                                
                                 $client = \App\Models\Client::with([
-                                    'paylist' => function ($q) {
-                                        $q->where('is_expire', 0);
+                                    'paymentList' => function ($q) {
+                                        $q->select('id', 'client_id', 'subscription_id', 'is_expire', 'status')->where('is_expire', 0);
                                     },
                                     'invoiceLayout',
-                                ])->findOrFail(client()->id);
+                                    'paymentList.subscription' => fn($q) => $q->select('id', 'amount'),
+                                ])
+                                    ->select('id')
+                                    ->findOrFail(client()->id);
                             @endphp
                             <li class="nav-item">
                                 <a class="nav-link text-primary" style="font-size: 15px" href="{{ route('index') }}"
                                     title="Home/Dashboard"><i class="fa-solid fa-house-chimney"></i></a>
                             </li>
-                            @if ($client->paylist->count() > 0)
-                                @if ($client->paylist->first()->status != 0)
+                            @if ($client->paymentList->count() > 0)
+                                @if ($client->paymentList->first()->status != 0)
                                     @if ($client->invoiceLayout != '')
                                         @if ($client->invoiceLayout->layout == 2)
                                             <li class="nav-item menu_dropdown">
@@ -331,77 +341,86 @@
 
                                         </div>
                                     </li>
+                                    {{-- Advanced Report Start --}}
+                                    @if ($client->paymentList->subscription->amount > 40)
+                                        <li class="nav-item menu_dropdown">
+                                            <a class="nav-link menu_dropdown-toggle {{ $mp == 'advr' ? 'active' : '' }}"
+                                                href="#" id="navbarmenu_dropdown" role="button"
+                                                data-toggle="menu_dropdown" aria-haspopup="true"
+                                                aria-expanded="false">Adv Rep.<i
+                                                    class="fa-solid fa-angle-down"></i></a>
+                                            <div class="menu_dropdown-menu" aria-labelledby="navbarmenu_dropdown">
+                                                {{-- GST Bash --}}
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('client_cash_basis.index') }}">GST/BAS(
+                                                    <span class="text-success">Cnosol</span> Cash)
+                                                </a>
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('client_accrued_basis.index') }}">GST/BAS(
+                                                    <span class="text-success">Cnosol</span> Accrued)
+                                                </a>
 
-                                    <li class="nav-item menu_dropdown">
-                                        <a class="nav-link menu_dropdown-toggle {{ $mp == 'advr' ? 'active' : '' }}"
-                                            href="#" id="navbarmenu_dropdown" role="button"
-                                            data-toggle="menu_dropdown" aria-haspopup="true"
-                                            aria-expanded="false">Adv Rep.<i class="fa-solid fa-angle-down"></i></a>
-                                        <div class="menu_dropdown-menu" aria-labelledby="navbarmenu_dropdown">
-                                            {{-- GST Bash --}}
-                                            <a class="menu_dropdown-item"
-                                                href="{{ route('client_cash_basis.index') }}">GST/BAS(
-                                                <span class="text-success">Cnosol</span> Cash)
-                                            </a>
-                                            <a class="menu_dropdown-item"
-                                                href="{{ route('client_accrued_basis.index') }}">GST/BAS(
-                                                <span class="text-success">Cnosol</span> Accrued)
-                                            </a>
+                                                {{-- Periodic Bash --}}
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('c.periodicCash.profession') }}">Periodic
+                                                    BAS(<span class="text-success">s/actv</span> Cash)</a>
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('c.periodicAccrued.profession') }}">Periodic
+                                                    BAS(<span class="text-success">s/actv</span> Accrued)</a>
 
-                                            {{-- Periodic Bash --}}
-                                            <a class="menu_dropdown-item"
-                                                href="{{ route('c.periodicCash.profession') }}">Periodic BAS(<span
-                                                    class="text-success">s/actv</span> Cash)</a>
-                                            <a class="menu_dropdown-item"
-                                                href="{{ route('c.periodicAccrued.profession') }}">Periodic BAS(<span
-                                                    class="text-success">s/actv</span> Accrued)</a>
-
-                                            <a class="menu_dropdown-item"
-                                                href="{{ route('c.accum_excl_index') }}">Accumulated GST/BAS(Cash
-                                                Basis)
-                                            </a>
-                                            <a class="menu_dropdown-item"
-                                                href="{{ route('c.accum_excl_index') }}">Accumulated GST/BAS(Accrued
-                                                Basis)
-                                            </a>
-                                            <a class="menu_dropdown-item"
-                                                href="{{ route('c.accum_excl_index') }}">Accumulated P/L (GST
-                                                <span style="color:red">Excl</span>)
-                                            </a>
-                                            <a class="menu_dropdown-item"
-                                                href="{{ route('c.accum_incl_index') }}">Accumulated P/L (GST
-                                                <span style="color:red">Incl</span>)
-                                            </a>
-                                            <a class="menu_dropdown-item"
-                                                href="{{ route('cdep_report.index') }}">Deprecation Report</a>
-                                            <a class="menu_dropdown-item {{ $p == 'iec' ? 'active' : '' }}"
-                                                href="{{ route('client-avd.income_expense_comparison.index') }}">Income
-                                                & Expense Comparison</a>
-                                            <a class="menu_dropdown-item {{ $p == 'cbs' ? 'active' : '' }}"
-                                                href="{{ route('cbalance.select') }}">Comparative Profit & Loss</a>
-                                            <a class="menu_dropdown-item {{ $p == 'cbs' ? 'active' : '' }}"
-                                                href="{{ route('cbalance.select') }}">Comparative Balance Sheet</a>
-                                            <a class="menu_dropdown-item {{ $p == 'cfr' ? 'active' : '' }}"
-                                                href="{{ route('cr_complete_financial.index') }}">Complete Financial
-                                                Report</a>
-                                            <a class="menu_dropdown-item"
-                                                {{ activeNav('front_complete_financial_report_tf.*') }}
-                                                href="{{ route('front_complete_financial_report_tf.index') }}">Complete
-                                                Financial
-                                                Report(T Form)</a>
-                                            <a class="menu_dropdown-item {{ $p == 'cconfr' ? 'active' : '' }}"
-                                                href="{{ route('cr_console_financial.index') }}">Console Financial
-                                                Report</a>
-                                            <a class="menu_dropdown-item {{ $p == 'ccfr' ? 'active' : '' }}"
-                                                href="{{ route('cr_comperative_financial.index') }}">Comparative
-                                                Financial
-                                                Report</a>
-                                            <a class="menu_dropdown-item {{ $p == 'avdbudget' ? 'active' : '' }}"
-                                                href="{{ route('client-avd.budget.index') }}">Budget</a>
-                                            <a class="menu_dropdown-item" href="#">Retie Analysis</a>
-                                            <a class="menu_dropdown-item" href="#">Decision Making Tools</a>
-                                        </div>
-                                    </li>
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('c.accum_excl_index') }}">Accumulated GST/BAS(Cash
+                                                    Basis)
+                                                </a>
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('c.accum_excl_index') }}">Accumulated
+                                                    GST/BAS(Accrued
+                                                    Basis)
+                                                </a>
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('c.accum_excl_index') }}">Accumulated P/L (GST
+                                                    <span style="color:red">Excl</span>)
+                                                </a>
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('c.accum_incl_index') }}">Accumulated P/L (GST
+                                                    <span style="color:red">Incl</span>)
+                                                </a>
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('cdep_report.index') }}">Deprecation Report</a>
+                                                <a class="menu_dropdown-item {{ $p == 'iec' ? 'active' : '' }}"
+                                                    href="{{ route('client-avd.income_expense_comparison.index') }}">Income
+                                                    & Expense Comparison</a>
+                                                <a class="menu_dropdown-item {{ $p == 'cbs' ? 'active' : '' }}"
+                                                    href="{{ route('cbalance.select') }}">Comparative Profit &
+                                                    Loss</a>
+                                                <a class="menu_dropdown-item {{ $p == 'cbs' ? 'active' : '' }}"
+                                                    href="{{ route('cbalance.select') }}">Comparative Balance
+                                                    Sheet</a>
+                                                <a class="menu_dropdown-item {{ $p == 'cfr' ? 'active' : '' }}"
+                                                    href="{{ route('cr_complete_financial.index') }}">Complete
+                                                    Financial
+                                                    Report</a>
+                                                <a class="menu_dropdown-item"
+                                                    {{ activeNav('front_complete_financial_report_tf.*') }}
+                                                    href="{{ route('front_complete_financial_report_tf.index') }}">Complete
+                                                    Financial
+                                                    Report(T Form)</a>
+                                                <a class="menu_dropdown-item {{ $p == 'cconfr' ? 'active' : '' }}"
+                                                    href="{{ route('cr_console_financial.index') }}">Console
+                                                    Financial
+                                                    Report</a>
+                                                <a class="menu_dropdown-item {{ $p == 'ccfr' ? 'active' : '' }}"
+                                                    href="{{ route('cr_comperative_financial.index') }}">Comparative
+                                                    Financial
+                                                    Report</a>
+                                                <a class="menu_dropdown-item {{ $p == 'avdbudget' ? 'active' : '' }}"
+                                                    href="{{ route('client-avd.budget.index') }}">Budget</a>
+                                                <a class="menu_dropdown-item" href="#">Retie Analysis</a>
+                                                <a class="menu_dropdown-item" href="#">Decision Making Tools</a>
+                                            </div>
+                                        </li>
+                                    @endif
+                                    {{-- Advanced Report End --}}
 
                                     <li class="nav-item menu_dropdown">
                                         <a class="nav-link menu_dropdown-toggle {{ $mp == 'setting' ? 'active' : '' }}"

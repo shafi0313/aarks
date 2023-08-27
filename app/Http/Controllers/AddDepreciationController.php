@@ -80,7 +80,7 @@ class AddDepreciationController extends Controller
         $html .= '    <tr class="bg-primary text-light">';
         $html .= '        <th style="text-align:center;">Group Asset Name</th>';
         $html .= '        <th style="text-align:center;">Depreciation account</th>';
-        $html .= '        <th style="text-align:center;">Accumaleted Deprection Account</th>';
+        $html .= '        <th style="text-align:center;">Accumulated Deprecation Account</th>';
         $html .= '        <th style="text-align:center;">Enter Asset Name</th>';
         $html .= '    </tr>';
         $html .= '</thead>';

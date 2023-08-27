@@ -34,6 +34,11 @@ class Client extends Model
     {
         return $this->belongsToMany(Service::class);
     }
+    public function paymentList()
+    {
+        return $this->hasOne(ClientPaymentList::class);
+    }
+
     public function paylist()
     {
         return $this->hasMany(ClientPaymentList::class);
