@@ -51,7 +51,7 @@
         <!-- Admin -->
         <li
             class="{{ activeOpenNav([
-                'client_payment_index', 
+                'client_payment_*', 
                 'plan.*', 
                 'user.*', 
                 'role.*', 
@@ -78,7 +78,7 @@
             <ul class="submenu">
                 @canany(['admin.client_payment.create', 'admin.client_payment.edit', 'admin.client_payment.index',
                     'admin.client_payment.delete'])
-                    <li class="{{ activeNav('client_payment_index') }}">
+                    <li class="{{ activeNav('client_payment_*') }}">
                         <a href="{{ route('client_payment_index') }}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Client Payment List

@@ -103,6 +103,7 @@ class ClientPaymentListController extends Controller
         }
         return redirect()->route('client_payment_index');
     }
+    
     public function status(Request $request, ClientPaymentList $paylist)
     {
         if ($error = $this->sendPermissionError('admin.client_payment.edit')) {
@@ -116,6 +117,7 @@ class ClientPaymentListController extends Controller
         }
         return redirect()->route('client_payment_index');
     }
+
     public function delete(ClientPaymentList $paylist)
     {
         if ($error = $this->sendPermissionError('admin.client_payment.delete')) {
