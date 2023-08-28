@@ -28,10 +28,11 @@
     {{-- Summer Note --}}
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>
+    
     @stack('script')
     
     @yield('script')
+    <script src="{{ asset('js/custom.js') }}"></script>
 </body>
 
 </html>
