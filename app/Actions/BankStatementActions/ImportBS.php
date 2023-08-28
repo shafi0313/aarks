@@ -460,6 +460,7 @@ class ImportBS
                         ->where('code', 912101)
                         ->first();
                     $ledger['payable_liabilty'] = $chart_id;
+                    
                     if ($type == 1) {
                         $ledger['balance_type']           = 1;
                         $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
