@@ -207,8 +207,8 @@ class InputBS
                         $ledger['gst']                    = 0;
                     } elseif ($type == 2) {
                         $ledger['balance_type']           = 2;
-                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
-                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
+                        $ledger['debit']                  = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
+                        $ledger['credit']                 = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
                         $ledger['balance']                = $ledger['gst'];
                         $ledger['chart_id']               = $payableAc->code;
                         $ledger['client_account_code_id'] = $payableAc->id;
@@ -468,8 +468,8 @@ class InputBS
                         $ledger['gst']                    = 0;
                     } elseif ($type == 2) {
                         $ledger['balance_type']           = 2;
-                        $ledger['credit']                 = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
-                        $ledger['debit']                  = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
+                        $ledger['debit']                  = $ledger['gst'] < 0 ? abs($ledger['gst']) : 0;
+                        $ledger['credit']                 = $ledger['gst'] > 0 ? abs($ledger['gst']) : 0;
                         $ledger['balance']                = $ledger['gst'];
                         $ledger['chart_id']               = $payableAc->code;
                         $ledger['client_account_code_id'] = $payableAc->id;
