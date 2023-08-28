@@ -547,8 +547,8 @@
                                 <!-- Transaction History End -->
                             </div>
                         </div>
-                        <div align="center">
-                            <button type="submit" class="btn btn-info" style="width: 300px">Submit</button>
+                        <div class="text-center my-3">
+                            <button type="submit" class="btn btn-info" style="width: 300px">Update</button>
                         </div>
                     </form>
                 </div>

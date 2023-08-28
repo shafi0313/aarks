@@ -16,10 +16,6 @@ use App\Http\Requests\UpdateCustomerRequest;
 
 class CustomerCardController extends Controller
 {
-    public function index()
-    {
-        //
-    }
     public function show(Profession $customer)
     {
         $profession =  $customer;
@@ -33,15 +29,17 @@ class CustomerCardController extends Controller
         $chk_card = CustomerCard::whereClientId(client()->id)->whereProfessionId($profession->id)->whereCustomerType('default')->first();
         return view('frontend.add_card.customer', compact('profession', 'creditCodes', 'chk_card'));
     }
+    
     public function store(AddCustomerRequest $request)
     {
         $data = $request->validated();
 
-        if ($data['status'] == 1 && $request->opening_blnc != '' && $request->credit_account != '' && $request->opening_blnc_date != '') {
+        if ($data['status'] == 1 && $request->opening_blnc != 0 && $request->opening_blnc != '' && $request->credit_account != '' && $request->opening_blnc_date != '') {
             DB::beginTransaction();
-            $code = ClientAccountCode::find($request->credit_account);
+            $code      = ClientAccountCode::find($request->credit_account);
+            $customer  = CustomerCard::create($data);
             $tran_date = makeBackendCompatibleDate($request->opening_blnc_date);
-            $ledger = $credit = [
+            $ledger    = $credit = [
                 'chart_id'               => 552100,
                 'date'                   => $data['opening_blnc_date'] = $tran_date->format('Y-m-d'),
                 'narration'              => 'Customer Opening balance',
@@ -58,7 +56,7 @@ class CustomerCardController extends Controller
                     ->where('client_id', $request->client_id)
                     ->where('profession_id', $request->profession_id)
                     ->first()->id,
-                'transaction_id'         => transaction_id('OPN'),
+                'transaction_id'         => transaction_id('OPN_'.$customer->id),
             ];
             $credit['chart_id']               = $code->code;
             $credit['client_account_code_id'] = $code->id;
@@ -76,7 +74,7 @@ class CustomerCardController extends Controller
                 $credit['debit']        = 0;
                 $credit['credit']       = $request->opening_blnc;
             }
-            CustomerCard::create($data);
+            
             GeneralLedger::create($ledger);
             GeneralLedger::create($credit);
             try {
@@ -92,6 +90,7 @@ class CustomerCardController extends Controller
         }
         return back();
     }
+    
     public function view($profession)
     {
         $client = client()->id;
@@ -101,6 +100,7 @@ class CustomerCardController extends Controller
             ->get(['id','customer_type','customer_ref','name','type','phone','email','abn']);
         return view('frontend.card_list.customer', compact('customers'));
     }
+
     public function edit(CustomerCard $customer)
     {
         $creditCodes = ClientAccountCode::where(function ($q) {
@@ -113,6 +113,8 @@ class CustomerCardController extends Controller
         $bsbs = BsbTable::where('client_id', client()->id)->get();
         return view('frontend.card_list.update_customer', compact('customer', 'creditCodes', 'bsbs'));
     }
+
+    // Update
     public function update(UpdateCustomerRequest $request, CustomerCard $customer)
     {
         $data = $request->validated();
@@ -122,10 +124,10 @@ class CustomerCardController extends Controller
 
         if ($data['status'] == 1 && $request->opening_blnc != '' && $request->credit_account != '' && $request->opening_blnc_date != '') {
             DB::beginTransaction();
-            $code = ClientAccountCode::find($request->credit_account);
+            $code      = ClientAccountCode::find($request->credit_account);
             $tran_date = makeBackendCompatibleDate($request->opening_blnc_date);
-            $tran_id = transaction_id('OPN');
-            $ledger = $credit = [
+            $tran_id   = transaction_id('OPN_'.$customer->id);
+            $ledger    = $credit = [
                 'chart_id'               => 552100,
                 'date'                   => $data['opening_blnc_date'] = $tran_date->format('Y-m-d'),
                 'narration'              => 'Customer Opening balance UP',
@@ -160,25 +162,43 @@ class CustomerCardController extends Controller
                 $credit['debit']        = 0;
                 $credit['credit']       = $request->opening_blnc;
             }
-            $checkLedger = GeneralLedger::where('source', 'OPN')
-                ->where('transaction_id', $tran_id)
-                ->where('chart_id', 552100)
-                ->first();
-            if ($checkLedger) {
-                $checkLedger->update($ledger);
-            } else {
-                GeneralLedger::create($ledger);
+
+            // Delete previous data by transaction_id
+            $retrieveCustomerIds = GeneralLedger::where('source', 'OPN')->get(['transaction_id']);
+            foreach ($retrieveCustomerIds as $retrieveCustomerId) {
+                $customerId = explode('_', $retrieveCustomerId->transaction_id);                
+                if(!empty($customerId[1]) && $customerId[1] == $customer->id){
+                    $currentTranId = $retrieveCustomerId->transaction_id;
+                    GeneralLedger::where('source', 'OPN')->where('transaction_id', $currentTranId)->forceDelete();
+                    // break;
+                }
             }
-            $checkCredit = GeneralLedger::where('source', 'OPN')
-                ->where('transaction_id', $tran_id)
-                ->where('chart_id', '!=', 552100)
-                // ->where('chart_id', $code->code)
-                ->first();
-            if ($checkCredit) {
-                $checkCredit->update($credit);
-            } else {
-                GeneralLedger::create($credit);
-            }
+            // Create new data
+            GeneralLedger::create($credit);
+            GeneralLedger::create($ledger);
+
+
+            // $checkLedger = GeneralLedger::where('source', 'OPN')
+            //     ->where('chart_id', 552100)
+            //     ->first();
+            // if ($checkLedger) {
+            //     $checkLedger->update($ledger);
+            // } else {
+            //     GeneralLedger::create($ledger);
+            // }
+
+            // $checkCredit = GeneralLedger::where('source', 'OPN')
+            //     ->where('transaction_id', $tran_id)
+            //     ->where('chart_id', '!=', 552100)
+            //     // ->where('chart_id', $code->code)
+            //     ->first();
+
+            // if ($checkCredit) {
+            //     $checkCredit->update($credit);
+            // } else {
+            //     GeneralLedger::create($credit);
+            // }
+
             try {
                 $customer->update($data);
                 toast('Customer Updated!', 'success');
@@ -194,6 +214,8 @@ class CustomerCardController extends Controller
             return back();
         }
     }
+
+    // Delete
     public function delete(CustomerCard $customer)
     {
         try {
