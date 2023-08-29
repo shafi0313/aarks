@@ -42,14 +42,14 @@
                                                     <a href="{{ route('customer.edit', $customer->id) }}" class="edit">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a><span> || </span>
-                                                    <a href="{{ route('customer.delete', $customer->id) }}" class="trash text-danger"
-                                                        onclick="return confirm('Are you sure?')">
+                                                    <a href="{{ route('customer.delete', $customer->id) }}"
+                                                        class="trash text-danger" onclick="return confirm('Are you sure?')">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </div>
                                             </td>
                                         </tr>
-        
+
                                     @empty
                                         <tr>
                                             <td colspan="8" align="center">
@@ -60,19 +60,13 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Page Content End -->
-    <!-- inline scripts related to this page -->
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
-                "order": []
-            });
-        });
-    </script>
 
+    @push('script')
+        @include('frontend.layout.includes.data_table_js')
+    @endpush
 @stop
