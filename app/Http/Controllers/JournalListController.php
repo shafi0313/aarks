@@ -302,8 +302,6 @@ class JournalListController extends Controller
                 'id' => $id
             ], $data);
 
-
-
             if ($type == 1) {
                 if (($gstEnabled == 0) && ($gst_code != 'GST' || $gst_code != 'CAP' || $gst_code != 'INP')) {
                     $gst['gross_amount'] = $journal->debit;
@@ -367,9 +365,8 @@ class JournalListController extends Controller
                 $ledger['balance_type'] = 2;
             }
 
-            // Leadger Data Calculation
+            // Ledger Data Calculation
             GeneralLedger::create($ledger);
-
 
             // Payable Clearing calculation
             if ($gst_code == 'GST' || $gst_code == 'CAP' || $gst_code == 'INP') {
