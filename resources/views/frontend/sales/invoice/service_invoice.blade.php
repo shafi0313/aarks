@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group row">
-                                            <label for="" class="col-sm-3 col-form-label">Amount:</label>
+                                            <label for="payment_amount" class="col-sm-3 col-form-label">Amount:</label>
                                             <div class="col-sm-8">
                                                 <input type="number" disabled min="0" class="form-control"
                                                     placeholder="0.00" id="payment_amount" step="any"
@@ -169,14 +169,14 @@
                     readData();
                     jobReadData();
                     $('.add-item').on('click', function() {
-                        var job_title       = $('#job_title').val();
+                        var job_title = $('#job_title').val();
                         var job_description = $('#job_des').val();
-                        var price           = $('#price').val();
-                        var disc            = $('#disc_rate').val()      == '' ? 0 : $('#disc_rate').val();
-                        var freight         = $('#freight_charge').val() == '' ? 0 : $('#freight_charge').val();
-                        var account         = $('#ac_code_name').val();
-                        var chart_id        = $('#chart_id').val();
-                        var tax             = $('#is_tax').val();
+                        var price = $('#price').val();
+                        var disc = $('#disc_rate').val() == '' ? 0 : $('#disc_rate').val();
+                        var freight = $('#freight_charge').val() == '' ? 0 : $('#freight_charge').val();
+                        var account = $('#ac_code_name').val();
+                        var chart_id = $('#chart_id').val();
+                        var tax = $('#is_tax').val();
 
                         if (job_title == '') {
                             alert('Please enter job title');
@@ -313,21 +313,26 @@
                     var subtotal = gst_amt_subtotal = 0;
                     $('.serial').each(function(key, element) {
                         $(element).html(i);
-                        var total             = $(element).parents('tr').find('input[name="totalamount[]"]').val();
-                        var gst_amt           = $(element).parents('tr').find('input[name="gst_amt[]"]').val();
-                            subtotal         += +parseFloat(total);
-                            gst_amt_subtotal += +parseFloat(gst_amt);
+                        var total = $(element).parents('tr').find('input[name="totalamount[]"]').val();
+                        var gst_amt = $(element).parents('tr').find('input[name="gst_amt[]"]').val();
+                        subtotal += +parseFloat(total);
+                        gst_amt_subtotal += +parseFloat(gst_amt);
                         i++;
                     });
                     $('.sub-total').html(subtotal.toFixed(2));
                     $('#total_amount').val(subtotal);
                     $('#gst_amt_subtotal').val(gst_amt_subtotal);
                 };
-
-                function bankamount() {
-                    $("#payment_amount").removeAttr('disabled', 'disabled')
-                }
             })
+
+            function bankamount() {
+                let bank_account = $("#bank_account").val();
+                if(bank_account != ''){
+                    $("#payment_amount").removeAttr('disabled')
+                }else{
+                    $("#payment_amount").attr('disabled', 'disabled')
+                }                
+            }
 
             function oneOfCustomer(value) {
                 let select = $(value);

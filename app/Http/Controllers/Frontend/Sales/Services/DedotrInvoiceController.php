@@ -70,6 +70,8 @@ class DedotrInvoiceController extends Controller
             ->get();
         return view('frontend.sales.invoice.manage', compact('client', 'invoices'));
     }
+
+    // Invoice Store
     public function store(DedotrQuoteRequest $request)
     {
         $data = $request->validated();
@@ -224,24 +226,28 @@ class DedotrInvoiceController extends Controller
                 if ($dedotr->first()->is_tax == 'yes') {
                     $gst['chart_code'] = 191295;
                     $checkfr      = $checksGst->where('chart_code', 191295)->first();
-                    if ($checkfr != '') {
-                        $gst['gross_amount']       = $checkfr->gross_amount + $fFreight_charge;
-                        $gst['gst_accrued_amount'] = $checkfr->gst_accrued_amount + $fgst;
-                        $gst['net_amount']         = $checkfr->net_amount + $fFreight_charge - $fgst;
-                        $checkfr->update($gst);
-                    } else {
-                        Gsttbl::create($gst);
+                    if ($checkfr->net_amount + $fFreight_charge - $fgst != 0) {
+                        if ($checkfr != '') {
+                            $gst['gross_amount']       = $checkfr->gross_amount + $fFreight_charge;
+                            $gst['gst_accrued_amount'] = $checkfr->gst_accrued_amount + $fgst;
+                            $gst['net_amount']         = $checkfr->net_amount + $fFreight_charge - $fgst;
+                            $checkfr->update($gst);
+                        } else {
+                            Gsttbl::create($gst);
+                        }
                     }
                 } else {
                     $gst['chart_code'] = 191296;
                     $checkfr      = $checksGst->where('chart_code', 191296)->first();
-                    if ($checkfr != '') {
-                        $gst['gross_amount']       = $checkfr->gross_amount + $fFreight_charge;
-                        $gst['gst_accrued_amount'] = $checkfr->gst_accrued_amount + $fgst;
-                        $gst['net_amount']         = $checkfr->net_amount + $fFreight_charge - $fgst;
-                        $checkfr->update($gst);
-                    } else {
-                        Gsttbl::create($gst);
+                    if ($checkfr->net_amount + $fFreight_charge - $fgst != 0) {
+                        if ($checkfr != '') {
+                            $gst['gross_amount']       = $checkfr->gross_amount + $fFreight_charge;
+                            $gst['gst_accrued_amount'] = $checkfr->gst_accrued_amount + $fgst;
+                            $gst['net_amount']         = $checkfr->net_amount + $fFreight_charge - $fgst;
+                            $checkfr->update($gst);
+                        } else {
+                            Gsttbl::create($gst);
+                        }
                     }
                 }
             }
@@ -302,32 +308,40 @@ class DedotrInvoiceController extends Controller
             $ledger['client_account_code_id'] = $code->id;
             $ledger['balance']                = abs($gd->net_amount);
             $ledger['gst']                    = abs($gd->gst_accrued_amount);
-            if ($code->code == 191998 || $code->code == 191999) {
-                $ledger['debit']        = abs($gd->gross_amount);
-                $ledger['credit']       = 0;
-                $ledger['balance_type'] = 1;
-            } else {
-                $ledger['credit'] = abs($gd->gross_amount);
-                $ledger['debit']  = 0;
+            if ($gd->gross_amount != 0) {
+                if ($code->code == 191998 || $code->code == 191999) {
+                    $ledger['debit']        = abs($gd->gross_amount);
+                    $ledger['credit']       = 0;
+                    $ledger['balance_type'] = 1;
+                } else {
+                    $ledger['credit'] = abs($gd->gross_amount);
+                    $ledger['debit']  = 0;
+                }
+                GeneralLedger::create($ledger);
             }
-            GeneralLedger::create($ledger);
         }
         // Trade Debotor code
-        $trade                    = $codes->where('code', 552100)->first();
-        $ledger['balance_type']           = 1;
-        $ledger['chart_id']               = $trade->code;
-        $ledger['client_account_code_id'] = $trade->id;
-        $ledger['balance']                = $ledger['debit'] = $request->total_amount - $request->payment_amount;
-        $ledger['credit']                 = $ledger['gst']   = 0;
-        GeneralLedger::create($ledger);
+        if ($request->total_amount - $request->payment_amount != 0) {
+            $trade                            = $codes->where('code', 552100)->first();
+            $ledger['balance_type']           = 1;
+            $ledger['chart_id']               = $trade->code;
+            $ledger['client_account_code_id'] = $trade->id;
+            $ledger['balance']                = $ledger['debit'] = $request->total_amount - $request->payment_amount;
+            $ledger['credit']                 = $ledger['gst']   = 0;
+            GeneralLedger::create($ledger);
+        }
+
         // Gst Payable code
-        $gstpay                   = $codes->where('code', 912100)->first();
-        $ledger['balance_type']           = 2;
-        $ledger['chart_id']               = $gstpay->code;
-        $ledger['client_account_code_id'] = $gstpay->id;
-        $ledger['balance']                = $ledger['credit'] = $request->gst_amt_subtotal;
-        $ledger['debit']                  = $ledger['gst']    = 0;
-        GeneralLedger::create($ledger);
+        if ($request->gst_amt_subtotal != 0) {
+            $gstpay                           = $codes->where('code', 912100)->first();
+            $ledger['balance_type']           = 2;
+            $ledger['chart_id']               = $gstpay->code;
+            $ledger['client_account_code_id'] = $gstpay->id;
+            $ledger['balance']                = $ledger['credit'] = $request->gst_amt_subtotal;
+            $ledger['debit']                  = $ledger['gst']    = 0;
+            GeneralLedger::create($ledger);
+        }
+
         // payment received code or bank AC
         $bankAC = $gstData->where('source', 'PIN')->first();
         if (!empty($bankAC) && $request->payment_amount != '' && $request->bank_account != '') {
@@ -343,10 +357,10 @@ class DedotrInvoiceController extends Controller
         }
 
         //RetailEarning Calculation
-        RetainEarning::retain($cid, $pid, $tran_date, $ledger, ['INV', 'INV']);
+        // RetainEarning::retain($cid, $pid, $tran_date, $ledger, ['INV', 'INV']);
 
         // Retain Earning For each Transaction
-        RetainEarning::tranRetain($cid, $pid, $tran_id, $ledger, ['INV', 'INV']);
+        // RetainEarning::tranRetain($cid, $pid, $tran_id, $ledger, ['INV', 'INV']);
 
         if ($request->ajax() && $period) {
             DB::commit();
@@ -387,6 +401,8 @@ class DedotrInvoiceController extends Controller
         }
         // return response()->json($message);
     }
+
+    // Edit Invoice
     public function edit(Request $request, $inv_no, Client $client, $customer)
     {
         $invoices = Dedotr::with(['client', 'customer'])
@@ -424,6 +440,8 @@ class DedotrInvoiceController extends Controller
             return redirect()->route('invoice.manage');
         }
     }
+
+    // Update Invoice
     public function update(DedotrQuoteRequest $request, $invoice, Client $client, Profession $profession)
     {
         // return $request;
@@ -445,6 +463,17 @@ class DedotrInvoiceController extends Controller
             return back();
         }
         DB::beginTransaction();
+        Gsttbl::where('client_id', $request->client_id)
+            ->where('profession_id', $profession->id)
+            ->where('trn_id', $request->tran_id)
+            ->where('source', 'INV')
+            ->forceDelete();
+        GeneralLedger::where('client_id', $request->client_id)
+            ->where('profession_id', $profession->id)
+            ->where('transaction_id', $request->tran_id)
+            ->where('source', 'INV')
+            ->forceDelete();
+
         foreach ($request->job_title as $i => $jobTitle) {
             $dedotr = Dedotr::where('id', $request->inv_id[$i])->first();
             $rprice = $gst_total = $request->price[$i];
@@ -489,7 +518,7 @@ class DedotrInvoiceController extends Controller
             }
         }
 
-        // GST TABKLE CALCULATION
+        // GST TABLE CALCULATION
         $dedotrs = Dedotr::where('client_id', $request->client_id)
             ->where('profession_id', $profession->id)
             ->where('inv_no', $invoice)
@@ -544,13 +573,13 @@ class DedotrInvoiceController extends Controller
                 Gsttbl::create($gst);
             }
             //Freight Charge [If Freight Charge Inserted]
-            if ($dedotr->first()->freight_charge != '') {
+            if ($dedotr->first()->freight_charge != '' && $fFreight_charge - $fgst != 0) {
                 $gst['gross_amount']       = $fFreight_charge;
                 $gst['gst_accrued_amount'] = $fgst;
                 $gst['net_amount']         = $fFreight_charge - $fgst;
                 if ($dedotr->first()->is_tax == 'yes') {
                     $gst['chart_code']         = 191295;
-                    $checkfr              = $checksGst->where('chart_code', 191295)->first();
+                    $checkfr                   = $checksGst->where('chart_code', 191295)->first();
                     $gst['gross_amount']       = $fFreight_charge;
                     $gst['gst_accrued_amount'] = $fgst;
                     $gst['net_amount']         = $fFreight_charge - $fgst;
@@ -561,7 +590,7 @@ class DedotrInvoiceController extends Controller
                     }
                 } else {
                     $gst['chart_code']         = 191296;
-                    $checkfr              = $checksGst->where('chart_code', 191296)->first();
+                    $checkfr                   = $checksGst->where('chart_code', 191296)->first();
                     $gst['gross_amount']       = $fFreight_charge;
                     $gst['gst_accrued_amount'] = $fgst;
                     $gst['net_amount']         = $fFreight_charge - $fgst;
@@ -574,13 +603,13 @@ class DedotrInvoiceController extends Controller
             }
 
             //Discount of Sales/Services [If discount data inserted]
-            if ($dedotr->first()->disc_rate != '') {
+            if ($dedotr->first()->disc_rate != '' && $fDisc_rate + $dgst != 0) {
                 $gst['gross_amount']       = -$fDisc_rate;
                 $gst['gst_accrued_amount'] = -$dgst;
                 $gst['net_amount']         = -$fDisc_rate + $dgst;
                 if ($dedotr->first()->is_tax == 'yes') {
                     $gst['chart_code']         = 191998;
-                    $checkdis             = $checksGst->where('chart_code', 191998)->first();
+                    $checkdis                  = $checksGst->where('chart_code', 191998)->first();
                     $gst['gross_amount']       = -$fDisc_rate;
                     $gst['gst_accrued_amount'] = -$dgst;
                     $gst['net_amount']         = -$fDisc_rate + $dgst;
@@ -591,7 +620,7 @@ class DedotrInvoiceController extends Controller
                     }
                 } else {
                     $gst['chart_code']         = 191999;
-                    $checkdis             = $checksGst->where('chart_code', 191999)->first();
+                    $checkdis                  = $checksGst->where('chart_code', 191999)->first();
                     $gst['gross_amount']       = -$fDisc_rate;
                     $gst['gst_accrued_amount'] = -$dgst;
                     $gst['net_amount']         = -$fDisc_rate + $dgst;
@@ -635,7 +664,7 @@ class DedotrInvoiceController extends Controller
         $genLoopData = $genLedger;
         $genTrade    = $genLedger;
 
-        // Account code fron INV
+        // Account code from INV
         foreach ($gstData as $gd) {
             $code                     = $codes->where('code', $gd->chart_code)->first();
             $ledger['chart_id']               = $code->code;
@@ -652,46 +681,52 @@ class DedotrInvoiceController extends Controller
                 $ledger['credit']       = abs($gd->gross_amount);
             }
             $genLed = $genLoopData->where('chart_id', $gd->chart_code)->first();
-
-            if ($genLed != '') {
-                $genLed->update($ledger);
+            if ($gd->gross_amount != 0) {
+                if ($genLed != '') {
+                    $genLed->update($ledger);
+                } else {
+                    GeneralLedger::create($ledger);
+                }
+            }
+        }
+        // Trade Debotrs code
+        if ($dedotrs->sum('amount') - $dedotrs->first()->payment_amount != 0) {
+            $trade                            = $codes->where('code', 552100)->first();
+            $ledger['balance_type']           = 1;
+            $ledger['chart_id']               = $trade->code;
+            $ledger['client_account_code_id'] = $trade->id;
+            $ledger['balance']                = $ledger['debit'] = $dedotrs->sum('amount') - $dedotrs->first()->payment_amount;
+            $ledger['credit']                 = $ledger['gst'] = 0;
+            $genCredit                        = $genTrade->where('chart_id', 552100)->first();
+            if ($genCredit != '') {
+                $genCredit->update($ledger);
             } else {
                 GeneralLedger::create($ledger);
             }
         }
-        // Trade Debotrs code
-        $trade                    = $codes->where('code', 552100)->first();
-        $ledger['balance_type']           = 1;
-        $ledger['chart_id']               = $trade->code;
-        $ledger['client_account_code_id'] = $trade->id;
-        $ledger['balance']                =
-            $ledger['debit']                  = $dedotrs->sum('amount')  - $dedotrs->first()->payment_amount;
-        $ledger['credit']                 = $ledger['gst'] = 0;
-        $genCredit                = $genTrade->where('chart_id', 552100)->first();
-        if ($genCredit != '') {
-            $genCredit->update($ledger);
-        } else {
-            GeneralLedger::create($ledger);
-        }
+
         // Gst Clear code
-        $gstpay                   = $codes->where('code', 912100)->first();
-        $ledger['balance_type']           = 2;
-        $ledger['chart_id']               = $gstpay->code;
-        $ledger['client_account_code_id'] = $gstpay->id;
-        $ledger['balance']                = $ledger['credit'] = $gstData->sum('gst_accrued_amount');
-        $ledger['debit']                  = $ledger['gst']    = 0;
-        $genClear                 = $genLedger->where('chart_id', 912100)->first();
-        if ($genClear != '') {
-            $genClear->update($ledger);
-        } else {
-            GeneralLedger::create($ledger);
+        if ($gstData->sum('gst_accrued_amount') != 0) {
+            $gstpay                           = $codes->where('code', 912100)->first();
+            $ledger['balance_type']           = 2;
+            $ledger['chart_id']               = $gstpay->code;
+            $ledger['client_account_code_id'] = $gstpay->id;
+            $ledger['balance']                = $ledger['credit'] = $gstData->sum('gst_accrued_amount');
+            $ledger['debit']                  = $ledger['gst']    = 0;
+            $genClear                         = $genLedger->where('chart_id', 912100)->first();
+            if ($genClear != '') {
+                $genClear->update($ledger);
+            } else {
+                GeneralLedger::create($ledger);
+            }
         }
+
 
 
         //RetailEarning Calculation
-        RetainEarning::retain($cid, $pid, $tran_date, $ledger, ['INV', 'INV']);
+        // RetainEarning::retain($cid, $pid, $tran_date, $ledger, ['INV', 'INV']);
         // Retain Earning For each Transaction
-        RetainEarning::tranRetain($cid, $pid, $tran_id, $ledger, ['INV', 'INV']);
+        // RetainEarning::tranRetain($cid, $pid, $tran_id, $ledger, ['INV', 'INV']);
         //RetailEarning Calculation End....
 
         try {

@@ -120,12 +120,7 @@
         </div>
     </div>
 </section>
-<!-- Page Content End -->
 
-
-
-<!-- inline scripts related to this page -->
-<!-- Data Table -->
 <script>
     $(document).ready(function() {
             $('#example').DataTable( {
