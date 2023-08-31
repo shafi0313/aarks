@@ -202,8 +202,10 @@
                                         <span style="color:green; font-size:18px; padding-right:100px;">
                                             Closing Balance : &nbsp;&nbsp;&nbsp; $ {{number_format((($open_balance +
                                             $total_received) - $total_payment),2)}} </span>
-                                        <input type="submit" value="Save" name="save" class="btn btn-primary"
-                                            style="background:#ff5733 !important; color:white !important;">
+
+                                        {{-- <input type="submit" value="Save" name="save" class="btn btn-primary"
+                                            style="background:#ff5733 !important; color:white !important;"> --}}
+
                                         <input type="submit" value="Post" name="post" class="btn btn-primary finalpost"
                                             style="background:#ff5733 !important; color:white !important;">
                                     </div>
@@ -216,6 +218,7 @@
         </div>
     </div>
 </section>
+
 <!-- Page Content End -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog  modal-lg" role="document">
@@ -245,6 +248,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel">
     <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">

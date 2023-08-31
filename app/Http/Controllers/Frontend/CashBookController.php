@@ -73,9 +73,9 @@ class CashBookController extends Controller
         $open_balance = 0;
 
         $note = Note::whereClientId($client->id)
-        ->whereProfessionId($profession->id)
-        ->where('model', 'cashbook')
-        ->first();
+            ->whereProfessionId($profession->id)
+            ->where('model', 'cashbook')
+            ->first();
 
         if ($first_office->id == $office->id) {
             $open_balance = GeneralLedger::where('client_id', $client->id)
@@ -86,10 +86,7 @@ class CashBookController extends Controller
         }
         return view('frontend.accounts.cash_book.dataentry', compact('cashbooks', 'codes', 'office', 'client', 'profession', 'openbl', 'open_balance', 'first_office', 'note'));
     }
-    public function create()
-    {
-        //
-    }
+
     public function store(CashBookCreateRequest $request)
     {
         $data      = $request->validated();
@@ -200,10 +197,7 @@ class CashBookController extends Controller
         CashBook::create($data);
         return redirect()->back();
     }
-    public function show(CashBook $cashbook)
-    {
-        //
-    }
+
     public function massUpdate(Request $request)
     {
         // return $request->all();
@@ -216,152 +210,160 @@ class CashBookController extends Controller
             ->where('end_date', '>=', now()->format('Y-m-d'))->first();
 
         DB::beginTransaction();
-        if ($request->has('save')) {
-            $data = [
-                'tran_id' => transaction_id('CBE'),
-                'is_save' => 1
-            ];
-            $cashbooks->where('is_post', 0)->update($data);
-            $msg = 'Cash Book Updated!';
-        } else {
-            $casbks = $cashbooks->where('is_save', 1)->where('is_post', 0)->get();
-            if ($casbks->count() > 0) {
-                $codes = ClientAccountCode::where('client_id', $request->client_id)
-                    ->where('profession_id', $request->profession_id)
-                    ->get();
+        // return $request->save;
+        //         if ($request->has('save')) {
+        //             $data = [
+        //                 'tran_id' => transaction_id('CBE'),
+        //                 'is_save' => 1
+        //             ];
+        //             $cashbooks->where('is_post', 0)->update($data);
+        //             $msg = 'Cash Book Updated!';
+        //         } else {
 
-                $payableAc     = $codes->where('code', 912100)->first();
-                $clearingAc    = $codes->where('code', 912101)->first();
-                $tranRetainEar = $codes->where('code', 999998)->first();
-                $retainEar     = $codes->where('code', 999999)->first();
-                $cashIn        = $codes->where('code', 551900)->first();
-                $loanFrom      = $codes->where('code', 954100)->first();
+        $data = [
+            'tran_id' => transaction_id('CBE'),
+            'is_save' => 1
+        ];
+        $cashbooks->where('is_post', 0)->update($data);
+        
+        $casbks = $cashbooks->where('is_post', 0)->get();
+        if ($casbks->count() > 0) {
+            $codes = ClientAccountCode::where('client_id', $request->client_id)
+                ->where('profession_id', $request->profession_id)
+                ->get();
 
-                foreach ($casbks->groupBy(['gst_code', 'chart_id']) as $cashbook) {
-                    foreach ($cashbook as $cbook) {
-                        // return $cbook->sum('net_amount_debit') - $cbook->sum('net_amount_credit');
-                        $gst['client_id']     = $cbook->first()->client_id;
-                        $gst['profession_id'] = $cbook->first()->profession_id;
-                        $gst['period_id']     = $cbook->first()->period_id;
-                        $gst['trn_id']        = $cbook->first()->tran_id;
-                        $gst['trn_date']      = $cbook->first()->tran_date;
-                        $gst['chart_code']    = $cbook->first()->chart_id;
-                        $gst['source']        = 'CBE';
+            $payableAc     = $codes->where('code', 912100)->first();
+            $clearingAc    = $codes->where('code', 912101)->first();
+            $tranRetainEar = $codes->where('code', 999998)->first();
+            $retainEar     = $codes->where('code', 999999)->first();
+            $cashIn        = $codes->where('code', 551900)->first();
+            $loanFrom      = $codes->where('code', 954100)->first();
 
-                        $code            = $codes->where('code', $cbook->first()->chart_id)->first();
+            foreach ($casbks->groupBy(['gst_code', 'chart_id']) as $cashbook) {
+                foreach ($cashbook as $cbook) {
+                    // return $cbook->sum('net_amount_debit') - $cbook->sum('net_amount_credit');
+                    $gst['client_id']     = $cbook->first()->client_id;
+                    $gst['profession_id'] = $cbook->first()->profession_id;
+                    $gst['period_id']     = $cbook->first()->period_id;
+                    $gst['trn_id']        = $cbook->first()->tran_id;
+                    $gst['trn_date']      = $cbook->first()->tran_date;
+                    $gst['chart_code']    = $cbook->first()->chart_id;
+                    $gst['source']        = 'CBE';
 
-                        if (str_starts_with($cbook->first()->chart_id, '9') || str_starts_with($cbook->first()->chart_id, '5')) {
-                            $acca = $cbook->sum('gst_accrued_debit') - $cbook->sum('gst_accrued_credit');
-                            $gca = $cbook->sum('gst_cash_debit') - $cbook->sum('gst_cash_credit');
-                            $amount = $cbook->sum('amount_debit') - $cbook->sum('amount_credit');
-                            $namount = $cbook->sum('net_amount_debit') - $cbook->sum('net_amount_credit');
-                            if ($code->type == 1 && $amount > 0) {
-                                $gst['gst_accrued_amount'] = abs($acca);
-                                $gst['gst_cash_amount']    = abs($gca);
-                                $gst['gross_amount']       = abs($amount);
-                                $gst['net_amount']         = abs($namount);
-                            } else {
-                                $gst['gst_accrued_amount'] = $acca;
-                                $gst['gst_cash_amount']    = $gca;
-                                $gst['gross_amount']       = $amount;
-                                $gst['net_amount']         = $namount;
-                            }
+                    $code            = $codes->where('code', $cbook->first()->chart_id)->first();
+
+                    if (str_starts_with($cbook->first()->chart_id, '9') || str_starts_with($cbook->first()->chart_id, '5')) {
+                        $acca = $cbook->sum('gst_accrued_debit') - $cbook->sum('gst_accrued_credit');
+                        $gca = $cbook->sum('gst_cash_debit') - $cbook->sum('gst_cash_credit');
+                        $amount = $cbook->sum('amount_debit') - $cbook->sum('amount_credit');
+                        $namount = $cbook->sum('net_amount_debit') - $cbook->sum('net_amount_credit');
+                        if ($code->type == 1 && $amount > 0) {
+                            $gst['gst_accrued_amount'] = abs($acca);
+                            $gst['gst_cash_amount']    = abs($gca);
+                            $gst['gross_amount']       = abs($amount);
+                            $gst['net_amount']         = abs($namount);
                         } else {
-                            $gst['gst_accrued_amount'] = $cbook->sum('gst_accrued_debit') > 0 ? $cbook->sum('gst_accrued_debit') : $cbook->sum('gst_accrued_credit');
-                            $gst['gst_cash_amount']    = $cbook->sum('gst_cash_debit') > 0 ? $cbook->sum('gst_cash_debit') : $cbook->sum('gst_cash_credit');
-                            $gst['gross_amount']       = $cbook->sum('amount_debit') > 0 ? $cbook->sum('amount_debit') : $cbook->sum('amount_credit');
-                            $gst['net_amount']         = $cbook->sum('net_amount_debit') > 0 ? $cbook->sum('net_amount_debit') : $cbook->sum('net_amount_credit');
+                            $gst['gst_accrued_amount'] = $acca;
+                            $gst['gst_cash_amount']    = $gca;
+                            $gst['gross_amount']       = $amount;
+                            $gst['net_amount']         = $namount;
                         }
-                        $gstData = Gsttbl::create($gst);
+                    } else {
+                        $gst['gst_accrued_amount'] = $cbook->sum('gst_accrued_debit') > 0 ? $cbook->sum('gst_accrued_debit') : $cbook->sum('gst_accrued_credit');
+                        $gst['gst_cash_amount']    = $cbook->sum('gst_cash_debit') > 0 ? $cbook->sum('gst_cash_debit') : $cbook->sum('gst_cash_credit');
+                        $gst['gross_amount']       = $cbook->sum('amount_debit') > 0 ? $cbook->sum('amount_debit') : $cbook->sum('amount_credit');
+                        $gst['net_amount']         = $cbook->sum('net_amount_debit') > 0 ? $cbook->sum('net_amount_debit') : $cbook->sum('net_amount_credit');
+                    }
+                    $gstData = Gsttbl::create($gst);
 
-                        $code                = $codes->where('code', $gstData->chart_code)->first();
-                        $ledger['date']                   = $pay['date']             = $gstData->trn_date;
-                        $ledger['narration']              = $pay['narration']        = $cbook->first()->narration;
-                        $ledger['source']                 = $pay['source']           = 'CBE';
-                        $ledger['client_id']              = $pay['client_id']        = $request->client_id;
-                        $ledger['profession_id']          = $pay['profession_id']    = $request->profession_id;
-                        $ledger['transaction_id']         = $pay['transaction_id']   = $gstData->trn_id;
-                        $ledger['chart_id']               = $pay['payable_liabilty'] = $code->code;
-                        $ledger['client_account_code_id'] = $code->id;
-                        $ledger['balance']                = $gstData->net_amount;
+                    $code                = $codes->where('code', $gstData->chart_code)->first();
+                    $ledger['date']                   = $pay['date']             = $gstData->trn_date;
+                    $ledger['narration']              = $pay['narration']        = $cbook->first()->narration;
+                    $ledger['source']                 = $pay['source']           = 'CBE';
+                    $ledger['client_id']              = $pay['client_id']        = $request->client_id;
+                    $ledger['profession_id']          = $pay['profession_id']    = $request->profession_id;
+                    $ledger['transaction_id']         = $pay['transaction_id']   = $gstData->trn_id;
+                    $ledger['chart_id']               = $pay['payable_liabilty'] = $code->code;
+                    $ledger['client_account_code_id'] = $code->id;
+                    $ledger['balance']                = $gstData->net_amount;
 
-                        $ledger['gst'] = $pay['balance'] = $gstData->gst_accrued_amount > 0 ? abs($gstData->gst_accrued_amount) : abs($gstData->gst_cash_amount);
-                        if ($cbook->first()->ac_type == $code->type) {
-                            if ($code->type == 1 && $cbook->first()->ac_type == 1) {
-                                $ledger['debit']                  = abs($gstData->gross_amount);
-                                $pay['debit']                  = abs($ledger['gst']);
-                                $pay['chart_id']               = $clearingAc->code;
-                                $pay['client_account_code_id'] = $clearingAc->id;
-                                $ledger['balance_type']           = $pay['balance_type'] = 1;
-                                $ledger['credit']                 = 0;
-                                $pay['narration']              = "CBE_CLEARING";
-                            } else {
-                                $ledger['credit']                 = abs($gstData->gross_amount);
-                                $pay['credit']                 = abs($ledger['gst']);
-                                $pay['chart_id']               = $payableAc->code;
-                                $pay['client_account_code_id'] = $payableAc->id;
-                                $ledger['balance_type']           = $pay['balance_type'] = 2;
-                                $ledger['debit']                  = 0;
-                                $pay['narration']              = "CBE_PAYABLE";
-                            }
+                    $ledger['gst'] = $pay['balance'] = $gstData->gst_accrued_amount > 0 ? abs($gstData->gst_accrued_amount) : abs($gstData->gst_cash_amount);
+                    if ($cbook->first()->ac_type == $code->type) {
+                        if ($code->type == 1 && $cbook->first()->ac_type == 1) {
+                            $ledger['debit']               = abs($gstData->gross_amount);
+                            $pay['debit']                  = abs($ledger['gst']);
+                            $pay['chart_id']               = $clearingAc->code;
+                            $pay['client_account_code_id'] = $clearingAc->id;
+                            $ledger['balance_type']        = $pay['balance_type'] = 1;
+                            $ledger['credit']              = 0;
+                            $pay['narration']              = "CBE_CLEARING";
                         } else {
-                            if ($code->type == 1 && $cbook->first()->ac_type == 1) {
-                                $ledger['debit']                  = abs($gstData->gross_amount);
-                                $pay['debit']                  = abs($ledger['gst']);
-                                $pay['chart_id']               = $clearingAc->code;
-                                $pay['client_account_code_id'] = $clearingAc->id;
-                                $ledger['balance_type']           = 2;
-                                $pay['balance_type']           = 1;
-                                $ledger['credit']                 = 0;
-                                $ledger['balance']                = $gstData->net_amount;
-                                $pay['narration']              = "CBE_CLEARING";
-                            } else {
-                                $ledger['credit']                 = abs($gstData->gross_amount);
-                                $pay['credit']                 = abs($ledger['gst']);
-                                $pay['chart_id']               = $payableAc->code;
-                                $pay['client_account_code_id'] = $payableAc->id;
-                                $ledger['balance_type']           = 1;
-                                $pay['balance_type']           = 2;
-                                $ledger['debit']                  = 0;
-                                $ledger['balance']                = $gstData->net_amount;
-                                $pay['narration']              = "CBE_PAYABLE";
-                            }
+                            $ledger['credit']              = abs($gstData->gross_amount);
+                            $pay['credit']                 = abs($ledger['gst']);
+                            $pay['chart_id']               = $payableAc->code;
+                            $pay['client_account_code_id'] = $payableAc->id;
+                            $ledger['balance_type']        = $pay['balance_type'] = 2;
+                            $ledger['debit']               = 0;
+                            $pay['narration']              = "CBE_PAYABLE";
                         }
-
-                        GeneralLedger::create($ledger);
-                        if ($code->gst_code == 'GST' || $code->gst_code == 'CAP' || $code->gst_code == 'INP') {
-                            GeneralLedger::create($pay);
+                    } else {
+                        if ($code->type == 1 && $cbook->first()->ac_type == 1) {
+                            $ledger['debit']               = abs($gstData->gross_amount);
+                            $pay['debit']                  = abs($ledger['gst']);
+                            $pay['chart_id']               = $clearingAc->code;
+                            $pay['client_account_code_id'] = $clearingAc->id;
+                            $ledger['balance_type']        = 2;
+                            $pay['balance_type']           = 1;
+                            $ledger['credit']              = 0;
+                            $ledger['balance']             = $gstData->net_amount;
+                            $pay['narration']              = "CBE_CLEARING";
+                        } else {
+                            $ledger['credit']              = abs($gstData->gross_amount);
+                            $pay['credit']                 = abs($ledger['gst']);
+                            $pay['chart_id']               = $payableAc->code;
+                            $pay['client_account_code_id'] = $payableAc->id;
+                            $ledger['balance_type']        = 1;
+                            $pay['balance_type']           = 2;
+                            $ledger['debit']               = 0;
+                            $ledger['balance']             = $gstData->net_amount;
+                            $pay['narration']              = "CBE_PAYABLE";
                         }
                     }
+
+                    GeneralLedger::create($ledger);
+                    if ($code->gst_code == 'GST' || $code->gst_code == 'CAP' || $code->gst_code == 'INP') {
+                        GeneralLedger::create($pay);
+                    }
                 }
-
-                // Cash in hand calculations
-                $ledger['chart_id']               = $cashIn->code;
-                $ledger['client_account_code_id'] = $cashIn->id;
-                $ledger['gst']                    = 0;
-                $ledger['balance']                = $cdata = $request->cash_hand;
-                $ledger['balance_type']           = 1;
-                $ledger['narration']              = "CBE_BANK";
-                if ($cdata < 1) {
-                    $ledger['credit']       = abs($cdata);
-                    $ledger['debit']        = 0;
-                } else {
-                    $ledger['debit']  = abs($cdata);
-                    $ledger['credit'] = 0;
-                }
-                GeneralLedger::create($ledger);
-
-
-                //RetailEarning Calculation
-                RetainEarning::retain($request->client_id, $request->profession_id, $casbks->first()->tran_date, $ledger, ['CBE', 'CBE']);
-                // Retain Earning For each Transection
-                RetainEarning::tranRetain($request->client_id, $request->profession_id, $casbks->first()->tran_id, $ledger, ['CBE', 'CBE']);
-
-                $cashbooks->where('is_save', 1)->where('is_post', 0)->update(['is_post' => 1]);
-                $msg = 'Cash Book Posted!';
-            } else {
-                $msg = 'Please save first!';
             }
+
+            // Cash in hand calculations
+            $ledger['chart_id']               = $cashIn->code;
+            $ledger['client_account_code_id'] = $cashIn->id;
+            $ledger['gst']                    = 0;
+            $ledger['balance']                = $cdata = $request->cash_hand;
+            $ledger['balance_type']           = 1;
+            $ledger['narration']              = "CBE_BANK";
+            if ($cdata < 1) {
+                $ledger['credit']       = abs($cdata);
+                $ledger['debit']        = 0;
+            } else {
+                $ledger['debit']  = abs($cdata);
+                $ledger['credit'] = 0;
+            }
+            GeneralLedger::create($ledger);
+
+
+            //RetailEarning Calculation
+            // RetainEarning::retain($request->client_id, $request->profession_id, $casbks->first()->tran_date, $ledger, ['CBE', 'CBE']);
+            // Retain Earning For each Transection
+            // RetainEarning::tranRetain($request->client_id, $request->profession_id, $casbks->first()->tran_id, $ledger, ['CBE', 'CBE']);
+
+            $cashbooks->where('is_post', 0)->update(['is_post' => 1]);
+            $msg = 'Cash Book Posted!';
+            // } else {
+            //     $msg = 'Please save first!';
+            // }
         }
         try {
             DB::commit();
@@ -370,7 +372,7 @@ class CashBookController extends Controller
             DB::rollBack();
             toast($e->getMessage(), 'error');
         }
-        return redirect()->route('cashbook.dataentry',[$request->client_id,$request->profession_id,$request->cash_office_id]);
+        return redirect()->route('cashbook.dataentry', [$request->client_id, $request->profession_id, $request->cash_office_id]);
     }
     public function edit(CashBook $cashbook)
     {
