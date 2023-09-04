@@ -91,7 +91,7 @@ class ImportController extends Controller
             ->where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->orderBy('date', 'asc')
-            ->paginate(50);
+            ->get();
         $period = Period::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->first();
