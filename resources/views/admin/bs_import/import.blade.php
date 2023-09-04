@@ -100,7 +100,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <span style="float: right;padding: 5px;"> {{ $bank_statements->links() }}</span>
+                            {{-- <span style="float: right;padding: 5px;"> {{ $bank_statements->links() }}</span> --}}
                         </div>
                         <hr>
                         <div class="row">
