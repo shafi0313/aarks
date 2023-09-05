@@ -265,7 +265,7 @@ class ImportBS
                 // RetainEarning::tranRetain($client->id, $profession->id, $tran_id, $ledger, ['BST', 'BST']);
                 $bank_statement->update([
                     'is_posted' => 1,
-                    'tran_id' => $tran_id,
+                    'tran_id'   => $tran_id,
                 ]);
             }
             //RetailEarning Calculation End....
