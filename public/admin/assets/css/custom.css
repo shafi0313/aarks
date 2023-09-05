@@ -25,7 +25,10 @@ thead tr th {
     text-align: center;
 }
 
-.jumbotron {
-    padding-top: 10px;
-    padding-bottom: 10px;
+.jumbotron_ {
+    /* padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 30px; */
+    margin-top: 20px;
+    background-color: #eee;
 }

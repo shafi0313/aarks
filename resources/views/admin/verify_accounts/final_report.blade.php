@@ -11,7 +11,7 @@
                     </li>
                     <li>Tools</li>
                     <li>Verify & Fixed Transactions</li>
-                    <li class="active">All Transactions</li>
+                    <li class="active">{{ clientName($client) }}</li>
                 </ul><!-- /.breadcrumb -->
 
                 <div class="nav-search" id="nav-search">
@@ -32,7 +32,7 @@
                             <strong style="font-size:20px;">{{ clientName($client) }} </strong><br />
                             From Date : {{ $from_date }} To : {{ $to_date }}
                         </div>
-                        <div class="jumbotron">
+                        <div class="jumbotron_">
                             <!-- PAGE CONTENT BEGINS -->                            
                             <div class="table-header">Verify & Fixed Transactions</div>
                             <table id="dynamic-table" class="table table-striped table-bordered table-hover">
@@ -44,7 +44,7 @@
                                         <th>Total Debit</th>
                                         <th>Total Credit</th>
                                         <th>Difference Amount</th>
-                                        <th>Action</th>
+                                        <th class="no-sort">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -77,9 +77,9 @@
                                                         {{ $first_tran->transaction_id }}
                                                     </a>
                                                 </td>
-                                                <td>{{ number_format($gstDebit, 2) }}</td>
-                                                <td>{{ number_format($gstCredit, 2) }}</td>
-                                                <td>{{ number_format($diff, 2) }}</td>
+                                                <td class="text-right">{{ number_format($gstDebit, 2) }}</td>
+                                                <td class="text-right">{{ number_format($gstCredit, 2) }}</td>
+                                                <td class="text-right">{{ number_format($diff, 2) }}</td>
                                                 <td>
                                                     @if ($first_tran->source == 'ADT')
                                                         <a title="Period Edit"
@@ -110,9 +110,9 @@
                                                         {{ $first_tran->transaction_id }}
                                                     </a>
                                                 </td>
-                                                <td>{{ number_format($debit, 2) }}</td>
-                                                <td>{{ number_format($credit, 2) }}</td>
-                                                <td>{{ number_format($diff, 2) }}</td>
+                                                <td class="text-right">{{ number_format($debit, 2) }}</td>
+                                                <td class="text-right">{{ number_format($credit, 2) }}</td>
+                                                <td class="text-right">{{ number_format($diff, 2) }}</td>
                                                 <td></td>
                                             </tr>
                                         @endif

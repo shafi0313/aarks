@@ -30,7 +30,7 @@
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
                         <div class="row">
-                            <div class="jumbotron">
+                            <div class="jumbotron_">
                                 <div class="col-xs-12">
                                     <div class="table-header">
                                         List of Clients

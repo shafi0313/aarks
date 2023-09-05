@@ -36,7 +36,7 @@
                         <!-- PAGE CONTENT BEGINS -->
                         <div class="row">
                             <div class="col-xs-12">
-                                <div class="jumbotron">
+                                <div class="jumbotron_">
                                     <div class="table-header">
                                         All Client
                                     </div>

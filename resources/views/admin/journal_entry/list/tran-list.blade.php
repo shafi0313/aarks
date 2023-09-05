@@ -34,7 +34,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="col-lg-12">
-                                    <div class="jumbotron">
+                                    <div class="jumbotron_">
                                         <div class="table-header">Journal Lists</div>
                                         <table id="dynamic-table" class="table table-bordered table-hover">
                                             <thead>

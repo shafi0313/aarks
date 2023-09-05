@@ -32,7 +32,7 @@
                         <!-- PAGE CONTENT BEGINS -->
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="jumbotron">
+                                <div class="jumbotron_">
                                     <div class="table-header">
                                         List of Clients
                                     </div>

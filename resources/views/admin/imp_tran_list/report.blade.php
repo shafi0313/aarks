@@ -24,7 +24,7 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="jumbotron">
+                        <div class="jumbotron_">
                             <div class="table-header">Bank Statement Transaction Lists</div>
                             <table id="dynamic-table" class="table table-striped table-bordered table-hover table-sm">
                                 <thead>
