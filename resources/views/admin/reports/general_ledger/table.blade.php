@@ -1,13 +1,15 @@
 <table class="table" style="margin: 10px;">
     @foreach ($ledgers as $ledger)
         <tr>
-            <td colspan="9" class="bolder" style="margin: 0;padding: 4px">
+            <td colspan="{{ empty($print)?'9':'8' }}" class="bolder" style="margin: 0;padding: 4px">
                 {{ $ledger->first()->client_account_code->name }} - {{ $ledger->first()->client_account_code->code }}
             </td>
         </tr>
-        <tr>
-            <td>Date</td>
+        <tr class="tr-center">
+            <td>Date</td>            
+            @if (empty($print))
             <td>Particular</td>
+            @endif  
             <td class="center">Transaction Id</td>
             <td>JFL</td>
             <td>Dr.amount</td>
@@ -61,7 +63,7 @@
             <td>{{ abs_number($obl_balance) . ' ' . $oblType }}
             </td>
         </tr> --}}
-        @foreach ($ledger->sortBy('date') as $gen_ledger)
+        @foreach ($ledger as $gen_ledger)
             @php
                 $debit += $gen_ledger->debit;
                 $credit += $gen_ledger->credit;
@@ -78,42 +80,47 @@
                     $blncType = $blnc < 0 ? 'Dr' : 'Cr';
                 } elseif ($gen_ledger->balance_type == 1) {
                     $blncType = $blnc < 0 ? 'Cr' : 'Dr';
-            } @endphp <tr>
+                }
+            @endphp
+            <tr>
                 <td>{{ $gen_ledger->date->format('d/m/Y') }}</td>
+                @if (empty($print))
                 <td>
                     for narration view click <i class="fa fa-hand-o-right" aria-hidden="true"></i>
                 </td>
+            @endif 
+                
                 <td class="center">
                     <a href="{{ route($url, [$gen_ledger->transaction_id, $gen_ledger->source]) }}"
                         style="color: green;text-decoration: underline">{{ $gen_ledger->transaction_id }}</a>
                 </td>
                 <td>{{ $gen_ledger->source }}</td>
-                <td>
+                <td class="text-right">
                     {{ number_format(abs($gen_ledger->debit), 2) }}
                 </td>
-                <td>
+                <td class="text-right">
                     {{ number_format(abs($gen_ledger->credit), 2) }}
                 </td>
-                <td>
+                <td class="text-right">
                     {{ number_format(abs($gen_ledger->gst), 2) }}
                 </td>
-                <td>
+                <td class="text-right">
                     {{ number_format(abs($gen_ledger->balance), 2) }}
                 </td>
-                <td>
+                <td class="text-right">
                     {{ number_format(abs($blnc), 2) }} {{ $blncType }}
                 </td>
             </tr>
         @endforeach
         <tr>
-            <td colspan="4">Total</td>
-            <td style="color: red">{{ number_format(abs($debit), 2) }}
+            <td colspan="{{ empty($print)?'4':'3' }}" style="font-weight: bold" class="text-right">Total</td>
+            <td class="text-right" style="color: red">{{ number_format(abs($debit), 2) }}
             </td>
-            <td style="color: red">{{ number_format(abs($credit), 2) }}
+            <td class="text-right" style="color: red">{{ number_format(abs($credit), 2) }}
             </td>
-            <td style="color: red">{{ number_format(abs($gst), 2) }}
+            <td class="text-right" style="color: red">{{ number_format(abs($gst), 2) }}
             </td>
-            <td style="color: red">
+            <td class="text-right" style="color: red">
                 {{ number_format(abs($net_bl), 2) }}</td>
             <td></td>
         </tr>
@@ -153,12 +160,15 @@
     {{-- <table class="table" style="margin: 10px;"> --}}
     @foreach ($client_account_codes as $client_account_code)
         <tr>
-            <td colspan="9" class="bolder" style="margin: 0;padding: 4px">
+            <td colspan="{{ empty($print)?'9':'8' }}" class="bolder" style="margin: 0;padding: 4px">
                 {{ $client_account_code->name }} - {{ $client_account_code->code }}</td>
         </tr>
-        <tr>
+        <tr class="tr-center">
             <td>Date</td>
+            @if (empty($print))
             <td>Particular</td>
+            @endif 
+            
             <td class="center">Transaction Id</td>
             <td>JFL</td>
             <td>Dr.amount</td>
@@ -168,7 +178,7 @@
             <td>Balance</td>
         </tr>
         <tr>
-            <td colspan="8">Opening Balance</td>
+            <td colspan="{{ empty($print)?'8':'7' }}">Opening Balance</td>
             @php
                 $obl_balance = $AL_obl = 0;
                 $oblType = '';
@@ -238,45 +248,50 @@
             @endphp
             <tr>
                 <td>{{ $generalLedger->date->format('d/m/Y') }}</td>
+                @if (empty($print))
                 <td>
                     for narration view click <i class="fa fa-hand-o-right" aria-hidden="true"></i>
                 </td>
+            @endif
+                
                 <td class="center">
                     <a href="{{ route($url, [$generalLedger->transaction_id, $generalLedger->source]) }}"
                         style="color: green;text-decoration: underline">{{ $generalLedger->transaction_id }}</a>
                 </td>
                 <td>{{ $generalLedger->source }}</td>
-                <td>{{ abs($debit) }}</td>
-                <td>{{ abs($credit) }}</td>
-                <td>{{ abs($generalLedger->gst) }}</td>
-                <td>{{ abs($generalLedger->balance) }}</td>
-                <td>
+                <td class="text-right">{{ abs($debit) }}</td>
+                <td class="text-right">{{ abs($credit) }}</td>
+                <td class="text-right">{{ abs($generalLedger->gst) }}</td>
+                <td class="text-right">{{ abs($generalLedger->balance) }}</td>
+                <td class="text-right">
                     {{ nFA2($blnc) . ' ' . $blncType }}
                 </td>
             </tr>
         @endforeach
         <tr>
-            <td colspan="4">Total</td>
-            <td style="color: red">{{ abs($Sdebit) }}
+            <td class="text-right" colspan="{{ empty($print)?'4':'3' }}" style="font-weight: bold">Total</td>
+            <td class="text-right" style="color: red">{{ abs($Sdebit) }}
             </td>
-            <td style="color: red">{{ abs($Scredit) }}
+            <td class="text-right" style="color: red">{{ abs($Scredit) }}
             </td>
-            <td style="color: red">
+            <td class="text-right" style="color: red">
                 {{ abs($client_account_code->generalLedger->sum('gst')) }}
             </td>
-            <td style="color: red">
+            <td class="text-right" style="color: red">
                 {{ abs($client_account_code->generalLedger->sum('balance')) }}</td>
             <td></td>
         </tr>
     @endforeach
     @if ($retains)
         <tr>
-            <td colspan="9" class="bolder" style="margin: 0;padding: 4px">Retain Earning
+            <td colspan="{{ empty($print)?'9':'8' }}" class="bolder" style="margin: 0;padding: 4px">Retain Earning - 999999
             </td>
         </tr>
-        <tr>
+        <tr class="tr-center">
             <td>Date</td>
+            @if (empty($print))
             <td>Particular</td>
+            @endif            
             <td class="center">Transaction Id</td>
             <td>JFL</td>
             <td>Dr.amount</td>
@@ -289,8 +304,8 @@
             $retainBalance = $retains->sum('balance');
         @endphp
         <tr>
-            <td colspan="8">Opening Balance</td>
-            <td>{{ abs($retainBalance) . ' ' . ($retainBalance <= 0 ? 'Dr' : 'Cr') }}</td>
+            <td colspan="{{ empty($print)?'8':'7' }}">Opening Balance</td>
+            <td class="text-right">{{ abs($retainBalance) . ' ' . ($retainBalance <= 0 ? 'Dr' : 'Cr') }}</td>
         </tr>
     @endif
 </table>

@@ -29,8 +29,7 @@
                 <div class="col-lg-12">
                     <!-- PAGE CONTENT BEGINS -->
                     <div class="row">
-                        <h2 class="text-center bolder">{{ ($client->company)? $client->company : $client->first_name.'
-                            '.$client->last_name}}</h2>
+                        <h2 class="text-center bolder">{{ clientName($client) }}</h2>
                         <h5 class="text-center"><u>Ledger Report From: {{$start_date->format('d/m/Y')}} to :
                                 {{$end_date->format('d/m/Y')}}</u></h5>
                     </div>
@@ -44,8 +43,9 @@
                                 <input name="end_date" hidden value="{{$end_date->format('d/m/Y')}}">
                                 <input name="from_account" hidden value="{{$from_account}}">
                                 <input name="to_account" hidden value="{{$to_account}}">
-                                <input type="submit" name="submit" value="Print" class="btn btn-success">
-                                <input type="submit" name="submit" value="Email" class="btn btn-info">
+                                <input name="submit" hidden value="" id="submit">
+                                <input type="submit" value="Print" class="btn btn-success" id="print">
+                                <input type="submit" value="Email" class="btn btn-info" id="email">
                             </form>
                         </div>
                     </div>
@@ -61,4 +61,13 @@
         </div><!-- /.page-content -->
     </div>
 </div><!-- /.main-content -->
+
+<script>
+    $('#print').click(function(){
+        $('#submit').val('print');
+    })
+    $('#email').click(function(){
+        $('#submit').val('email');
+    })
+</script>
 @endsection

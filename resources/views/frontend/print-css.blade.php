@@ -1,4 +1,8 @@
 <style>
+    :root {
+        --font-size: 10px;
+    }
+
     @page {
         /* margin: 120px 50px 35px 50px; */
     }
@@ -27,6 +31,7 @@
         line-height: 1;
         vertical-align: top;
         border-top: 1px solid #ddd;
+        font-size: var(--font-size);
     }
 
     html {
@@ -38,7 +43,7 @@
     * {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
-        box-sizing: border-box
+        box-sizing: border-box;
     }
 
     :after,
@@ -49,13 +54,13 @@
     }
 
     html {
-        font-size: 10px;
+        font-size: var(--font-size);
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
     }
 
     body {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 12px;
+        font-size: var(--font-size);
         line-height: 1.42857143;
         color: #333;
         background-color: #fff
@@ -248,12 +253,14 @@
         padding: 8px;
         line-height: 1;
         vertical-align: top;
-        border-top: 1px solid black
+        border-top: 1px solid black;
+        font-size: var(--font-size);
     }
 
     .table>thead>tr>th {
         vertical-align: bottom;
-        border-bottom: 2px solid #ddd
+        border-bottom: 2px solid #ddd;
+        font-size: var(--font-size);
     }
 
     .table>caption+thead>tr:first-child>td,
@@ -279,7 +286,8 @@
     .table-condensed>tfoot>tr>th,
     .table-condensed>thead>tr>td,
     .table-condensed>thead>tr>th {
-        padding: 5px
+        padding: 5px;
+        font-size: var(--font-size);
     }
 
     .table-bordered {
@@ -292,7 +300,8 @@
     .table-bordered>tfoot>tr>th,
     .table-bordered>thead>tr>td,
     .table-bordered>thead>tr>th {
-        border: 1px solid black
+        border: 1px solid black;
+        font-size: var(--font-size);
     }
 
     .table-bordered>thead>tr>td,
@@ -494,7 +503,8 @@
     }
 
     body {
-        margin: 0
+        margin: 0;
+        font-size: var(--font-size);
     }
 
     a {
@@ -532,7 +542,7 @@
     }
 
     table tr td {
-        font-size: 15px;
+        font-size: var(--font-size);
         padding: 5px 2px !important
     }
 
@@ -552,7 +562,6 @@
         width: 100%;
         left: 25%;
         top: 96px;
-        transform: rotate(-90deg)
-        translateX(0%);
+        transform: rotate(-90deg) translateX(0%);
     }
 </style>

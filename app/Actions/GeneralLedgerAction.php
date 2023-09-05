@@ -30,10 +30,33 @@ class GeneralLedgerAction
         }
         $format_start_date = $start_date->format('Y-m-d');
 
+        $ledgers = GeneralLedger::with([
+            'client_account_code' => fn ($q) =>
+            $q->select('id', 'name', 'code')
+        ])
+            ->whereClientId($client->id)
+            ->where('date', '>=', $format_start_date)
+            ->where('date', '<=', $end_date->format('Y-m-d'))
+            ->where(function ($q) {
+                $q->where('chart_id', 'like', '1%')
+                    ->orWhere('chart_id', 'like', '2%');
+            })
+            ->whereBetween('chart_id', [$request->from_account, $request->to_account])
+            ->where('source', '!=', 'OPN')
+            ->orderBy('chart_id', 'asc')
+            ->orderBy('date', 'asc')
+            ->get(ledgerSetVisible())
+            ->groupBy('chart_id')
+            // ->sortBy('chart_id')
+        ;
+
         $client_account_codes = ClientAccountCode::with([
             'generalLedger' => fn ($q) =>
             $q->select(ledgerSetVisible())
-                ->where('date', '>=', $format_start_date)->where('date', '<=', $end_date->format('Y-m-d'))->orderBy('date', 'asc')
+                ->where('date', '>=', $format_start_date)
+                ->where('date', '<=', $end_date->format('Y-m-d'))
+                ->orderBy('chart_id', 'asc')
+                ->orderBy('date', 'asc')
         ])
             ->where('client_id', $client->id)
             ->where(function ($q) {
@@ -75,7 +98,7 @@ class GeneralLedgerAction
             // ->where('profession_id', $request->profession_id)
             // ->where('date', '<', $start_year) //If he what to change it to financial Start date
             ->where('date', '<=', $format_start_date)
-            ->select('*', DB::raw("sum(balance) as OpenBl"))
+            ->select('id', 'chart_id', 'date', 'narration', 'source', 'debit', 'credit', 'gst', 'balance', 'balance_type', 'client_id', 'profession_id', 'client_account_code_id', 'transaction_id', DB::raw("sum(balance) as OpenBl"))
             ->where(function ($q) {
                 $q->where('chart_id', 'like', '5%')
                     ->orWhere('chart_id', 'like', '9%');
@@ -84,21 +107,8 @@ class GeneralLedgerAction
             ->orderBy('chart_id')
             ->get();
 
-        $ledgers = GeneralLedger::with('client_account_code')->whereClientId($client->id)
-            ->where('date', '>=', $format_start_date)
-            ->where('date', '<=', $end_date->format('Y-m-d'))
-            ->where(function ($q) {
-                $q->where('chart_id', 'like', '1%')
-                    ->orWhere('chart_id', 'like', '2%');
-            })
-            ->whereBetween('chart_id', [$request->from_account, $request->to_account])
-            ->where('source', '!=', 'OPN')
-            // ->select('*', DB::raw('sum(credit) as credit, sum(debit) as debit, sum(balance) as balance, sum(gst) as gst'))
-            ->get()
-            ->groupBy('chart_id')
-            ->sortBy('chart_id');
 
-        $open_balances = GeneralLedger::whereClientId($client->id)
+            $open_balances = GeneralLedger::whereClientId($client->id)
             ->where('date', '<', $format_start_date)
             ->where(
                 fn ($q) =>
@@ -112,15 +122,13 @@ class GeneralLedgerAction
             ->get()
             ->sortBy('chart_id');
 
-            // info($open_balances);
-
         $retains = GeneralLedger::where('client_id', $client->id)
             // ->where('profession_id', $request->profession_id)
             ->where('date', '<', $start_year)
             ->where('chart_id', 999999)
-            ->get();
+            ->get(ledgerSetVisible());
         // return compact('start_date', 'end_date', 'client_account_codes', 'client', 'inExPreData', 'assetLailaPreData', 'retains', 'preAssLilas', 'ledgers', 'open_balances');
-        return compact('start_date', 'end_date', 'client_account_codes', 'client',  'retains', 'preAssLilas', 'ledgers', 'open_balances');
+        return compact('start_date', 'end_date', 'ledgers', 'client_account_codes', 'client',  'retains', 'preAssLilas', 'open_balances');
     }
 
     public static function showTran($transaction_id, $source)

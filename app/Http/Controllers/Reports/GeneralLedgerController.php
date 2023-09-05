@@ -57,11 +57,8 @@ class GeneralLedgerController extends Controller
         $start_date = makeBackendCompatibleDate($request->start_date);
         $end_date   = makeBackendCompatibleDate($request->end_date);
         $client     = Client::findOrFail($request->client_id);
-        // $profession = Profession::findOrFail($request->profession_id);
         // return
         $data       = $action->show($request, $client, $start_date, $end_date);
-        // return $data['open_balances'];
-        // $data['profession']   = $profession;
         $data['from_account'] = $request->from_account;
         $data['to_account']   = $request->to_account;
         activity()
@@ -95,21 +92,18 @@ class GeneralLedgerController extends Controller
         if ($error = $this->sendPermissionError('admin.general_ledger.index')) {
             return $error;
         }
-        // return $request;
-        $start_date = makeBackendCompatibleDate($request->start_date);
-        $end_date   = makeBackendCompatibleDate($request->end_date);
-        $client     = Client::findOrFail($request->client_id);
-        // $profession = Profession::findOrFail($request->profession_id);
-        $data       = $action->show($request, $client, $start_date, $end_date);
-
-        // $data['profession']   = $profession;
+        // return $request->submit;
+        $start_date           = makeBackendCompatibleDate($request->start_date);
+        $end_date             = makeBackendCompatibleDate($request->end_date);
+        $client               = Client::findOrFail($request->client_id);
+        $data                 = $action->show($request, $client, $start_date, $end_date);
         $data['from_account'] = $request->from_account;
         $data['to_account']   = $request->to_account;
 
         $pdf = PDF::loadView('frontend.report.ledger.print', $data);
-        if ($request->submit == 'Print') {
-            return $pdf->stream();
-        } elseif ($request->submit == 'Email') {
+        if ($request->submit == 'print') {
+            return $pdf->download('General Ledger-'.clientName($client).'-'.$request->start_date.'-'.$request->end_date.'.pdf');
+        } elseif ($request->submit == 'email') {
             try {
                 Mail::send('frontend.sales.payment.mail', ['client'=>$client, 'customer'=>$client], function ($mail) use ($pdf, $client) {
                     $mail->to($client->email, $client->email)
