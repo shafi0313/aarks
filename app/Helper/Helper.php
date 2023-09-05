@@ -79,10 +79,17 @@ if (!function_exists('client')) {
         return auth()->guard('client')->user();
     }
 }
+
 if (!function_exists('client_name')) {
     function client_name()
     {
         return Client::find(auth()->guard('client')->user()->id)->fullname;
+    }
+}
+if (!function_exists('clientName')) {
+    function clientName($client)
+    {
+        return $client->company ?? $client->first_name . ' ' . $client->last_name;
     }
 }
 if (!function_exists('admin')) {

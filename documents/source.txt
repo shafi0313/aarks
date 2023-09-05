@@ -1,0 +1,12 @@
+____________AARKS Source Name______________
+ADT= Add edit entry, 
+INP=Input bank statement, 
+BST=Import bank statement, 
+JNP=Journal, 
+CBC=Cash book,
+PBP = Creditor Payment
+PBN = Creditor
+PIN=Invoice payment, 
+INV= Invoice ......
+SCI
+PIV

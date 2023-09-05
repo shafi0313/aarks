@@ -10,10 +10,13 @@
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
                     <li>
-                        <a href="{{ route('general_ledger.index') }}">Bank Statement List</a>
+                        Bank Statement List
                     </li>
                     <li>
-                        <a href="#">{{ $profession->name }}</a>
+                        {{ $profession->name }}
+                    </li>
+                    <li>
+                        {{ clientName($client) }}
                     </li>
                 </ul><!-- /.breadcrumb -->
             </div>
@@ -22,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="jumbotron">
-                            <div class="table-header">Bank Statement Transaction List</div>
+                            <div class="table-header">Bank Statement Transaction Lists</div>
                             <table id="dynamic-table" class="table table-striped table-bordered table-hover table-sm">
                                 <thead>
                                     <tr>
