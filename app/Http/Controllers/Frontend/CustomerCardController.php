@@ -34,7 +34,7 @@ class CustomerCardController extends Controller
     {
         $data = $request->validated();
 
-        if ($data['status'] == 1 && $request->opening_blnc != 0 && $request->opening_blnc != '' && $request->credit_account != '' && $request->opening_blnc_date != '') {
+        if ($data['status'] == 1 && $request->opening_blnc != '') {
             DB::beginTransaction();
             $code      = ClientAccountCode::find($request->credit_account);
             $customer  = CustomerCard::create($data);
