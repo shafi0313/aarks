@@ -243,11 +243,49 @@ $mp = 'inventory'; ?>
         }
     });
 </script>
+<script>
+    $(".unitmange").on('change', function() {
+        var buy_measure_unit = $(this).val();
+        if (buy_measure_unit == "0") {
+            $('#buy_meaaure_myModal').modal('show');
+        }
+    });
+    $("#unit_manage_db").submit(function(e) {
+        var postData = $(this).serializeArray();
+        var formURL = $(this).attr("action");
+        console.log(formURL);
+        $.ajax({
+            url: formURL,
+            timeout: 1000,
+            type: "POST",
+            async: false,
+            crossDomain: true,
+            data: postData,
+            success: function(res) {
+                if (res.status == 200) {
+                    let measure =
+                        '<option value="" selected="" disabled="">--Select Measure Unit--</option> <option value="0">New Measure Unit</option>';
+                    $.each(res.measures, function(i, v) {
+                        measure += '<option value="' + v.id + '">' + v.name + '</option>';
+                    });
+                    $("#buy_measure_unit").html(measure);
+                    $("#sell_measure_unit").html(measure);
+                    $("#inv_measure_unit").html(measure);
+                    $(".job_success").text('Template saved successfully completed.');
+                    $("#unit_name").val("");
+                    $('#unit_details').val("");
+                    toast('success', res.message);
+                    $('#buy_meaaure_myModal').modal('hide');
+                } else {
+                    toast('error', res.message);
+                }
+            },
+            error: err => {
+                toast('error', 'Error');
+            }
 
-<!-- Page Content End -->
-
-<!-- Footer Start -->
-
-<!-- Footer End -->
-
+        });
+        e.preventDefault();
+    });
+</script>
 @stop

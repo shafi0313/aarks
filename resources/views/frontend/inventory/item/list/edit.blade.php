@@ -1,8 +1,13 @@
 @extends('frontend.layout.master')
 @section('content')
-@section('title', 'Add Item')
+@section('title', 'Edit Item')
 <?php $p = 'invAdd';
 $mp = 'inventory'; ?>
+{{-- For Measure Unit --}}
+@php
+    $client = $inv_item->client;
+    $profession = $inv_item->profession;
+@endphp
 <!-- Page Content Start -->
 <section class="page-content">
     <div class="container">
@@ -15,7 +20,7 @@ $mp = 'inventory'; ?>
                     @csrf @method('put')
                     <input type="hidden" name="client_id" id="client_id" value="{{ $inv_item->client_id }}">
                     <div>
-                        <strong style="color:green; font-size:25px;">Add Item</strong>
+                        <strong style="color:green; font-size:25px;">Edit Item</strong>
                         <samp style="padding-left:50px; font-size:20px; color:#9933FF;">
 
                             <label class="radio-inline">
@@ -125,7 +130,7 @@ $mp = 'inventory'; ?>
         </div>
     </div>
 </section>
-{{-- @include('frontend.inventory.item.measure-unit-add-modal') --}}
+@include('frontend.inventory.item.measure-unit-add-modal')
 <script>
     $('#item_buy').on('change', function() {
         $('#buy_measure_unit').removeAttr('disabled', 'disabled').attr('required');
@@ -302,10 +307,5 @@ $mp = 'inventory'; ?>
         e.preventDefault();
     });
 </script>
-<!-- Page Content End -->
-
-<!-- Footer Start -->
-
-<!-- Footer End -->
 
 @stop

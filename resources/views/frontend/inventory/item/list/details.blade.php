@@ -67,6 +67,7 @@
                 <div class="form-group">
                     <label>Measure Unit</label>
                     <select class="form-control unitmange" id="sell_measure_unit" name="measure_id[]" required=""{{$inv_item->type==2?'':'disabled'}}>
+                        <option value="0">New Measure Unit</option>
                         @foreach ($measures as $measure)
                         <option value="{{$measure->id}}" {{$inv_item->measure_id == $measure->id?'selected':''}}>{{$measure->name}}</option>
                         @endforeach
