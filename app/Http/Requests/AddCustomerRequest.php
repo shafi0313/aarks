@@ -29,7 +29,7 @@ class AddCustomerRequest extends FormRequest
             "profession_id"     => 'required',
             "customer_type"     => 'required',
             "status"            => 'required',
-            "name"              => 'required',
+            "name"              => 'required|string',
             "customer_ref"      => 'required',
             "b_address"         => 'required',
             "b_city"            => 'required',
