@@ -115,7 +115,7 @@
                                                         class="fa-solid fa-angle-down"></i></a>
                                                 <div class="menu_dropdown-menu" aria-labelledby="navbarmenu_dropdown">
                                                     <a class="menu_dropdown-item {{ $p == 'invCat' ? 'active' : '' }}"
-                                                        href="{{ route('inv_category.index') }}">Add/Edit Category</a>
+                                                        href="{{ route('inv_category.index') }}">Add/Edit Category, Sub Category</a>
                                                     <a class="menu_dropdown-item {{ $p == 'invAdd' ? 'active' : '' }}"
                                                         href="{{ route('inv_item.index') }}">Add Item</a>
                                                     <a class="menu_dropdown-item {{ $p == 'invEdit' ? 'active' : '' }}"

@@ -41,16 +41,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $i = 1; ?>
                                     @foreach ($invs as $inv)
                                         <tr>
-                                            <td>{{ $i++ }}</td>
+                                            
+                                            <td>{{ @$i += 1 }}</td>
                                             <td style="color: green">{{ $inv->name }}</td>
-                                            <td align="center">
-                                                <i title="Invoice Category Add"
+                                            <td>
+                                                <i title="Add Sub Category Under This Category"
                                                     class="btn btn-sm btn-success fa fa-plus addSub" data-toggle="modal"
                                                     data-target="#add-sub" data-id="{{ $inv->id }}"></i>
-                                                <i title="Invoice Category Edit" class="btn btn-sm btn-info fa fa-edit edit"
+                                                <i title="Edit This Category" class="btn btn-sm btn-info fa fa-edit edit"
                                                     data-toggle="modal" data-target="#edit"
                                                     data-url="{{ route('inv_category.update', $inv->id) }}"
                                                     data-name="{{ $inv->name }}"></i>
@@ -60,18 +60,18 @@
                                         @if ($inv->subcat->count() > 0)
                                             @foreach ($inv->subcat as $sinv)
                                                 <tr>
-                                                    <td>{{ $i++ }}</td>
+                                                    <td style="color: rgb(245, 111, 134)">{{ @$x += 1 }}</td>
                                                     <td style="color: rgb(245, 111, 134)">
                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ $sinv->name }}
                                                     </td>
-                                                    <td align="center">
-                                                        <i class="btn btn-sm btn-info fa fa-edit edit" data-toggle="modal"
+                                                    <td class="text-right">
+                                                        <i class="btn btn-sm btn-warning fa fa-edit edit" data-toggle="modal"
                                                             data-target="#edit"
                                                             data-url="{{ route('inv_category.update', $sinv->id) }}"
-                                                            data-name="{{ $sinv->name }}"></i>
+                                                            data-name="{{ $sinv->name }}" title="Edit This Sub Category"></i>
                                                         <a href="{{ route('inv_category.show', $sinv->id) }}"
                                                             onclick="return confirm('are you sure?')"
-                                                            class="btn btn-sm btn-danger fa fa-trash-alt"></a>
+                                                            class="btn btn-sm btn-danger fa fa-trash-alt" title="Delete This Sub Category"></a>
                                                     </td>
                                                 </tr>
                                             @endforeach
