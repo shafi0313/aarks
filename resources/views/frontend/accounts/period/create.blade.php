@@ -213,7 +213,7 @@
 
 
                             <div style="padding:30px; display:none;" class="invontry_details">
-                                <strong style="color:green;">Details of Invontory Item :</strong>
+                                <strong style="color:green;">Details of Inventory Item :</strong>
                                 <div class="row">
                                     <div class="col-md-2">
                                         <div class="form-group">

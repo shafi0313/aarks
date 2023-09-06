@@ -16,7 +16,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Price(Ex Gst Rate)</label>
-                    <input type="text" name="price[]" {{$inv_item->type==1?'':'disabled'}} id="buy_price" class="form-control" required="" value="{{$inv_item->price}}" >
+                    <input type="text" name="price[]" {{$inv_item->type==1?'':'disabled'}} id="buy_price" class="form-control" required value="{{$inv_item->price}}" >
                 </div>
             </div>
 
@@ -77,7 +77,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Price(Ex Gst Rate)</label>
-                    <input type="text" oninput="this.value = this.value.replace(/[^\d]/g,'');" name="price[]" {{$inv_item->type==2?'':'disabled'}}
+                    <input type="text" oninput="this.value = this.value.replace(/[^\d.]/g,'');" name="price[]" {{$inv_item->type==2?'':'disabled'}}
                         id="sell_price" class="form-control" required="" value="{{$inv_item->price}}">
                 </div>
             </div>
@@ -122,11 +122,9 @@
     </div>
 </div>
 <div style="padding:30px; display:{{$inv_item->type==3?'block':'none'}};" class="{{$inv_item->type==3?'':'invontry_details'}}">
-    <strong style="color:green;">Details of Invontory Item :</strong>
+    <strong style="color:green;">Details of Inventory Item :</strong>
     <div class="col-md-12 thumbnail">
         <div class="row">
-
-
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Measure Unit</label>
@@ -141,7 +139,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Price(Ex Gst Rate)</label>
-                    <input type="text" oninput="this.value = this.value.replace(/[^\d]/g,'');" name="price[]" {{$inv_item->type==3?'':'disabled'}}
+                    <input type="text" oninput="this.value = this.value.replace(/[^\d.]/g,'');" name="price[]" {{$inv_item->type==3?'':'disabled'}}
                         id="inv_price" class="form-control" required="" value="{{$inv_item->price}}">
                 </div>
             </div>
@@ -198,7 +196,7 @@
         <div class="form-group">
             <label>Qun On hand </label>
             <input type="text" name="qun_hand" id="inv_qun_on_hand" class="form-control"
-                oninput="this.value = this.value.replace(/[^\d]/g,'');">
+                oninput="this.value = this.value.replace(/[^\d.]/g,'');">
         </div>
     </div>
 
@@ -206,7 +204,7 @@
         <div class="form-group">
             <label>Rate</label>
             <input type="text" name="rate" id="qty_rate" class="form-control"
-                oninput="this.value = this.value.replace(/[^\d]/g,'');">
+                oninput="this.value = this.value.replace(/[^\d.]/g,'');">
         </div>
     </div>
 

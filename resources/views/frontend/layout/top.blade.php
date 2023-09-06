@@ -28,4 +28,5 @@
 
 
 <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 @yield('style')

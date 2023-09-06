@@ -75,15 +75,7 @@ class InventoryItemController extends Controller
 
         return view('frontend.inventory.item.index', compact('client', 'profession', 'cats', 'measures', 'customers', 'expences', 'incomes', 'assets'));
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
     public function measure(Request $request)
     {
         $data = $request->validate([
@@ -154,6 +146,9 @@ class InventoryItemController extends Controller
     {
         $inv_item->load(['client','profession']);
 
+        // $client = Client::with('professions')->find(client()->id);
+        // $profession = Profession::find(client()->profession_id);
+
         $measures = Measure::where('client_id', $inv_item->client->id)
             ->where('profession_id', $inv_item->profession->id)
             ->orderBy('name')
@@ -193,7 +188,7 @@ class InventoryItemController extends Controller
             ->orderBy('code')
             ->get();
 
-        return view('frontend.inventory.item.list.edit', compact('inv_item', 'measures', 'customers', 'expences', 'incomes', 'assets'));
+        return view('frontend.inventory.item.list.edit', compact( 'inv_item', 'measures', 'customers', 'expences', 'incomes', 'assets'));
     }
 
 

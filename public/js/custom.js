@@ -20,10 +20,16 @@ $("form").on("submit", function (e) {
 
 $(document).ready(function () {
     // Select 2
-    $(".select2Single").select2();
-
-    
+    $(".select2Single").select2();    
 });
+
+function digitInput(event) {
+    event.target.value = event.target.value.replace(/[^\d]/g, "");
+}
+
+function floatInput(event) {
+    event.target.value = event.target.value.replace(/[^\d.]/g, "");
+}
 // Toast Notification
 function toast(status, header, msg) {
     // $.toast('Here you can put the text of the toast')

@@ -18,7 +18,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Price(Ex Gst Rate)<span class="t_red">*</span></label>
-                    <input type="text" name="price[]" required disabled oninput="this.value = this.value.replace(/[^\d]/g,'');"
+                    <input type="text" name="price[]" required disabled oninput="this.value = this.value.replace(/[^\d.]/g,'');"
                         id="buy_price" class="form-control" required="">
                 </div>
             </div>
@@ -81,7 +81,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Price(Ex Gst Rate)<span class="t_red">*</span></label>
-                    <input type="text" oninput="this.value = this.value.replace(/[^\d]/g,'');" name="price[]" disabled
+                    <input type="text" oninput="this.value = this.value.replace(/[^\d.]/g,'');" name="price[]" disabled
                         id="sell_price" class="form-control" required="">
                 </div>
             </div>
@@ -126,11 +126,9 @@
     </div>
 </div>
 <div style="padding:30px; display:none;" class="invontry_details">
-    <strong style="color:green;">Details of Invontory Item :</strong>
+    <strong style="color:green;">Details of Inventory Item :</strong>
     <div class="col-md-12 thumbnail">
         <div class="row">
-
-
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Measure Unit<span class="t_red">*</span></label>
@@ -147,7 +145,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Price(Ex Gst Rate)<span class="t_red">*</span></label>
-                    <input type="text" oninput="this.value = this.value.replace(/[^\d]/g,'');" name="price[]" disabled
+                    <input type="text" oninput="this.value = this.value.replace(/[^\d.]/g,'');" name="price[]" disabled
                         id="inv_price" class="form-control" required="">
                 </div>
             </div>
@@ -200,7 +198,7 @@
                 <div class="form-group">
                     <label>Qun On hand<span class="t_red">*</span></label>
                     <input type="text" name="qun_hand" id="inv_qun_on_hand" class="form-control" required=""
-                        oninput="this.value = this.value.replace(/[^\d]/g,'');">
+                        oninput="this.value = this.value.replace(/[^\d.]/g,'');">
                 </div>
             </div>
 
@@ -208,7 +206,7 @@
                 <div class="form-group">
                     <label>Rate<span class="t_red">*</span></label>
                     <input type="text" name="qun_rate" id="qty_rate" class="form-control" required=""
-                        oninput="this.value = this.value.replace(/[^\d]/g,'');">
+                        oninput="this.value = this.value.replace(/[^\d.]/g,'');">
                 </div>
             </div>
 
