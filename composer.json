@@ -24,6 +24,7 @@
         "phpoffice/phpspreadsheet": "^1.26",
         "pragmarx/google2fa-laravel": "^2.0",
         "predis/predis": "^2.0",
+        "proengsoft/laravel-jsvalidation": "^4.8",
         "psr/simple-cache": "^2.0",
         "realrashid/sweet-alert": "^5.1",
         "spatie/db-dumper": "^3.3",

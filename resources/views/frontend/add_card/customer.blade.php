@@ -587,7 +587,8 @@
     <!-- Footer Start -->
 
     <!-- Footer End -->
-    <script>
+    {!! JsValidator::formRequest('App\Http\Requests\AddCustomerRequest') !!}
+    <script>        
         $(function() {
             $("#opening_blnc").on('keyup', e => {
                 $(this).find('button[type="submit"]').removeAttr('disabled', true);

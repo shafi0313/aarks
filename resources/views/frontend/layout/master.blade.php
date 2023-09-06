@@ -27,10 +27,12 @@
     <script src="{{ asset('admin/assets/js/moment.min.js') }}"></script>
     {{-- Summer Note --}}
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    {{-- <!-- Laravel Javascript Validation --> --}}
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
-    
+
     @stack('script')
-    
+
     @yield('script')
     <script src="{{ asset('js/custom.js') }}"></script>
 </body>
