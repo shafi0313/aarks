@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Client;
 use App\Models\Profession;
 use Illuminate\Http\Request;
-use App\Frontend\InventoryCategory;
 use App\Http\Controllers\Controller;
+use App\Models\Frontend\InventoryCategory;
 
 class InventoryCategoryController extends Controller
 {
