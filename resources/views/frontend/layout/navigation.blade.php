@@ -11,12 +11,12 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav">
                             @php
-                                $client2 = \App\Models\Client::with([
-                                    'paylist' => function ($q) {
-                                        $q->where('is_expire', 0);
-                                    },
-                                    'invoiceLayout',
-                                ])->findOrFail(client()->id);
+                                // $client = \App\Models\Client::with([
+                                //     'paylist' => function ($q) {
+                                //         $q->where('is_expire', 0);
+                                //     },
+                                //     'invoiceLayout',
+                                // ])->findOrFail(client()->id);
                                 
                                 $client = \App\Models\Client::with([
                                     'paymentList' => function ($q) {
@@ -32,7 +32,7 @@
                                 <a class="nav-link text-primary" style="font-size: 15px" href="{{ route('index') }}"
                                     title="Home/Dashboard"><i class="fa-solid fa-house-chimney"></i></a>
                             </li>
-                            @if ($client->paylist->count() > 0)
+                            @if ($client->paymentList && $client->paymentList->count() > 0)
                                 @if ($client->paymentList->first()->status != 0)
                                     @if ($client->invoiceLayout != '')
                                         @if ($client->invoiceLayout->layout == 2)
