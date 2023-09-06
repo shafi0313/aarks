@@ -151,8 +151,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="text-right">
-                                <button type="button" class="btn btn-primary">Save Job</button>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary btn200" id="jobstoreBtn">Save Job</button>
                             </div>
                         </form>
                     </div>

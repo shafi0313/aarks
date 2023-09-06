@@ -9,6 +9,15 @@
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="card">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form id="invoiceStore" action="{{ route('invoice.store') }}" method="POST" autocomplete="off">
                             @csrf
                             <div class="card-body">
@@ -19,15 +28,6 @@
                                     </div>
                                 </div>
                                 <hr>
-                                @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
                                 <input type="hidden" name="client_id" value="{{ $client->id }}">
                                 <input type="hidden" name="source" value="invoice">
                                 <input type="hidden" name="profession_id" value="{{ $profession->id }}">
@@ -327,11 +327,11 @@
 
             function bankamount() {
                 let bank_account = $("#bank_account").val();
-                if(bank_account != ''){
+                if (bank_account != '') {
                     $("#payment_amount").removeAttr('disabled')
-                }else{
+                } else {
                     $("#payment_amount").attr('disabled', 'disabled')
-                }                
+                }
             }
 
             function oneOfCustomer(value) {
