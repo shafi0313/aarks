@@ -17,5 +17,5 @@ yarn-error.log
 /.idea
 /.vscode
 
-/resources/views/vendor/
-/public/vendor/
+# /resources/views/vendor/
+# /public/vendor/

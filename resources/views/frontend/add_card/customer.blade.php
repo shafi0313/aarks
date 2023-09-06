@@ -582,11 +582,7 @@
             </div>
         </div>
     </section>
-    <!-- Page Content End -->
 
-    <!-- Footer Start -->
-
-    <!-- Footer End -->
     {!! JsValidator::formRequest('App\Http\Requests\AddCustomerRequest') !!}
     <script>        
         $(function() {
@@ -625,7 +621,6 @@
             if ($("#opening_blnc").val() == '') {
                 toast('warning', 'Please enter opening balance & Retain earning code');
                 $('#opening_blnc').focus();
-
                 return false;
             }
         });
