@@ -16,8 +16,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Price(Ex Gst Rate)</label>
-                    <input type="text" name="price[]" {{$inv_item->type==1?'':'disabled'}} oninput="this.value = this.value.replace(/[^\d]/g,'');"
-                        id="buy_price" class="form-control" required="" value="{{$inv_item->price}}" >
+                    <input type="text" name="price[]" {{$inv_item->type==1?'':'disabled'}} id="buy_price" class="form-control" required="" value="{{$inv_item->price}}" >
                 </div>
             </div>
 
