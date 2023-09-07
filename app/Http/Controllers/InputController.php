@@ -108,9 +108,9 @@ class InputController extends Controller
     }
     public function bankStatementStore(InputBSRequest $request)
     {
-        if ($error = $this->sendPermissionError('admin.bs_input.create')) {
-            return $error;
-        }
+        // if ($error = $this->sendPermissionError('admin.bs_input.create')) {
+        //     return $error;
+        // }
         $date = makeBackendCompatibleDate($request->date);
 
         if (periodLock($request->client_id, $date)) {
