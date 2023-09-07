@@ -3,20 +3,22 @@
 @section('content')
     <div class="main-content">
         <div class="main-content-inner">
-            <div class="breadcrumbs ace-save-state" id="breadcrumbs" style="z-index: -1">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
-
                     <li>
-                        <a href="#">{{ $client->first_name }}</a>
+                        <a href="{{ route('select_method') }}">Add/Edit Entry</a>
                     </li>
                     <li>
-                        <a href="#">{{ $profession->name }}</a>
+                        <a href="{{route('bs_import.index')}}">Import Bank Statement (BST)</a>
                     </li>
-                    <li class="active">Client List</li>
+                    <li>
+                        {{ $profession->name }}
+                    </li>
+                    <li class="active">{{ clientName($client) }}</li>
                 </ul><!-- /.breadcrumb -->
             </div>
             <div class="page-content">

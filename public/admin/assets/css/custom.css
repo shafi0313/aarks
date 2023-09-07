@@ -36,3 +36,12 @@ thead tr th {
 .tr-center th, .tr-center td{
     text-align: center;
 }
+
+.breadcrumb .bCColor {
+    color: red; 
+    font-weight: bold;
+}
+.breadcrumb .bPColor {
+    color: blue; 
+    font-weight: bold;
+}

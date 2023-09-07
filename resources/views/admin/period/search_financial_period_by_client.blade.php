@@ -1,7 +1,6 @@
 @extends('admin.layout.master')
-@section('title','Go to Period')
+@section('title','Add/Edit Entry')
 @section('content')
-
 <div class="main-content">
     <div class="main-content-inner">
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -10,9 +9,8 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="{{ route('admin.dashboard') }}">Home</a>
                 </li>
-
-                <li>Add/Edit Data
-                    {{-- <a href="#"></a> --}}
+                <li>
+                    <a href="{{ route('select_method') }}">Add/Edit Entry</a>
                 </li>
                 <li class="active">Select Client</li>
             </ul><!-- /.breadcrumb -->
@@ -29,12 +27,9 @@
         </div>
 
         <div class="page-content">
-            
-
             <div class="row">
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
-
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="row">

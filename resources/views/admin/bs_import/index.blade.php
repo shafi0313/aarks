@@ -1,7 +1,6 @@
 @extends('admin.layout.master')
-@section('title','Import')
+@section('title','Bank Statement Import')
 @section('content')
-
     <div class="main-content">
         <div class="main-content-inner">
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -11,10 +10,10 @@
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
                     <li>
-                        <a href="#">Add/Edit Data</a>
+                        <a href="{{ route('select_method') }}">Add/Edit Entry</a>
                     </li>
                     <li>
-                        <a href="#">Import Data</a>
+                        <a href="{{route('bs_import.index')}}">Import Bank Statement (BST)</a>
                     </li>
                     <li class="active">Search Client</li>
                 </ul><!-- /.breadcrumb -->

@@ -10,6 +10,9 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="{{route('admin.dashboard')}}">Home</a>
                 </li>
+                <li>
+                    <a href="{{ route('select_method') }}">Add/Edit Entry</a>
+                </li>
                 <li class="active">Select Method</li>
             </ul><!-- /.breadcrumb -->
 
