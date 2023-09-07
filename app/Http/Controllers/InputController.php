@@ -108,9 +108,9 @@ class InputController extends Controller
     }
     public function bankStatementStore(InputBSRequest $request)
     {
-        if ($error = $this->sendPermissionError('admin.bs_input.create')) {
-            return $error;
-        }
+        // if ($error = $this->sendPermissionError('admin.bs_input.create')) {
+        //     return $error;
+        // }
         $date = makeBackendCompatibleDate($request->date);
 
         if (periodLock($request->client_id, $date)) {
@@ -165,30 +165,6 @@ class InputController extends Controller
         $inputbs->post($request);
         return back();
     }
-
-
-
-    // public function post(Request $request, InputBankStatementPost $inputBankStatementPost)
-    // {
-    //     $this->validate($request, [
-    //         'bank_account' => 'required'
-    //     ]);
-
-    //     DB::beginTransaction();
-    //     try {
-    //         $inputBankStatementPost->setClient(Client::find($request->client_id))
-    //             ->setProfession(Profession::find($request->profession_id))
-    //             ->setBankAccount(ClientAccountCode::find($request->bank_account))
-    //             ->execute();
-
-    //         Alert::success('Success', 'Action Successful');
-    //         DB::commit();
-    //     } catch (\Exception $exception) {
-    //         DB::rollBack();
-    //         Alert::error('Error', $exception->getMessage());
-    //     }
-    //     return back();
-    // }
 
     public function deleteFromTransList(GeneralLedger $generalLedger)
     {
