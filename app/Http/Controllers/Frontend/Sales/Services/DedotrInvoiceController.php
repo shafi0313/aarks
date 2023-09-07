@@ -762,6 +762,7 @@ class DedotrInvoiceController extends Controller
         }
         return response()->json($message);
     }
+    // Delete Invoice
     public function destroy(Dedotr $invoice)
     {
         $invoice->load(['payments' => function ($q) use ($invoice) {
@@ -791,13 +792,14 @@ class DedotrInvoiceController extends Controller
             ->where('chart_id', 999999)
             ->where('source', 'INV')
             ->first();
-        if ($isRetain) {
-            $pl = GeneralLedger::where('client_id', $invoice->client_id)
-                ->where('profession_id', $invoice->profession_id)
-                ->where('transaction_id', $invoice->tran_id)
-                ->where('chart_id', 999998)->first();
-            $rt['balance'] = $isRetain->balance - $pl->balance;
+            
+        $pl = GeneralLedger::where('client_id', $invoice->client_id)
+            ->where('profession_id', $invoice->profession_id)
+            ->where('transaction_id', $invoice->tran_id)
+            ->where('chart_id', 999998)->first();
 
+        if ($isRetain && $pl) {            
+            $rt['balance'] = $isRetain->balance - $pl->balance;
             if ($isRetain->credit != '') {
                 $rt['credit'] = abs($rt['balance']);
                 $rt['debit']  = 0;
