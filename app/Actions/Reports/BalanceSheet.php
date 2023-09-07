@@ -61,6 +61,8 @@ class BalanceSheet extends Controller
         $plRetain = pl($client, $profession, $date);
         return compact('accountCodeCategories', 'accountCodes', 'industryCategories', 'ledgers', 'date', 'client', 'retain', 'plRetain', 'profession');
     }
+
+    
     public function consoleReport(Request $request, $client)
     {
         $date     = makeBackendCompatibleDate($request->date);
