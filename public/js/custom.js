@@ -18,10 +18,10 @@ $("form").on("submit", function (e) {
     }, 30000); // 30 seconds in milliseconds
 });
 
-$(document).ready(function () {
-    // Select 2
-    $(".select2Single").select2();    
-});
+// $(document).ready(function () {
+//     // Select 2
+//     $(".select2Single").select2();    
+// });
 
 function digitInput(event) {
     event.target.value = event.target.value.replace(/[^\d]/g, "");
