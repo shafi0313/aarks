@@ -201,7 +201,7 @@
     </div><!-- /.main-content -->
     <!-- Modal -->
 
-    @push('scripts')
+    {{-- @push('scripts') --}}
         <script>
             $('#bank_account').change(function() {
                 const chart_id = $(this).find(":selected").data('chart_id');
@@ -396,6 +396,6 @@
                 changeYear: true
             });
         </script>
-    @endpush
+    {{-- @endpush --}}
 
 @stop
