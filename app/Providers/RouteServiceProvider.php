@@ -29,18 +29,18 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware(['2fa', 'web', 'firewall.all'])
+            Route::middleware(['2fa', 'web'])
                  ->prefix('client/sales')
                  ->group(base_path('routes/sales.php'));
                  
-            Route::middleware(['2fa', 'web', 'firewall.all'])
+            Route::middleware(['2fa', 'web'])
                  ->prefix('client/purchase')
                  ->group(base_path('routes/purchase.php'));
 
-            Route::middleware(['2fa', 'web', 'firewall.all'])
+            Route::middleware(['2fa', 'web'])
                  ->group(base_path('routes/admin.php'));
 
-            Route::middleware(['2fa', 'web', 'firewall.all'])
+            Route::middleware(['2fa', 'web'])
                  ->prefix('client')
                  ->group(base_path('routes/web.php'));
 
