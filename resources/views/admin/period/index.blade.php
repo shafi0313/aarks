@@ -40,11 +40,7 @@
                                     <div class="pull-right tableTools-container"></div>
                                 </div>
                                 <div class="table-header">
-                                    @if (empty($client->company))
-                                        {{ $client->first_name . ' ' . $client->last_name }}
-                                    @else
-                                        {{ $client->company }}
-                                    @endif
+                                    {{ clientName($client) }}
 
                                     @can('admin.period.create')
                                         <button class="btn btn-danger" data-toggle="collapse" data-target="#demo"
@@ -139,7 +135,6 @@
                                                         <a class=""
                                                             href="{{ route('edit_period', [$profession->id, $period->id, $client->id]) }}">Add/Edit
                                                             Data</a>
-                                                        {{-- <button class="btn btn-success"><span style="color: black">Add/Edit Data</span></button> --}}
                                                     </td>
                                                 </tr>
                                             @endforeach
