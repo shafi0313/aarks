@@ -2,55 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\Loan;
 use App\Models\Client;
-use App\Models\Gsttbl;
 use App\Models\Period;
-use App\Models\Auxiliary;
-use App\Models\PeriodLock;
 use App\Models\Profession;
 use App\Models\Data_storage;
 use Illuminate\Http\Request;
-use App\Models\GeneralLedger;
-use App\Models\ClientAccountCode;
 use Illuminate\Support\Facades\DB;
 use App\Actions\DataStore\DataStore;
 use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
-use Spatie\Permission\Contracts\Permission;
 
 class DataStorageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        // return $request;
         if ($error = $this->sendPermissionError('admin.adt.create')) {
             return $error;
         }
@@ -65,15 +30,13 @@ class DataStorageController extends Controller
                 'note.required' => 'Please insert narration'
             ]
         );
-
-
         if (periodLock($request->clientId, makeBackendCompatibleDate($request->date))) {
             Alert::error('Your enter data period is locked, check administration');
             return back();
         }
+
         DB::beginTransaction();
         try {
-            // return
             DataStore::store($request);
             DB::commit();
             Alert::success('Inserted!', 'Data Stored Successful!');
@@ -116,40 +79,5 @@ class DataStorageController extends Controller
             DB::rollBack();
         }
         return redirect()->back();
-    }
-
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Data_storage  $dataStore
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Data_storage $dataStore)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Data_storage  $dataStore
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Data_storage $dataStore)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Data_storage  $dataStore
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Data_storage $dataStore)
-    {
-        //
     }
 }
