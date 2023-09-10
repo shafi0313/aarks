@@ -697,37 +697,6 @@
                                                 </div>
                                             </div>
 
-                                            {{-- <div class="col-sm-2">
-                                            <div class="row">
-                                                <div class="col-sm-5 text-center">
-                                                    Journal Entry.
-                                                </div>
-                                                <div class="col-sm-7">
-                                                    <input type="checkbox"
-                                                        value="{{$permissions['admin.journal_entry.index']}}"
-                                                        id="id-63" class="custom-control-input"
-                                                        name="permission[]" {{in_array('admin.journal_entry.index',
-                                                        $role_permissions) ? 'checked' : '' }}>
-                                                    <label for="id-63" class="custom-label">Index</label>
-                                                     <br>
-                                                    <input type="checkbox"
-                                                        value="{{$permissions['admin.journal_entry.create']}}"
-                                                        name="permission[]" {{in_array('admin.journal_entry.create',
-                                                        $role_permissions) ? 'checked' : '' }}>
-                                                    Create <br>
-                                                    <input type="checkbox"
-                                                        value="{{$permissions['admin.journal_entry.edit']}}"
-                                                        name="permission[]" {{in_array('admin.journal_entry.edit',
-                                                        $role_permissions) ? 'checked' : '' }}>
-                                                    Edit <br>
-                                                    <input type="checkbox"
-                                                        value="{{$permissions['admin.journal_entry.delete']}}"
-                                                        name="permission[]" {{in_array('admin.journal_entry.delete',
-                                                        $role_permissions) ? 'checked' : '' }}>
-                                                    Delete <br>
-                                                </div>
-                                            </div>
-                                        </div> --}}
                                             <div class="col-sm-2">
                                                 <div class="row">
                                                     <div class="col-sm-5 text-center">
@@ -757,6 +726,33 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-sm-2">
+                                                <div class="row">
+                                                    <div class="col-sm-5 text-center">
+                                                        Prepare Budget
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.budget.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.budget.index', $role_permissions) ? 'checked' : '' }}>
+                                                        Index <br>
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.budget.create'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.budget.create', $role_permissions) ? 'checked' : '' }}>
+                                                        Create <br>
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.budget.edit'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.budget.edit', $role_permissions) ? 'checked' : '' }}>
+                                                        Edit <br>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
                                             <div class="col-sm-2">
                                                 <div class="row">
                                                     <div class="col-sm-5 text-center">

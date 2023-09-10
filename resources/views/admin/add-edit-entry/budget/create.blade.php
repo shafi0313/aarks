@@ -59,7 +59,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <button type="submit" class="pull-right btn btn-success">Save/Update</button>
+                            <button type="submit" class="pull-right btn btn-success">Save</button>
                         </div>
                     </div>
                 </div>

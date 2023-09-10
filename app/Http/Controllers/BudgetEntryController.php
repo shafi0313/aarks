@@ -34,7 +34,6 @@ class BudgetEntryController extends Controller
      */
     public function create(Request $request, BusinessPlanAction $trialBalance)
     {
-        // return substr(123456, -6, 1);
         if ($error = $this->sendPermissionError('admin.budget.create')) {
             return $error;
         }
@@ -80,7 +79,10 @@ class BudgetEntryController extends Controller
      */
     public function store(Request $request, BudgetAction $action)
     {
-        // return $request;
+        if ($error = $this->sendPermissionError('admin.budget.create')) {
+            return $error;
+        }
+
         $request->validate([
             'client_id'     => 'required',
             'profession_id' => 'required',
@@ -97,28 +99,6 @@ class BudgetEntryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BudgetEntry  $budgetEntry
-     * @return \Illuminate\Http\Response
-     */
-    public function show(BudgetEntry $budgetEntry)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BudgetEntry  $budgetEntry
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BudgetEntry $budgetEntry)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -126,8 +106,9 @@ class BudgetEntryController extends Controller
      */
     public function update(Request $request, $budgetEntry, BudgetAction $action)
     {
-        // return
-        // $request;
+        if ($error = $this->sendPermissionError('admin.budget.edit')) {
+            return $error;
+        }
         $request->validate([
             'client_id'     => 'required',
             'profession_id' => 'required',
@@ -142,16 +123,5 @@ class BudgetEntryController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
             return $e->getMessage();
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BudgetEntry  $budgetEntry
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BudgetEntry $budgetEntry)
-    {
-        //
     }
 }
