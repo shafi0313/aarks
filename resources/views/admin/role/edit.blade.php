@@ -918,7 +918,6 @@
                                                             name="permission[]"
                                                             {{ in_array('admin.balance_sheet.index', $role_permissions) ? 'checked' : '' }}>
                                                         Balance Sheet(S/Activity)<br>
-
                                                         
                                                     </div>
                                                 </div>
@@ -934,7 +933,7 @@
                                                             name="permission[]"
                                                             {{ in_array('admin.balance_sheet.index', $role_permissions) ? 'checked' : '' }}>
                                                             <span style="color: green">Consol.</span> Balance Sheet<br>
-                                                            
+
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.comperative_bs.index'] }}"
                                                             name="permission[]"
