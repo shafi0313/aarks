@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Budget Entry')
+@section('title','Business Plan')
 @section('style')
 <style>
     .table>tbody>tr>td,

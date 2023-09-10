@@ -752,6 +752,31 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-sm-2">
+                                                <div class="row">
+                                                    <div class="col-sm-5 text-center">
+                                                        Business Plan
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.business_plan.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.business_plan.index', $role_permissions) ? 'checked' : '' }}>
+                                                        Index <br>
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.business_plan.create'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.business_plan.create', $role_permissions) ? 'checked' : '' }}>
+                                                        Create <br>
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.business_plan.edit'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.business_plan.edit', $role_permissions) ? 'checked' : '' }}>
+                                                        Edit <br>
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
                                             <div class="col-sm-2">
                                                 <div class="row">
@@ -782,65 +807,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-sm-2">
-                                                <div class="row">
-                                                    <div class="col-sm-5 text-center">
-                                                        Manage Invest
-                                                    </div>
-                                                    <div class="col-sm-7">
-                                                        <input type="checkbox"
-                                                            value="{{ $permissions['admin.manage_invest.index'] }}"
-                                                            name="permission[]"
-                                                            {{ in_array('admin.manage_invest.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Index <br>
-                                                        <input type="checkbox"
-                                                            value="{{ $permissions['admin.manage_invest.create'] }}"
-                                                            name="permission[]"
-                                                            {{ in_array('admin.manage_invest.create', $role_permissions) ? 'checked' : '' }}>
-                                                        Create <br>
-                                                        <input type="checkbox"
-                                                            value="{{ $permissions['admin.manage_invest.edit'] }}"
-                                                            name="permission[]"
-                                                            {{ in_array('admin.manage_invest.edit', $role_permissions) ? 'checked' : '' }}>
-                                                        Edit <br>
-                                                        <input type="checkbox"
-                                                            value="{{ $permissions['admin.manage_invest.delete'] }}"
-                                                            name="permission[]"
-                                                            {{ in_array('admin.manage_invest.delete', $role_permissions) ? 'checked' : '' }}>
-                                                        Delete <br>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
+                                            
 
                                             {{-- <div class="col-sm-2">
-                                            <div class="row">
-                                                <div class="col-sm-5 text-center">
-                                                    Wages
-                                                </div>
-                                                <div class="col-sm-7">
-                                                    <input type="checkbox" value="{{$permissions['admin.wages.index']}}"
-                                                        name="permission[]" {{in_array('admin.wages.index',
-                                                        $role_permissions) ? 'checked' : '' }}>
-                                                    Index <br>
-                                                    <input type="checkbox"
-                                                        value="{{$permissions['admin.wages.create']}}"
-                                                        name="permission[]" {{in_array('admin.wages.create',
-                                                        $role_permissions) ? 'checked' : '' }}>
-                                                    Create <br>
-                                                    <input type="checkbox" value="{{$permissions['admin.wages.edit']}}"
-                                                        name="permission[]" {{in_array('admin.wages.edit',
-                                                        $role_permissions) ? 'checked' : '' }}>
-                                                    Edit <br>
-                                                    <input type="checkbox"
-                                                        value="{{$permissions['admin.wages.delete']}}"
-                                                        name="permission[]" {{in_array('admin.wages.delete',
-                                                        $role_permissions) ? 'checked' : '' }}>
-                                                    Delete <br>
-                                                </div>
-                                            </div>
-                                        </div> --}}
-
-                                            <div class="col-sm-2">
                                                 <div class="row">
                                                     <div class="col-sm-5 text-center">
                                                         Close Year
@@ -868,106 +837,137 @@
                                                         Delete <br>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-3">
                                                 <div class="row">
-                                                    <div class="col-sm-5 text-center">
+                                                    <div class="col-sm-4 text-center">
                                                         Reports
                                                     </div>
-                                                    <div class="col-sm-7">
+                                                    <div class="col-sm-8">
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.cash_basis.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.cash_basis.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Cash Basis <br>
-                                                        <input type="checkbox"
-                                                            value="{{ $permissions['admin.periodic_cash.index'] }}"
-                                                            name="permission[]"
-                                                            {{ in_array('admin.periodic_cash.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Periodic Cash <br>
+                                                        GST/BAS(<span style="color: green">Consol.</span>Cash)  <br>
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.accrued_basis.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.accrued_basis.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Accrued Basis <br>
+                                                            GST/BAS(<span style="color: green">Consol.</span>Acrued) <br>
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.periodic_cash.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.periodic_cash.index', $role_permissions) ? 'checked' : '' }}>
+                                                        Periodic BAS(<span style="color: green">s/actv</span>Cash) <br>                                                        
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.periodic_accrued.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.periodic_accrued.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Periodic Accrued <br>
-                                                        <input type="checkbox"
-                                                            value="{{ $permissions['admin.trial_balance.index'] }}"
-                                                            name="permission[]"
-                                                            {{ in_array('admin.trial_balance.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Trial Balance <br>
-                                                        <input type="checkbox"
-                                                            value="{{ $permissions['admin.cons_trial_balance.index'] }}"
-                                                            name="permission[]"
-                                                            {{ in_array('admin.cons_trial_balance.index', $role_permissions) ? 'checked' : '' }}>
-                                                        <span class="text-success">Consl</span> Trial Balance <br>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <div class="row">
-                                                    <div class="col-sm-5 text-center">
-
-                                                    </div>
-                                                    <div class="col-sm-7">
+                                                            Periodic BAS(<span style="color: green">s/actv</span>Acur) <br>
+                                                            
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.general_ledger.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.general_ledger.index', $role_permissions) ? 'checked' : '' }}>
                                                         General Ledger<br>
                                                         <input type="checkbox"
+                                                            value="{{ $permissions['admin.trial_balance.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.trial_balance.index', $role_permissions) ? 'checked' : '' }}>
+                                                        Trial Balance <br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="row">
+                                                    <div class="col-sm-4 text-center"></div>
+                                                    <div class="col-sm-8">
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.cons_trial_balance.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.cons_trial_balance.index', $role_permissions) ? 'checked' : '' }}>
+                                                        <span class="text-success">Consol</span> Trial Balance <br>
+                                                        <input type="checkbox"
                                                             value="{{ $permissions['admin.profit_loss_excl.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.profit_loss_excl.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Profit & Loss excl <br>
+                                                        P/L(GST <span style="color: red">Excl</span>,S/Activity) <br>
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.profit_loss_incl.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.profit_loss_incl.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Profit & Loss incl <br>
+                                                            P/L(GST <span style="color: red">Incl</span>,S/Activity) <br>
+
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.console_accum_excl.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.console_accum_excl.index', $role_permissions) ? 'checked' : '' }}>
+                                                            <span style="color: green">Consol.</span>P/L(GST <span style="color: red">Excl</span>) <br>
+
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.console_accum_incl.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.console_accum_incl.index', $role_permissions) ? 'checked' : '' }}>
+                                                            <span style="color: green">Consol.</span>P/L(GST <span style="color: red">Incl</span>) <br>
+
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.balance_sheet.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.balance_sheet.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Balance Sheet<br>
+                                                        Balance Sheet(S/Activity)<br>
+
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-3">
                                                 <div class="row">
-                                                    <div class="col-sm-5 text-center">
+                                                    <div class="col-sm-4 text-center">
 
                                                     </div>
-                                                    <div class="col-sm-7">
+                                                    <div class="col-sm-8">
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.balance_sheet.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.balance_sheet.index', $role_permissions) ? 'checked' : '' }}>
+                                                            <span style="color: green">Consol.</span> Balance Sheet<br>
+                                                            
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.comperative_bs.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.comperative_bs.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Comperative BS<br>
+                                                        Comparative B/S<br>
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.complete_financial_report.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.complete_financial_report.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Complete Financial
-                                                        report <br>
+                                                        Complete Financial R.<br>
+
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.complete_financial_report_t_f.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.complete_financial_report_t_f.index', $role_permissions) ? 'checked' : '' }}>
+                                                        Complete Fin Report(T Form)<br>
+
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.console_financial_report.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.console_financial_report.index', $role_permissions) ? 'checked' : '' }}>
+                                                            <span style="color: green">Consol.</span>Financial Report<br>
+
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.comperative_financial_report.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.comperative_financial_report.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Comperative financial
-                                                        report<br>
-                                                        <input type="checkbox"
+                                                        Comparative Financial R.<br>
+                                                        {{-- <input type="checkbox"
                                                             value="{{ $permissions['admin.advanced_report.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.advanced_report.index', $role_permissions) ? 'checked' : '' }}>
-                                                        advanced report<br>
+                                                        Advanced report<br> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -982,26 +982,45 @@
                                                             name="permission[]"
                                                             {{ in_array('admin.depreciation_report.index', $role_permissions) ? 'checked' : '' }}>
                                                         Depreciation report<br>
+
                                                         <input type="checkbox"
+                                                            value="{{ $permissions['admin.business_plan_report.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.business_plan_report.index', $role_permissions) ? 'checked' : '' }}>
+                                                        Business Plan Report<br>
+
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.business_analysis_report.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.business_analysis_report.index', $role_permissions) ? 'checked' : '' }}>
+                                                        Monthly Business Analysis Details P & L<br>
+
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.budget_report.index'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.budget_report.index', $role_permissions) ? 'checked' : '' }}>
+                                                        Budget<br>
+
+                                                        {{-- <input type="checkbox"
                                                             value="{{ $permissions['admin.consolidated_report.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.consolidated_report.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Consolidated report <br>
-                                                        <input type="checkbox"
+                                                        Consolidated report <br> --}}
+                                                        {{-- <input type="checkbox"
                                                             value="{{ $permissions['admin.financial_analysis.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.financial_analysis.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Financial Analysis<br>
-                                                        <input type="checkbox"
+                                                        Financial Analysis<br> --}}
+                                                        {{-- <input type="checkbox"
                                                             value="{{ $permissions['admin.ratio_report.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.ratio_report.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Ratio Report<br>
-                                                        <input type="checkbox"
+                                                        Ratio Report<br> --}}
+                                                        {{-- <input type="checkbox"
                                                             value="{{ $permissions['admin.investment_report.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.investment_report.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Investment Report<br>
+                                                        Investment Report<br> --}}
                                                     </div>
                                                 </div>
                                             </div>

@@ -9,10 +9,8 @@ use App\Models\BudgetEntry;
 use App\Models\BusinessPlan;
 use Illuminate\Http\Request;
 use App\Models\ClientAccountCode;
-use Illuminate\Support\Facades\DB;
 use App\Models\AccountCodeCategory;
 use App\Actions\Reports\TrialBalance;
-use App\Actions\DataStore\BudgetAction;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Actions\DataStore\BusinessPlanAction;
 
@@ -96,11 +94,10 @@ class BusinessPlanController extends Controller
 
     public function createLikeMasterChart(Request $request, TrialBalance $trialBalance)
     {
-        // return substr(123456, -6, 1);
         if ($error = $this->sendPermissionError('admin.business_plan.create')) {
             return $error;
         }
-        // return Carbon::parse('01-July-'. 2020)->format('y');
+        
         $request->validate([
             'client_id'     => 'required',
             'profession_id' => 'required',
@@ -151,6 +148,9 @@ class BusinessPlanController extends Controller
      */
     public function store(Request $request, BusinessPlanAction $action)
     {
+        if ($error = $this->sendPermissionError('admin.business_plan.create')) {
+            return $error;
+        }
         $request->validate([
             'client_id'     => 'required',
             'profession_id' => 'required',
@@ -159,37 +159,12 @@ class BusinessPlanController extends Controller
             'entries.*.chart_id' => 'required|string|integer',
         ]);
         try {
-            // return $request;
-            // return
             $action->store($request);
-
             return redirect()->route('business-plan.index')->with('success', 'Business Plan Created Successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
             return $e->getMessage();
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\BudgetEntry  $budgetEntry
-     * @return \Illuminate\Http\Response
-     */
-    public function show(BudgetEntry $budgetEntry)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BudgetEntry  $budgetEntry
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BudgetEntry $budgetEntry)
-    {
-        //
     }
 
     /**
@@ -200,7 +175,9 @@ class BusinessPlanController extends Controller
      */
     public function update(Request $request, $plan, BusinessPlanAction $action)
     {
-        // return $request;
+        if ($error = $this->sendPermissionError('admin.business_plan.edit')) {
+            return $error;
+        }
         $request->validate([
             'client_id'          => 'required',
             'profession_id'      => 'required',
@@ -208,8 +185,6 @@ class BusinessPlanController extends Controller
             'entries'            => 'required|array',
         ]);
         try {
-            // return $request;
-            // return
             $plan = BusinessPlan::findOrFail($plan);
             $action->update($request, $plan);
 
@@ -218,16 +193,5 @@ class BusinessPlanController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
             return $e->getMessage();
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\BudgetEntry  $budgetEntry
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BudgetEntry $budgetEntry)
-    {
-        //
     }
 }
