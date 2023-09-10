@@ -505,7 +505,7 @@ class DataStore
                 ->first();
 
             if ($type == 1) {
-                $ledger['debit']                  = abs($gst['gross_amount']);
+                $ledger['debit']                   = abs($gst['gross_amount']);
                 $payable['balance_type']           = $ledger['balance_type'] = 1;
                 $payable['debit']                  = abs($gst_amt);
                 $payable['chart_id']               = $clearingAc->code;

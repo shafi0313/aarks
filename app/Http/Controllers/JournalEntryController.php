@@ -26,6 +26,7 @@ class JournalEntryController extends Controller
         $clients = getClientsWithPayment();
         return view('admin.journal_entry.client', compact('clients'));
     }
+
     public function profession($id)
     {
         if ($error = $this->sendPermissionError('admin.journal_entry.index')) {
@@ -54,6 +55,7 @@ class JournalEntryController extends Controller
             ->where('profession_id', $profession->id)->max('journal_number') + 1;
         return view('admin.journal_entry.input', compact('client', 'profession', 'client_account_codes', 'inputs', 'journal_number'));
     }
+
     public function number(Request $r)
     {
         $journal_number = JournalEntry::where('client_id', $r->client_id)
@@ -78,6 +80,7 @@ class JournalEntryController extends Controller
             ->get();
         return response()->json(['status' => 'success', 'count' => $ledgerBatch->max('batch'), 'data' => $ledgerBatch]);
     }
+
     public function read(Request $r)
     {
         $inputs = JournalEntry::with('client_account_code')
@@ -158,6 +161,7 @@ class JournalEntryController extends Controller
             return json_encode(['status' => 'danger', 'html' => $html]);
         }
     }
+    
     public function store(Request $request)
     {
         // return $request;
@@ -365,7 +369,6 @@ class JournalEntryController extends Controller
                             $ledger['narration']              = 'JNP_PAYABLE';
                             $ledger['gst']                    = 0;
                         }
-
                         GeneralLedger::create($ledger);
                     }
                 }
