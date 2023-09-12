@@ -27,7 +27,7 @@
                     </li>
                     <li>Report</li>
                     <li>Complete Financial Report</li>
-                    <li>{{ $client->fullname }}</li>
+                    <li>{{ clientName($client) }}</li>
                     <li class="active">{{ $profession->name }}</li>
                 </ul>
             </div>

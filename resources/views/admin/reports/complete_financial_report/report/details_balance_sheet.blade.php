@@ -67,30 +67,27 @@
                                                         $gtBalance += abs($ledgerBalance);
                                                         $subSubGrpBalance += abs($ledgerBalance);
                                                         $blncType = '';
-                                                    } else {
+                                                    } elseif ($ledger->balance_type == 2 && $ledgerBalance < 0) {
+                                                        $gtBalance += abs($ledgerBalance);
+                                                        $subSubGrpBalance += abs($ledgerBalance);
+                                                        $blncType = '';
+                                                    }else {
                                                         $gtBalance -= abs($ledgerBalance);
                                                         $subSubGrpBalance -= abs($ledgerBalance);
                                                         $blncType = '-';
                                                     }
-                                                }
-                                                // if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998])) {
-                                                //     if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
-                                                //         $gtBalance += abs($ledgerBalance);
-                                                //         $subSubGrpBalance += abs($ledgerBalance);
-                                                //         $blncType = '';
-                                                //     } else {
-                                                //         $gtBalance -= abs($ledgerBalance);
-                                                //         $subSubGrpBalance -= abs($ledgerBalance);
-                                                //         $blncType = '-';
-                                                //     }
-                                                // }
+                                                }                                                
                                                 
                                                 if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998, 912101])) {
                                                     if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
                                                         $gtBalance = $gtBalance += abs($ledgerBalance);
                                                         $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
                                                         $blncType = '';
-                                                    } else {
+                                                    } elseif ($ledger->balance_type == 1 && $ledgerBalance < 0) {
+                                                        $gtBalance = $gtBalance += abs($ledgerBalance);
+                                                        $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
+                                                        $blncType = '';
+                                                    }else {
                                                         $gtBalance = $gtBalance -= abs($ledgerBalance);
                                                         $subSubGrpBalance = $subSubGrpBalance -= abs($ledgerBalance);
                                                         $blncType = '-';
