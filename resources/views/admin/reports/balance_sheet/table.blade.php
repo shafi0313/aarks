@@ -52,6 +52,10 @@
                                         $gtBalance += abs($ledgerBalance);
                                         $subSubGrpBalance += abs($ledgerBalance);
                                         $blncType = '';
+                                    } else if($ledger->balance_type == 2 && $ledgerBalance < 0){
+                                        $gtBalance += abs($ledgerBalance);
+                                        $subSubGrpBalance += abs($ledgerBalance);
+                                        $blncType = '';
                                     } else {
                                         $gtBalance -= abs($ledgerBalance);
                                         $subSubGrpBalance -= abs($ledgerBalance);
