@@ -3,18 +3,27 @@
 use Carbon\Carbon;
 use App\Models\Client;
 use App\Models\PeriodLock;
-use App\Models\GeneralLedger;
 use App\Models\Profession;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\GeneralLedger;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Schema\Blueprint;
 
 if (!function_exists('getClientsWithPayment')) {
     function getClientsWithPayment()
     {
-        return Client::with(['payment' => function ($q) {
-            return $q->select('id', 'client_id')->latest();
-        }])
-            ->get(['id', 'company', 'first_name', 'last_name', 'email', 'phone', 'abn_number']);
+        // return$clients = Client::with(['payment' => function ($q) {
+        //     return $q->select('id', 'client_id')->latest();
+        // }])
+        // ->get(['id', 'company', 'first_name', 'last_name', 'email', 'phone', 'abn_number']);
+
+        return Cache::remember('clients', 60 * 60 * 2, function () {
+            return Client::with(['payment' => function ($q) {
+                return $q->select('id', 'client_id')->latest();
+            }])
+                ->select('id', 'company', 'first_name', 'last_name', 'email', 'phone', 'abn_number')
+                ->get();
+        });
     }
 }
 
@@ -399,7 +408,7 @@ if (!function_exists('consolePL')) {
             ->where('date', '<=', $end_date)
             ->where('chart_id', 'like', '2%')
             ->get(['debit', 'credit', 'balance', 'balance_type']);
-            
+
         $iCredit = $iDebit = $eDebit = $eCredit = 0;
         foreach ($incomes as $income) {
             if ($income->balance_type == 2) {
@@ -468,7 +477,7 @@ if (!function_exists('accum_pl')) {
             ->where('date', '<=', $end_date)
             ->where('chart_id', 'like', '2%')
             ->get(['debit', 'credit', 'balance', 'balance_type']);
-            
+
         $iCredit = $iDebit = $eDebit = $eCredit = 0;
         foreach ($incomes as $income) {
             if ($income->balance_type == 2) {
