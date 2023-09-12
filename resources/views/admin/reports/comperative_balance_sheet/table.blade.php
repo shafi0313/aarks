@@ -2,7 +2,6 @@
     <tbody>
         <tr>
             <th>Particulars</th>
-            {{-- <th>Amount ($)</th> --}}
             <th class="text-right">{{ $date->format('Y') - 1 }}</th>
             <th class="text-right">{{ $date->format('Y') }}</th>
         </tr>
@@ -15,12 +14,10 @@
         @endphp
         @foreach ($accountCodeCategories as $accountCodeCategory)
             @php
-                // $mainCodes = $accountCodes->where('category_id' ,$accountCodeCategory->id);
                 $gtDebit = $gtCredit = $gtBalance = $preGtBalance = 0;
             @endphp
             @foreach ($accountCodeCategory->subCategoryWithoutAdditional as $subCategory)
                 @php
-                    // $subCodes = $accountCodes->where('sub_category_id' ,$subCategory->id);
                     $subGrpBalance = $preSubGrpBalance = 0;
                 @endphp
                 <tr>
@@ -32,7 +29,6 @@
                 </tr>
                 @foreach ($subCategory->additionalCategory as $additionalCategory)
                     @php
-                        // $adSubCodes = $accountCodes->where('additional_category_id' ,$additionalCategory->id);
                         $subSubGrpBalance = $preSubSubGrpBalance = $code = 0;
                     @endphp
                     <tr>
@@ -48,8 +44,6 @@
                         @if ($accountCode->additional_category_id == $additionalCategory->id && $code != $accountCode->code)
                             @php
                                 $code = $accountCode->code;
-                                // $ledgerBalance    = $ledgers->where('chart_id', $accountCode->code)->sum('balance');
-                                // $preLedgerBalance = $preLedgers->where('chart_id', $accountCode->code)->sum('balance');
                                 
                                 // Pre Ledgers Data
                                 $preLedger = $preLedgers->where('chart_id', $accountCode->code)->first();
@@ -75,7 +69,11 @@
                                                 $preGtBalance += abs($preLedgerBalance);
                                                 $preSubSubGrpBalance += abs($preLedgerBalance);
                                                 $preBlncType = '';
-                                            } else {
+                                            } elseif ($preLedger->balance_type == 2 && $preLedgerBalance < 0) {
+                                                $preGtBalance += abs($preLedgerBalance);
+                                                $preSubSubGrpBalance += abs($preLedgerBalance);
+                                                $preBlncType = '';
+                                            }else {
                                                 $preGtBalance -= abs($preLedgerBalance);
                                                 $preSubSubGrpBalance -= abs($preLedgerBalance);
                                                 $preBlncType = '-';
@@ -86,7 +84,11 @@
                                                 $preGtBalance = $preGtBalance += abs($preLedgerBalance);
                                                 $preSubSubGrpBalance = $preSubSubGrpBalance += abs($preLedgerBalance);
                                                 $preBlncType = '';
-                                            } else {
+                                            } elseif ($preLedger->balance_type == 1 && $preLedgerBalance < 0) {
+                                                $preGtBalance = $preGtBalance += abs($preLedgerBalance);
+                                                $preSubSubGrpBalance = $preSubSubGrpBalance += abs($preLedgerBalance);
+                                                $preBlncType = '';
+                                            }else {
                                                 $preGtBalance = $preGtBalance -= abs($preLedgerBalance);
                                                 $preSubSubGrpBalance = $preSubSubGrpBalance -= abs($preLedgerBalance);
                                                 $preBlncType = '-';
@@ -128,13 +130,17 @@
                                 @endif
                                 {{-- END PRE YEAR CALCULATION --}}
 
-                                {{-- CURRECT YEAR CALCULATION --}}
+                                {{-- Current YEAR CALCULATION --}}
                                 @if ($ledgerBalance != 0)
                                     @php
                                         $ledger = $ledgers->where('chart_id', $accountCode->code)->first();
                                         $blncType = '';
                                         if ($accountCodeCategory->code == 5) {
                                             if ($ledger->balance_type == 1 && $ledgerBalance > 0) {
+                                                $gtBalance += abs($ledgerBalance);
+                                                $subSubGrpBalance += abs($ledgerBalance);
+                                                $blncType = '';
+                                            } elseif ($ledger->balance_type == 2 && $ledgerBalance < 0) {
                                                 $gtBalance += abs($ledgerBalance);
                                                 $subSubGrpBalance += abs($ledgerBalance);
                                                 $blncType = '';
@@ -146,6 +152,10 @@
                                         }
                                         if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998, 912101])) {
                                             if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
+                                                $gtBalance = $gtBalance += abs($ledgerBalance);
+                                                $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
+                                                $blncType = '';
+                                            } elseif ($ledger->balance_type == 1 && $ledgerBalance < 0) {
                                                 $gtBalance = $gtBalance += abs($ledgerBalance);
                                                 $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
                                                 $blncType = '';
