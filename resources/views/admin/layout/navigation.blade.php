@@ -323,54 +323,37 @@
                     </a>
                     <b class="arrow"></b>
                 </li>
-                {{-- @role('Admin')
-            <li class="{{ activeNav('trash.*') }}">
-                <a href="{{ route('trash.index') }}">
-                    <i class="menu-icon fa fa-trash"></i>
-                    Trash
-                </a>
-                <b class="arrow"></b>
-            </li>
-        @endrole --}}
-                {{-- @role('Admin')
-            <li class="{{ activeNav('admin.forceDelete.*') }}">
-                <a href="{{ route('admin.forceDelete.index') }}">
-                    <i class="menu-icon fa fa-trash"></i>
-                    Delete Data Permanently
-                </a>
-                <b class="arrow"></b>
-            </li>
-        @endrole --}}
-
-
-                <li class="{{ activeOpenNav(['trash.*', 'admin.forceDelete.*']) }}">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Trash
-                        <b class="arrow fa fa-angle-down"></b>
-                    </a>
-                    <b class="arrow"></b>
-                    <ul class="submenu">
-                        {{-- @can('trash.index') --}}
-                        <li class="{{ activeNav('trash.*') }}">
-                            <a href="{{ route('trash.index') }}">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Trash
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                        {{-- @endcan --}}
-                        {{-- @can('admin.forceDelete.index') --}}
-                        <li class="{{ activeNav('admin.forceDelete.*') }}">
-                            <a href="{{ route('admin.forceDelete.index') }}">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Delete Data Permanently
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                        {{-- @endcan --}}
-                    </ul>
-                </li>
+                
+                @role('Admin')
+                    <li class="{{ activeOpenNav(['trash.*', 'admin.forceDelete.*']) }}">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Trash
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+                        <ul class="submenu">
+                            {{-- @can('trash.index') --}}
+                            <li class="{{ activeNav('trash.*') }}">
+                                <a href="{{ route('trash.index') }}">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Trash
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            {{-- @endcan --}}
+                            {{-- @can('admin.forceDelete.index') --}}
+                            <li class="{{ activeNav('admin.forceDelete.*') }}">
+                                <a href="{{ route('admin.forceDelete.index') }}">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Delete Data Permanently
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            {{-- @endcan --}}
+                        </ul>
+                    </li>
+                @endrole
             </ul>
         </li>
 
