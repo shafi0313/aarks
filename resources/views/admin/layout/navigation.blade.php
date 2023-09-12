@@ -552,7 +552,7 @@
                         <li class="{{ activeNav('cash_basis.*') }}">
                             <a href="{{ route('cash_basis.index') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                GST/BAS(<span style="color: green">Cnosol.</span>Cash)
+                                GST/BAS(<span style="color: green">Consol.</span>Cash)
                             </a>
                             <b class="arrow"></b>
                         </li>
@@ -561,7 +561,7 @@
                         <li class="{{ activeNav('accrued_basis.*') }}">
                             <a href="{{ route('accrued_basis.index') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                GST/BAS (<span style="color: green">Cnosol.</span>Acured)
+                                GST/BAS (<span style="color: green">Consol.</span>Acured)
                             </a>
                             <b class="arrow"></b>
                         </li>
@@ -606,7 +606,7 @@
                         <li class="{{ activeNav('console_trial_balance.*') }}">
                             <a href="{{ route('console_trial_balance.index') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span style="color: green">Cnosol.</span> Trial Balance
+                                <span style="color: green">Consol.</span> Trial Balance
                             </a>
                             <b class="arrow"></b>
                         </li>
@@ -634,7 +634,7 @@
                         <li class="{{ activeNav('console_accum.excl_index') }}">
                             <a href="{{ route('console_accum.excl_index') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span style="color: green">Cnosol.</span>
+                                <span style="color: green">Consol.</span>
                                 P/L(GST <span style="color: red;">Excl</span>)
                             </a>
                             <b class="arrow"></b>
@@ -644,7 +644,7 @@
                         <li class="{{ activeNav('console_accum.incl_index') }}">
                             <a href="{{ route('console_accum.incl_index') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span style="color: green">Cnosol.</span> P/L(GST <span style="color: red;">Incl</span>)
+                                <span style="color: green">Consol.</span> P/L(GST <span style="color: red;">Incl</span>)
                             </a>
                             <b class="arrow"></b>
                         </li>
@@ -671,7 +671,7 @@
                         <li class="{{ activeNav('console_balance_sheet.*') }}">
                             <a href="{{ route('console_balance_sheet.index') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span style="color: green">Cnosol.</span> Balance Sheet
+                                <span style="color: green">Consol.</span> Balance Sheet
                             </a>
                             <b class="arrow"></b>
                         </li>
@@ -705,7 +705,7 @@
                         <li class="{{ activeNav('console_financial_report*') }}">
                             <a href="{{ route('console_financial_report_index') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span style="color: green">Cnosol.</span>Financial Report.
+                                <span style="color: green">Consol.</span>Financial Report.
                             </a>
                             <b class="arrow"></b>
                         </li>

@@ -353,11 +353,11 @@
                                                 {{-- GST Bash --}}
                                                 <a class="menu_dropdown-item"
                                                     href="{{ route('client_cash_basis.index') }}">GST/BAS(
-                                                    <span class="text-success">Cnosol</span> Cash)
+                                                    <span class="text-success">Consol</span> Cash)
                                                 </a>
                                                 <a class="menu_dropdown-item"
                                                     href="{{ route('client_accrued_basis.index') }}">GST/BAS(
-                                                    <span class="text-success">Cnosol</span> Accrued)
+                                                    <span class="text-success">Consol</span> Accrued)
                                                 </a>
 
                                                 {{-- Periodic Bash --}}

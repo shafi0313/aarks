@@ -309,21 +309,21 @@
                                 <div class="links ">
                                     <a href="{{route('gst_recon.index')}}" class="btn btn-info">GST Recon for TR</a>
                                     <a href="{{route('cash_basis.index')}}" class="btn btn-info">GST/BAS(Cash)</a>
-                                    <a href="{{route('accrued_basis.index')}}" class="btn btn-info">GST/BAS (Cnosol.Acured)</a>
+                                    <a href="{{route('accrued_basis.index')}}" class="btn btn-info">GST/BAS (Consol.Acured)</a>
                                     <a href="{{route('cash_periodic.index')}}" class="btn btn-info">Periodic BAS(s/actvCash)</a>
                                     <a href="{{route('accrued_periodic.index')}}" class="btn btn-info">Periodic BAS(s/actvAcur)</a>
                                     <a href="{{route('general_ledger.index')}}" class="btn btn-info">General Ledger</a>
                                     <a href="{{route('trial-balance.index')}}" class="btn btn-info">Trial Balance(S/Activity)</a>
-                                    <a href="{{route('console_trial_balance.index')}}" class="btn btn-info">Cnosol.Trial Balance</a>
+                                    <a href="{{route('console_trial_balance.index')}}" class="btn btn-info">Consol.Trial Balance</a>
                                     <a href="{{route('profit_loss_gst_excl.index')}}" class="btn btn-info">P/L(GST ,S/Activity)</a>
                                     <a href="{{route('profit_loss_gst_incl.index')}}" class="btn btn-info">P/L(GST Incl,S/Activity)</a>
-                                    <a href="{{route('console_accum.excl_index')}}" class="btn btn-info">Cnosol.P/L(GST Excl)</a>
-                                    <a href="{{route('console_accum.incl_index')}}" class="btn btn-info">Cnosol.P/L(GST Incl)</a>
+                                    <a href="{{route('console_accum.excl_index')}}" class="btn btn-info">Consol.P/L(GST Excl)</a>
+                                    <a href="{{route('console_accum.incl_index')}}" class="btn btn-info">Consol.P/L(GST Incl)</a>
                                     <a href="{{route('balance_sheet.index')}}" class="btn btn-info">Balance Sheet(S/Activity)</a>
-                                    <a href="{{route('console_balance_sheet.index')}}" class="btn btn-info">Cnosol.Balance Sheet</a>
+                                    <a href="{{route('console_balance_sheet.index')}}" class="btn btn-info">Consol.Balance Sheet</a>
                                     <a href="{{route('comperative_balance_sheet.index')}}" class="btn btn-info">Comparative B/S</a>
                                     <a href="{{route('complete_financial_report.index')}}" class="btn btn-info">Complete Financial R.</a>
-                                    <a href="{{route('console_financial_report_index')}}" class="btn btn-info">Cnosol.Financial Report.</a>
+                                    <a href="{{route('console_financial_report_index')}}" class="btn btn-info">Consol.Financial Report.</a>
                                     <a href="{{route('comperative_financial_report_index')}}" class="btn btn-info">Comparative Financial R.</a>
                                     <a href="{{route('depreciation_report.index')}}" class="btn btn-info">Depreciation Report</a>
                                     <a href="#" class="btn btn-info">Advanced Report</a>

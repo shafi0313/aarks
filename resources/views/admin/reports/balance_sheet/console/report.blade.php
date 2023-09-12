@@ -11,9 +11,9 @@
                 </li>
                 <li>Report</li>
                 <li>
-                    <a href="#">Console Balance Sheet</a>
+                    Console Balance Sheet
                 </li>
-                <li><a href="#">{{ $client->fullname}}</a></li>
+                <li>{{ clientName($client) }}</li>
             </ul><!-- /.breadcrumb -->
 
             <div class="nav-search" id="nav-search">
@@ -30,7 +30,6 @@
         <div class="page-content">
             <div align="center" class="row">
                 <div class="col-xs-12">
-
                     <!-- PAGE CONTENT BEGINS -->
                     <style>
                         .doubleUnderline {
@@ -42,7 +41,6 @@
                             padding: 2px 5px !important
                         }
                     </style>
-
                     <form action="" target="_blank" method="">
                         <div class="col-md-12" style="padding-right:20px; padding-left:20px;">
                             <div class="col-xs-12">
