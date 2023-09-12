@@ -12,7 +12,7 @@
                     </li>
                     <li>Report</li>
                     <li>GST REPORT/BAS(CASH)</li>
-                    <li class="active">{{ $client->fullname }}</li>
+                    <li class="active">{{ clientName($client) }}</li>
             </ul><!-- /.breadcrumb -->
 
             <div class="nav-search" id="nav-search">

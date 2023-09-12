@@ -1,7 +1,7 @@
 <div class="reportH">
     <div class="row justify-content-center">
         <div class="col-12 text-center">
-            <h3 class="company_name">{{ $client->fullname }}</h3>
+            <h3 class="company_name">{{ clientName($client) }}</h3>
             <h5 class="report_name">BALANCE SHEET</h5>
             <h5 style="border-bottom:1px solid black;display:inline-block; padding-bottom:2px;margin:0">For the year
                 ended

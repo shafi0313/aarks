@@ -14,7 +14,7 @@
                 <li>Report</li>
                 <li>Depreciation Report</li>
                 <li>{{ $profession->name }}</li>
-                <li class="active">{{ $client->fullname }}</li>
+                <li class="active">{{ clientName($client) }}</li>
             </ul><!-- /.breadcrumb -->
 
             <div class="nav-search" id="nav-search">

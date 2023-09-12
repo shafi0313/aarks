@@ -27,7 +27,7 @@
                     </li>
                     <li>Report</li>
                     <li>Complete Financial Report T Form</li>
-                    <li>{{ $client->fullname }}</li>
+                    <li>{{ clientName($client) }}</li>
                     <li class="active">{{ $profession->name }}</li>
                 </ul>
             </div>
@@ -45,7 +45,7 @@
                     <div class="col-lg-12" id="printarea">
                         <div class="row" style="height:100vh;display:flex;align-items:center;justify-content:center;">
                             <div class="col-md-12 text-center">
-                                <h1>{{ $client->fullname }}</h1>
+                                <h1>{{ clientName($client) }}</h1>
                                 <h4>ABN {{ $client->abn_number }}</h4><br>
 
                                 <h2>FINANCIAL REPORT</h2>
@@ -60,7 +60,7 @@
 
                         <div class="row" style="height:100vh;display:flex;align-items:center;justify-content:center;">
                             <div class="col-md-12 text-center">
-                                <h1>{{ $client->fullname }}</h1>
+                                <h1>{{ clientName($client) }}</h1>
                                 <h4>ABN {{ $client->abn_number }}</h4>
                                 <h4> FINANCIAL REPORT</h4>
                                 <h3>Contents</h3><br><br><br><br><br><br><br><br>

@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="text-center bolder">
-                    {{ $client->fullname}}</h2>
+                    {{ clientName($client)}}</h2>
                 <h5 class="text-center"><u>Ledger Report From: {{$start_date->format('d/m/Y')}} to :
                         {{$end_date->format('d/m/Y')}}</u></h5>
                 <div class="row">

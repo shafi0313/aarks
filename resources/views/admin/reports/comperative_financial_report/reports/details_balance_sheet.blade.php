@@ -1,6 +1,6 @@
 <div class="reportH">
     <div class="text-center">
-        <h3 class="company_name">{{ $client->fullname }}</h3>
+        <h3 class="company_name">{{ clientName($client) }}</h3>
         <h5 class="report_name">Detail Balance Sheet</h5>
         <h5 style="border-bottom:1px solid black;display:inline-block; padding-bottom:2px;margin:0">For the year ended
             {{ $date->format('d-M-Y') }}</h5>
@@ -27,9 +27,7 @@
                             @php
                                 $gtDebit = $gtCredit = $gtBalance = $preGtBalance = 0;
                             @endphp
-                            {{-- <tr>
-                <td colspan="3" style="color: red">{{$accountCodeCategory->name}}</td>
-            </tr> --}}
+
                             @foreach ($accountCodeCategory->subCategoryWithoutAdditional->sortBy('code') as $subCategory)
                                 @php
                                     $subGrpBalance = $preSubGrpBalance = 0;
@@ -65,25 +63,23 @@
                                                                 $preGtBalance += abs($preLedgerBalance);
                                                                 $preSubSubGrpBalance += abs($preLedgerBalance);
                                                                 $preBlncType = '';
+                                                            } elseif ($preLedger->balance_type == 2 && $preLedgerBalance < 0) {
+                                                                $preGtBalance += abs($preLedgerBalance);
+                                                                $preSubSubGrpBalance += abs($preLedgerBalance);
+                                                                $preBlncType = '';
                                                             } else {
                                                                 $preGtBalance -= abs($preLedgerBalance);
                                                                 $preSubSubGrpBalance -= abs($preLedgerBalance);
                                                                 $preBlncType = '-';
                                                             }
                                                         }
-                                                        // if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998])) {
-                                                        //     if ($preLedger->balance_type == 2 && $preLedgerBalance > 0) {
-                                                        //         $preGtBalance += abs($preLedgerBalance);
-                                                        //         $preSubSubGrpBalance += abs($preLedgerBalance);
-                                                        //         $preBlncType = '';
-                                                        //     } else {
-                                                        //         $preGtBalance -= abs($preLedgerBalance);
-                                                        //         $preSubSubGrpBalance -= abs($preLedgerBalance);
-                                                        //         $preBlncType = '-';
-                                                        //     }
-                                                        // }
-                                                        if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998, 912101])) {
+                                                        
+                                                        if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998])) {
                                                             if ($preLedger->balance_type == 2 && $preLedgerBalance > 0) {
+                                                                $preGtBalance = $preGtBalance += abs($preLedgerBalance);
+                                                                $preSubSubGrpBalance = $preSubSubGrpBalance += abs($preLedgerBalance);
+                                                                $preBlncType = '';
+                                                            } elseif ($preLedger->balance_type == 1 && $preLedgerBalance < 0) {
                                                                 $preGtBalance = $preGtBalance += abs($preLedgerBalance);
                                                                 $preSubSubGrpBalance = $preSubSubGrpBalance += abs($preLedgerBalance);
                                                                 $preBlncType = '';
@@ -95,19 +91,19 @@
                                                         }
                                                         
                                                         // For GST Clearing Account (912101)
-                                                        if ($accountCodeCategory->code == 9) {
-                                                            if ($ledger->chart_id == 912101) {
-                                                                if ($preLedger->balance_type == 2 && $preLedgerBalance > 0) {
-                                                                    $preGtBalance = $preGtBalance -= abs($preLedgerBalance);
-                                                                    $preSubSubGrpBalance = $preSubSubGrpBalance -= abs($preLedgerBalance);
-                                                                    $preBlncType = '-';
-                                                                } else {
-                                                                    $preGtBalance = $preGtBalance += abs($preLedgerBalance);
-                                                                    $preSubSubGrpBalance = $preSubSubGrpBalance += abs($preLedgerBalance);
-                                                                    $preBlncType = '';
-                                                                }
-                                                            }
-                                                        }
+                                                        // if ($accountCodeCategory->code == 9) {
+                                                        //     if ($ledger->chart_id == 912101) {
+                                                        //         if ($preLedger->balance_type == 1 && $preLedgerBalance > 0) {
+                                                        //             $preGtBalance = $preGtBalance -= abs($preLedgerBalance);
+                                                        //             $preSubSubGrpBalance = $preSubSubGrpBalance -= abs($preLedgerBalance);
+                                                        //             $preBlncType = '-';
+                                                        //         } else {
+                                                        //             $preGtBalance = $preGtBalance += abs($preLedgerBalance);
+                                                        //             $preSubSubGrpBalance = $preSubSubGrpBalance += abs($preLedgerBalance);
+                                                        //             $preBlncType = '';
+                                                        //         }
+                                                        //     }
+                                                        // }
                                                         if ($subCategory->id == 16 && $accountCode->code == 999998) {
                                                             $preSubSubGrpBalance += $prePlRetain;
                                                         } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
@@ -129,7 +125,7 @@
                                                 @endif
                                                 {{-- END PRE YEAR CALCULATION --}}
 
-                                                {{-- CURRECT YEAR CALCULATION --}}
+                                                {{-- CURRENT YEAR CALCULATION --}}
                                                 @if ($ledgerBalance != 0)
                                                     @php
                                                         $ledger = $data['bs_ledgers']->where('chart_id', $accountCode->code)->first();
@@ -139,25 +135,23 @@
                                                                 $gtBalance += abs($ledgerBalance);
                                                                 $subSubGrpBalance += abs($ledgerBalance);
                                                                 $blncType = '';
+                                                            } elseif ($ledger->balance_type == 2 && $ledgerBalance < 0) {
+                                                                $gtBalance += abs($ledgerBalance);
+                                                                $subSubGrpBalance += abs($ledgerBalance);
+                                                                $blncType = '';
                                                             } else {
                                                                 $gtBalance -= abs($ledgerBalance);
                                                                 $subSubGrpBalance -= abs($ledgerBalance);
                                                                 $blncType = '-';
                                                             }
                                                         }
-                                                        // if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998])) {
-                                                        //     if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
-                                                        //         $gtBalance += abs($ledgerBalance);
-                                                        //         $subSubGrpBalance += abs($ledgerBalance);
-                                                        //         $blncType = '';
-                                                        //     } else {
-                                                        //         $gtBalance -= abs($ledgerBalance);
-                                                        //         $subSubGrpBalance -= abs($ledgerBalance);
-                                                        //         $blncType = '-';
-                                                        //     }
-                                                        // }
+                                                        
                                                         if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998, 912101])) {
                                                             if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
+                                                                $gtBalance = $gtBalance += abs($ledgerBalance);
+                                                                $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
+                                                                $blncType = '';
+                                                            } elseif ($ledger->balance_type == 1 && $ledgerBalance < 0) {
                                                                 $gtBalance = $gtBalance += abs($ledgerBalance);
                                                                 $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
                                                                 $blncType = '';

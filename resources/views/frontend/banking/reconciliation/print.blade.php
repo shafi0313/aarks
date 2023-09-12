@@ -15,7 +15,7 @@
                 <div class="col-lg-12">
                     <div class="text-center" style="text-align: center">
                     <h2 class="font-weight-bolder">
-                        {{ $client->fullname}}
+                        {{ clientName($client)}}
                     </h2>
                     </div>
                     <table class="table table-hover table-striped table-responsive">

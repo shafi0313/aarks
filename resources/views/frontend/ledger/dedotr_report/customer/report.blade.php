@@ -32,7 +32,7 @@
                         <hr>
                         <div class="text-center">
                             <h5 style="margin:0 !important">
-                                {{ $client->fullname }}
+                                {{ clientName($client) }}
                             </h5>
                             <u>Debtors Reports as at: {{$to_date}}</u>
                         </div>

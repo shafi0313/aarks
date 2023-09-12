@@ -60,16 +60,10 @@ class ConsoleFinancial extends Controller
                 ->where('client_id', $client->id)
                 ->whereIn('profession_id', $professions)->get();
 
-            $retain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
-                ->where('chart_id', 999999)
-                ->where('client_id', $client->id)
-                ->whereIn('profession_id', $professions)
-                ->where('date', '<', $start_date)
-                ->groupBy('chart_id')
-                ->first();
-            $data['bs_retain']   = $retain ? $retain->totalRetain : 0;
-            $data['bs_plRetain'] =  accum_pl($client, $date);
+            $data['bs_retain']   = console_retain($client, $date);
+            $data['bs_plRetain'] =  consolePL($client, $date);
         }
+        
         if ($request->has('incomestatment_note')) {
             $data['is_incomestatment_note']  = true;
             $data['incomestatment_note']     = 'Income Statment Note';
@@ -94,6 +88,7 @@ class ConsoleFinancial extends Controller
                 ->where('chart_id', 999998)
                 ->first();
         }
+
         if ($request->has('details_balance_sheet')) {
             $data['is_details_balance_sheet'] = true;
             $data['details_balance_sheet']    = 'Details Balance Sheet';
@@ -116,17 +111,11 @@ class ConsoleFinancial extends Controller
                     ->whereIn('profession_id', $professions)->get();
 
 
-                $retain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
-                    ->where('chart_id', 999999)
-                    ->where('client_id', $client->id)
-                    ->whereIn('profession_id', $professions)
-                    ->where('date', '<', $start_date)
-                    ->groupBy('chart_id')
-                    ->first();
-                $data['bs_retain']   = $retain ? $retain->totalRetain : 0;
-                $data['bs_plRetain'] = accum_pl($client, $date);
+                $data['bs_retain']   = console_retain($client, $date);
+                $data['bs_plRetain'] = consolePL($client, $date);
             }
         }
+
         if ($request->has('trading_profit_loss')) {
             $data['is_trading_profit_loss']    = true;
             $data['trading_profit_loss']       = 'Trading Profit Loss';
@@ -149,7 +138,7 @@ class ConsoleFinancial extends Controller
                 ->first();
             $data["tpl_totalRetain"] = $retain->totalRetain ?? 0;
 
-            $data["tpl_totalPl"] = accum_pl($client, $date);
+            $data["tpl_totalPl"] = consolePL($client, $date);
 
 
             // return
@@ -172,7 +161,7 @@ class ConsoleFinancial extends Controller
                 ->first();
             $data["tpl_totalPreRetain"] = $preRetain->totalRetain ?? 0;
 
-            $data["tpl_totalPrePl"] =  accum_pl($client, Carbon::parse($start_date)->subDays(1));
+            $data["tpl_totalPrePl"] =  consolePL($client, Carbon::parse($start_date)->subDays(1));
 
             $data["tpl_accountCodes"] = ClientAccountCode::where('client_id', $client->id)
             ->whereIn('profession_id', $professions)
@@ -239,7 +228,7 @@ class ConsoleFinancial extends Controller
                 ->where('chart_id', 999999)
                 ->groupBy('chart_id')
                 ->first();
-            $data['trial_CRetains'] =  accum_pl($client, $date);
+            $data['trial_CRetains'] =  consolePL($client, $date);
 
             $data['trial_codes'] = ClientAccountCode::where('client_id', $client->id)
             ->whereIn('profession_id', $professions)

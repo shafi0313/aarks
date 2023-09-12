@@ -10,7 +10,7 @@
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
                     <li>Report</li>
-                    <li>{{ $client->fullname }}</li>
+                    <li>{{ clientName($client) }}</li>
                     <li class="active">{{ $profession->name }}</li>
                 </ul><!-- /.breadcrumb -->
 

@@ -69,7 +69,7 @@
                                 <div class="dep-print-1" align="center">
                                     <div class="dep-print-11" align="center">
                                         <div class="col-lg-12 text-center" style="display: block; margin-bottom: 20px;">
-                                            <h3 class="company_name">{{ $client->fullname }}</h3>
+                                            <h3 class="company_name">{{ clientName($client) }}</h3>
                                             <h5 class="report_name">Depreciation Report</h5>
                                             <h5
                                                 style="border-bottom:1px solid black;display:inline-block; padding-bottom:2px;margin:0">

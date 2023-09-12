@@ -47,7 +47,7 @@
                                             break;
                                     }
                                 @endphp
-                                <strong style="font-size:30px;">{{ $client->fullname }}</strong><br>
+                                <strong style="font-size:30px;">{{ clientName($client) }}</strong><br>
                                 <strong>A.B.N : {{ $client->abn_number }}</strong><br>
                                 <strong> {{ $client->street_address }}</strong><br>
                                 <strong>{{ $client->suburb }}</strong><br>

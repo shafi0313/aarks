@@ -61,6 +61,7 @@ class ComperativeFinancial extends Controller
             $data['bs_preLedgers'] = GeneralLedger::where('date', '<', $start_date)
                 ->where('client_id', $client->id)->get();
         }
+        
         if ($request->has('incomestatment_note')) {
             $data['is_incomestatment_note']  = true;
             $data['incomestatment_note']     = 'Income Statment Note';
@@ -71,6 +72,7 @@ class ComperativeFinancial extends Controller
                 })
                 ->get();
         }
+
         if ($request->has('details_balance_sheet')) {
             $data['is_details_balance_sheet'] = true;
             $data['details_balance_sheet']    = 'Details Balance Sheet';
@@ -92,6 +94,7 @@ class ComperativeFinancial extends Controller
                     ->where('client_id', $client->id)->get();
             }
         }
+
         if ($request->has('trading_profit_loss')) {
             $data['is_trading_profit_loss']    = true;
             $data['trading_profit_loss']       = 'Trading Profit Loss';
@@ -283,6 +286,7 @@ class ComperativeFinancial extends Controller
             $data['directors_pl']        = abs($totalIncome->balance) - abs($totalExpence->balance);
             $data['directors_report']    = 'Directors Report';
         }
+
         if ($request->has('directors_declaration')) {
             $data['is_directors_declaration'] = true;
             $data['directors_declaration'] = 'Directors Declaration';
@@ -308,26 +312,26 @@ class ComperativeFinancial extends Controller
         if ($opnRetain) {
             $opnBlalance = $opnRetain->balance;
         }
-        $retain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
-            ->where('chart_id', 999999)
-            ->where('client_id', $client->id)
-            ->where('date', '<', $start_date)
-            ->where('source', '!=', 'OPN')
-            ->groupBy('chart_id')
-            ->first();
+        // $retain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
+        //     ->where('chart_id', 999999)
+        //     ->where('client_id', $client->id)
+        //     ->where('date', '<', $start_date)
+        //     ->where('source', '!=', 'OPN')
+        //     ->groupBy('chart_id')
+        //     ->first();
 
-        $preRetain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
-            ->where('chart_id', 999999)
-            ->where('client_id', $client->id)
-            ->where('date', '<', $pre_start_date)
-            ->where('source', '!=', 'OPN')
-            ->groupBy('chart_id')
-            ->first();
+        // $preRetain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
+        //     ->where('chart_id', 999999)
+        //     ->where('client_id', $client->id)
+        //     ->where('date', '<', $pre_start_date)
+        //     ->where('source', '!=', 'OPN')
+        //     ->groupBy('chart_id')
+        //     ->first();
 
-        $data["retain"]      = ($retain->totalRetain ?? 0) + $opnBlalance;
-        $data["preRetain"]   = ($preRetain->totalRetain ?? 0) + $opnBlalance;
-        $data["plRetain"]    = accum_pl($client, $date);
-        $data["prePlRetain"] = accum_pl($client, Carbon::parse($start_date)->subDay());
+        $data["retain"]      = console_retain($client, $date);
+        $data["preRetain"]   = console_retain($client, Carbon::parse($start_date)->subDay());
+        $data["plRetain"]    = consolePL($client, $date);
+        $data["prePlRetain"] = consolePL($client, Carbon::parse($start_date)->subDay());
         return compact(['data', 'client', 'date', 'start_date', 'pre_start_date', 'end_date']);
     }
     public function consoleReport(Request $request, $path)

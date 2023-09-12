@@ -1,7 +1,7 @@
 <div class="reportH">
     <div class="row justify-content-center">
         <div class="col-12 text-center">
-            <h3 class="company_name">{{ $client->fullname }}</h3>
+            <h3 class="company_name">{{ clientName($client) }}</h3>
             <h5 class="report_name">Detail Balance Sheet</h5>
             <h5 style="border-bottom:1px solid black;display:inline-block; padding-bottom:2px;margin:0">For the year
                 ended
@@ -68,6 +68,10 @@
                                                         $gtBalance += abs($ledgerBalance);
                                                         $subSubGrpBalance += abs($ledgerBalance);
                                                         $blncType = '';
+                                                    }elseif ($ledger->balance_type == 2 && $ledgerBalance < 0) {
+                                                        $gtBalance += abs($ledgerBalance);
+                                                        $subSubGrpBalance += abs($ledgerBalance);
+                                                        $blncType = '';
                                                     } else {
                                                         $gtBalance -= abs($ledgerBalance);
                                                         $subSubGrpBalance -= abs($ledgerBalance);
@@ -88,6 +92,10 @@
                                                 
                                                 if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998, 912101])) {
                                                     if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
+                                                        $gtBalance = $gtBalance += abs($ledgerBalance);
+                                                        $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
+                                                        $blncType = '';
+                                                    }elseif ($ledger->balance_type == 1 && $ledgerBalance < 0) {
                                                         $gtBalance = $gtBalance += abs($ledgerBalance);
                                                         $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
                                                         $blncType = '';

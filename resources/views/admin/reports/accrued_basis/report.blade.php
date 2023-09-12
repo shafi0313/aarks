@@ -12,7 +12,7 @@
                 </li>
                 <li>Report</li>
                 <li>GST REPORT/BAS(ACCRUED)</li>
-                <li>{{ $client->fullname }}</li>
+                <li>{{ clientName($client) }}</li>
                 {{-- <li class="active">{{ $profession->name }}</li> --}}
             </ul><!-- /.breadcrumb -->
 

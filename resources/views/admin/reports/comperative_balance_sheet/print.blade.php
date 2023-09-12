@@ -48,7 +48,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6" align="center">
-                    <h2 style="padding: 0;margin:0"><b>{{ $client->fullname}}</b></h2>
+                    <h2 style="padding: 0;margin:0"><b>{{ clientName($client)}}</b></h2>
                     <h2 style="padding: 0;margin:0"><b>ABN {{$client->abn_number}}</b></h2>
                     <br>
                     <strong style="font-size:16px;"><u>Detailed Balance Sheet as at:

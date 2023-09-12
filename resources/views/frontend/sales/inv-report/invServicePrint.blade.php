@@ -43,7 +43,7 @@
                                 $inv = $invoices->first();
                                 $customer = $invoices->first()->customer;
                             @endphp
-                            <strong style="font-size:25px;">{{ $client->fullname }}</strong><br>
+                            <strong style="font-size:25px;">{{ clientName($client) }}</strong><br>
                             <span>A.B.N : {{ $client->abn_number }}</span><br>
                             <span> {{ $client->street_address }}</span><br>
                             <span>{{ $client->suburb }}</span><br>

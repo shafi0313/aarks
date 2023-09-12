@@ -1,6 +1,6 @@
 <div class="reportH">
     <div class="text-center">
-        <h3 class="company_name">{{ $client->fullname }}</h3>
+        <h3 class="company_name">{{ clientName($client) }}</h3>
         <h5 class="report_name">Detail Balance Sheet</h5>
         <h5 style="border-bottom:1px solid black;display:inline-block; padding-bottom:2px;margin:0">For the year ended
             {{ $date->format('d-M-Y') }}</h5>
@@ -25,9 +25,7 @@
                                 $mainCodes = $data['bs_accountCodes']->where('category_id', $accountCodeCategory->id);
                                 $gtDebit = $gtCredit = $gtBalance = 0;
                             @endphp
-                            {{-- <tr>
-                <td colspan="3" style="color: red">{{$accountCodeCategory->name}}</td>
-            </tr> --}}
+
                             @foreach ($accountCodeCategory->subCategoryWithoutAdditional->sortBy('code') as $subCategory)
                                 @php
                                     $subCodes = $data['bs_accountCodes']->where('sub_category_id', $subCategory->id);
@@ -44,15 +42,8 @@
                                         $adSubCodes = $data['bs_accountCodes']->where('additional_category_id', $additionalCategory->id);
                                         $subSubGrpBalance = 0;
                                     @endphp
-                                    {{-- <tr>
-                <td style="color: violet">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    {{$additionalCategory->name}} :
-                </td>
-                <td></td>
-            </tr> --}}
-                                    {{-- // ACCOUNT CODE // --}}
 
+                                    {{-- // ACCOUNT CODE // --}}
                                     @php
                                         $code = 0;
                                     @endphp
@@ -72,25 +63,23 @@
                                                         $gtBalance += abs($ledgerBalance);
                                                         $subSubGrpBalance += abs($ledgerBalance);
                                                         $blncType = '';
+                                                    } elseif ($ledger->balance_type == 2 && $ledgerBalance < 0) {
+                                                        $gtBalance += abs($ledgerBalance);
+                                                        $subSubGrpBalance += abs($ledgerBalance);
+                                                        $blncType = '';
                                                     } else {
                                                         $gtBalance -= abs($ledgerBalance);
                                                         $subSubGrpBalance -= abs($ledgerBalance);
                                                         $blncType = '-';
                                                     }
                                                 }
-                                                // if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998])) {
-                                                //     if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
-                                                //         $gtBalance += abs($ledgerBalance);
-                                                //         $subSubGrpBalance += abs($ledgerBalance);
-                                                //         $blncType = '';
-                                                //     } else {
-                                                //         $gtBalance -= abs($ledgerBalance);
-                                                //         $subSubGrpBalance -= abs($ledgerBalance);
-                                                //         $blncType = '-';
-                                                //     }
-                                                // }
+                                                
                                                 if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998, 912101])) {
                                                     if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
+                                                        $gtBalance = $gtBalance += abs($ledgerBalance);
+                                                        $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
+                                                        $blncType = '';
+                                                    } elseif ($ledger->balance_type == 1 && $ledgerBalance < 0) {
                                                         $gtBalance = $gtBalance += abs($ledgerBalance);
                                                         $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
                                                         $blncType = '';
@@ -141,17 +130,6 @@
                                     @php
                                         $subGrpBalance += $subSubGrpBalance;
                                     @endphp
-                                    {{-- <tr>
-                <td style="color: violet;text-align:right">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    Total {{$additionalCategory->name}}
-                </td>
-                <td style="color: violet;text-align: right;">
-                    <span style="solid;border-bottom:1px solid;text-align:right;font-weight: bold;">
-                        {{number_format(($subSubGrpBalance),2)}}
-                    </span>
-                </td>
-            </tr> --}}
                                     {{-- Account Code End --}}
                                 @endforeach
                                 <tr>

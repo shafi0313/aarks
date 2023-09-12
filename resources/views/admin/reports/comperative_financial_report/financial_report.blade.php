@@ -12,7 +12,7 @@
                 </li>
                 <li>Report</li>
                 <li>Comparative Financial Report</li>
-              	<li class="active">{{ $client->fullname }}</li>
+              	<li class="active">{{ clientName($client) }}</li>
             </ul>
         </div>
 

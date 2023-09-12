@@ -26,11 +26,11 @@
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
                                         <h3 class="panel-title"><i class="glyphicon glyphicon-align-justify"></i>
-                                            {{ $client->fullname }}
+                                            {{ clientName($client) }}
                                         </h3>
                                     </div>
                                     <div align="center">
-                                        <h1>{{ $client->fullname }}</h1>
+                                        <h1>{{ clientName($client) }}</h1>
                                         <h2>Bank Reconcilation</h2>
                                         <h4><u> From Date : {{ $data['from_date'] }} To {{ $data['to_date'] }}</u></h4>
                                     </div>

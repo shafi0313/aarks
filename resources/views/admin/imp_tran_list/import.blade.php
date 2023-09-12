@@ -14,7 +14,7 @@
                         <a href="{{ route('bs_tran_list.index') }}">Bank Statement Transaction</a>
                     </li>
                     <li>
-                        <a href="{{ route('bs_tran_list.profession', $client->id) }}">{{ $client->fullname }}</a>
+                        <a href="{{ route('bs_tran_list.profession', $client->id) }}">{{ clientName($client) }}</a>
                     </li>
                     <li>
                         <a

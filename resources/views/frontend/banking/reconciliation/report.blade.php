@@ -20,7 +20,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-12">
-                <h2 class="text-center font-weight-bolder">{{ $client->fullname}}</h2>
+                <h2 class="text-center font-weight-bolder">{{ clientName($client)}}</h2>
                 <h4 class="text-center">
                     <u>Recorded Transaction  upto {{$end_date->format('d/m/Y')}} For Reconciliation.</u>
                 </h4>

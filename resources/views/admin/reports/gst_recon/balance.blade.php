@@ -15,7 +15,7 @@
                     </li>
                     <li>Report</li>
                     <li>GST Reconciliation for TR</li>
-                    <li>{{ $client->fullname }}</li>
+                    <li>{{ clientName($client) }}</li>
                     <li class="active">{{ $profession->name }}</li>
                 </ul><!-- /.breadcrumb -->
             </div>
@@ -29,11 +29,11 @@
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
                                         <h3 class="panel-title"><i class="glyphicon glyphicon-align-justify"></i>
-                                            {{ $client->fullname }}
+                                            {{ clientName($client) }}
                                         </h3>
                                     </div>
                                     <div align="center">
-                                        <h1>{{ $client->fullname }}</h1>
+                                        <h1>{{ clientName($client) }}</h1>
                                         <h2>GST Reconciliation</h2>
                                         <h4><u> From Date : {{ '01/07/' . ($period->year - 1) }} To
                                                 {{ '30/06/' . $period->year }}</u></h4>

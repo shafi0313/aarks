@@ -11,7 +11,7 @@
                 </li>
                 <li>Report</li>
                 <li>Balance Sheet Report</li>
-                <li>{{ $client->fullname }}</li>
+                <li>{{ clientName($client) }}</li>
                 <li class="active">{{ $profession->name }}</li>
             </ul><!-- /.breadcrumb -->
 
