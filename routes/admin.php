@@ -24,6 +24,7 @@ use App\Http\Controllers\BankStatementTranList;
 use App\Http\Controllers\BudgetEntryController;
 use App\Http\Controllers\CoefficientController;
 use App\Http\Controllers\DataStorageController;
+use App\Http\Controllers\ForceDeleteController;
 use App\Http\Controllers\JournalListController;
 use App\Http\Controllers\MasterChartController;
 use App\Http\Controllers\TrashActionController;
@@ -732,6 +733,11 @@ Route::middleware('auth:admin', '2fa')->prefix('trashed')->as('trash.')->group(f
     Route::get('details/{client}/{source}', [TrashController::class, 'details'])->name('details');
     Route::match(['put', 'delete'], 'restore/{client}/{item}/{source}/', [TrashActionController::class, 'index'])->name('restore');
     // Route::delete('destroy/{client}/{source}/{tran_id}', [TrashActionController::class, 'index'])->name('restore');
+});
+
+Route::middleware('auth:admin', '2fa')->prefix('force-delete')->as('admin.forceDelete.')->group(function () {
+    Route::get('/', [ForceDeleteController::class, 'index'])->name('index');
+    Route::post('/destroy', [ForceDeleteController::class, 'destroy'])->name('destroy');
 });
 
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index']);

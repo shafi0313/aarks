@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="{{ asset('admin/assets/font-awesome/4.5.0/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/flag.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
 
     <!-- Toastr -->
     {{--
