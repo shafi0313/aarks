@@ -11,8 +11,7 @@
                 </li>
 
                 <li>Add/Edit Data</li>
-                <li>Depreciation</li>
-                <li><a href="{{ route('depreciation.index') }}">Client List</a></li>
+                <li><a href="{{ route('depreciation.index') }}">Depreciation</a></li>
                 <li class="active">Select Business Activity</li>
                 <li class="active">Add Asset name</li>
             </ul><!-- /.breadcrumb -->

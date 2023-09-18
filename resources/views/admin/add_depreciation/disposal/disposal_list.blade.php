@@ -18,6 +18,7 @@
     </td>
 </tr>
 @endif
+
 @if ($get == 'modal')
 <div class="modal fade" tabindex="-1" role="dialog" id="disposemodal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">

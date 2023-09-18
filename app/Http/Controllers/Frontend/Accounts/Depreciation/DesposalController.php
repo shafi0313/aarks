@@ -67,9 +67,9 @@ class DesposalController extends Controller
         $disposal_date_format = $disposal_date->format('Y-m-d');
         $disposal_pre_date    = $disposal_date->subMonthWithoutOverflow()->format('Y-m-t');
 
-        if ($disposal_date_format <= $purchase_date_format || $disposal_date_format > $year . "-06-30") {
-            return response()->json(['status' => 500, 'message' => 'Disposal date is out of financial year']);
-        }
+        // if ($disposal_date_format <= $purchase_date_format || $disposal_date_format > $year . "-06-30") {
+        //     return response()->json(['status' => 500, 'message' => 'Disposal date is out of financial year']);
+        // }
 
         $disposeable_ledger_id = DisposeableLedger::where('batch', $asset_name->batch)->pluck('general_ledger_id')->toArray();
 
