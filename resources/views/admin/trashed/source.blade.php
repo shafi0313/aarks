@@ -34,18 +34,19 @@
                                     <label style="color:green;">Select Source</label>
                                     <select class="form-control" onchange="location = this.value;">
                                         <option disabled selected value>Select Source</option>
-                                        {{-- <option value="{{ route('trash.details',[$client->id,'ADT']) }}">Data entry from receipt</option> --}}
-                                        <option value="{{ route('trash.details',[$client->id,'BST']) }}">Import Bank Statement</option>
-                                        <option value="{{ route('trash.details',[$client->id,'INP']) }}">Input Bank Statement </option>
+                                        {{-- <option value="{{ route('trash.details',[$client->id,'ADT']) }}">Data Entry From Receipt(ADT)</option> --}}
+                                        <option value="{{ route('trash.details',[$client->id,'BST']) }}">Import Bank Statement(BST)</option>
+                                        <option value="{{ route('trash.details',[$client->id,'INP']) }}">Input Bank Statement(INP)</option>
+                                        <option value="{{ route('trash.details',[$client->id,'JNP']) }}">Journal(JNP)</option>
+                                        <option value="{{ route('trash.details',[$client->id,'CBE']) }}">Cash Book</option>
                                         {{-- <option value="{{ route('trash.details',[$client->id,'DEP']) }}">Depreciation</option> --}}
                                         <option value="{{ route('trash.details',[$client->id,'CUSTOMER']) }}">Customer/Supplier</option>
-                                        <option value="{{ route('trash.details',[$client->id,'JNP']) }}">Journal</option>
                                         <option value="{{ route('trash.details',[$client->id,'PIN']) }}">Payment-Invoice</option>
                                         <option value="{{ route('trash.details',[$client->id,'INV']) }}">Invoice</option>
                                         <option value="{{ route('trash.details',[$client->id,'PBN']) }}">Bill-Payment</option>
                                         <option value="{{ route('trash.details',[$client->id,'PBP']) }}">Bill-Purchase</option>
                                         {{-- <option value="{{ route('trash.details',[$client->id,'PBN']) }}">Bank transaction</option> --}}
-                                        <option value="{{ route('trash.details',[$client->id,'CBE']) }}">Cash Book</option>
+                                        
                                     </select>
                                 </div>
                             </form>

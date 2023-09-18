@@ -12,6 +12,7 @@ use App\Models\Frontend\Creditor;
 use App\Http\Controllers\Controller;
 use App\Models\BankStatementImport;
 use App\Models\BankStatementInput;
+use App\Models\Data_storage;
 use App\Models\Frontend\CustomerCard;
 use App\Models\Frontend\DedotrPaymentReceive;
 use App\Models\Frontend\CreditorPaymentReceive;
@@ -26,7 +27,7 @@ class TrashController extends Controller
     }
     public function index()
     {
-        $clients = Client::get();
+        $clients = getClientsWithPayment();
         return view('admin.trashed.client', compact('clients'));
     }
     public function source(Request $request, Client $client)
@@ -87,8 +88,10 @@ class TrashController extends Controller
     }
     protected function pin(Request $request, Client $client, $src)
     {
-        $ledgers = DedotrPaymentReceive::with('customer')->where('client_id', $client->id)
-            ->onlyTrashed()->get();
+        $ledgers = DedotrPaymentReceive::with('customer')
+            ->where('client_id', $client->id)
+            ->onlyTrashed()
+            ->get();
         return [
             'src'     => $src,
             'client'  => $client,
@@ -176,7 +179,12 @@ class TrashController extends Controller
     }
     protected function adt(Request $request, Client $client, $src)
     {
-        $ledgers = 'MANOAR';
+        $ledgers = Data_storage::onlyTrashed()
+            ->with('client_account_code')
+            ->where('client_id', $client->id)
+            ->orderBy('trn_date')
+            ->get()
+            ->groupBy('trn_id');
         return [
             'src'     => $src,
             'client'  => $client,
