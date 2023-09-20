@@ -94,16 +94,16 @@
                                     }
                                 }
                                 
-                                if ($subCategory->id == 16 && $accountCode->code == 999998) {
-                                    $subSubGrpBalance += $plRetain;
-                                } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
-                                    $subSubGrpBalance += $totalRetain;
-                                }
+                                // if ($subCategory->id == 16 && $accountCode->code == 999998) {
+                                //     $subSubGrpBalance += $plRetain;
+                                // } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
+                                //     $subSubGrpBalance += $totalRetain;
+                                // }
+                                
                             @endphp
                             <tr>
                                 <td style="color: #1B6AAA;padding-left: 70px !important">
                                     {{ $accountCode->name }}
-                                    {{-- {{$ledgers->where('chart_id', $accountCode->code)->count()}} --}}
                                 </td>
                                 <td style="text-align: right;color: #1B6AAA">
                                     {{-- @if ($ledger->chart_id == 999999)
@@ -111,26 +111,28 @@
                                     @elseif($ledger->chart_id == 999998)
                                         {{ number_format($plRetain, 2) }}
                                     @else --}}
-                                        {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
+                                    {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
+                                    {{-- @endif --}}
                                 </td>
                             </tr>
                         @endif
                     @endforeach
                     {{-- For Retain Earning & Profit & Loss Account --}}
-                    @if($additionalCategory->name == 'P/L Appropriation')
-                    <tr>                        
-                        @if ($plRetain != 0)
-                            <td style="color: #1B6AAA;padding-left: 70px !important">
-                                P/L Appropriation a/c</td>
-                            <td style="text-align: right;color: #1B6AAA">{{ nF2($plRetain) }}</td>
-                        @endif
-                        @if ($retain != 0)
-                            <td style="color: #1B6AAA;padding-left: 70px !important">
-                                Retain earning</td>
-                            <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
-                        @endif
-                    </tr>
+                    @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
+                        <tr>
+                            @if ($plRetain != 0)
+                                <td style="color: #1B6AAA;padding-left: 70px !important">
+                                    P/L Appropriation a/c</td>
+                                <td style="text-align: right;color: #1B6AAA">{{ nF2($plRetain) }}</td>
+                            @endif
+                            @if ($retain != 0)
+                                <td style="color: #1B6AAA;padding-left: 70px !important">
+                                    Retain earning</td>
+                                <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
+                            @endif
+                        </tr>
                     @endif
+                    {{-- /For Retain Earning & Profit & Loss Account --}}
                     <tr>
                         <td style="color: violet;text-align:right">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -138,7 +140,12 @@
                         </td>
                         <td style="color: violet;text-align: right;">
                             <span style="solid;border-bottom:1px solid;text-align:right;font-weight: bold;">
-                                {{ number_format($subSubGrpBalance, 2) }}
+                                @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
+                                    {{-- For Retain Earning & Profit & Loss Account --}}
+                                    {{ number_format($plRetain + $retain, 2) }}
+                                @else
+                                    {{ number_format($subSubGrpBalance, 2) }}
+                                @endif
                                 @php
                                     $subGrpBalance += $subSubGrpBalance;
                                 @endphp
@@ -157,7 +164,7 @@
                         </span>
                     </td>
                 </tr>
-                {{-- Additonal Category End --}}
+                {{-- Additional Category End --}}
             @endforeach
             {{-- Sub Category End --}}
             <tr style="text-align:right;color: #d35400;">
@@ -177,8 +184,10 @@
 
         <tr>
             <td colspan="2" class="text-center">
-                <b>Powered by <a href="https://aarks.com.au">AARKS</a> <a href="https://aarks.net.au">(ADVANCED
-                        ACCOUNTING & RECORD KEEPING SOFTWARE)</a></b>
+                <b>Powered by
+                    <a href="https://aarks.com.au">AARKS</a>
+                    <a href="https://aarks.net.au">(ADVANCED ACCOUNTING & RECORD KEEPING SOFTWARE)</a>
+                </b>
             </td>
         </tr>
     </tbody>
