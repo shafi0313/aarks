@@ -117,7 +117,7 @@
                         @endif
                     @endforeach
                     {{-- For Retain Earning & Profit & Loss Account --}}
-                    @if($additionalCategory->name == 'P/L Appropriation')
+                    {{-- @if($additionalCategory->name == 'P/L Appropriation')
                     <tr>                        
                         @if ($plRetain != 0)
                             <td style="color: #1B6AAA;padding-left: 70px !important">
@@ -130,7 +130,7 @@
                             <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
                         @endif
                     </tr>
-                    @endif
+                    @endif --}}
                     <tr>
                         <td style="color: violet;text-align:right">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
