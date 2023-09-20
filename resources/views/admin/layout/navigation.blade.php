@@ -502,7 +502,7 @@
         @endcanany
 
         <!-- Reports -->
-        @canany(['admin.gst_recon.index', 'admin.cash_basis.index', 'admin.accrued_basis.index',
+        @canany(['admin.gst-reconciliation-for-tr.index', 'admin.cash_basis.index', 'admin.accrued_basis.index',
             'admin.periodic_cash.index', 'admin.periodic_accrued.index', 'admin.trial_balance.index',
             'admin.general_ledger.index', 'admin.profit_loss_excl.index', 'admin.profit_loss_incl.index',
             'admin.balance_sheet.index', 'admin.comperative_bs.index', 'admin.advanced_report.index',

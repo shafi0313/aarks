@@ -52,7 +52,7 @@
                                         $gtBalance += abs($ledgerBalance);
                                         $subSubGrpBalance += abs($ledgerBalance);
                                         $blncType = '';
-                                    } else if($ledger->balance_type == 2 && $ledgerBalance < 0){
+                                    } elseif ($ledger->balance_type == 2 && $ledgerBalance < 0) {
                                         $gtBalance += abs($ledgerBalance);
                                         $subSubGrpBalance += abs($ledgerBalance);
                                         $blncType = '';
@@ -72,8 +72,7 @@
                                         $gtBalance = $gtBalance += abs($ledgerBalance);
                                         $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
                                         $blncType = '';
-                                    }
-                                    else {
+                                    } else {
                                         $gtBalance = $gtBalance -= abs($ledgerBalance);
                                         $subSubGrpBalance = $subSubGrpBalance -= abs($ledgerBalance);
                                         $blncType = '-';
@@ -102,22 +101,36 @@
                                 }
                             @endphp
                             <tr>
-                                <td style="color: #1B6AAA">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    {{ $accountCode->name }} {{-- {{$ledgers->where('chart_id', $accountCode->code)->count()}} --}}
+                                <td style="color: #1B6AAA;padding-left: 70px !important">
+                                    {{ $accountCode->name }}
+                                    {{-- {{$ledgers->where('chart_id', $accountCode->code)->count()}} --}}
                                 </td>
                                 <td style="text-align: right;color: #1B6AAA">
-                                    @if ($ledger->chart_id == 999999)
+                                    {{-- @if ($ledger->chart_id == 999999)
                                         {{ $retain ? number_format($totalRetain, 2) : '0.00' }}
                                     @elseif($ledger->chart_id == 999998)
                                         {{ number_format($plRetain, 2) }}
-                                    @else
+                                    @else --}}
                                         {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
-                                    @endif
                                 </td>
                             </tr>
                         @endif
                     @endforeach
+                    {{-- For Retain Earning & Profit & Loss Account --}}
+                    @if($additionalCategory->name == 'P/L Appropriation')
+                    <tr>                        
+                        @if ($plRetain != 0)
+                            <td style="color: #1B6AAA;padding-left: 70px !important">
+                                P/L Appropriation a/c</td>
+                            <td style="text-align: right;color: #1B6AAA">{{ nF2($plRetain) }}</td>
+                        @endif
+                        @if ($retain != 0)
+                            <td style="color: #1B6AAA;padding-left: 70px !important">
+                                Retain earning</td>
+                            <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
+                        @endif
+                    </tr>
+                    @endif
                     <tr>
                         <td style="color: violet;text-align:right">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
