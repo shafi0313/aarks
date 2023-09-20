@@ -52,19 +52,10 @@ class BalanceSheet extends Controller
         $industryCategories    = $profession->industryCategories;
         $accountCodeCategories = $profession->accountCodeCategories;
 
-
-        $manualEntries = [
-            ['chart_id' => "999999", 'balance' => 5],
-            ['chart_id' => "999998", 'balance' => 5],
-        ];
-
         $ledgers = GeneralLedger::where('date', '<=', $end_date)
             ->where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->get(ledgerSetVisible());
-        // $ledgers = $ledgers->concat($manualEntries);
-        // array_push($ledgers, array('chart_id' => 999999, 'chart_id' => 999998));
-
 
         $retain   = retain($client, $profession, $date);;
         $plRetain = pl($client, $profession, $date);
