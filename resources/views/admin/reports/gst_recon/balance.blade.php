@@ -799,6 +799,7 @@
                                                                 id="jul_sep_w2_diff_inp"
                                                                 value="{{ $re_w2_jul_sep_diff }}">
                                                         </td>
+                                                        {{-- 2nd --}}
                                                         <td class="tg-4o99">
                                                             {{ $oct_dec_w2_gl = abs($w2->whereBetween('trn_date', [$oct, $dec])->sum('gross_amount')) }}
                                                             <input type="hidden" name="oct_dec_gl[]" id="oct_dec_w2_gl"
@@ -818,6 +819,7 @@
                                                                 id="oct_dec_w2_diff_inp"
                                                                 value="{{ $re_w2_oct_dec_diff }}">
                                                         </td>
+                                                        {{-- 3rd --}}
                                                         <td class="tg-o5ew">
                                                             {{ $jan_mar_w2_gl = abs($w2->whereBetween('trn_date', [$jan, $mar])->sum('gross_amount')) }}
                                                             <input type="hidden" name="jan_mar_gl[]" id="jan_mar_w2_gl"
@@ -837,6 +839,7 @@
                                                                 id="jan_mar_w2_diff_inp"
                                                                 value="{{ $re_w2_jan_mar_diff }}">
                                                         </td>
+                                                        {{-- 4th --}}
                                                         <td class="tg-9459">
                                                             {{ $apr_jun_w2_gl = abs($w2->whereBetween('trn_date', [$apr, $june])->sum('gross_amount')) }}
                                                             <input type="hidden" name="apr_jun_gl[]" id="apr_jun_w2_gl"
@@ -856,6 +859,7 @@
                                                                 id="apr_jun_w2_diff_inp"
                                                                 value="{{ $re_w2_apr_jun_diff }}">
                                                         </td>
+                                                        {{-- Total w2 --}}
                                                         <td class="tg-be25">
                                                             {{ $total_w2 = abs($w2->sum('gross_amount')) }}
                                                             <input type="hidden" id="w2_total"
@@ -964,8 +968,9 @@
                                                     {{-- 9 = 1A-1B --}}
                                                     <tr>
                                                         <td class="tg-e1kv">9</td>
+                                                        {{-- 1st --}}
                                                         <td class="tg-wtqs">
-                                                            {{ $jul_sep_9_gl = abs($jul_sep_1a_gl - $jul_sep_1b_gl) }}
+                                                            {{ $jul_sep_9_gl = abs($jul_sep_1a_gl - $jul_sep_1b_gl) + $jul_sep_w2_gl }}
                                                             <input type="hidden" name="jul_sep_gl[]" id="jul_sep_9_gl"
                                                                 value="{{ $jul_sep_9_gl }}">
                                                         </td>
@@ -978,15 +983,17 @@
                                                         </td>
                                                         <td class="tg-j8ny">
                                                             <span class="jul_sep_diff"
-                                                                id="jul_sep_9_diff">{{ nF2($re_9_jul_sep_diff) }}</span>
+                                                                id="jul_sep_9_diff">{{ nF2($re_9_jul_sep_diff + $jul_sep_w2_gl) }}</span>
                                                             <input type="hidden" name="jul_sep_diff[]"
                                                                 id="jul_sep_9_diff_inp"
-                                                                value="{{ $re_9_jul_sep_diff }}">
+                                                                value="{{ $re_9_jul_sep_diff + $jul_sep_w2_gl }}">
                                                         </td>
+
+                                                        {{-- 2nd --}}
                                                         <td class="tg-4o99">
-                                                            {{ $oct_dec_9_gl = abs($oct_dec_1a_gl - $oct_dec_1b_gl) }}
+                                                            {{ $oct_dec_9_gl = abs($oct_dec_1a_gl - $oct_dec_1b_gl) + $oct_dec_w2_gl }}
                                                             <input type="hidden" name="oct_dec_gl[]" id="oct_dec_9_gl"
-                                                                value="{{ nF2($oct_dec_9_gl) }}">
+                                                                value="{{ $oct_dec_9_gl }}">
                                                         </td>
                                                         <td class="tg-lshw">
                                                             <input type="number" step="any" name="oct_dec_ato[]"
@@ -995,15 +1002,18 @@
                                                                 value="{{ old('oct_dec_ato') ?? $re_9_oct_dec_ato }}"
                                                                 placeholder="0.00">
                                                         </td>
+                                                        {{-- Previous diff var is not correct, --}}
                                                         <td class="tg-hqnx">
                                                             <span class="oct_dec_diff"
-                                                                id="oct_dec_9_diff">{{ nF2($re_9_oct_dec_diff) }}</span>
+                                                                id="oct_dec_9_diff">{{ nF2($oct_dec_9_gl - $re_9_oct_dec_ato) }}</span>
                                                             <input type="hidden" name="oct_dec_diff[]"
                                                                 id="oct_dec_9_diff_inp"
-                                                                value="{{ $re_9_oct_dec_diff }}">
+                                                                value="{{ $oct_dec_9_gl - $re_9_oct_dec_ato }}">
                                                         </td>
+
+                                                        {{-- 3rd --}}
                                                         <td class="tg-o5ew">
-                                                            {{ $jan_mar_9_gl = abs($jan_mar_1a_gl - $jan_mar_1b_gl) }}
+                                                            {{ $jan_mar_9_gl = abs($jan_mar_1a_gl - $jan_mar_1b_gl) + $jan_mar_w2_gl }}
                                                             <input type="hidden" name="jan_mar_gl[]" id="jan_mar_9_gl"
                                                                 value="{{ $jan_mar_9_gl }}">
                                                         </td>
@@ -1016,13 +1026,14 @@
                                                         </td>
                                                         <td class="tg-thn2">
                                                             <span class="jan_mar_diff"
-                                                                id="jan_mar_9_diff">{{ nF2($re_9_jan_mar_diff) }}</span>
+                                                                id="jan_mar_9_diff">{{ nF2($jan_mar_9_gl - $re_9_jan_mar_ato) }}</span>
                                                             <input type="hidden" name="jan_mar_diff[]"
                                                                 id="jan_mar_9_diff_inp"
-                                                                value="{{ $re_9_jan_mar_diff }}">
+                                                                value="{{ $jan_mar_9_gl - $re_9_jan_mar_ato }}">
                                                         </td>
+                                                        {{-- 4th --}}
                                                         <td class="tg-9459">
-                                                            {{ $apr_jun_9_gl = abs($apr_jun_1a_gl - $apr_jun_1b_gl) }}
+                                                            {{ $apr_jun_9_gl = abs($apr_jun_1a_gl - $apr_jun_1b_gl) + $apr_jun_w2_gl }}
                                                             <input type="hidden" name="apr_jun_gl[]" id="apr_jun_9_gl"
                                                                 value="{{ $apr_jun_9_gl }}">
                                                         </td>
@@ -1035,21 +1046,26 @@
                                                         </td>
                                                         <td class="tg-darx">
                                                             <span class="apr_jun_diff"
-                                                                id="apr_jun_9_diff">{{ nF2($re_9_apr_jun_diff) }}</span>
+                                                                id="apr_jun_9_diff">{{ nF2($apr_jun_9_gl - $re_9_apr_jun_ato) }}</span>
                                                             <input type="hidden" name="apr_jun_diff[]"
                                                                 id="apr_jun_9_diff_inp"
-                                                                value="{{ $re_9_apr_jun_diff }}">
+                                                                value="{{ $apr_jun_9_gl - $re_9_apr_jun_ato }}">
                                                         </td>
+                                                        {{-- Total --}}
+                                                        @php
+                                                            $total_9 = abs($total_1a - $total_1b) + $total_w2;
+                                                        @endphp
                                                         <td class="tg-be25">
-                                                            {{ $total_9 = abs($total_1a - $total_1b) }}
-                                                            <input type="hidden" id="9_total"
-                                                                value="{{ $total_9 }}">
+                                                            {{ nF2($total_9) }}
+                                                            <input type="hidden" id="9_total" value="{{ $total_9 }}">
                                                         </td>
                                                         <td class="tg-5q6i">
-                                                            <span class="9">{{ nF2($re_9_total) }}</span>
+                                                            <span
+                                                                class="9">{{ nF2($re_9_total ) }}</span>
                                                         </td>
                                                         <td class="tg-xszb">
-                                                            <span class="9_diff">{{ nF2($re_9_total_diff) }}</span>
+                                                            <span
+                                                                class="9_diff">{{ nF2($total_9 - $re_9_total) }}</span>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -1143,7 +1159,7 @@
                                                                 value="{{ $sales_bf_ato }}" class="g1">
                                                         </td>
                                                         <td>
-                                                            <span class="tax_diff_g1">{{ $sales_bf_diff }}</span>
+                                                            <span class="tax_diff_g1">{{ nF2($sales_bf_diff) }}</span>
                                                         </td>
                                                     </tr>
                                                     <tr>

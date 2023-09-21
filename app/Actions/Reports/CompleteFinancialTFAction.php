@@ -44,27 +44,34 @@ class CompleteFinancialTFAction extends Controller
             $data['is_balance_sheet'] = true;
             $data['balance_sheet'] = 'Balance Sheet';
 
-            $data['bs_accountCodeCategories'] = AccountCodeCategory::with('subCategory', 'industryCategories', 'subCategoryWithoutAdditional')
-                ->where('type', 1)->where(function ($q) {
-                    $q->where('code', 'like', '5%')
-                        ->orWhere('code', 'like', '9%');
-                })->whereNull('parent_id')->orderBy('code', 'asc')
-                ->get();
+            $data['bs_accountCodeCategories'] = AccountCodeCategory::with([
+                'subCategory' => fn ($q) => $q->select('id', 'name', 'code', 'parent_id'),
+                'industryCategories',
+                'subCategory.additionalCategory' => fn ($q) => $q->select('id', 'name', 'code', 'parent_id'),
+                'subCategoryWithoutAdditional' => fn ($q) => $q->select('id', 'name', 'code', 'parent_id')
+            ])->where('type', 1)->where(function ($q) {
+                $q->where('code', 'like', '5%')
+                    ->orWhere('code', 'like', '9%');
+            })->whereNull('parent_id')->orderBy('code', 'asc')
+                ->get(['id', 'name', 'code']);
 
             $data['bs_accountCodes'] = ClientAccountCode::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where(function ($q) {
                     $q->where('code', 'like', '5%')
                         ->orWhere('code', 'like', '9%');
-                })->orderBy('code', 'asc')->get();
+                })->orderBy('code', 'asc')
+                ->get(['id', 'name', 'code','gst_code','type','category_id','sub_category_id','additional_category_id','client_id','profession_id']);
 
             $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
                 ->where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
-                ->get();
+                ->whereNotIn('chart_id', [999998, 999999])
+                ->get(ledgerSetVisible());
 
             // Calculate total liabilities
-            $get_total_liabilities = GeneralLedger::with(['client_account_code' => fn ($q) => $q->select('id', 'type')])->where('date', '<=', $end_date)
+            $get_total_liabilities = GeneralLedger::with(['client_account_code' => fn ($q) => $q->select('id', 'type')])
+                ->where('date', '<=', $end_date)
                 ->where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where(function ($q) {
@@ -97,7 +104,7 @@ class CompleteFinancialTFAction extends Controller
             $data['total_liability'] = $total_liability;
 
             // Calculate total assets
-            $get_total_assets = GeneralLedger::with('client_account_code')
+            $get_total_assets = GeneralLedger::with(['client_account_code' => fn ($q) => $q->select('id', 'type')])
                 ->where('date', '<=', $end_date)
                 ->where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
@@ -198,7 +205,7 @@ class CompleteFinancialTFAction extends Controller
                             ->orWhere('chart_id', 'like', '95%');
                     })
                     ->get(['id', 'client_account_code_id', 'balance', 'balance_type']);
-                
+
                 foreach ($get_total_liabilities as $get_total_liability) {
                     $balance = $get_total_liability->balance;
                     $balance_type = $get_total_liability->balance_type;
@@ -218,7 +225,7 @@ class CompleteFinancialTFAction extends Controller
                         }
                     }
                 }
-                
+
                 $data['total_liability'] = $total_liability;
 
                 // Total asset
@@ -248,11 +255,10 @@ class CompleteFinancialTFAction extends Controller
                         }
                     }
                 }
-                
+
                 $data['total_asset'] = $total_asset;
                 $data['bs_retain'] = retain($client, $profession, $date);
                 $data['bs_plRetain'] = pl($client, $profession, $date);
-                
             }
         }
 
