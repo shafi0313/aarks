@@ -10,6 +10,7 @@ use App\Models\GeneralLedger;
 use App\Models\ClientAccountCode;
 use Illuminate\Support\Facades\DB;
 use App\Models\AccountCodeCategory;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class CompleteFinancialTFAction extends Controller
@@ -165,6 +166,7 @@ class CompleteFinancialTFAction extends Controller
             $data['is_details_balance_sheet'] = true;
             $data['details_balance_sheet'] = 'Details Balance Sheet';
             if ($request->balance_sheet == '' && $request->balance_sheet != 1) {
+                // info('Details Balance Sheet');
                 $data['bs_accountCodeCategories'] = AccountCodeCategory::with('subCategory', 'industryCategories', 'subCategoryWithoutAdditional')
                     ->where('type', 1)->where(function ($q) {
                         $q->where('code', 'like', '5%')
@@ -243,10 +245,11 @@ class CompleteFinancialTFAction extends Controller
                         }
                     }
                 }
-                info('asdf');
+                
                 $data['total_asset'] = $total_asset;
                 $data['bs_retain'] = retain($client, $profession, $date);
                 $data['bs_plRetain'] = pl($client, $profession, $date);
+                
             }
         }
 

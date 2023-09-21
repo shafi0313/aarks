@@ -160,7 +160,11 @@
                     </td>
                     <td style="color: green;text-align: right;font-weight: bold;">
                         <span style="border-top:1px solid;border-bottom:1px solid;text-align:right">
-                            {{ number_format($subGrpBalance, 2) }}
+                            @if ($subCategory->name == 'Capital & Equity')
+                                {{ number_format($subGrpBalance + $totalRetain + $plRetain, 2) }}
+                            @else
+                                {{ number_format($subGrpBalance, 2) }}
+                            @endif
                         </span>
                     </td>
                 </tr>
