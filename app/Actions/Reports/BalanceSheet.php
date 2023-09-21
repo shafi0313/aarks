@@ -55,6 +55,7 @@ class BalanceSheet extends Controller
         $ledgers = GeneralLedger::where('date', '<=', $end_date)
             ->where('client_id', $client->id)
             ->where('profession_id', $profession->id)
+            ->whereNotIn('chart_id', [999998,999999])
             ->get(ledgerSetVisible());
 
         $retain   = retain($client, $profession, $date);;

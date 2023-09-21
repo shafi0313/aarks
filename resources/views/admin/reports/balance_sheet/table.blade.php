@@ -119,18 +119,20 @@
                     @endforeach
                     {{-- For Retain Earning & Profit & Loss Account --}}
                     @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
-                        <tr>
-                            @if ($plRetain != 0)
+                        @if ($plRetain != 0)
+                            <tr>
                                 <td style="color: #1B6AAA;padding-left: 70px !important">
                                     P/L Appropriation a/c</td>
                                 <td style="text-align: right;color: #1B6AAA">{{ nF2($plRetain) }}</td>
-                            @endif
-                            @if ($retain != 0)
+                            </tr>
+                        @endif
+                        @if ($retain != 0)
+                            <tr>
                                 <td style="color: #1B6AAA;padding-left: 70px !important">
                                     Retain earning</td>
                                 <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
-                            @endif
-                        </tr>
+                            </tr>
+                        @endif
                     @endif
                     {{-- /For Retain Earning & Profit & Loss Account --}}
                     <tr>
@@ -160,7 +162,7 @@
                     </td>
                     <td style="color: green;text-align: right;font-weight: bold;">
                         <span style="border-top:1px solid;border-bottom:1px solid;text-align:right">
-                            @if ($subCategory->name == 'Capital & Equity')
+                            @if ($subCategory->name == 'Capital & Equity' || $subCategory->id == 16)
                                 {{ number_format($subGrpBalance + $totalRetain + $plRetain, 2) }}
                             @else
                                 {{ number_format($subGrpBalance, 2) }}

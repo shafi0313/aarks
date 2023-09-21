@@ -189,7 +189,11 @@
                                     </td>
                                     <td style="font-weight: bold;">
                                         <span style="border-top:1px solid;border-bottom:1px solid;float:right">
-                                            {{ number_format($subGrpBalance, 2) }}
+                                            @if ($subCategory->name == 'Capital & Equity')
+                                                {{ number_format($subGrpBalance + $totalRetain + $totalPl, 2) }}
+                                            @else
+                                                {{ number_format($subGrpBalance, 2) }}
+                                            @endif
                                         </span>
                                     </td>
                                 </tr>
@@ -201,7 +205,7 @@
                                         <td>Total Liability</td>
                                         <td>{{ nF2($data['total_liability']) }}</td>
                                     </tr>
-                                    
+
                                     <tr style="color: #d35400">
                                         <td class="text-right">Net Assets</td>
                                         <td class="text-right">
