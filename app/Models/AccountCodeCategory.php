@@ -20,7 +20,7 @@ class AccountCodeCategory extends Model
 
     public function subCategoryWithoutAdditional()
     {
-        return $this->hasMany(AccountCodeCategory::class, 'parent_id', 'id');
+        return $this->hasMany(AccountCodeCategory::class, 'parent_id', 'id')->orderBy('code', 'asc');
     }
 
     public function additionalCategory()

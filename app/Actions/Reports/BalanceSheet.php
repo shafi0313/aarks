@@ -88,16 +88,10 @@ class BalanceSheet extends Controller
 
         $ledgers = GeneralLedger::where('date', '<=', $end_date)
             ->where('client_id', $client->id)
-            ->whereIn('profession_id', $professions)
+            ->whereNotIn('chart_id', [999998,999999])
             ->get(ledgerSetVisible());
 
-        // $retain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
-        //     ->where('client_id', $client->id)
-        //     ->where('chart_id', 999999)
-        //     ->whereIn('profession_id', $professions)
-        //     ->where('date', '<', $start_date)
-        //     ->groupBy('chart_id')
-        //     ->first();
+
         $retain   = console_retain($client, $date);
         $plRetain = accum_pl($client, $date);
         return compact('accountCodeCategories', 'accountCodes', 'ledgers', 'date', 'client', 'retain', 'plRetain');
