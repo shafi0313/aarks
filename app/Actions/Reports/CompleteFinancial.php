@@ -59,6 +59,7 @@ class CompleteFinancial extends Controller
             $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
                 ->where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
+                ->whereNotIn('chart_id', ['999999', '999998'])
                 ->get(ledgerSetVisible());
 
             // $data['bs_retain'] = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
@@ -120,6 +121,7 @@ class CompleteFinancial extends Controller
                 $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
                     ->where('client_id', $client->id)
                     ->where('profession_id', $profession->id)
+                    ->whereNotIn('chart_id', ['999999', '999998'])
                     ->get(ledgerSetVisible());
 
                 $data['bs_retain']   = retain($client, $profession, $date);

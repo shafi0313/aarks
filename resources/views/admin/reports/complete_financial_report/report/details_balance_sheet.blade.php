@@ -60,7 +60,7 @@
                                             @php
                                                 $ledger = $data['bs_ledgers']->where('chart_id', $accountCode->code)->first();
                                                 $ledgerBalance = $data['bs_ledgers']->where('chart_id', $accountCode->code)->sum('balance');
-                                                
+
                                                 $blncType = '';
                                                 if ($accountCodeCategory->code == 5) {
                                                     if ($ledger->balance_type == 1 && $ledgerBalance > 0) {
@@ -71,13 +71,13 @@
                                                         $gtBalance += abs($ledgerBalance);
                                                         $subSubGrpBalance += abs($ledgerBalance);
                                                         $blncType = '';
-                                                    }else {
+                                                    } else {
                                                         $gtBalance -= abs($ledgerBalance);
                                                         $subSubGrpBalance -= abs($ledgerBalance);
                                                         $blncType = '-';
                                                     }
-                                                }                                                
-                                                
+                                                }
+
                                                 if ($accountCodeCategory->code == 9 && !in_array($accountCode->code, [999999, 999998, 912101])) {
                                                     if ($ledger->balance_type == 2 && $ledgerBalance > 0) {
                                                         $gtBalance = $gtBalance += abs($ledgerBalance);
@@ -87,13 +87,13 @@
                                                         $gtBalance = $gtBalance += abs($ledgerBalance);
                                                         $subSubGrpBalance = $subSubGrpBalance += abs($ledgerBalance);
                                                         $blncType = '';
-                                                    }else {
+                                                    } else {
                                                         $gtBalance = $gtBalance -= abs($ledgerBalance);
                                                         $subSubGrpBalance = $subSubGrpBalance -= abs($ledgerBalance);
                                                         $blncType = '-';
                                                     }
                                                 }
-                                                
+
                                                 // For GST Clearing Account (912101)
                                                 if ($accountCodeCategory->code == 9) {
                                                     if ($ledger->chart_id == 912101) {
@@ -108,11 +108,11 @@
                                                         }
                                                     }
                                                 }
-                                                if ($subCategory->id == 16 && $accountCode->code == 999998) {
-                                                    $subSubGrpBalance += $totalPl;
-                                                } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
-                                                    $subSubGrpBalance += $totalRetain;
-                                                }
+                                                // if ($subCategory->id == 16 && $accountCode->code == 999998) {
+                                                //     $subSubGrpBalance += $totalPl;
+                                                // } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
+                                                //     $subSubGrpBalance += $totalRetain;
+                                                // }
                                             @endphp
                                             <tr>
                                                 <td style="color: #1B6AAA">
@@ -120,60 +120,85 @@
                                                     {{ $accountCode->name }}
                                                 </td>
                                                 <td style="text-align: right;color: #1B6AAA">
-                                                    @if ($ledger->chart_id == 999999)
+                                                    {{-- @if ($ledger->chart_id == 999999)
                                                         {{ number_format($totalRetain, 2) }}
                                                     @elseif($ledger->chart_id == 999998)
                                                         {{ number_format($totalPl, 2) }}
-                                                    @else
-                                                        {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
-                                                    @endif
+                                                    @else --}}
+                                                    {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
+                                                    {{-- @endif --}}
                                                 </td>
                                             </tr>
                                         @endif
                                     @endforeach
-                                    <tr>
-                                        <td style="color: violet;text-align:right">
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            Total {{ $additionalCategory->name }}
-                                        </td>
-                                        <td style="color: violet;text-align: right;">
-                                            <span style="solid;border-bottom:1px solid;float:right;font-weight: bold;">
-                                                {{ number_format($subSubGrpBalance, 2) }}
-                                                @php
-                                                    $subGrpBalance += $subSubGrpBalance;
-                                                @endphp
-                                            </span>
-                                        </td>
+                                    {{-- For Retain Earning & Profit & Loss Account --}}
+                                    @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
+                                        <tr>
+                                            @if ($totalPl != 0)
+                                        <tr>
+                                            <td style="color: #1B6AAA;padding-left: 70px !important">
+                                                P/L Appropriation a/c</td>
+                                            <td style="text-align: right;color: #1B6AAA">{{ nF2($totalPl) }}</td>
+                                        </tr>
+                                    @endif
+                                    @if ($totalRetain != 0)
+                                        <tr>
+                                            <td style="color: #1B6AAA;padding-left: 70px !important">
+                                                Retain earning</td>
+                                            <td style="text-align: right;color: #1B6AAA">{{ nF2($totalRetain) }}
+                                            </td>
+                                        </tr>
+                                    @endif
                                     </tr>
-                                    {{-- Account Code End --}}
-                                @endforeach
+                                @endif
+                                {{-- /For Retain Earning & Profit & Loss Account --}}
                                 <tr>
-                                    <td style="color: green;text-align:right">
-                                        Total {{ $subCategory->name }}
+                                    <td style="color: violet;text-align:right">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        Total {{ $additionalCategory->name }}
                                     </td>
-                                    <td style="color: green;text-align: right;font-weight: bold;">
-                                        <span style="border-top:1px solid;border-bottom:1px solid;float:right">
-                                            {{ number_format($subGrpBalance, 2) }}
+                                    <td style="color: violet;text-align: right;">
+                                        <span style="solid;border-bottom:1px solid;float:right;font-weight: bold;">
+                                            {{ number_format($subSubGrpBalance, 2) }}
+                                            @php
+                                                $subGrpBalance += $subSubGrpBalance;
+                                            @endphp
                                         </span>
                                     </td>
                                 </tr>
-                                {{-- Additonal Category End --}}
+                                {{-- Account Code End --}}
                             @endforeach
-                            {{-- Sub Category End --}}
-                            <tr style="text-align:right;color: #d35400;">
-                                <td class="text-center" style="font-size: 15px;">Total
-                                    {{ $accountCodeCategory->name }}:</td>
-                                <td>
-                                    <span
-                                        style="border-top:1px solid;border-bottom-style:double;font-weight: bold;float: right;">
-                                        @if ($accountCodeCategory->code == 5)
-                                            {{ number_format($gtBalance, 2) }}
+                            <tr>
+                                <td style="color: green;text-align:right">
+                                    Total {{ $subCategory->name }}
+                                </td>
+                                <td style="color: green;text-align: right;font-weight: bold;">
+                                    <span style="border-top:1px solid;border-bottom:1px solid;float:right">
+                                        @if ($subCategory->code == 5)
+                                            {{ number_format($subGrpBalance, 2) }}
                                         @else
-                                            {{ number_format($gtBalance + $totalRetain + $totalPl, 2) }}
+                                            {{ number_format($subGrpBalance + $totalRetain + $totalPl, 2) }}
                                         @endif
                                     </span>
                                 </td>
                             </tr>
+                            {{-- Additonal Category End --}}
+                        @endforeach
+                        {{-- Sub Category End --}}
+                        <tr style="text-align:right;color: #d35400;">
+                            <td class="text-center" style="font-size: 15px;">Total
+                                {{ $accountCodeCategory->name }}:</td>
+                            <td>
+                                <span
+                                    style="border-top:1px solid;border-bottom-style:double;font-weight: bold;float: right;">
+                                    @if ($accountCodeCategory->code == 5)
+                                        {{ number_format($gtBalance, 2) }}
+                                    @else
+                                        {{ number_format($gtBalance + $totalRetain + $totalPl, 2) }}
+                                    @endif
+                                </span>
+                            </td>
+                        </tr>
                         @endforeach
                         {{-- Category End --}}
                     </tbody>
