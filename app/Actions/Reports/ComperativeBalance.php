@@ -14,17 +14,17 @@ class ComperativeBalance extends Controller
     public function report(Request $request, $client, $profession)
     {
         $date     = makeBackendCompatibleDate($request->date);
+        $end_date = $date->format('Y-m-d');
 
-
+        // Pre Retain Date
         if ($date->format('m') >= 07 & $date->format('m') <= 12) {
             $pre_retain_date_b = $date->format('Y') - 1 . '-07-01';
         } else {
             $pre_retain_date_b = $date->format('Y') - 2 . '-07-01';
         }
-
         $pre_retain_date = Carbon::createFromFormat('Y-m-d', $pre_retain_date_b);
 
-        $end_date = $date->format('Y-m-d');
+        // Current Retain Date
         if ($date->format('m') >= 07 & $date->format('m') <= 12) {
             $start_date     = $date->format('Y') . '-07-01';
             $pre_start_date = $date->format('Y') - 1 . '-07-01';
@@ -67,6 +67,7 @@ class ComperativeBalance extends Controller
         $industryCategories    = $profession->industryCategories;
         $accountCodeCategories = $profession->accountCodeCategories;
 
+        // Pre Ledgers
         $preLedgers = GeneralLedger::where('date', '<', $start_date)
             ->where('client_id', $client->id)
             ->where('profession_id', $profession->id)
@@ -76,8 +77,7 @@ class ComperativeBalance extends Controller
         $totalPrePl = pl($client, $profession, Carbon::parse($start_date)->subDay());
         $totalPreRetain = retain($client, $profession, $pre_retain_date);
 
-
-
+        // Current Ledgers
         $ledgers = GeneralLedger::where('date', '<=', $end_date)
             ->where('client_id', $client->id)
             ->where('profession_id', $profession->id)

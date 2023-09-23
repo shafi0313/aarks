@@ -205,34 +205,18 @@
                         @endif
                     @endforeach
 
-                    {{-- @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
-                        @if ($plRetain != 0)
-                            <tr>
-                                <td style="color: #1B6AAA;padding-left: 70px !important">
-                                    P/L Appropriation a/c</td>
-                                <td style="text-align: right;color: #1B6AAA">{{ nF2($plRetain) }}</td>
-                            </tr>
-                        @endif
-                        @if ($retain != 0)
-                            <tr>
-                                <td style="color: #1B6AAA;padding-left: 70px !important">
-                                    Retain earning</td>
-                                <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
-                            </tr>
-                        @endif
-                    @endif --}}
-                    {{-- /For Retain Earning & Profit & Loss Account --}}
-
                     @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
+                        {{-- P/L Appropriation a/c --}}
                         <tr>
                             <td style="color: #1B6AAA;padding-left: 70px !important">
                                 P/L Appropriation a/c</td>
+                            {{-- Pre PL --}}
                             @if ($prePlRetain != 0)
                                 <td style="text-align: right;color: #1B6AAA">{{ nF2($prePlRetain) }}</td>
                             @else
                                 <td style="text-align: right;color: #1B6AAA">0.00</td>
                             @endif
-
+                            {{-- Current PL --}}
                             @if ($plRetain != 0)
                                 <td style="text-align: right;color: #1B6AAA">{{ nF2($plRetain) }}</td>
                             @else
@@ -240,29 +224,26 @@
                             @endif
                         </tr>
 
-
+                        {{-- Retain earning --}}
                         <tr>
                             <td style="color: #1B6AAA;padding-left: 70px !important">
                                 Retain earning</td>
-                                @if ($preRetain != 0)
+                            {{-- Pre Retain --}}
+                            @if ($preRetain != 0)
                                 <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
                             @else
                                 <td style="text-align: right;color: #1B6AAA">0.00</td>
                             @endif
 
-
+                            {{-- Current Retain --}}
                             @if ($retain != 0)
                                 <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
                             @else
                                 <td style="text-align: right;color: #1B6AAA">0.00</td>
                             @endif
-
-
                         </tr>
                     @endif
                     {{-- /For Retain Earning & Profit & Loss Account --}}
-
-
 
                     <tr>
                         <td style="color: violet;text-align:right">
@@ -271,7 +252,6 @@
                         </td>
                         <td style="color: violet;text-align: right;">
                             <span style="solid;border-bottom:1px solid;text-align:right;font-weight: bold;">
-                                {{-- {{ number_format($preSubSubGrpBalance, 2) }} --}}
                                 @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
                                     {{-- For Retain Earning & Profit & Loss Account --}}
                                     {{ number_format($prePlRetain + $preRetain, 2) }}
@@ -285,7 +265,6 @@
                         </td>
                         <td style="color: violet;text-align: right;">
                             <span style="solid;border-bottom:1px solid;text-align:right;font-weight: bold;">
-                                {{-- {{ number_format($subSubGrpBalance, 2) }} --}}
                                 @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
                                     {{-- For Retain Earning & Profit & Loss Account --}}
                                     {{ number_format($plRetain + $retain, 2) }}
@@ -306,7 +285,6 @@
                     </td>
                     <td style="color: green;text-align: right;font-weight: bold;">
                         <span style="border-top:1px solid;border-bottom:1px solid;text-align:right">
-                            {{-- {{ number_format($preSubGrpBalance, 2) }} --}}
                             @if ($subCategory->name == 'Capital & Equity' || $subCategory->id == 16)
                                 {{ number_format($preSubGrpBalance + $preRetain + $prePlRetain, 2) }}
                             @else
@@ -316,7 +294,6 @@
                     </td>
                     <td style="color: green;text-align: right;font-weight: bold;">
                         <span style="border-top:1px solid;border-bottom:1px solid;text-align:right">
-                            {{-- {{ number_format($subGrpBalance, 2) }} --}}
                             @if ($subCategory->name == 'Capital & Equity' || $subCategory->id == 16)
                                 {{ number_format($subGrpBalance + $retain + $plRetain, 2) }}
                             @else
@@ -325,8 +302,9 @@
                         </span>
                     </td>
                 </tr>
-                {{-- Additonal Category End --}}
+                {{-- Additional Category End --}}
             @endforeach
+
             {{-- Sub Category End --}}
             <tr style="text-align:right;color: #d35400;">
                 <td class="text-center" style="font-size: 16px;">Total {{ $accountCodeCategory->name }}</td>
