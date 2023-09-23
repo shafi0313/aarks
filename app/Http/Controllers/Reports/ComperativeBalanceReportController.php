@@ -41,6 +41,7 @@ class ComperativeBalanceReportController extends Controller
         if ($error = $this->sendPermissionError('admin.comperative_bs.index')) {
             return $error;
         }
+        // return
         $data = $balance->report($request, $client, $profession);
         activity()
             ->performedOn(new GeneralLedger())

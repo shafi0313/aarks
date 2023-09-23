@@ -14,7 +14,16 @@ class ComperativeBalance extends Controller
     public function report(Request $request, $client, $profession)
     {
         $date     = makeBackendCompatibleDate($request->date);
-        $retain_date = $date;
+
+
+        if ($date->format('m') >= 07 & $date->format('m') <= 12) {
+            $pre_retain_date_b = $date->format('Y') - 1 . '-07-01';
+        } else {
+            $pre_retain_date_b = $date->format('Y') - 2 . '-07-01';
+        }
+
+        $pre_retain_date = Carbon::createFromFormat('Y-m-d', $pre_retain_date_b);
+
         $end_date = $date->format('Y-m-d');
         if ($date->format('m') >= 07 & $date->format('m') <= 12) {
             $start_date     = $date->format('Y') . '-07-01';
@@ -23,6 +32,7 @@ class ComperativeBalance extends Controller
             $start_date     = $date->format('Y') - 1 . '-07-01';
             $pre_start_date = $date->format('Y') - 2 . '-07-01';
         }
+        $retain_date = $date;
         $industry_categories = $profession->industryCategories->pluck('id')->toArray();
         $profession->load([
             'accountCodeCategories' => function ($query) use ($industry_categories) {
@@ -50,35 +60,33 @@ class ComperativeBalance extends Controller
             ->where(function ($q) {
                 $q->where('code', 'like', '5%')
                     ->orWhere('code', 'like', '9%');
-            })->orderBy('code', 'asc')->get();
+            })->orderBy('code', 'asc')
+            ->whereNotIn('code', [999998,999999])
+            ->get();
+
         $industryCategories    = $profession->industryCategories;
         $accountCodeCategories = $profession->accountCodeCategories;
-
-        $ledgers = GeneralLedger::where('date', '<=', $end_date)
-            ->where('client_id', $client->id)
-            ->where('profession_id', $profession->id)
-            ->get(ledgerSetVisible());
-
-        $retain = retain($client, $profession, $retain_date);
-
-        $totalRetain = $retain ?? 0;
-
-        $preRetain = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
-            ->where('chart_id', 999999)
-            ->where('client_id', $client->id)
-            ->where('profession_id', $profession->id)
-            ->where('date', '<', $pre_start_date)
-            ->groupBy('chart_id')
-            ->first();
-        $totalPreRetain = $preRetain->totalRetain ?? 0;
-
-        $totalPl    = pl($client, $profession, $date);
-        $totalPrePl = accum_pl($client, Carbon::parse($start_date)->subDay());
 
         $preLedgers = GeneralLedger::where('date', '<', $start_date)
             ->where('client_id', $client->id)
             ->where('profession_id', $profession->id)
+            ->whereNotIn('chart_id', [999998, 999999])
             ->get(ledgerSetVisible());
+
+        $totalPrePl = pl($client, $profession, Carbon::parse($start_date)->subDay());
+        $totalPreRetain = retain($client, $profession, $pre_retain_date);
+
+
+
+        $ledgers = GeneralLedger::where('date', '<=', $end_date)
+            ->where('client_id', $client->id)
+            ->where('profession_id', $profession->id)
+            ->whereNotIn('chart_id', [999998, 999999])
+            ->get(ledgerSetVisible());
+
+        $totalPl     = pl($client, $profession, $date);
+        $totalRetain = retain($client, $profession, $retain_date);
+
         return compact('accountCodeCategories', 'accountCodes', 'industryCategories', 'ledgers', 'preLedgers', 'date', 'client', 'totalRetain', 'totalPl', 'totalPreRetain', 'totalPrePl', 'profession');
     }
     public function consoleReport(Request $request, $path)

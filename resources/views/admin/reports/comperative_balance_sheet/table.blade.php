@@ -44,15 +44,15 @@
                         @if ($accountCode->additional_category_id == $additionalCategory->id && $code != $accountCode->code)
                             @php
                                 $code = $accountCode->code;
-                                
+
                                 // Pre Ledgers Data
                                 $preLedger = $preLedgers->where('chart_id', $accountCode->code)->first();
                                 $preLedgerBalance = $preLedgers->where('chart_id', $accountCode->code)->sum('balance');
-                                
+
                                 // Current Ledgers Data
                                 $ledger = $ledgers->where('chart_id', $accountCode->code)->first();
                                 $ledgerBalance = $ledgers->where('chart_id', $accountCode->code)->sum('balance');
-                                
+
                                 $blncType = '';
                             @endphp
                             <tr>
@@ -73,7 +73,7 @@
                                                 $preGtBalance += abs($preLedgerBalance);
                                                 $preSubSubGrpBalance += abs($preLedgerBalance);
                                                 $preBlncType = '';
-                                            }else {
+                                            } else {
                                                 $preGtBalance -= abs($preLedgerBalance);
                                                 $preSubSubGrpBalance -= abs($preLedgerBalance);
                                                 $preBlncType = '-';
@@ -88,13 +88,13 @@
                                                 $preGtBalance = $preGtBalance += abs($preLedgerBalance);
                                                 $preSubSubGrpBalance = $preSubSubGrpBalance += abs($preLedgerBalance);
                                                 $preBlncType = '';
-                                            }else {
+                                            } else {
                                                 $preGtBalance = $preGtBalance -= abs($preLedgerBalance);
                                                 $preSubSubGrpBalance = $preSubSubGrpBalance -= abs($preLedgerBalance);
                                                 $preBlncType = '-';
                                             }
                                         }
-                                        
+
                                         // For GST Clearing Account (912101)
                                         if ($accountCodeCategory->code == 9) {
                                             if ($ledger->chart_id == 912101) {
@@ -109,21 +109,22 @@
                                                 }
                                             }
                                         }
-                                        
-                                        if ($subCategory->id == 16 && $accountCode->code == 999998) {
-                                            $preSubSubGrpBalance += $prePlRetain;
-                                        } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
-                                            $preSubSubGrpBalance += $preRetain;
-                                        }
+
+                                        // if ($subCategory->id == 16 && $accountCode->code == 999998) {
+                                        //     $preSubSubGrpBalance += $prePlRetain;
+                                        // } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
+                                        //     $preSubSubGrpBalance += $preRetain;
+                                        // }
+
                                     @endphp
                                     <td style="text-align: right;color: #1B6AAA">
-                                        @if ($preLedger->chart_id == 999999)
+                                        {{-- @if ($preLedger->chart_id == 999999)
                                             {{ number_format($preRetain, 2) }}
                                         @elseif($preLedger->chart_id == 999998)
                                             {{ number_format($prePlRetain, 2) }}
-                                        @else
-                                            {{ $preBlncType }} {{ number_format(abs($preLedgerBalance), 2) }}
-                                        @endif
+                                        @else --}}
+                                        {{ $preBlncType }} {{ number_format(abs($preLedgerBalance), 2) }}
+                                        {{-- @endif --}}
                                     </td>
                                 @else
                                     <td style="text-align: right;color: #1B6AAA">0.00</td>
@@ -165,7 +166,7 @@
                                                 $blncType = '-';
                                             }
                                         }
-                                        
+
                                         // For GST Clearing Account (912101)
                                         if ($accountCodeCategory->code == 9) {
                                             if ($ledger->chart_id == 912101) {
@@ -180,20 +181,20 @@
                                                 }
                                             }
                                         }
-                                        if ($subCategory->id == 16 && $accountCode->code == 999998) {
-                                            $subSubGrpBalance += $plRetain;
-                                        } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
-                                            $subSubGrpBalance += $retain;
-                                        }
+                                        // if ($subCategory->id == 16 && $accountCode->code == 999998) {
+                                        //     $subSubGrpBalance += $plRetain;
+                                        // } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
+                                        //     $subSubGrpBalance += $retain;
+                                        // }
                                     @endphp
                                     <td style="text-align: right;color: #1B6AAA">
-                                        @if ($ledger->chart_id == 999999)
+                                        {{-- @if ($ledger->chart_id == 999999)
                                             {{ number_format($retain, 2) }}
                                         @elseif($ledger->chart_id == 999998)
                                             {{ number_format($plRetain, 2) }}
-                                        @else
-                                            {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
-                                        @endif
+                                        @else --}}
+                                        {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
+                                        {{-- @endif --}}
                                     </td>
                                 @else
                                     <td style="text-align: right;color: #1B6AAA">0.00</td>
@@ -203,6 +204,66 @@
                             </tr>
                         @endif
                     @endforeach
+
+                    {{-- @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
+                        @if ($plRetain != 0)
+                            <tr>
+                                <td style="color: #1B6AAA;padding-left: 70px !important">
+                                    P/L Appropriation a/c</td>
+                                <td style="text-align: right;color: #1B6AAA">{{ nF2($plRetain) }}</td>
+                            </tr>
+                        @endif
+                        @if ($retain != 0)
+                            <tr>
+                                <td style="color: #1B6AAA;padding-left: 70px !important">
+                                    Retain earning</td>
+                                <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
+                            </tr>
+                        @endif
+                    @endif --}}
+                    {{-- /For Retain Earning & Profit & Loss Account --}}
+
+                    @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
+                        <tr>
+                            <td style="color: #1B6AAA;padding-left: 70px !important">
+                                P/L Appropriation a/c</td>
+                            @if ($prePlRetain != 0)
+                                <td style="text-align: right;color: #1B6AAA">{{ nF2($prePlRetain) }}</td>
+                            @else
+                                <td style="text-align: right;color: #1B6AAA">0.00</td>
+                            @endif
+
+                            @if ($plRetain != 0)
+                                <td style="text-align: right;color: #1B6AAA">{{ nF2($plRetain) }}</td>
+                            @else
+                                <td style="text-align: right;color: #1B6AAA">0.00</td>
+                            @endif
+                        </tr>
+
+
+                        <tr>
+                            <td style="color: #1B6AAA;padding-left: 70px !important">
+                                Retain earning</td>
+                                @if ($preRetain != 0)
+                                <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
+                            @else
+                                <td style="text-align: right;color: #1B6AAA">0.00</td>
+                            @endif
+
+
+                            @if ($retain != 0)
+                                <td style="text-align: right;color: #1B6AAA">{{ nF2($retain) }}</td>
+                            @else
+                                <td style="text-align: right;color: #1B6AAA">0.00</td>
+                            @endif
+
+
+                        </tr>
+                    @endif
+                    {{-- /For Retain Earning & Profit & Loss Account --}}
+
+
+
                     <tr>
                         <td style="color: violet;text-align:right">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -210,7 +271,13 @@
                         </td>
                         <td style="color: violet;text-align: right;">
                             <span style="solid;border-bottom:1px solid;text-align:right;font-weight: bold;">
-                                {{ number_format($preSubSubGrpBalance, 2) }}
+                                {{-- {{ number_format($preSubSubGrpBalance, 2) }} --}}
+                                @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
+                                    {{-- For Retain Earning & Profit & Loss Account --}}
+                                    {{ number_format($prePlRetain + $preRetain, 2) }}
+                                @else
+                                    {{ number_format($preSubSubGrpBalance, 2) }}
+                                @endif
                                 @php
                                     $preSubGrpBalance += $preSubSubGrpBalance;
                                 @endphp
@@ -218,7 +285,13 @@
                         </td>
                         <td style="color: violet;text-align: right;">
                             <span style="solid;border-bottom:1px solid;text-align:right;font-weight: bold;">
-                                {{ number_format($subSubGrpBalance, 2) }}
+                                {{-- {{ number_format($subSubGrpBalance, 2) }} --}}
+                                @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
+                                    {{-- For Retain Earning & Profit & Loss Account --}}
+                                    {{ number_format($plRetain + $retain, 2) }}
+                                @else
+                                    {{ number_format($subSubGrpBalance, 2) }}
+                                @endif
                                 @php
                                     $subGrpBalance += $subSubGrpBalance;
                                 @endphp
@@ -233,12 +306,22 @@
                     </td>
                     <td style="color: green;text-align: right;font-weight: bold;">
                         <span style="border-top:1px solid;border-bottom:1px solid;text-align:right">
-                            {{ number_format($preSubGrpBalance, 2) }}
+                            {{-- {{ number_format($preSubGrpBalance, 2) }} --}}
+                            @if ($subCategory->name == 'Capital & Equity' || $subCategory->id == 16)
+                                {{ number_format($preSubGrpBalance + $preRetain + $prePlRetain, 2) }}
+                            @else
+                                {{ number_format($preSubGrpBalance, 2) }}
+                            @endif
                         </span>
                     </td>
                     <td style="color: green;text-align: right;font-weight: bold;">
                         <span style="border-top:1px solid;border-bottom:1px solid;text-align:right">
-                            {{ number_format($subGrpBalance, 2) }}
+                            {{-- {{ number_format($subGrpBalance, 2) }} --}}
+                            @if ($subCategory->name == 'Capital & Equity' || $subCategory->id == 16)
+                                {{ number_format($subGrpBalance + $retain + $plRetain, 2) }}
+                            @else
+                                {{ number_format($subGrpBalance, 2) }}
+                            @endif
                         </span>
                     </td>
                 </tr>
