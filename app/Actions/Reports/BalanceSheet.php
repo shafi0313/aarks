@@ -92,7 +92,7 @@ class BalanceSheet extends Controller
             ->get(ledgerSetVisible());
 
 
-        $retain   = console_retain($client, $date);
+        $retain   = consoleRetain($client, $date);
         $plRetain = accum_pl($client, $date);
         return compact('accountCodeCategories', 'accountCodes', 'ledgers', 'date', 'client', 'retain', 'plRetain');
     }

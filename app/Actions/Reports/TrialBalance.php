@@ -136,7 +136,7 @@ class TrialBalance extends Controller
         //     ->where('chart_id', 999999)
         //     ->groupBy('chart_id')
         //     ->first();
-        $retains =  console_retain($client, $date);
+        $retains =  consoleRetain($client, $date);
         $CRetains =  accum_pl($client, $date);
 
         $codes = ClientAccountCode::where('client_id', $client->id)

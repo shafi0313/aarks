@@ -16,6 +16,14 @@ class ComperativeFinancial extends Controller
     public function report(Request $request, $client)
     {
         $date = makeBackendCompatibleDate($request->date);
+
+        // Pre Retain Date
+        if ($date->format('m') >= 07 & $date->format('m') <= 12) {
+            $pre_retain_date_b = $date->format('Y') - 1 . '-07-01';
+        } else {
+            $pre_retain_date_b = $date->format('Y') - 2 . '-07-01';
+        }
+        $pre_retain_date = Carbon::createFromFormat('Y-m-d', $pre_retain_date_b);
         // 2021 => 01/07/2020 - 30/06/2021
         // 2022 => 01/07/2021 - 30/06/2022
         $end_date = $date->format('Y-m-d');
@@ -30,6 +38,7 @@ class ComperativeFinancial extends Controller
             $start_date         = $date->format('Y') - 1 . '-07-01';
             $pre_start_date     = $date->format('Y') - 2 . '-07-01';
         }
+
         $data = [
             'year'           => $year,
             'date'           => $date,
@@ -54,14 +63,26 @@ class ComperativeFinancial extends Controller
                 ->where(function ($q) {
                     $q->where('code', 'like', '5%')
                         ->orWhere('code', 'like', '9%');
-                })->orderBy('code', 'asc')->get();
+                })->whereNotIn('code', [999998, 999999])
+                ->orderBy('code', 'asc')->get();
+
+            $data['bs_preLedgers'] = GeneralLedger::where('date', '<', $start_date)
+                ->where('client_id', $client->id)
+                ->whereNotIn('chart_id', [999998, 999999])
+                ->get();
+
+            $data['totalPrePl'] = ConsolePL($client, Carbon::parse($start_date)->subDay());
+            $data['totalPreRetain'] = consoleRetain($client, $pre_retain_date);
 
             $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
-                ->where('client_id', $client->id)->get();
-            $data['bs_preLedgers'] = GeneralLedger::where('date', '<', $start_date)
-                ->where('client_id', $client->id)->get();
+                ->where('client_id', $client->id)
+                ->whereNotIn('chart_id', [999998, 999999])
+                ->get();
+
+            $data['totalPl']     = ConsolePL($client, $date);
+            $data['totalRetain'] = consoleRetain($client, $date);
         }
-        
+
         if ($request->has('incomestatment_note')) {
             $data['is_incomestatment_note']  = true;
             $data['incomestatment_note']     = 'Income Statment Note';
@@ -87,11 +108,24 @@ class ComperativeFinancial extends Controller
                     ->where(function ($q) {
                         $q->where('code', 'like', '5%')
                             ->orWhere('code', 'like', '9%');
-                    })->orderBy('code', 'asc')->get();
-                $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
-                    ->where('client_id', $client->id)->get();
+                    })->whereNotIn('code', [999998, 999999])
+                    ->orderBy('code', 'asc')->get();
+
+                // Pre Ledgers
                 $data['bs_preLedgers'] = GeneralLedger::where('date', '<', $start_date)
+                    ->whereNotIn('chart_id', [999998, 999999])
                     ->where('client_id', $client->id)->get();
+
+                $data['totalPrePl'] = ConsolePL($client, Carbon::parse($start_date)->subDay());
+                $data['totalPreRetain'] = consoleRetain($client, $pre_retain_date);
+                
+                // Current Ledgers
+                $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
+                    ->whereNotIn('chart_id', [999998, 999999])
+                    ->where('client_id', $client->id)->get();
+
+                $data['totalPl']     = ConsolePL($client, $date);
+                $data['totalRetain'] = consoleRetain($client, $date);
             }
         }
 
@@ -328,8 +362,8 @@ class ComperativeFinancial extends Controller
         //     ->groupBy('chart_id')
         //     ->first();
 
-        $data["retain"]      = console_retain($client, $date);
-        $data["preRetain"]   = console_retain($client, Carbon::parse($start_date)->subDay());
+        $data["retain"]      = consoleRetain($client, $date);
+        $data["preRetain"]   = consoleRetain($client, Carbon::parse($start_date)->subDay());
         $data["plRetain"]    = consolePL($client, $date);
         $data["prePlRetain"] = consolePL($client, Carbon::parse($start_date)->subDay());
         return compact(['data', 'client', 'date', 'start_date', 'pre_start_date', 'end_date']);

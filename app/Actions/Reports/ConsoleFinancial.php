@@ -60,10 +60,10 @@ class ConsoleFinancial extends Controller
                 ->where('client_id', $client->id)
                 ->whereIn('profession_id', $professions)->get();
 
-            $data['bs_retain']   = console_retain($client, $date);
+            $data['bs_retain']   = consoleRetain($client, $date);
             $data['bs_plRetain'] =  consolePL($client, $date);
         }
-        
+
         if ($request->has('incomestatment_note')) {
             $data['is_incomestatment_note']  = true;
             $data['incomestatment_note']     = 'Income Statment Note';
@@ -111,7 +111,7 @@ class ConsoleFinancial extends Controller
                     ->whereIn('profession_id', $professions)->get();
 
 
-                $data['bs_retain']   = console_retain($client, $date);
+                $data['bs_retain']   = consoleRetain($client, $date);
                 $data['bs_plRetain'] = consolePL($client, $date);
             }
         }

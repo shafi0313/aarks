@@ -621,7 +621,7 @@ if (!function_exists('retain')) {
     }
 }
 // Console Retained Earnings Calculations
-if (!function_exists('console_retain')) {
+if (!function_exists('consoleRetain')) {
     /**
      * Console Retained Earnings Calculations
      * @param Client $client
@@ -629,7 +629,7 @@ if (!function_exists('console_retain')) {
      * @return mixed
      * @throws Exception
      **/
-    function console_retain(Client $client, DateTime $date)
+    function consoleRetain(Client $client, DateTime $date)
     {
         $end_date = $date->format('Y-m-d');
         if ($date->format('m') >= 07 & $date->format('m') <= 12) {
