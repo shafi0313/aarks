@@ -57,7 +57,7 @@
                                 $code = $accountCode->code;
                                 $ledger = $ledgers->where('chart_id', $accountCode->code)->first();
                                 $ledgerBalance = $ledgers->where('chart_id', $accountCode->code)->sum('balance');
-                                
+
                                 $blncType = '';
                                 if ($accountCodeCategory->code == 5) {
                                     if ($ledger->balance_type == 1 && $ledgerBalance > 0) {
@@ -79,7 +79,7 @@
                                         $gtBalance        = $gtBalance        -= abs($ledgerBalance);
                                         $subSubGrpBalance = $subSubGrpBalance -= abs($ledgerBalance);
                                         $blncType         = '-';
-                                    }                                    
+                                    }
                                 }
 
                                 // For GST Clearing Account (912101)
@@ -96,7 +96,7 @@
                                         }
                                     }
                                 }
-                                
+
                                 if ($subCategory->id == 16 && $accountCode->code == 999998) {
                                     $subSubGrpBalance += $plRetain;
                                 } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
