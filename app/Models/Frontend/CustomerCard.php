@@ -29,7 +29,7 @@ class CustomerCard extends Model
     }
     public function dedotrs()
     {
-        return $this->hasMany(Dedotr::class);
+        return $this->hasMany(Dedotr::class, 'customer_card_id', 'id');
     }
     public function dedotrPayments()
     {

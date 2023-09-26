@@ -29,18 +29,28 @@ class DedotorReportController extends Controller
 
         if ($layout->layout == 1) {
             $customers = CustomerCard::where('client_id', $request->client_id)
-                ->with(['dedotrPayments' => fn($payment) => $payment->where('client_id', $client->id)
-                    ->where('tran_date', '<=', $end_date->format('Y-m-d')), 'dedotrs'=> fn ($q) =>$q->where('client_id', $client->id)
-                    ->where('tran_date', '<=', $end_date->format('Y-m-d'))
-                    ->whereNotNull('job_title')
+                ->with([
+                    'dedotrPayments' => fn ($payment) => $payment->select('id','dedotr_inv','client_id','customer_card_id','profession_id','tran_date','payment_amount')
+                        ->where('client_id', $client->id)
+                        ->where('tran_date', '<=', $end_date->format('Y-m-d')),
+                    'dedotrs' => fn ($q) => $q->select('id','client_id','customer_card_id','profession_id','tran_date','amount')
+                        ->where('client_id', $client->id)
+                        ->where('tran_date', '<=', $end_date->format('Y-m-d'))
+                        // ->whereNotNull('job_title')
                 ])
                 ->orderBy('name')->get();
         } else {
             $customers = CustomerCard::where('client_id', $request->client_id)
-                ->with(['dedotrPayments' => fn($payment) => $payment->where('client_id', $client->id)
-                    ->where('tran_date', '<=', $end_date->format('Y-m-d')), 'dedotrs'=> fn ($q) => $q->where('client_id', $client->id)
-                    ->where('tran_date', '<=', $end_date->format('Y-m-d'))
-                    ->whereNotNull('item_no')])
+                ->select('id','client_id','profession_id','name','opening_blnc')
+                ->with([
+                    'dedotrPayments' => fn ($payment) => $payment->select('id','dedotr_inv','client_id','customer_card_id','profession_id','tran_date','payment_amount')
+                        ->where('client_id', $client->id)
+                        ->where('tran_date', '<=', $end_date->format('Y-m-d')),
+                    'dedotrs' => fn ($q) => $q->select('id','client_id','customer_card_id','profession_id','tran_date','amount')
+                        ->where('client_id', $client->id)
+                        ->where('tran_date', '<=', $end_date->format('Y-m-d'))
+                        // ->whereNotNull('item_no')
+                ])
                 ->orderBy('name')->get();
         }
         return view('frontend.ledger.dedotr_report.customer.report', compact([
