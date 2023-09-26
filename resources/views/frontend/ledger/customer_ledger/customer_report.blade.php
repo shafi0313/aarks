@@ -43,10 +43,17 @@
                                         data-date-format="dd/mm/yyyy" name="to_date" value="{{$to_date}}">
                                 </div>
                                 <div class="form-inline col-md-3">
-                                    <input type="submit" name="submit" class="btn btn-sm btn-info" value="Show Report">
-                                    <input type="submit" name="submit" class="btn btn-sm btn-warning" value="Print">
-                                    <input type="submit" name="submit" class="btn btn-sm btn-success" value="Email">
+                                    <input type="hidden" name="submit" value="" id="submit_val">
+                                    <input type="submit" class="btn btn-sm btn-info submit_btn" value="Show Report">
+                                    <input type="submit" class="btn btn-sm btn-warning submit_btn" value="Print">
+                                    <input type="submit" class="btn btn-sm btn-success submit_btn" value="Email">
                                 </div>
+                                <script>
+                                    $('.submit_btn').on('click', function(){
+                                        var val = $(this).val();
+                                        $('#submit_val').val(val);
+                                    })
+                                </script>
                             </div>
                         </form>
                         <hr>

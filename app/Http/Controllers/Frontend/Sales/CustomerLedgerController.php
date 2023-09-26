@@ -69,7 +69,7 @@ class CustomerLedgerController extends Controller
                         ->subject('🧾 Customer Ledger Generated')
                         ->attachData($pdf->output(), transaction_id(16) . ".pdf");
                 });
-                toast('Ledger Mailed Successful!', 'success');
+                toast('Customer Ledger Mailed Successful!', 'success');
             } catch (\Exception $e) {
                 toast('Opps! Server Side Error!', 'error');
                 return $e->getMessage();
