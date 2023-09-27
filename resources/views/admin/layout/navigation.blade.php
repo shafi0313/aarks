@@ -323,7 +323,7 @@
                     </a>
                     <b class="arrow"></b>
                 </li>
-                
+
                 @role('Admin')
                     <li class="{{ activeOpenNav(['trash.*', 'admin.forceDelete.*']) }}">
                         <a href="#" class="dropdown-toggle">
@@ -539,7 +539,7 @@
                 </a>
                 <b class="arrow"></b>
                 <ul class="submenu">
-                    @can('admin.gst_recon.index')
+                    @can('admin.gst-reconciliation-for-tr.index')
                         <li class="{{ activeNav('gst_recon.*') }}">
                             <a href="{{ route('gst_recon.index') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
