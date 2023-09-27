@@ -93,26 +93,13 @@
                                         }
                                     }
                                 }
-
-                                // if ($subCategory->id == 16 && $accountCode->code == 999998) {
-                                //     $subSubGrpBalance += $plRetain;
-                                // } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
-                                //     $subSubGrpBalance += $totalRetain;
-                                // }
-
                             @endphp
                             <tr>
                                 <td style="color: #1B6AAA;padding-left: 70px !important">
                                     {{ $accountCode->name }}
                                 </td>
                                 <td style="text-align: right;color: #1B6AAA">
-                                    {{-- @if ($ledger->chart_id == 999999)
-                                        {{ $retain ? number_format($totalRetain, 2) : '0.00' }}
-                                    @elseif($ledger->chart_id == 999998)
-                                        {{ number_format($plRetain, 2) }}
-                                    @else --}}
                                     {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
-                                    {{-- @endif --}}
                                 </td>
                             </tr>
                         @endif

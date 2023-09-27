@@ -109,22 +109,9 @@
                                                 }
                                             }
                                         }
-
-                                        // if ($subCategory->id == 16 && $accountCode->code == 999998) {
-                                        //     $preSubSubGrpBalance += $prePlRetain;
-                                        // } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
-                                        //     $preSubSubGrpBalance += $preRetain;
-                                        // }
-
                                     @endphp
                                     <td style="text-align: right;color: #1B6AAA">
-                                        {{-- @if ($preLedger->chart_id == 999999)
-                                            {{ number_format($preRetain, 2) }}
-                                        @elseif($preLedger->chart_id == 999998)
-                                            {{ number_format($prePlRetain, 2) }}
-                                        @else --}}
                                         {{ $preBlncType }} {{ number_format(abs($preLedgerBalance), 2) }}
-                                        {{-- @endif --}}
                                     </td>
                                 @else
                                     <td style="text-align: right;color: #1B6AAA">0.00</td>
@@ -181,20 +168,9 @@
                                                 }
                                             }
                                         }
-                                        // if ($subCategory->id == 16 && $accountCode->code == 999998) {
-                                        //     $subSubGrpBalance += $plRetain;
-                                        // } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
-                                        //     $subSubGrpBalance += $retain;
-                                        // }
                                     @endphp
                                     <td style="text-align: right;color: #1B6AAA">
-                                        {{-- @if ($ledger->chart_id == 999999)
-                                            {{ number_format($retain, 2) }}
-                                        @elseif($ledger->chart_id == 999998)
-                                            {{ number_format($plRetain, 2) }}
-                                        @else --}}
                                         {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
-                                        {{-- @endif --}}
                                     </td>
                                 @else
                                     <td style="text-align: right;color: #1B6AAA">0.00</td>

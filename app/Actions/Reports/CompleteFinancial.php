@@ -62,13 +62,7 @@ class CompleteFinancial extends Controller
                 ->whereNotIn('chart_id', ['999999', '999998'])
                 ->get(ledgerSetVisible());
 
-            // $data['bs_retain'] = GeneralLedger::select('balance_type', DB::raw("sum(balance) as totalRetain"))
-            //     ->where('chart_id', 999999)
-            //     ->where('client_id', $client->id)
-            //     ->where('profession_id', $profession->id)
-            //     ->where('date', '<', $start_date)
-            //     ->groupBy('chart_id')
-            //     ->first();
+
             $data['bs_retain']   = retain($client, $profession, $date);
             $data['bs_plRetain'] = pl($client, $profession, $date);
         }
@@ -109,14 +103,17 @@ class CompleteFinancial extends Controller
                     ->where('type', 1)->where(function ($q) {
                         $q->where('code', 'like', '5%')
                             ->orWhere('code', 'like', '9%');
-                    })->whereNull('parent_id')->orderBy('code', 'asc')->get();
+                    })->whereNull('parent_id')->orderBy('code', 'asc')
+                    ->get();
 
                 $data['bs_accountCodes'] = ClientAccountCode::where('client_id', $client->id)
                     ->where('profession_id', $profession->id)
                     ->where(function ($q) {
                         $q->where('code', 'like', '5%')
                             ->orWhere('code', 'like', '9%');
-                    })->orderBy('code', 'asc')->get();
+                    })->whereNotIn('code', ['999999', '999998'])
+                    ->orderBy('code', 'asc')
+                    ->get();
 
                 $data['bs_ledgers'] = GeneralLedger::where('date', '<=', $end_date)
                     ->where('client_id', $client->id)

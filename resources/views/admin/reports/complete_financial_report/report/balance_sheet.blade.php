@@ -16,7 +16,6 @@
                             <th class="text-center">Particulars</th>
                             <th class="text-right">Amount ($)</th>
                         </tr>
-
                         @php
                             $totalRetain = $data['bs_retain'] ? $data['bs_retain'] : 0;
                             $totalPl = $data['bs_plRetain'];
@@ -42,7 +41,6 @@
                                     @endphp
 
                                     {{-- ? ACCOUNT CODE --}}
-
                                     @foreach ($data['bs_accountCodes'] as $accountCode)
                                         @if (
                                             $accountCode->additional_category_id == $additionalCategory->id &&
@@ -136,15 +134,15 @@
                                     </td>
                                     <td style="color: green;text-align: right;font-weight: bold;">
                                         <span style="border-top:1px solid;border-bottom:1px solid;float:right">
-                                            @if ($subCategory->code == 5)
-                                                {{ number_format($subGrpBalance, 2) }}
-                                            @else
+                                            @if ($subCategory->name == 'Capital & Equity')
                                                 {{ number_format($subGrpBalance + $totalRetain + $totalPl, 2) }}
+                                            @else
+                                                {{ number_format($subGrpBalance, 2) }}
                                             @endif
                                         </span>
                                     </td>
                                 </tr>
-                                {{-- Additonal Category End --}}
+                                {{-- Additional Category End --}}
                             @endforeach
                             {{-- Sub Category End --}}
                             <tr style="text-align:right;color: #d35400;">
@@ -166,7 +164,6 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </div>

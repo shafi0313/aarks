@@ -108,11 +108,6 @@
                                                         }
                                                     }
                                                 }
-                                                // if ($subCategory->id == 16 && $accountCode->code == 999998) {
-                                                //     $subSubGrpBalance += $totalPl;
-                                                // } elseif ($subCategory->id == 16 && $accountCode->code == 999999) {
-                                                //     $subSubGrpBalance += $totalRetain;
-                                                // }
                                             @endphp
                                             <tr>
                                                 <td style="color: #1B6AAA">
@@ -120,13 +115,7 @@
                                                     {{ $accountCode->name }}
                                                 </td>
                                                 <td style="text-align: right;color: #1B6AAA">
-                                                    {{-- @if ($ledger->chart_id == 999999)
-                                                        {{ number_format($totalRetain, 2) }}
-                                                    @elseif($ledger->chart_id == 999998)
-                                                        {{ number_format($totalPl, 2) }}
-                                                    @else --}}
                                                     {{ $blncType }} {{ number_format(abs($ledgerBalance), 2) }}
-                                                    {{-- @endif --}}
                                                 </td>
                                             </tr>
                                         @endif
@@ -174,15 +163,15 @@
                                 </td>
                                 <td style="color: green;text-align: right;font-weight: bold;">
                                     <span style="border-top:1px solid;border-bottom:1px solid;float:right">
-                                        @if ($subCategory->code == 5)
-                                            {{ number_format($subGrpBalance, 2) }}
-                                        @else
+                                        @if ($subCategory->name == 'Capital & Equity')
                                             {{ number_format($subGrpBalance + $totalRetain + $totalPl, 2) }}
+                                        @else
+                                            {{ number_format($subGrpBalance, 2) }}
                                         @endif
                                     </span>
                                 </td>
                             </tr>
-                            {{-- Additonal Category End --}}
+                            {{-- Additional Category End --}}
                         @endforeach
                         {{-- Sub Category End --}}
                         <tr style="text-align:right;color: #d35400;">
