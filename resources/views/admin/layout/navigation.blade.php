@@ -39,7 +39,7 @@
         </li>
 
         <li class="">
-            <a href="https://calendar.google.com/calendar/" target="_blank">
+            <a href="https://calendar.aarks.net/" target="_blank">
                 <i class="menu-icon fa fa-calendar" aria-hidden="true"></i>
                 <span class="menu-text">
                     Calendar
