@@ -116,7 +116,7 @@ class AddCustomerRequest extends FormRequest
             // "opening_blnc"      => 'required',
             // "opening_blnc_date" => 'sometimes',
             // "credit_account"    => 'sometimes',
-            // "days"              => 'sometimes',            
+            // "days"              => 'sometimes',
         ];
     }
 }

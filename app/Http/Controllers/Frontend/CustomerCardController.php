@@ -29,10 +29,13 @@ class CustomerCardController extends Controller
         $chk_card = CustomerCard::whereClientId(client()->id)->whereProfessionId($profession->id)->whereCustomerType('default')->first();
         return view('frontend.add_card.customer', compact('profession', 'creditCodes', 'chk_card'));
     }
-    
+
     public function store(AddCustomerRequest $request)
     {
-        $data = $request->validated();
+        $data                      = $request->validated();
+        $data['by_date']           = $request->by_date ? makeBackendCompatibleDate($request->by_date) : null;
+        $data['after_date']        = $request->after_date ? makeBackendCompatibleDate($request->after_date) : null;
+        $data['opening_blnc_date'] = $request->opening_blnc_date ? makeBackendCompatibleDate($request->opening_blnc_date) : null;
 
         if ($data['status'] == 1 && $request->opening_blnc != '') {
             DB::beginTransaction();
@@ -74,7 +77,7 @@ class CustomerCardController extends Controller
                 $credit['debit']        = 0;
                 $credit['credit']       = $request->opening_blnc;
             }
-            
+
             GeneralLedger::create($ledger);
             GeneralLedger::create($credit);
             try {
@@ -90,7 +93,7 @@ class CustomerCardController extends Controller
         }
         return back();
     }
-    
+
     public function view($profession)
     {
         $client = client()->id;
@@ -166,7 +169,7 @@ class CustomerCardController extends Controller
             // Delete previous data by transaction_id
             $retrieveCustomerIds = GeneralLedger::where('source', 'OPN')->get(['transaction_id']);
             foreach ($retrieveCustomerIds as $retrieveCustomerId) {
-                $customerId = explode('_', $retrieveCustomerId->transaction_id);                
+                $customerId = explode('_', $retrieveCustomerId->transaction_id);
                 if(!empty($customerId[1]) && $customerId[1] == $customer->id){
                     $currentTranId = $retrieveCustomerId->transaction_id;
                     GeneralLedger::where('source', 'OPN')->where('transaction_id', $currentTranId)->forceDelete();

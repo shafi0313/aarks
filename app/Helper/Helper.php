@@ -789,3 +789,10 @@ if (!function_exists('fullFormOfSource')) {
         };
     }
 }
+
+if (!function_exists('sqlDate')) {
+    function sqlDate($date)
+    {
+        return Carbon::parse(Carbon::createFromFormat('d/m/Y', $date))->format('Y-m-d');
+    }
+}
