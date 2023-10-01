@@ -24,7 +24,7 @@ class ComperativeBalance extends Controller
         }
         $pre_retain_date = Carbon::createFromFormat('Y-m-d', $pre_retain_date_b);
 
-        // Current Retain Date
+
         if ($date->format('m') >= 07 & $date->format('m') <= 12) {
             $start_date     = $date->format('Y') . '-07-01';
             $pre_start_date = $date->format('Y') - 1 . '-07-01';
@@ -32,7 +32,9 @@ class ComperativeBalance extends Controller
             $start_date     = $date->format('Y') - 1 . '-07-01';
             $pre_start_date = $date->format('Y') - 2 . '-07-01';
         }
+        // Current Retain Date
         $retain_date = $date;
+
         $industry_categories = $profession->industryCategories->pluck('id')->toArray();
         $profession->load([
             'accountCodeCategories' => function ($query) use ($industry_categories) {
@@ -52,35 +54,37 @@ class ComperativeBalance extends Controller
                 ])->where('type', 1)->where(function ($q) {
                     $q->where('code', 'like', '5%')
                         ->orWhere('code', 'like', '9%');
-                })->whereNull('parent_id')->orderBy('code', 'asc');
+                })->whereNull('parent_id')
+                    ->orderBy('code', 'asc');
             }
         ]);
-        $accountCodes = ClientAccountCode::where('profession_id', $profession->id)
+        $accountCodes = ClientAccountCode::select('id', 'name', 'code', 'gst_code', 'category_id', 'sub_category_id', 'additional_category_id', 'client_id', 'profession_id')
+            ->where('profession_id', $profession->id)
             ->where('client_id', $client->id)
             ->where(function ($q) {
                 $q->where('code', 'like', '5%')
                     ->orWhere('code', 'like', '9%');
             })->orderBy('code', 'asc')
-            ->whereNotIn('code', [999998,999999])
+            ->whereNotIn('code', [999998, 999999])
             ->get();
 
-        $industryCategories    = $profession->industryCategories;
-        $accountCodeCategories = $profession->accountCodeCategories;
+            $industryCategories    = $profession->industryCategories;
+            $accountCodeCategories = $profession->accountCodeCategories;
 
         // Pre Ledgers
-        $preLedgers = GeneralLedger::where('date', '<', $start_date)
-            ->where('client_id', $client->id)
+        $preLedgers = GeneralLedger::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
+            ->where('date', '<', $start_date)
             ->whereNotIn('chart_id', [999998, 999999])
             ->get(ledgerSetVisible());
 
-        $totalPrePl = pl($client, $profession, Carbon::parse($start_date)->subDay());
+        $totalPrePl     = pl($client, $profession, Carbon::parse($start_date)->subDay());
         $totalPreRetain = retain($client, $profession, $pre_retain_date);
 
         // Current Ledgers
-        $ledgers = GeneralLedger::where('date', '<=', $end_date)
-            ->where('client_id', $client->id)
+        $ledgers = GeneralLedger::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
+            ->where('date', '<=', $end_date)
             ->whereNotIn('chart_id', [999998, 999999])
             ->get(ledgerSetVisible());
 
