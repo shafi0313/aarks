@@ -28,7 +28,7 @@ class ImportController extends Controller
         if ($error = $this->sendPermissionError('admin.bs_import.index')) {
             return $error;
         }
-        $clients = Client::all(clientSetVisible());
+        $clients = getClientsWithPayment();
         return view('admin.bs_import.index', compact('clients'));
     }
 
@@ -46,7 +46,7 @@ class ImportController extends Controller
         }
         try {
             Excel::import($bankStatementImport, $request->file);
-            $bankStatementImport->tempSolution($request->client_id, $request->profession_id);            
+            $bankStatementImport->tempSolution($request->client_id, $request->profession_id);
             // Alert::success('Upload Bank Statement', 'Bank statement was successfully uploaded');
         } catch (\Exception  $exception) {
             Alert::error('Upload Bank Statement', $exception->getMessage());
