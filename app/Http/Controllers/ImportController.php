@@ -49,7 +49,7 @@ class ImportController extends Controller
             $bankStatementImport->tempSolution($request->client_id, $request->profession_id);
             // Alert::success('Upload Bank Statement', 'Bank statement was successfully uploaded');
         } catch (\Exception  $exception) {
-            Alert::error('Upload Bank Statement', $exception->getMessage());
+            Alert::error('Error', 'Bank statement was not uploaded, Please check the data import policy');
         }
 
         return redirect()->route('bs_import.BS', ['client' => $request->client_id, 'profession' => $request->profession_id]);

@@ -31,7 +31,7 @@ class BankStatementImportCollection implements ToCollection, WithHeadingRow
                 return back();
             }
             if($row['debit'] < 0 || $row['credit'] < 0){
-                Alert::error('Please enter positive value for debit and credit');
+                Alert::error('Please enter positive value for debit and credit, Please check the data import policy');
                 return back();
             }
             try {
@@ -46,10 +46,10 @@ class BankStatementImportCollection implements ToCollection, WithHeadingRow
                 if ($datum->count() > 0) {
                     Alert::success('Success', 'Data Inserted Successfully!');
                 } else {
-                    Alert::error('Error', 'Entered file is empty or invalid file format!');
+                    Alert::error('Error', 'Entered file is empty or invalid file format!, Please check the data import policy');
                 }
             } catch (\Exception $exception) {
-                Alert::error('Error', 'Insertion Error!');
+                Alert::error('Error', 'Insertion Error!, Please check the data import policy');
             }
         }
     }
