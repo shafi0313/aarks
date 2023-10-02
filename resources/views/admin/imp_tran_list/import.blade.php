@@ -105,13 +105,13 @@
                                             </td>
                                             <td>
                                                 @php($debit += abs($import->debit))
-                                                <input name="debit[]" class="form-control" type="number" min="0"
+                                                <input name="debit[]" class="form-control" type="number"
                                                     step="any" value="{{ number_format($import->debit, 2, '.', '') }}"
                                                     {{ $import->debit == '' ? 'readonly' : '' }}>
                                             </td>
                                             <td>
                                                 @php($credit += abs($import->credit))
-                                                <input name="credit[]" class="form-control" type="number" min="0"
+                                                <input name="credit[]" class="form-control" type="number"
                                                     step="any" value="{{ number_format($import->credit, 2, '.', '') }}"
                                                     {{ $import->credit == '' ? 'readonly' : '' }}>
                                             </td>
