@@ -13,7 +13,7 @@
                         <a href="{{ route('select_method') }}">Add/Edit Entry</a>
                     </li>
                     <li>
-                        <a href="{{route('bs_import.index')}}">Import Bank Statement (BST)</a>
+                        <a href="{{ route('bs_import.index') }}">Import Bank Statement (BST)</a>
                     </li>
                     <li>
                         {{ $profession->name }}
@@ -40,10 +40,12 @@
                                 </div>
                                 <div class="col-md-3">
                                     <ul>
-                                        <li style="list-style-type: none;color: red">File can only import if it is
-                                            CSV(MS-DOS)/CSV(COMMA-delimited) and heading must be same as sample file.</li>
-                                        <li style="list-style-type: none"><a href="{{ asset('example.csv') }}">Download file
-                                                Format</a></li>
+                                        <li style="list-style: none;">
+                                            <button type="button" data-toggle="modal" data-target="#myModal">Data Upload Policy.</button>
+                                        </li>
+                                        <li style="list-style: none">
+                                            <a href="{{ asset('example.csv') }}">Download file Format</a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="col-md-1">
@@ -116,7 +118,8 @@
                                     <select class="form-control" name="bank_account" id="bank_account" style="width: 100%;">
                                         <option value="">Select Bank Account</option>
                                         @foreach ($liquid_asset_account_codes as $liquid_asset_account_code)
-                                            <option value="{{ $liquid_asset_account_code->id }}" data-chart_id="{{ $liquid_asset_account_code->code }}">
+                                            <option value="{{ $liquid_asset_account_code->id }}"
+                                                data-chart_id="{{ $liquid_asset_account_code->code }}">
                                                 {{ $liquid_asset_account_code->name }}</option>
                                         @endforeach
                                     </select>
@@ -158,7 +161,32 @@
             </div><!-- /.page-content -->
         </div>
     </div><!-- /.main-content -->
+
     <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Data Upload Policy</h4>
+                </div>
+                <div class="modal-body">
+                    <ol>
+                        <li>File can only import if it is CSV(MS-DOS)/CSV(COMMA-delimited) and heading must be same as sample file.</li>
+                        <li>Any Debit amount may negative.</li>
+                        <li>Any credit amount may negative.</li>
+                        <li>Any raw amount may empty.</li>
+                        <li>Any Raw information not fully completed.</li>
+                        <li>Total amount can not acceptable.</li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         $(function() {
@@ -184,28 +212,32 @@
             });
         });
 
-        $('#bank_account').change(function () {
+        $('#bank_account').change(function() {
             const chart_id = $(this).find(":selected").data('chart_id');
             const bank_account_name = $(this).find(":selected").text();
             $('#bank_code_name').text(bank_account_name);
             ledgerBalance(chart_id);
         });
 
-        const ledgerBalance = (chart_id) => {            
+        const ledgerBalance = (chart_id) => {
             $.ajax({
-                url:"{{route('bs_tran_list.getBalance')}}",
-                data:{client:"{{$client->id}}", profession:"{{$profession->id}}", chart_id:chart_id},
-                method:'get',
-                success:res=>{
-                    if(res.status == 200){
+                url: "{{ route('bs_tran_list.getBalance') }}",
+                data: {
+                    client: "{{ $client->id }}",
+                    profession: "{{ $profession->id }}",
+                    chart_id: chart_id
+                },
+                method: 'get',
+                success: res => {
+                    if (res.status == 200) {
                         $('#bank_balance').text(res.balance);
                         $('#current_bank_balance').text(res.current_balance);
-                    }else{
+                    } else {
                         $('#bank_balance').text(0);
                         $('#current_bank_balance').text(0);
                     }
                 },
-                error:err=>{
+                error: err => {
                     toast('error', 'Balance not found')
                 }
             });
@@ -236,7 +268,7 @@
         function confirmPost() {
             var r = confirm(
                 "Please check you are posting from the correct bank account. If correct press 'ok' and if not, 'cancel'!"
-                );
+            );
             if (r == false) {
                 return false;
             }
