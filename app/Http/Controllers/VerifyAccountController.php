@@ -60,14 +60,14 @@ class VerifyAccountController extends Controller
 
         $data['ledgers'] = $ledgerDatum
                         ->whereNotIn('chart_id', [999998, 999999])
-                        ->whereNotIn('source', ['OPN'])                       
+                        ->whereNotIn('source', ['OPN'])
                         ->get(ledgerSetVisible())
                         ->groupBy('transaction_id');
 
         $data['opns'] = $ledgerDatum->whereSource('OPN')
                             ->get(ledgerSetVisible())
                             ->groupBy('transaction_id');
-                    
+
 
         activity()
             ->performedOn(new GeneralLedger())
@@ -75,11 +75,12 @@ class VerifyAccountController extends Controller
             ->log('Tools > Verify Account Report > Import > ' . $client->fullname . ' > ' . $profession->name . ' Report ');
         return view('admin.verify_accounts.final_report', $data, compact('client', 'profession', 'from_date', 'to_date'));
     }
+    
     public function tranView($tran_id, $source)
     {
         if ($error = $this->sendPermissionError('admin.verify_account.index')) {
             return $error;
-        }        
+        }
 
         $ledgers = GeneralLedger::with('client_account_code')
                     ->where('transaction_id', $tran_id)
