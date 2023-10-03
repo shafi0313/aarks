@@ -1,11 +1,11 @@
 @extends('admin.layout.master')
-@section('title', $client->fullname.' - Profile')
+@section('title', $admin->name.' - Profile')
 @section('content')
 <div class="main-content">
     <div class="main-content-inner">
         <div class="panel panel-default">
             <div class="panel-heading">Set up Google Authenticator</div>
-            @if ($client->two_factor_secret)
+            @if ($admin->two_factor_secret)
             <div class='row'>
                 <div class="col-lg-12 text-center">
                     <style>
@@ -34,7 +34,7 @@
                     otherwise</p>
 
                 <div class="my-5">
-                    <form class="form-horizontal" method="POST" action="{{route('2fa.store', $client->id)}}"
+                    <form class="form-horizontal" method="POST" action="{{route('admin.2fa.store', $admin->id)}}"
                         autocomplete="off">
                         @csrf
                         <div class="form-group">

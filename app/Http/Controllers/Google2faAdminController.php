@@ -3,35 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use App\Models\Client;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use PragmaRX\Google2FALaravel\Facade as TwoFactor;
 
-class Google2faController extends Controller
+class Google2faAdminController extends Controller
 {
-    public function index($id = null)
+    public function adminUser()
     {
-        $client = Client::find($id ?? client()->id);
+        $admins = Admin::all();
+        return view('admin.profile.2fa.admin-user', compact('admins'));
+    }
+
+    public function index($id)
+    {
+        $admin = Admin::find($id);
         // Initialise the 2FA class
         $google2fa = app('pragmarx.google2fa');
         // Add the secret key to the registration data
         $secret_key = $google2fa->generateSecretKey();
-        if ($client->two_factor_secret) {
-            $secret_key = $client->two_factor_secret;
+        if ($admin->two_factor_secret) {
+            $secret_key = $admin->two_factor_secret;
         }
 
         // Generate the QR image. This is the image the user will scan with their app
         // to set up two factor authentication
         $QR = $google2fa->getQRCodeInline(
             config('app.name'),
-            $client->email,
+            $admin->email,
             $secret_key
         );
-        if ($id == null) {
-            return view('frontend.profile.2fa.index', compact(['client', 'QR', 'secret_key']));
-        }
-        return view('admin.profile.2fa.index', compact(['client', 'QR', 'secret_key']));
+        return view('admin.profile.2fa.index', compact(['admin', 'QR', 'secret_key']));
     }
     /**
      * Validate & configure two-factor authentication.
@@ -39,7 +41,7 @@ class Google2faController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function enable(Request $request, Client $client)
+    public function enable(Request $request, Admin $admin)
     {
         $request->validate([
             'key'  => ['required', 'string'],
@@ -50,7 +52,7 @@ class Google2faController extends Controller
             }],
         ]);
 
-        $client->update([
+        $admin->update([
             'two_factor_secret' => $request->key,
         ]);
         Alert::success('Two-factor authentication On successful');

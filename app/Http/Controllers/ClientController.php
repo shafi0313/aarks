@@ -19,6 +19,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use PragmaRX\Google2FALaravel\Facade as TwoFactor;
 use App\Actions\AccountCodeActions\CopyClientAccountCode;
 use App\Actions\AccountCodeActions\DeleteClientAccountCode;
+
 class ClientController extends Controller
 {
     use AuthenticatesUsers;

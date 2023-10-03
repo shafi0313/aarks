@@ -53,15 +53,7 @@
     {{-- Data Table --}}
     <link rel="stylesheet" href="{{ asset('frontend/assets/data_table/datatables.min.css') }}" />
     <script src="{{ asset('frontend/assets/data_table/datatables.min.js') }}"></script>
-    <!--[if lte IE 9]>
-   <link rel="stylesheet" href="{{ asset('assets/css/ace-part2.min.css') }}" class="ace-main-stylesheet" />
-  <![endif]-->
-    <link rel="stylesheet" href="{{ asset('admin/assets/css/ace-skins.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/assets/css/ace-rtl.min.css') }}" />
 
-    <!--[if lte IE 9]>
-  <link rel="stylesheet" href="{{ asset('assets/css/ace-ie.min.css') }}" />
-  <![endif]-->
 
     {{--
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"> --}}
@@ -72,10 +64,7 @@
 
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
-    <!--[if lte IE 8]>
-  <script src="{{ asset('assets/js/html5shiv.min.js') }}"></script>
-  <script src="{{ asset('assets/js/respond.min.js') }}"></script>
-  <![endif]-->
+
 
     <link rel="stylesheet" href="{{ asset('admin/assets/cdn/jquery-ui.css') }}">
 

@@ -14,7 +14,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ClientPaymentSync;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\HelpDeskController;
-use App\Http\Controllers\Google2faController;
+use App\Http\Controllers\Google2faAdminController;
 use App\Http\Controllers\WebBackupController;
 use App\Http\Controllers\AgentAuditController;
 use App\Http\Controllers\FuelTaxLtrController;
@@ -74,20 +74,30 @@ use App\Http\Controllers\Reports\ComperativeFinancialReportController;
 
 Route::get('/gst', [TestController::class, 'gst'])->name('gst');
 
-Route::get('/', function () {
-    return redirect()->route('index');
-});
+
 Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login.post');
 Route::get('admin/impersonate/destroy', [ClientController::class, 'destroyImpersonate'])->name('destroy.impersonate');
 
 //? Google 2FA
-Route::get('admin/google-2fa/active/{client}', [Google2faController::class, 'index'])->name('2fa.index');
-Route::post('admin/google-2fa/store/{client}', [Google2faController::class, 'enable'])->name('2fa.store');
-Route::post('admin/google-2fa/destroy/{client}', [Google2faController::class, 'destroy'])->name('2fa.destroy');
-Route::post('admin/google-2fa-Verify', function () {
-    return redirect(URL()->previous());
-})->name('2faVerify')->middleware('2fa');
+Route::controller(Google2faAdminController::class)->prefix('admin/google-2fa')->name('admin.2fa.')->group(function () {
+    Route::get('admin-users', 'adminUser')->name('admin_user');
+    Route::get('active/{admin}', 'index')->name('index');
+    Route::post('store/{admin}', 'enable')->name('store');
+    Route::post('destroy/{admin}', 'destroy')->name('destroy');
+    Route::post('Verify', function () {
+        return redirect(URL()->previous());
+    })->name('Verify')->middleware('2fa');
+});
+
+
+// Route::get('admin/google-2fa/admin-users', [Google2faAdminController::class, 'adminUser'])->name('2fa.admin_user');
+// Route::get('admin/google-2fa/active/{admin}', [Google2faAdminController::class, 'index'])->name('2fa.index');
+// Route::post('admin/google-2fa/store/{admin}', [Google2faAdminController::class, 'enable'])->name('2fa.store');
+// Route::post('admin/google-2fa/destroy/{admin}', [Google2faAdminController::class, 'destroy'])->name('2fa.destroy');
+// Route::post('admin/google-2fa-Verify', function () {
+//     return redirect(URL()->previous());
+// })->name('2faVerify')->middleware('2fa');
 
 Route::get('select-two', [AdminDashboardController::class, 'selectTwo'])->name('select-two');
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
@@ -170,7 +180,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
         Route::get('client-account-code', [InputController::class, 'getCodes'])->name('getcodes');
         Route::get('/client-account-balance', [InputController::class, 'getBalance'])->name('getBalance');
         Route::get('{client}', [InputController::class, 'showProfessions'])->name('professions');
-        Route::get('{client}/{profession}', [InputController::class, 'inputBS'])->name('BS');        
+        Route::get('{client}/{profession}', [InputController::class, 'inputBS'])->name('BS');
     });
 
 

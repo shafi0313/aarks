@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -12,6 +11,7 @@ use App\Http\Requests\AddUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use PragmaRX\Google2FALaravel\Facade as TwoFactor;
 
 class AdminController extends Controller
 {
@@ -155,6 +155,24 @@ class AdminController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:5'
         ]);
+
+        // Google Authenticator
+        $admin = Admin::whereEmail($request->email)->first();
+        if (env('APP_DEBUG') == false && $admin && $admin->two_factor_secret) {
+            $this->validate($request, [
+                'code'     => ['required', 'string'],
+            ]);
+            if (TwoFactor::verifyKey($admin->two_factor_secret, $request->code)) {
+                if ($this->isUserAuthenticated($request)) {
+                    return redirect()->intended(route($this->default_admin_redirect_route));
+                }
+            } else {
+                return redirect()->back()->withErrors([
+                    'unauthenticated' => 'The code you provided is not valid.'
+                ])->withInput();
+            }
+        }
+        // /Google Authenticator
 
         if ($this->isUserAuthenticated($request)) {
             return redirect()->intended(route($this->default_admin_redirect_route));
