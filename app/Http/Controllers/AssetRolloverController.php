@@ -27,7 +27,7 @@ class AssetRolloverController extends Controller
                 ->where('year', $year)
                 ->get(['id', 'asset_name']);
             // !Blade
-            $opt = '<option value="">--Plase Select Asset Name--</option>';
+            $opt = '<option value="">--Please Select Asset Name--</option>';
             foreach ($rolloverAssets as $asset) {
                 $opt .= "<option value='{$asset->id}'>{$asset->asset_name}</option>";
             }
@@ -35,6 +35,7 @@ class AssetRolloverController extends Controller
         }
         return redirect()->route('index');
     }
+
     public function post(Request $request)
     {
         $request->validate([
@@ -46,10 +47,10 @@ class AssetRolloverController extends Controller
         ]);
         DB::beginTransaction();
         $asset = DepAssetName::find($request->rollover_asset);
-        if (periodLock($asset->client_id, $asset->purchase_date)) {
-            Alert::error('Your enter data period is locked, check administration');
-            return back();
-        }
+        // if (periodLock($asset->client_id, $asset->purchase_date)) {
+        //     Alert::error('Your enter data period is locked, check administration');
+        //     return back();
+        // }
         $array = $asset->toArray();
         unset($array["id"]);
         unset($array["created_at"]);

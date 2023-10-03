@@ -21,13 +21,13 @@ class Admin extends Authenticatable
         $this->save();
         return $this;
     }
-    // public function setTwoFactorSecretAttribute($value)
-    // {
-    //      $this->attributes['two_factor_secret'] = encrypt($value);
-    // }
+    public function setTwoFactorSecretAttribute($value)
+    {
+         $this->attributes['two_factor_secret'] = encrypt($value);
+    }
 
-    // public function getTwoFactorSecretAttribute($value)
-    // {
-    //     return decrypt($value);
-    // }
+    public function getTwoFactorSecretAttribute($value)
+    {
+        return decrypt($value);
+    }
 }

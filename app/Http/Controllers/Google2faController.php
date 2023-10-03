@@ -11,7 +11,7 @@ class Google2faController extends Controller
 {
     public function index($id = null)
     {
-        $client = Client::find($id??client()->id);
+        $client = Client::find($id ?? client()->id);
         // Initialise the 2FA class
         $google2fa = app('pragmarx.google2fa');
         // Add the secret key to the registration data
@@ -28,22 +28,22 @@ class Google2faController extends Controller
             $secret_key
         );
         if ($id == null) {
-            return view('frontend.profile.2fa.index', compact(['client','QR','secret_key']));
+            return view('frontend.profile.2fa.index', compact(['client', 'QR', 'secret_key']));
         }
-        return view('admin.profile.2fa.index', compact(['client','QR','secret_key']));
+        return view('admin.profile.2fa.index', compact(['client', 'QR', 'secret_key']));
     }
     /**
-    * Validate & configure two-factor authentication.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\RedirectResponse
-    */
+     * Validate & configure two-factor authentication.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function enable(Request $request, Client $client)
     {
         $request->validate([
             'key'  => ['required', 'string'],
             'code' => ['required', 'string', function ($attribute, $value, $fail) use ($request) {
-                if (! TwoFactor::verifyKey($request->key, $value)) {
+                if (!TwoFactor::verifyKey($request->key, $value)) {
                     $fail('The code you provided is not valid.');
                 }
             }],
@@ -56,17 +56,17 @@ class Google2faController extends Controller
         return redirect()->back();
     }
     /**
-    * Remove the specified resource from storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\RedirectResponse
-    */
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Request $request)
     {
         $request->validate([
             'key'  => ['required', 'string'],
             'code' => ['required', 'string', function ($attribute, $value, $fail) use ($request) {
-                if (! TwoFactor::verifyKey($request->key, $value)) {
+                if (!TwoFactor::verifyKey($request->key, $value)) {
                     $fail('The code you provided is not valid.');
                 }
             }],
