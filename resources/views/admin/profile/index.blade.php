@@ -47,7 +47,7 @@
 
                                     <div class="my-5">
                                         <form class="form-horizontal" method="POST"
-                                            action="{{ route('admin.2fa.store', $user->id) }}" autocomplete="off">
+                                            action="{{ route('2fa.store', $user->id) }}" autocomplete="off">
                                             @csrf
                                             <div class="form-group">
                                                 <p>Please enter the <strong>OTP</strong> generated on your Authenticator
@@ -85,7 +85,7 @@
                                         you can use the code
                                     </p>
                                     <div class="my-5">
-                                        <form class="form-horizontal" method="POST" action="{{ route('admin.2fa.destroy', $user->id) }}"
+                                        <form class="form-horizontal" method="POST" action="{{ route('2fa.destroy', $user->id) }}"
                                             autocomplete="off">
                                             @csrf
                                             <div class="form-group">

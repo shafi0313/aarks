@@ -124,13 +124,13 @@
                                 </li>
                             @endcan
                             {{-- @can('admin.role.index') --}}
-                                <li class="{{ activeNav('2fa.*') }}">
-                                    <a href="{{ route('admin.2fa.admin_user') }}">
-                                        <i class="menu-icon fa fa-caret-right"></i>
-                                        Google Authenticator
-                                    </a>
-                                    <b class="arrow"></b>
-                                </li>
+                            <li class="{{ activeNav('2fa.*') }}">
+                                <a href="{{ route('2fa.admin_user') }}">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Google Authenticator
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
                             {{-- @endcan --}}
                             {{-- @can('permission')
                         <li class="">

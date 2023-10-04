@@ -34,7 +34,7 @@
                     otherwise</p>
 
                 <div class="my-5">
-                    <form class="form-horizontal" method="POST" action="{{route('admin.2fa.store', $admin->id)}}"
+                    <form class="form-horizontal" method="POST" action="{{route('2fa.store', $admin->id)}}"
                         autocomplete="off">
                         @csrf
                         <div class="form-group">

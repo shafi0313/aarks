@@ -12,7 +12,7 @@
             </p>
 
             <div class="my-5">
-                <form class="form-horizontal" method="POST" action="{{ route('admin.2fa.store',admin()->id) }}" autocomplete="off">
+                <form class="form-horizontal" method="POST" action="{{ route('2fa.store',admin()->id) }}" autocomplete="off">
                     @csrf
                     <div class="form-group">
                         <p>Please enter the <strong>OTP</strong> generated on your Authenticator App. <br> Ensure you
@@ -46,7 +46,7 @@
             <p>Set up your two factor authentication by scanning the barcode below. Alternatively, you can use the code
             </p>
             <div class="my-5">
-                <form class="form-horizontal" method="POST" action="{{ route('admin.2fa.destroy') }}" autocomplete="off">
+                <form class="form-horizontal" method="POST" action="{{ route('2fa.destroy') }}" autocomplete="off">
                     @csrf
                     <div class="form-group">
                         <p>Please enter the <strong>OTP</strong> generated on your Authenticator App. <br> Ensure you

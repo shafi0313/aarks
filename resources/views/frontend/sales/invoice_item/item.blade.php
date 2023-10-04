@@ -16,23 +16,23 @@
 
     <div class="form-group mx-1" style="width: 100px">
         <label>Quantity</label>
-        <input type="number" placeholder="0.00"  name="quantity" id="quantity" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}} class="form-control">
+        <input type="number" step="any" placeholder="0.00"  name="quantity" id="quantity" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}} class="form-control">
     </div>
     <div class="form-group mx-1" style="width: 100px">
         <label style="font-size: 15px">Rate(Ex GST)</label>
-        <input type="number" placeholder="0.00" name="rate" id="rate" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}} class="form-control">
+        <input type="number" step="any" placeholder="0.00" name="rate" id="rate" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}} class="form-control">
     </div>
     <div class="form-group mx-1" style="width: 100px">
         <label>Amount</label>
-        <input readonly type="number" placeholder="0.00" name="amount" id="amount" class="form-control">
+        <input readonly type="number" step="any" placeholder="0.00" name="amount" id="amount" class="form-control">
     </div>
     <div class="form-group mx-1" style="width: 100px">
         <label>Disc %: </label>
-        <input class="form-control" type="Number" name="disc_rate" id="disc_rate" placeholder="Disc %" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}>
+        <input class="form-control" type="number" step="any" name="disc_rate" id="disc_rate" placeholder="Disc %" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}>
     </div>
     <div class="form-group mx-1" style="width: 100px">
         <label style="font-size: 14px">Freight Charge: </label>
-        <input class="form-control" placeholder="0.00" type="Number" name="freight_charge" id="freight_charge" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}>
+        <input class="form-control" placeholder="0.00" type="number" step="any" name="freight_charge" id="freight_charge" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}>
     </div>
     <div class="form-group mx-1" style="width: 150px">
         <label>Account Code: </label>

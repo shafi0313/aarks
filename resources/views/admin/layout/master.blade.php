@@ -18,74 +18,48 @@
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="{{ asset('admin/assets/cdn/jquery.min.js') }}"></script>
-    <!-- bootstrap & fontawesome -->
+    {{-- <!-- bootstrap & fontawesome --> --}}
     <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('admin/assets/font-awesome/4.5.0/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/flag.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
 
-    <!-- Toastr -->
-    {{--
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
---}}
+    {{-- <!-- Toastr --> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/cdn/toastr.css') }}">
 
-    <!-- Calendar -->
+    {{-- <!-- Calendar --> --}}
     <link rel="stylesheet" href="{{ asset('admin/assets/css/jquery-ui.custom.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/assets/css/fullcalendar.min.css') }}" />
 
-    <!-- text fonts -->
+    {{-- <!-- text fonts --> --}}
     <link rel="stylesheet" href="{{ asset('admin/assets/css/fonts.googleapis.com.css') }}" />
 
-    <!-- ace styles -->
+    {{-- <!-- ace styles --> --}}
     <link rel="stylesheet" href="{{ asset('admin/assets/css/ace.min.css') }}" class="ace-main-stylesheet"
         id="main-ace-style" />
 
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
 
-    <!-- Toastr CSS-->
-    {{--
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
---}}
+    {{-- <!-- Toastr CSS--> --}}
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
     {{-- Data Table --}}
     <link rel="stylesheet" href="{{ asset('frontend/assets/data_table/datatables.min.css') }}" />
     <script src="{{ asset('frontend/assets/data_table/datatables.min.js') }}"></script>
 
-
-    {{--
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('admin/assets/cdn/toastrv2.1.3.css') }}">
 
-    <!-- ace settings handler -->
+    {{-- <!-- ace settings handler --> --}}
     <script src="{{ asset('admin/assets/js/ace-extra.min.js') }}"></script>
-
-    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-
-
-
     <link rel="stylesheet" href="{{ asset('admin/assets/cdn/jquery-ui.css') }}">
-
-    {{-- <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script> --}}
     <script src="{{ asset('admin/assets/cdn/jquery-ui.js') }}"></script>
-
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script> --}}
     <script src="{{ asset('admin/assets/cdn/toastr.min.js') }}"></script>
 
     {{-- JS ALERT --}}
-    {{--
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('admin/assets/cdn/jquery-confirm.min.css') }}">
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script> --}}
     <script src="{{ asset('admin/assets/cdn/jquery-confirm.min.js') }}"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> --}}
     <script src="{{ asset('admin/assets/cdn/moment.min.js') }}"></script>
-
-    <!-- ace scripts -->
-    {{-- <script src="{{ asset('admin/assets/js/ace-elements.min.js')}}"></script> --}}
-    {{-- <script src="{{ asset('admin/assets/js/ace.min.js')}}"></script> --}}
 
     {{-- NOTIFY ALERT --}}
     <link rel="stylesheet" href="{{ asset('admin/assets/noty/noty.css') }}">
@@ -150,7 +124,6 @@
         {{-- <!-- /Footer --> --}}
         @include('admin.layout.includes.data_table_js')
         <script src="{{ asset('admin/assets/js/jquery-2.1.4.min.js') }}"></script>
-        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> --}}
         <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript">
             if ('ontouchstart' in document.documentElement) document.write(
