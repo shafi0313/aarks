@@ -4,11 +4,14 @@
         <select name="item_id" id="item_id" class="form-control">
             <option value>Select An Item</option>
             @foreach ($categories as $category)
-            @foreach ($category->items->where('type',2) as $item)
-            <option value="{{$item->id}}" account_id="{{$item->code->code}}" account_name="{{$item->code->name}}" data-item_type="{{$item->type}}" data-sell-price='{{$item->price}}' gst_id='{{$item->gst_code}}' alige="{{$item->alige}}" data-item_reg_name ="{{\Str::slug($item->item_name)}}-{{$item->item_number}}" >
-                {{-- {{$category->name}} =>  --}}{{$item->item_name}}
-            </option>
-            @endforeach
+                @foreach ($category->items->where('type', 2) as $item)
+                    <option value="{{ $item->id }}" account_id="{{ $item->code->code }}"
+                        account_name="{{ $item->code->name }}" data-item_type="{{ $item->type }}"
+                        data-sell-price='{{ $item->price }}' gst_id='{{ $item->gst_code }}' alige="{{ $item->alige }}"
+                        data-item_reg_name="{{ \Str::slug($item->item_name) }}-{{ $item->item_number }}">
+                        {{-- {{$category->name}} =>  --}}{{ $item->item_name }}
+                    </option>
+                @endforeach
             @endforeach
             <option value="new" style="color: pink">Add New Item</option>
         </select>
@@ -16,23 +19,28 @@
 
     <div class="form-group mx-1" style="width: 100px">
         <label>Quantity</label>
-        <input type="number" step="any" placeholder="0.00"  name="quantity" id="quantity" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}} class="form-control">
+        <input type="number" step="any" placeholder="0.00" name="quantity" id="quantity" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}
+            class="form-control">
     </div>
     <div class="form-group mx-1" style="width: 100px">
         <label style="font-size: 15px">Rate(Ex GST)</label>
-        <input type="number" step="any" placeholder="0.00" name="rate" id="rate" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}} class="form-control">
+        <input type="number" step="any" placeholder="0.00" name="rate" id="rate" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}
+            class="form-control">
     </div>
     <div class="form-group mx-1" style="width: 100px">
         <label>Amount</label>
-        <input readonly type="number" step="any" placeholder="0.00" name="amount" id="amount" class="form-control">
+        <input readonly type="number" step="any" placeholder="0.00" name="amount" id="amount"
+            class="form-control">
     </div>
     <div class="form-group mx-1" style="width: 100px">
         <label>Disc %: </label>
-        <input class="form-control" type="number" step="any" name="disc_rate" id="disc_rate" placeholder="Disc %" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}>
+        <input class="form-control" type="number" step="any" name="disc_rate" id="disc_rate" placeholder="Disc %"
+            {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}>
     </div>
     <div class="form-group mx-1" style="width: 100px">
         <label style="font-size: 14px">Freight Charge: </label>
-        <input class="form-control" placeholder="0.00" type="number" step="any" name="freight_charge" id="freight_charge" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}>
+        <input class="form-control" placeholder="0.00" type="number" step="any" name="freight_charge"
+            id="freight_charge" {{-- oninput="this.value = this.value.replace(/[^\d]/g,'');" --}}>
     </div>
     <div class="form-group mx-1" style="width: 150px">
         <label>Account Code: </label>
@@ -42,7 +50,7 @@
         <select id="salesCode" class="form-control" style="display: none">
             <option value>Select a code</option>
             @foreach ($codes as $code)
-            <option value="{{$code->code}}" data-gst="{{$code->gst_code}}">{{$code->name}}</option>
+                <option value="{{ $code->code }}" data-gst="{{ $code->gst_code }}">{{ $code->name }}</option>
             @endforeach
         </select>
     </div>

@@ -3,20 +3,22 @@
 namespace App\Models\Frontend;
 
 use App\Models\Client;
-use App\Models\ClientAccountCode;
 use App\Models\Profession;
+use App\Models\ClientAccountCode;
 use App\Models\Frontend\CustomerCard;
 use App\Models\Frontend\InventoryItem;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Frontend\DedotrPaymentReceive;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Dedotr extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
     // protected $with = ['client','customer'];
     protected $dates = ['tran_date'];
+
     public function clientAccountCode()
     {
         return $this->belongsTo(ClientAccountCode::class, 'chart_id', 'code');

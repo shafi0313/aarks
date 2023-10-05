@@ -792,13 +792,13 @@ class DedotrInvoiceController extends Controller
             ->where('chart_id', 999999)
             ->where('source', 'INV')
             ->first();
-            
+
         $pl = GeneralLedger::where('client_id', $invoice->client_id)
             ->where('profession_id', $invoice->profession_id)
             ->where('transaction_id', $invoice->tran_id)
             ->where('chart_id', 999998)->first();
 
-        if ($isRetain && $pl) {            
+        if ($isRetain && $pl) {
             $rt['balance'] = $isRetain->balance - $pl->balance;
             if ($isRetain->credit != '') {
                 $rt['credit'] = abs($rt['balance']);

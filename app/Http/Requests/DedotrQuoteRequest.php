@@ -26,6 +26,7 @@ class DedotrQuoteRequest extends FormRequest
         return [
             "client_id"        => 'sometimes',
             "tran_id"          => 'sometimes',
+            // "inv_id"          => 'sometimes',
             "source"           => 'required',
             "profession_id"    => 'sometimes',
             "customer_card_id" => 'required',
