@@ -85,12 +85,12 @@ Route::get('fresh', function () {
         DB::table('creditor_service_orders')->delete();
         DB::table('creditor_payment_receives')->delete();
         DB::table('journal_entries')->delete();
-        DB::table('dep_asset_names')->delete();
+        // DB::table('dep_asset_names')->delete();
         DB::table('disposeable_ledgers')->delete();
-        DB::table('fuel_tax_credits')->delete();
-        DB::table('fuel_tax_ltrs')->delete();
-        DB::table('paygs')->delete();
-        DB::table('period_locks')->delete();
+        // DB::table('fuel_tax_credits')->delete();
+        // DB::table('fuel_tax_ltrs')->delete();
+        // DB::table('paygs')->delete();
+        // DB::table('period_locks')->delete();
         DB::table('recurrings')->delete();
         DB::table('standard_wages')->delete();
         DB::table('inventory_items')->delete();
