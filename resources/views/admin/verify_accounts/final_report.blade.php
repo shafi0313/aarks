@@ -33,7 +33,7 @@
                             From Date : {{ $from_date }} To : {{ $to_date }}
                         </div>
                         <div class="jumbotron_">
-                            <!-- PAGE CONTENT BEGINS -->                            
+                            <!-- PAGE CONTENT BEGINS -->
                             <div class="table-header">Verify & Fixed Transactions</div>
                             <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                                 <thead>
@@ -44,7 +44,7 @@
                                         <th>Total Debit</th>
                                         <th>Total Credit</th>
                                         <th>Difference Amount</th>
-                                        <th class="no-sort">Action</th>
+                                        {{-- <th class="no-sort">Action</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -80,14 +80,14 @@
                                                 <td class="text-right">{{ number_format($gstDebit, 2) }}</td>
                                                 <td class="text-right">{{ number_format($gstCredit, 2) }}</td>
                                                 <td class="text-right">{{ number_format($diff, 2) }}</td>
-                                                <td>
+                                                {{-- <td>
                                                     @if ($first_tran->source == 'ADT')
                                                         <a title="Period Edit"
                                                             href="{{ route('edit_period', [$profession->id, $period->id, $client->id]) }}"
                                                             target="_blank" class="btn btn-pripary btn-sm p-0"><i
                                                                 class="fa fa-pencil"></i></a>
                                                     @endif
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endif
                                     @endforeach

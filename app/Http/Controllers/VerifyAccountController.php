@@ -75,7 +75,7 @@ class VerifyAccountController extends Controller
             ->log('Tools > Verify Account Report > Import > ' . $client->fullname . ' > ' . $profession->name . ' Report ');
         return view('admin.verify_accounts.final_report', $data, compact('client', 'profession', 'from_date', 'to_date'));
     }
-    
+
     public function tranView($tran_id, $source)
     {
         if ($error = $this->sendPermissionError('admin.verify_account.index')) {
