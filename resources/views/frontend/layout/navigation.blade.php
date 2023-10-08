@@ -17,7 +17,7 @@
                                 //     },
                                 //     'invoiceLayout',
                                 // ])->findOrFail(client()->id);
-                                
+
                                 $client = \App\Models\Client::with([
                                     'paymentList' => function ($q) {
                                         $q->select('id', 'client_id', 'subscription_id', 'is_expire', 'status')->where('is_expire', 0);
@@ -433,7 +433,7 @@
                                                 Profile</a>
                                             <a class="menu_dropdown-item {{ $p == 'qr' ? 'active' : '' }}"
                                                 href="{{ route('profile.2fa.index') }}">
-                                                2FA setting</a>
+                                                2FA(Google Authenticator)</a>
                                             <a class="menu_dropdown-item {{ $p == 'ul' ? 'active' : '' }}"
                                                 href="{{ route('profile.logo') }}">Upload
                                                 Logo</a>

@@ -50,7 +50,7 @@
                                                     <td>
                                                         <div class="action-buttons">
                                                             <a class="red"
-                                                                href="{{ route('2fa.index', $admin->id) }}">Select
+                                                                href="{{ route('2fa.admin_index', $admin->id) }}">Select
                                                                 Admin</a>
                                                         </div>
                                                     </td>

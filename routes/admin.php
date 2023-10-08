@@ -14,7 +14,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ClientPaymentSync;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\HelpDeskController;
-use App\Http\Controllers\Google2faAdminController;
+use App\Http\Controllers\Google2faController;
 use App\Http\Controllers\WebBackupController;
 use App\Http\Controllers\AgentAuditController;
 use App\Http\Controllers\FuelTaxLtrController;
@@ -40,6 +40,7 @@ use App\Http\Controllers\StandardLeaveController;
 use App\Http\Controllers\StandardWagesController;
 use App\Http\Controllers\VerifyAccountController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\Google2faAdminController;
 use App\Http\Controllers\AddDepreciationController;
 use App\Http\Controllers\ClientDataDeleteController;
 use App\Http\Controllers\ClientPaymentListController;
@@ -90,11 +91,18 @@ Route::get('admin/impersonate/destroy', [ClientController::class, 'destroyImpers
 //     })->name('Verify')->middleware('2fa');
 // });
 
+Route::get('google-2fa/client/active/{client}', [Google2faController::class, 'index'])->name('2fa.index');
+Route::post('google-2fa/client/store/{client}', [Google2faController::class, 'enable'])->name('2fa.store');
+Route::post('google-2fa/client/destroy/{client}', [Google2faController::class, 'destroy'])->name('2fa.destroy');
+Route::post('google-2fa-Verify/client', function () {
+    return redirect(URL()->previous());
+})->name('2faVerify')->middleware('2fa');
+
 
 Route::get('admin/google-2fa/admin-users', [Google2faAdminController::class, 'adminUser'])->name('2fa.admin_user');
-Route::get('admin/google-2fa/active/{admin}', [Google2faAdminController::class, 'index'])->name('2fa.index');
-Route::post('admin/google-2fa/store/{admin}', [Google2faAdminController::class, 'enable'])->name('2fa.store');
-Route::post('admin/google-2fa/destroy/{admin}', [Google2faAdminController::class, 'destroy'])->name('2fa.destroy');
+Route::get('admin/google-2fa/active/{admin}', [Google2faAdminController::class, 'index'])->name('2fa.admin_index');
+Route::post('admin/google-2fa/store/{admin}', [Google2faAdminController::class, 'enable'])->name('2fa.admin_store');
+Route::post('admin/google-2fa/destroy/{admin}', [Google2faAdminController::class, 'destroy'])->name('2fa.admin_destroy');
 Route::post('admin/google-2fa-Verify', function () {
     return redirect(URL()->previous());
 })->name('2faVerify')->middleware('2fa');
@@ -688,7 +696,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
 
     // period_lock
     Route::get('period_lock/client/{client}', [PeriodLockController::class, 'client'])->name('period_lock.client');
-    Route::resource('period_lock', PeriodLockController::class)->only(['index','store']);
+    Route::resource('period_lock', PeriodLockController::class)->only(['index', 'store']);
 
 
     // financial_year_close & data backup

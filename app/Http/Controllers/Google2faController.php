@@ -31,7 +31,7 @@ class Google2faController extends Controller
         if ($id == null) {
             return view('frontend.profile.2fa.index', compact(['client', 'QR', 'secret_key']));
         }
-        return view('admin.profile.2fa.index', compact(['client', 'QR', 'secret_key']));
+        return view('admin.profile.2fa-client.index', compact(['client', 'QR', 'secret_key']));
     }
     /**
      * Validate & configure two-factor authentication.
@@ -62,7 +62,7 @@ class Google2faController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, Client $client)
     {
         $request->validate([
             'key'  => ['required', 'string'],
@@ -73,7 +73,7 @@ class Google2faController extends Controller
             }],
         ]);
 
-        admin()->update([
+        $client->update([
             'two_factor_secret' => null,
         ]);
         Alert::success('Two-factor authentication OFF successful');
