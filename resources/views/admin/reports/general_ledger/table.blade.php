@@ -1,15 +1,15 @@
 <table class="table" style="margin: 10px;">
     @foreach ($ledgers as $ledger)
         <tr>
-            <td colspan="{{ empty($print)?'9':'8' }}" class="bolder" style="margin: 0;padding: 4px">
+            <td colspan="{{ empty($print) ? '9' : '8' }}" class="bolder" style="margin: 0;padding: 4px">
                 {{ $ledger->first()->client_account_code->name }} - {{ $ledger->first()->client_account_code->code }}
             </td>
         </tr>
         <tr class="tr-center">
-            <td>Date</td>            
+            <td>Date</td>
             @if (empty($print))
-            <td>Particular</td>
-            @endif  
+                <td>Particular</td>
+            @endif
             <td class="center">Transaction Id</td>
             <td>JFL</td>
             <td>Dr.amount</td>
@@ -33,7 +33,7 @@
                     $AssLai       = $preAssLilas->where('chart_id', $first_ledger->chart_id)->first();
                     $diff_balance = number_format($first_ledger->balance - $first_ledger->net_amount, 2);
                     $balance_type = $diff_balance > 0 ? $first_ledger->balance_type : !$first_ledger->balance_type;
-                    
+
                     $start       = $start_date->format('dm');
                     $fromDate    = $start_date->format('Y-m-d');
                     $obl_balance = $blnc = optional($open_balances->where('chart_id', $first_ledger->chart_id)->first())->openBl;
@@ -69,13 +69,13 @@
                 $credit += $gen_ledger->credit;
                 $gst += $gen_ledger->gst;
                 $net_bl += $gen_ledger->balance;
-                
+
                 if ($gen_ledger->credit != 0 || $gen_ledger->debit != 0) {
                     $blnc += $gen_ledger->balance;
                 } else {
                     $blnc -= $gen_ledger->balance;
                 }
-                
+
                 if ($gen_ledger->balance_type == 2) {
                     $blncType = $blnc < 0 ? 'Dr' : 'Cr';
                 } elseif ($gen_ledger->balance_type == 1) {
@@ -85,11 +85,11 @@
             <tr>
                 <td>{{ $gen_ledger->date->format('d/m/Y') }}</td>
                 @if (empty($print))
-                <td>
-                    for narration view click <i class="fa fa-hand-o-right" aria-hidden="true"></i>
-                </td>
-            @endif 
-                
+                    <td>{{ $gen_ledger->narration ?? '' }}
+                        {{-- for narration view click <i class="fa fa-hand-o-right" aria-hidden="true"></i> --}}
+                    </td>
+                @endif
+
                 <td class="center">
                     <a href="{{ route($url, [$gen_ledger->transaction_id, $gen_ledger->source]) }}"
                         style="color: green;text-decoration: underline">{{ $gen_ledger->transaction_id }}</a>
@@ -113,7 +113,7 @@
             </tr>
         @endforeach
         <tr>
-            <td colspan="{{ empty($print)?'4':'3' }}" style="font-weight: bold" class="text-right">Total</td>
+            <td colspan="{{ empty($print) ? '4' : '3' }}" style="font-weight: bold" class="text-right">Total</td>
             <td class="text-right" style="color: red">{{ number_format(abs($debit), 2) }}
             </td>
             <td class="text-right" style="color: red">{{ number_format(abs($credit), 2) }}
@@ -160,15 +160,15 @@
     {{-- <table class="table" style="margin: 10px;"> --}}
     @foreach ($client_account_codes as $client_account_code)
         <tr>
-            <td colspan="{{ empty($print)?'9':'8' }}" class="bolder" style="margin: 0;padding: 4px">
+            <td colspan="{{ empty($print) ? '9' : '8' }}" class="bolder" style="margin: 0;padding: 4px">
                 {{ $client_account_code->name }} - {{ $client_account_code->code }}</td>
         </tr>
         <tr class="tr-center">
             <td>Date</td>
             @if (empty($print))
-            <td>Particular</td>
-            @endif 
-            
+                <td>Particular</td>
+            @endif
+
             <td class="center">Transaction Id</td>
             <td>JFL</td>
             <td>Dr.amount</td>
@@ -178,7 +178,7 @@
             <td>Balance</td>
         </tr>
         <tr>
-            <td colspan="{{ empty($print)?'8':'7' }}">Opening Balance</td>
+            <td colspan="{{ empty($print) ? '8' : '7' }}">Opening Balance</td>
             @php
                 $obl_balance = $AL_obl = 0;
                 $oblType = '';
@@ -189,11 +189,11 @@
                     $AssLai = $preAssLilas->where('chart_id', $first_ledger->chart_id)->first();
                     $diff_balance = number_format($first_ledger->balance - $first_ledger->net_amount, 2);
                     $balance_type = $diff_balance > 0 ? $first_ledger->balance_type : !$first_ledger->balance_type;
-                    
+
                     $start = $start_date->format('dm');
                     $fromDate = $start_date->format('Y-m-d');
                     $obl_balance = $blnc = optional($open_balances->where('chart_id', $first_ledger->chart_id)->first())->openBl;
-                    
+
                     if ($client_account_code->type == 1) {
                         $oblType = $first_ledger->balance_type == 1 ? ($obl_balance > 0 ? 'Dr' : 'Cr') : ($obl_balance < 0 ? 'Dr' : 'Cr');
                     } elseif ($client_account_code->type == 2) {
@@ -244,16 +244,17 @@
                 } elseif ($generalLedger->balance_type == 1) {
                     $blncType = $blnc < 0 ? 'Cr' : 'Dr';
                 }
-                
+
             @endphp
             <tr>
-                <td>{{ $generalLedger->date->format('d/m/Y') }}</td>
+                <td>{{ cdate->format('d/m/Y') }}</td>
                 @if (empty($print))
-                <td>
-                    for narration view click <i class="fa fa-hand-o-right" aria-hidden="true"></i>
-                </td>
-            @endif
-                
+                    <td>
+                        {{ $generalLedger->narration ?? '' }}
+                        {{-- for narration view click <i class="fa fa-hand-o-right" aria-hidden="true"></i> --}}
+                    </td>
+                @endif
+
                 <td class="center">
                     <a href="{{ route($url, [$generalLedger->transaction_id, $generalLedger->source]) }}"
                         style="color: green;text-decoration: underline">{{ $generalLedger->transaction_id }}</a>
@@ -269,7 +270,7 @@
             </tr>
         @endforeach
         <tr>
-            <td class="text-right" colspan="{{ empty($print)?'4':'3' }}" style="font-weight: bold">Total</td>
+            <td class="text-right" colspan="{{ empty($print) ? '4' : '3' }}" style="font-weight: bold">Total</td>
             <td class="text-right" style="color: red">{{ abs($Sdebit) }}
             </td>
             <td class="text-right" style="color: red">{{ abs($Scredit) }}
@@ -284,14 +285,15 @@
     @endforeach
     @if ($retains)
         <tr>
-            <td colspan="{{ empty($print)?'9':'8' }}" class="bolder" style="margin: 0;padding: 4px">Retain Earning - 999999
+            <td colspan="{{ empty($print) ? '9' : '8' }}" class="bolder" style="margin: 0;padding: 4px">Retain Earning -
+                999999
             </td>
         </tr>
         <tr class="tr-center">
             <td>Date</td>
             @if (empty($print))
-            <td>Particular</td>
-            @endif            
+                <td>Particular</td>
+            @endif
             <td class="center">Transaction Id</td>
             <td>JFL</td>
             <td>Dr.amount</td>
@@ -304,7 +306,7 @@
             $retainBalance = $retains->sum('balance');
         @endphp
         <tr>
-            <td colspan="{{ empty($print)?'8':'7' }}">Opening Balance</td>
+            <td colspan="{{ empty($print) ? '8' : '7' }}">Opening Balance</td>
             <td class="text-right">{{ abs($retainBalance) . ' ' . ($retainBalance <= 0 ? 'Dr' : 'Cr') }}</td>
         </tr>
     @endif

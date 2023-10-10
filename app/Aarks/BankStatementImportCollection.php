@@ -30,10 +30,15 @@ class BankStatementImportCollection implements ToCollection, WithHeadingRow
                 Alert::error('Your enter data period is locked, check administration');
                 return back();
             }
-            if($row['debit'] < 0 || $row['credit'] < 0){
-                Alert::error('Please enter positive value for debit and credit, Please check the data import policy');
+
+            if(!empty($row['debit']) && $row['debit'] < 0.00){
+                Alert::error('Please enter positive value in debit, Please check the data import policy');
                 return back();
             }
+            // if(!empty($row['credit']) && $row['credit'] < 0.00){
+            //     Alert::error('Please enter positive value in credit, Please check the data import policy');
+            //     return back();
+            // }
             try {
                 $datum = BankStatementImport::create([
                     'date'          => $date->format(aarks('backend_date_format')),

@@ -174,11 +174,9 @@
                 <div class="modal-body">
                     <ol>
                         <li>File can only import if it is CSV(MS-DOS)/CSV(COMMA-delimited) and heading must be same as sample file.</li>
-                        <li>Any Debit amount may negative.</li>
-                        <li>Any credit amount may negative.</li>
-                        <li>Any raw amount may empty.</li>
-                        <li>Any Raw information not fully completed.</li>
-                        <li>Total amount can not acceptable.</li>
+                        <li>Any negative amount in the debit/ credit colum can be issue with importing.</li>
+                        <li>Any row information not completed marcuse file not be importing.</li>
+                        <li>Total amount in the CSV file may cause file cannot importing.</li>
                     </ol>
                 </div>
                 <div class="modal-footer">
@@ -192,9 +190,7 @@
         $(function() {
             $('.account_code').change(function() {
                 var accountCode = $(this).val();
-
                 var url = $(this).data('route');
-
                 $.ajax({
                     url: url,
                     data: {
