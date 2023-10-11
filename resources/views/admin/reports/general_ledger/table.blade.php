@@ -247,7 +247,7 @@
 
             @endphp
             <tr>
-                <td>{{ cdate->format('d/m/Y') }}</td>
+                <td>{{ $generalLedger->date->format('d/m/Y') }}</td>
                 @if (empty($print))
                     <td>
                         {{ $generalLedger->narration ?? '' }}
