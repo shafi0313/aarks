@@ -17,6 +17,7 @@ use Illuminate\Http\Middleware\HandleCors;
 use App\Http\Middleware\Custom\Impersonate;
 use App\Http\Middleware\Custom\PackChecker;
 use App\Http\Middleware\Custom\CheckPassword;
+use App\Http\Middleware\BlockCountryMiddleware;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Http\Middleware\SetCacheHeaders;
 use Illuminate\Session\Middleware\StartSession;
@@ -104,9 +105,10 @@ class Kernel extends HttpKernel
         'checkPassword'    => CheckPassword::class,
 
         // custom
-        'subsCheck'        => SubsCheck::class,
-        'packChecker'      => PackChecker::class,
-        'clientAuth'       => ClientAuth::class,
-        '2fa'              => Middleware::class,
+        'subsCheck'    => SubsCheck::class,
+        'packChecker'  => PackChecker::class,
+        'clientAuth'   => ClientAuth::class,
+        '2fa'          => Middleware::class,
+        'blockCountry' => BlockCountryMiddleware::class,
     ];
 }

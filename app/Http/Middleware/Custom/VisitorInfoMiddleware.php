@@ -20,14 +20,14 @@ class VisitorInfoMiddleware
         $geoInfo = geoip()->getLocation($ip);
         $data = [
             "ip"          => $geoInfo->ip,
-            "iso_code"    =>$geoInfo->iso_code,
-            "country"     =>$geoInfo->country,
-            "city"        =>$geoInfo->city,
-            "state_name"  =>$geoInfo->state_name,
-            "postal_code" =>$geoInfo->postal_code,
-            "lat"         =>$geoInfo->lat,
-            "lon"         =>$geoInfo->lon,
-            "currency"    =>$geoInfo->currency,
+            "iso_code"    => $geoInfo->iso_code,
+            "country"     => $geoInfo->country,
+            "city"        => $geoInfo->city,
+            "state_name"  => $geoInfo->state_name,
+            "postal_code" => $geoInfo->postal_code,
+            "lat"         => $geoInfo->lat,
+            "lon"         => $geoInfo->lon,
+            "currency"    => $geoInfo->currency,
         ];
         $visitor = VisitorInfo::where('ip', $geoInfo->ip)->first();
         if ($visitor == null) {
