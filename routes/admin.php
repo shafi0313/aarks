@@ -81,16 +81,6 @@ Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login
 Route::get('admin/impersonate/destroy', [ClientController::class, 'destroyImpersonate'])->name('destroy.impersonate');
 
 //? Google 2FA
-// Route::controller(Google2faAdminController::class)->prefix('admin/google-2fa')->name('2fa.')->group(function () {
-//     Route::get('admin-users', 'adminUser')->name('admin_user');
-//     Route::get('active/{admin}', 'index')->name('index');
-//     Route::post('store/{admin}', 'enable')->name('store');
-//     Route::post('destroy/{admin}', 'destroy')->name('destroy');
-//     Route::post('Verify', function () {
-//         return redirect(URL()->previous());
-//     })->name('Verify')->middleware('2fa');
-// });
-
 Route::get('google-2fa/client/active/{client}', [Google2faController::class, 'index'])->name('2fa.index');
 Route::post('google-2fa/client/store/{client}', [Google2faController::class, 'enable'])->name('2fa.store');
 Route::post('google-2fa/client/destroy/{client}', [Google2faController::class, 'destroy'])->name('2fa.destroy');
@@ -121,8 +111,6 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
         Route::get('/clients', 'client')->name('client');
         Route::delete('/delete/{client}', 'destroy')->name('destroy');
     });
-
-
 
     Route::get('master-chart', [MasterChartController::class, 'showMasterChart'])->name('master.chart');
     Route::delete('master-chart/delete-account-code', [MasterChartController::class, 'delete'])->name('delete.master.chart.account.code')->middleware('checkPassword');
@@ -192,9 +180,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     });
 
 
-
     //!BankStatement Tran List report
-
     // Import tran List
     Route::prefix('bank-statement/transaction-list/')->name('bs_tran_list.')->group(function () {
         Route::get('/client', [BankStatementTranList::class, 'index'])->name('index');

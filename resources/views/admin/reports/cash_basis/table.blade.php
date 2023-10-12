@@ -140,7 +140,7 @@
                                             @php
                                                 $diff_in_ex = abs($income_cash) - abs($expense);
                                             @endphp
-                                            {{ number_format($diff_in_ex,2) }}
+                                            {{ number_format($diff_in_ex, 2) }}
                                         </td>
                                     </tr>
                                     <!----- w2 = w2 er gross total ------>

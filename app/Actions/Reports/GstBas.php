@@ -188,14 +188,15 @@ class GstBas extends Controller
             ->where('periods.end_date', '<=', $dateTo)
             ->first();
         $fuel_tax_ltr = FuelTaxLtr::where('client_id', $client_id)->whereBetween('date', [$dateFrom, $dateTo])->sum('amount');
-        
+
         $data = Gsttbl::with(['accountCodes' => fn ($q) => $q->where('client_id', $client_id)])
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
-            ->where('source', '!=', 'INV')
+            ->whereIn('source', '!=', ['INV','RIV'])
             ->orderBy('chart_code')
-            ->get()->groupBy('chart_code');
+            ->get()
+            ->groupBy('chart_code');
 
         $income = Gsttbl::where('client_id', $client_id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
@@ -241,7 +242,7 @@ class GstBas extends Controller
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('source', '!=', 'INV')
             ->where('chart_code', 'like', '95%')
-            ->sum('gst_cash_amount');            
+            ->sum('gst_cash_amount');
 
         $expenses = Gsttbl::with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
             ->where('client_id', $client_id)
@@ -266,7 +267,7 @@ class GstBas extends Controller
             ->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
-            
+
         $w2 = Gsttbl::where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
@@ -275,7 +276,7 @@ class GstBas extends Controller
             ->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
-            
+
         activity()
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, 'report' => 'Cash Basis Balance Report'])
