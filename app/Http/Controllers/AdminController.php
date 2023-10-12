@@ -141,6 +141,22 @@ class AdminController extends Controller
 
     }
 
+    public function destroy($id)
+    {
+        if ($error = $this->sendPermissionError('admin.user.delete')) {
+            return $error;
+        }
+
+        try {
+            Admin::findOrFail($id)->delete();
+            Alert::success('User Management', 'User Deleted Successfully');
+            return back();
+        } catch (\Exception $e) {
+            Alert::error('Opps', 'Something went wrong, please try again');
+            return back();
+        }
+    }
+
     public function showLoginForm()
     {
         if (!Auth::guard('admin')->check()) {

@@ -52,8 +52,8 @@
                                                 <th>Role</th>
                                                 <th>Email</th>
                                                 <th class="center">Status</th>
-                                                @canany(['admin.user.edit'])
-                                                    <th class="center">Action</th>
+                                                @canany(['admin.user.edit', 'admin.user.delete'])
+                                                    <th class="center" style="width:50px">Action</th>
                                                 @endcanany
                                             </tr>
                                         </thead>
@@ -61,7 +61,7 @@
                                         <tbody>
                                             @foreach ($admins as $index => $admin)
                                                 <tr>
-                                                    <td class="center">{{ $index + 1 }}</td>
+                                                    <td class="center">{{ @$i += 1 }}</td>
                                                     <td>{{ $admin->name }}</td>
                                                     <td>
                                                         @foreach ($admin->roles()->get() as $role)
@@ -73,27 +73,31 @@
                                                         @if ($admin->is_active == 1)
                                                             <a
                                                                 href="@can('admin.user.deactivate') {{ route('user.deactivate', $admin->id) }} @else # @endcan">
-                                                                <button class="btn btn-success">Active</button>
+                                                                <button class="btn btn-sm btn-success">Active</button>
                                                             </a>
                                                         @else
                                                             <a
                                                                 href="@can('admin.user.reactivate') {{ route('user.reactivate', $admin->id) }} @else # @endcan">
-                                                                <button class="btn btn-danger">Deactive</button>
+                                                                <button class="btn btn-sm btn-danger">Deactive</button>
                                                             </a>
                                                         @endif
                                                     </td>
-                                                    <td class="center d-flex">
+                                                    <td class="center">
                                                         @canany(['admin.user.edit'])
                                                             <a title="User Edit" class="green" style="margin-right: 15px"
                                                                 href="{{ route('user.edit', $admin->id) }}">
                                                                 <i class="ace-icon fa fa-pencil bigger-130"></i>
                                                             </a>
                                                         @endcanany
-                                                        @canany(['admin.user.edit'])
-                                                            <a title="User Delete" class="red"
+                                                        @canany(['admin.user.delete'])
+                                                        <form action="{{ route('user.destroy', $admin->id) }}" method="post" style="display: inline-block;">
+                                                            @csrf @method('DELETE')
+                                                            <button type="submit" class="red" style="border: none; background: none;" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+                                                        </form>
+                                                            {{-- <a title="User Delete" class="red"
                                                                 href="{{ route('user.destroy', $admin->id) }}">
                                                                 <i class="fa-solid fa-trash"></i>
-                                                            </a>
+                                                            </a> --}}
                                                         @endcanany
                                                     </td>
                                                 </tr>
