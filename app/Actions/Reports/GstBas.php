@@ -193,7 +193,7 @@ class GstBas extends Controller
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
-            ->whereIn('source', '!=', ['INV','RIV'])
+            ->whereNotIn('source', ['INV','RIV'])
             ->orderBy('chart_code')
             ->get()
             ->groupBy('chart_code');
@@ -202,7 +202,7 @@ class GstBas extends Controller
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereIn('profession_id', $professions)
             ->where('chart_code', 'like', '1%')
-            ->where('source', '!=', 'INV')
+            ->whereNotIn('source', ['INV','RIV'])
             // ->whereIn('source', ['PIN','BST','INP'])
             // ->select('chart_code', 'gst_cash_amount')
             ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
