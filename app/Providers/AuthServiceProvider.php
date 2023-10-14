@@ -26,17 +26,21 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::before(function ($user, $ability) {
+        // Gate::before(function ($user, $ability) {
             /*
              * Create a developer access
              * */
-            $admin_user = auth('admin')->user();
-            if ($admin_user) {
-                return in_array($admin_user->id, explode(',', env('DEVELOPER_IDS'))) ? true : null;
-            }
-            Gate::before(function ($user, $ability) {
-                return $user->hasRole('Admin') ? true : null;
-            });
+            // $admin_user = auth('admin')->user();
+            // if ($admin_user) {
+            //     return in_array($admin_user->id, explode(',', env('DEVELOPER_IDS'))) ? true : null;
+            // }
+        //     Gate::before(function ($user, $ability) {
+        //         return $user->hasRole('Admin') ? true : null;
+        //     });
+        // });
+
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('Admin') ? true : null;
         });
     }
 }
