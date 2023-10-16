@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Reports;
 use App\Models\Client;
 use App\Models\Profession;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use RealRashid\SweetAlert\Facades\Alert;
 use App\Actions\Reports\ProfitLossReport;
 
 class GstProfitLossInclController extends Controller
 {
-    // prfit and loss GST Inlcusic
     public function index()
     {
         if ($error = $this->sendPermissionError('admin.profit_loss_incl.index')) {

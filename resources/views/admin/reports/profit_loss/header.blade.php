@@ -7,7 +7,8 @@
         <td class="text-center">
             <span style="font-size:22px; font-weight:800;"> Focus Taxation
                 and Accounting Pty
-                Ltd.</span> <br /><span style="font-size:12px;">(Certified Practising
+                Ltd.</span> <br />
+                <span style="font-size:12px;">(Certified Practising
                 Accountant &amp;
                 Registered. Tax Agents.) </span><br />
             ABN : 68 136 655 608, Add : 8 Rochford Way, Girrawheen WA 6064<br />
