@@ -67,7 +67,7 @@ class ProfitLossReport
                 ->groupBy('chart_id')
                 ->orderBy('chart_id')
                 ->get(ledgerSetVisible());
-                
+
             $expensCodes = GeneralLedger::with(['client_account_code' => fn ($q) => $q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(balance) as exBalance'))
                 ->Where('chart_id', 'like', '2%')
@@ -91,6 +91,7 @@ class ProfitLossReport
                     ->performedOn(new GeneralLedger())
                     ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Profit Loss GST Excl Report'])
                     ->log('Report > Profit Loss GST Excl Report > ' . $client->fullname . ' > ' . $profession->name);
+                    
                 return view($path, compact(['to_date', 'from_date', 'client', 'totalIncome', 'totalExpense', 'incomeCodes', 'expensCodes', 'profession']));
             } else {
                 Alert::warning('There was no records matching with input dates!');
