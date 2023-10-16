@@ -6,7 +6,6 @@ use App\Models\Client;
 use App\Models\Period;
 use App\Models\Profession;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Actions\Reports\GstPeriodic;
 use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;

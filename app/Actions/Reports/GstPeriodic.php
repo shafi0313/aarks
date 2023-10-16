@@ -56,19 +56,6 @@ class GstPeriodic extends Controller
         $profession   = Profession::find($profession_id);
         $fuel_tax_ltr = FuelTaxLtr::whereIn('period_id', $request->peroid_id)->get();
 
-
-        // if ($type == 1) {
-        //     $debit  = $debit == 0 ? -$credit : $debit;
-        //     if (substr($chart_id, -6, 1) == 1) {
-        //         $debit = - $debit;
-        //     }
-        // } else {
-        //     $credit = $credit == 0 ? -$debit : $credit;
-        //     if (substr($chart_id, -6, 1) == 2) {
-        //         $credit = - $credit;
-        //     }
-        // }
-
         $income = Gsttbl::with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->where('client_id', $client_id)
             ->where('profession_id', $profession_id)
             ->whereIn('period_id', $request->peroid_id)
@@ -168,11 +155,12 @@ class GstPeriodic extends Controller
             ->whereIn('period_id', $periods->pluck('id')->toArray())
             ->where('source', '!=', 'INV')
             ->orderBy('chart_code')->get()->groupBy('period_id');
-            
+
         activity()
             ->performedOn(new GeneralLedger())
-            ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Cash Periodic Report'])
-            ->log('Report > Cash Periodic Report > '.$client->fullname .' > '. $profession->name);
+            ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Periodic BAS(s/actv.Cash) Report'])
+            ->log('Report > Periodic BAS(s/actv.Cash) Report > '.$client->fullname .' > '. $profession->name);
+
         return compact(['periods', 'client', 'profession', 'accrueds', 'income', 'expense', 'incomeNonGst', 'asset', 'expense_code', 'w1', 'w2', 'payg', 'fuel_tax_ltr','sum95']);
     }
     public function consoleCash(Request $request, $path = null)
@@ -290,7 +278,7 @@ class GstPeriodic extends Controller
         return compact(['periods', 'client', 'accrueds', 'income', 'expense', 'incomeNonGst', 'asset', 'expense_code', 'w1', 'w2', 'payg', 'fuel_tax_ltr','sum95']);
     }
 
-    
+
     public function acrued(Request $request, $path = null)
     {
         $client_id         = $request->client_id;

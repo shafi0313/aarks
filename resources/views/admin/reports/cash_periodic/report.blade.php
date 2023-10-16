@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Periodic GST/BAS(Cash)')
+@section('title', 'Periodic BAS(s/actv.Cash)')
 @section('content')
     <div class="main-content">
         <div class="main-content-inner">
@@ -10,7 +10,7 @@
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
                     <li>Report</li>
-                    <li>Periodic GST/BAS(Cash)</li>
+                    <li>Periodic BAS(s/actv.Cash)</li>
                     <li>{{ clientName($client) }}</li>
                     <li class="active">{{ $profession->name }}</li>
                 </ul><!-- /.breadcrumb -->
