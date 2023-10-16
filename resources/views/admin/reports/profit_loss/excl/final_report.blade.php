@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Profit & Loss GST Exclude')
+@section('title', 'Profit & Loss GST Exclude S/Activity')
 @section('content')
     <div class="main-content">
         <div class="main-content-inner">
@@ -10,7 +10,7 @@
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
                     <li>Reports</li>
-                    <li>Profit & Loss GST Exclude</li>
+                    <li>Profit & Loss GST Exclude S/Activity</li>
                     <li>{{ clientName($client) }}</li>
                     <li class="active">{{ $profession->name }}</li>
                 </ul><!-- /.breadcrumb -->

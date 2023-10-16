@@ -89,9 +89,9 @@ class ProfitLossReport
             if ($checkLedger->count()) {
                 activity()
                     ->performedOn(new GeneralLedger())
-                    ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Profit Loss GST Excl Report'])
-                    ->log('Report > Profit Loss GST Excl Report > ' . $client->fullname . ' > ' . $profession->name);
-                    
+                    ->withProperties(['client' => $client->fullname, 'profession' => $profession->name, 'report' => 'Profit Loss GST Excl S/Activity Report'])
+                    ->log('Report > Profit Loss GST Excl S/Activity Report > ' . $client->fullname . ' > ' . $profession->name);
+
                 return view($path, compact(['to_date', 'from_date', 'client', 'totalIncome', 'totalExpense', 'incomeCodes', 'expensCodes', 'profession']));
             } else {
                 Alert::warning('There was no records matching with input dates!');
