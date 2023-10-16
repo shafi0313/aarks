@@ -279,8 +279,9 @@ class GstBas extends Controller
 
         activity()
             ->performedOn(new GeneralLedger())
-            ->withProperties(['client' => $client->fullname, 'report' => 'Cash Basis Balance Report'])
-            ->log('Report > Cash Basis Balance Report > ' . $client->fullname);
+            ->withProperties(['client' => $client->fullname, 'report' => 'GST/BAS(Consol.Cash) Report'])
+            ->log('Report > GST/BAS(Consol.Cash) Report > ' . $client->fullname);
+            
         return view($path,compact(['data', 'client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'fuel_tax_ltr', 'payg']));
     }
 

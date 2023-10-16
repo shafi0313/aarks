@@ -36,8 +36,6 @@
                                     <div class="panel-heading">
                                         <h3 class="panel-title"><i class="glyphicon glyphicon-align-justify"></i> Clients
                                             Detail : {{ $client->fullname }}
-                                            {{-- <strong class="pull-right"><a class="back" href=""><i
-                class="glyphicon glyphicon-chevron-left"></i> Back</a></strong> --}}
                                         </h3>
                                     </div>
                                     <div class="panel-body" style="padding:0px;">
@@ -81,7 +79,5 @@
             </div><!-- /.page-content -->
         </div>
     </div><!-- /.main-content -->
-
-    <!-- inline scripts related to this page -->
 
 @endsection

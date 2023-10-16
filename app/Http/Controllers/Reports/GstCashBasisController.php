@@ -5,15 +5,12 @@ namespace App\Http\Controllers\Reports;
 use App\Models\Client;
 use App\Models\Period;
 use Illuminate\Http\Request;
-use App\ProfessionAccountCode;
 use App\Actions\Reports\GstBas;
 use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class GstCashBasisController extends Controller
 {
-
-    // GST/BAS (Cash Basis)
     public function index()
     {
         if ($error = $this->sendPermissionError('admin.cash_basis.index')) {
@@ -58,6 +55,7 @@ class GstCashBasisController extends Controller
         if ($error = $this->sendPermissionError('admin.cash_basis.index')) {
             return $error;
         }
+
         return $data = $gst->consoleCash($request, 'admin.reports.cash_basis.balance');
         // return view('admin.reports.cash_basis.balance', $data);
     }

@@ -45,6 +45,7 @@
                                                 <th>Last Name</th>
                                                 <th>Phone Number</th>
                                                 <th>Email Address</th>
+                                                <th width="63px">Pay Status</th>
                                                 <th>ABN Number</th>
                                                 <th>Action</th>
                                             </tr>
@@ -59,9 +60,16 @@
                                                     <td>{{ $client->last_name }}</td>
                                                     <td>{{ $client->phone }}</td>
                                                     <td>{{ $client->email }}</td>
+                                                    <td class="text-center">
+                                                        @isset($client->payment)
+                                                            <span class="label label-sm label-success">Active</span>
+                                                        @else
+                                                            <span class="label label-sm label-danger">Expired</span>
+                                                        @endisset
+                                                    </td>
                                                     <td>{{ $client->abn_number }}</td>
                                                     <td>
-                                                        <div class="  action-buttons">
+                                                        <div class="action-buttons">
                                                             <a class="red"
                                                                 href="{{ route('cash_basis.date', [$client->id]) }}">Select
                                                                 Client</a>
