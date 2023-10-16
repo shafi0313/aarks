@@ -1,7 +1,6 @@
 @extends('admin.layout.master')
 @section('title','General Ledger')
 @section('content')
-
     <div class="main-content">
         <div class="main-content-inner">
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -10,6 +9,7 @@
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
+                    <li>Reports</li>
                      <li>
                         <a href="{{ route('general_ledger.index') }}">General Ledger</a>
                     </li>
@@ -20,11 +20,6 @@
             </div>
 
             <div class="page-content">
-
-                <!-- Settings -->
-            {{--            @include('admin.layout.settings')--}}
-            <!-- /Settings -->
-
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->

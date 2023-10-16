@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Reports;
 
 use App\Models\Client;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
-use Illuminate\Http\Request;
 use App\Models\GeneralLedger;
 use App\Models\ClientAccountCode;
 use App\Actions\GeneralLedgerAction;
@@ -14,11 +13,6 @@ use App\Http\Requests\ShowGeneralLedgerRequest;
 
 class GeneralLedgerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if ($error = $this->sendPermissionError('admin.general_ledger.index')) {
@@ -43,9 +37,12 @@ class GeneralLedgerController extends Controller
             return $error;
         }
         $client_account_codes = ClientAccountCode::where('client_id', $client->id)
-                            // ->where('profession_id', $profession->id)
-                            ->where('code', '!=', 999999)
-                            ->orderBy('code', 'asc')->groupBy('code')->get();
+            // ->where('profession_id', $profession->id)
+            ->where('code', '!=', 999999)
+            ->orderBy('code', 'asc')
+            ->groupBy('code')
+            ->get();
+
         return view('admin.reports.general_ledger.date', compact('client', 'client_account_codes'));
     }
 
@@ -64,7 +61,8 @@ class GeneralLedgerController extends Controller
         activity()
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, /* 'profession' => $profession->name, */ 'report' => 'General Ledger Report'])
-            ->log('Report > General Ledger Report > '.$client->fullname /* .' > '. $profession->name */);
+            ->log('Report > General Ledger Report > ' . $client->fullname /* .' > '. $profession->name */);
+            
         return view('admin.reports.general_ledger.report', $data);
     }
 
@@ -102,10 +100,10 @@ class GeneralLedgerController extends Controller
 
         $pdf = PDF::loadView('frontend.report.ledger.print', $data);
         if ($request->submit == 'print') {
-            return $pdf->download('General Ledger-'.clientName($client).'-'.$request->start_date.'-'.$request->end_date.'.pdf');
+            return $pdf->download('General Ledger-' . clientName($client) . '-' . $request->start_date . '-' . $request->end_date . '.pdf');
         } elseif ($request->submit == 'email') {
             try {
-                Mail::send('frontend.sales.payment.mail', ['client'=>$client, 'customer'=>$client], function ($mail) use ($pdf, $client) {
+                Mail::send('frontend.sales.payment.mail', ['client' => $client, 'customer' => $client], function ($mail) use ($pdf, $client) {
                     $mail->to($client->email, $client->email)
                         ->subject('🧾 General Ledger Generated')
                         ->attachData($pdf->output(), transaction_id(16) . ".pdf");
