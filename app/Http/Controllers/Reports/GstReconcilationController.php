@@ -22,7 +22,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class GstReconcilationController extends Controller
 {
-    // GST/BAS (Cash Basis)
     public function index()
     {
         if ($error = $this->sendPermissionError('admin.gst-reconciliation-for-tr.index')) {
@@ -66,8 +65,8 @@ class GstReconcilationController extends Controller
             return $error;
         }
         $periods = Period::where('client_id', $client->id)->where('profession_id', $profession->id)->groupBy('year')->get(['id', 'year']);
-        $get         = 'period';
-        $html        = view('admin.reports.gst_recon.profession', compact('periods', 'profession', 'client', 'get'))->render();
+        $get     = 'period';
+        $html    = view('admin.reports.gst_recon.profession', compact('periods', 'profession', 'client', 'get'))->render();
         return response()->json(['data' => $html]);
     }
     public function report(Request $request, Client $client, Profession $profession, Period $period)
@@ -77,13 +76,8 @@ class GstReconcilationController extends Controller
         }
         $client_id         = $client->id;
         $profession_id     = $profession->id;
-
-        // return view('admin.reports.gst_recon.balance', compact('client', 'profession', 'period'));
-
         $dateFrom          = ($period->year - 1) . '-07-01';
         $dateTo            = ($period->year) . '-06-30';
-        // $dateFrom          = makeBackendCompatibleDate('01/07/'.(int) $period->year-1)->format('Y-m-d');
-        // $dateTo            = makeBackendCompatibleDate('30/06/'.(int) $period->year)->format('Y-m-d');
         $expense_code_from = '245000';
         $expense_code_to   = '245999';
         $w1_from           = '245100';
@@ -91,18 +85,10 @@ class GstReconcilationController extends Controller
 
         $periods = Period::whereClientId($client_id)->whereProfessionId($profession_id)->where('year', $period->year)->pluck('id')->toArray();
 
-
-        // $income = Gsttbl::where('client_id', $client_id)
-        //     ->where('profession_id', $profession_id)
-        //     ->whereBetween('trn_date', [$dateFrom, $dateTo])
-        //     // ->where('source', '!=', 'INV')
-        //     ->where('chart_code', 'like', '1%')
-        //     ->get(['gst_cash_amount', 'gross_amount', 'trn_date']);
-
         $income = Gsttbl::where('client_id', $client_id)
             ->where('profession_id', $profession_id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
-            ->whereNotIn('source', ['INV','RIV'])
+            ->whereNotIn('source', ['INV', 'RIV'])
             ->where('chart_code', 'like', '1%')
             ->get(['gst_cash_amount', 'gross_amount', 'trn_date']); // _________G1 & A1_________
 
@@ -135,8 +121,6 @@ class GstReconcilationController extends Controller
             ->whereNotBetween('chart_code', [$expense_code_from, $expense_code_to])
             ->where('chart_code', 'like', '2%')
             ->get(['gst_cash_amount', 'gross_amount', 'trn_date']); // _________G11_________
-
-
 
         $w1 = Gsttbl::where('client_id', $client_id)
             ->where('profession_id', $profession_id)
@@ -199,12 +183,11 @@ class GstReconcilationController extends Controller
             ->wherePeriodId($period->id)
             ->where('year', $period->year)
             ->get();
-        // return $recons->where('item', 'g1')->first();
 
         activity()
             ->performedOn(new GeneralLedger())
-            ->withProperties(['client' => $client->fullname, 'report' => 'Gst Reconciliation Report'])
-            ->log('Report > Gst Reconciliation Report > ' . $client->fullname);
+            ->withProperties(['client' => $client->fullname, 'report' => 'Gst Reconciliation for T Form Report'])
+            ->log('Report > Gst Reconciliation for T Form Report > ' . $client->fullname);
         return view('admin.reports.gst_recon.balance', compact(['client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'period', 'totalIncome', 'totalExpense', 'totalCredit', 'totalDebit', 'profession', 'recons', 'recons_taxes', 'note']));
     }
 
@@ -252,7 +235,6 @@ class GstReconcilationController extends Controller
             Alert::error('Error', 'This report has been posted already');
             return redirect()->back();
         }
-
 
         $item            = ['g1', 'g3', '1a', 'g11', '1b', 'w1', 'w2', 'g10', '9'];
         $particular      = [
@@ -318,19 +300,21 @@ class GstReconcilationController extends Controller
                 'updated_at'    => now(),
             ]);
         }
+
         try {
             DB::commit();
-            toast('GST Reconciliation Report has been saved successfully', 'success');
+            activity()
+                ->performedOn(new GeneralLedger())
+                ->withProperties(['client' => $client->fullname, 'report' => 'Gst Reconciliation for T Form Report Saved'])
+                ->log('Report > Gst Reconciliation for T Form Report Saved> ' . $client->fullname);
+            toast('Gst Reconciliation for T Form Report has been saved successfully', 'success');
         } catch (\Exception $e) {
             DB::rollback();
-            toast('GST Reconciliation Report has not been saved successfully', 'error');
-            #return $e->getMessage();
+            toast('Gst Reconciliation for T Form Report has not been saved successfully', 'error');
         }
         return redirect()->back();
-        // return redirect()->route('admin.reports.gst_recon.show', [$client, $profession, $period]);
-
-        return $request->all();
     }
+
     public function permission(Request $request, Client $client, Profession $profession, Period $period)
     {
         if ($error = $this->sendPermissionError('admin.gst-reconciliation-for-tr.edit')) {
@@ -347,13 +331,21 @@ class GstReconcilationController extends Controller
                 ->where('year', $period->year)
                 ->whereIsPosted(1)
                 ->update(['is_posted' => 0]);
+
             ReconcilationTax::whereClientId($client->id)
                 ->whereProfessionId($profession->id)
                 ->wherePeriodId($period->id)
                 ->where('year', $period->year)
                 ->whereIsPosted(1)
                 ->update(['is_posted' => 0]);
-            Alert::success('GST Reconciliation Report has been restore successfully');
+
+            Alert::success('Gst Reconciliation for T Form Report has been restore successfully');
+
+            activity()
+                ->performedOn(new Reconcilation())
+                ->withProperties(['client' => $client->fullname, 'report' => 'Gst Reconciliation for T Form Report Restore'])
+                ->log('Report > Gst Reconciliation for T Form Report Restore> ' . $client->fullname);
+
             return redirect()->back();
         } else {
             Alert::error('Error', 'Password is incorrect');
@@ -387,6 +379,11 @@ class GstReconcilationController extends Controller
             toast('Note has been saved successfully.', 'success');
             return redirect()->back();
         }
+        activity()
+            ->performedOn(new Note())
+            ->withProperties(['client' => $client->fullname, 'report' => 'Gst Reconciliation for T Form Report Note Saved'])
+            ->log('Report > Gst Reconciliation for T Form Report Note Saved> ' . $client->fullname);
+
         return abort(404);
     }
 }

@@ -54,140 +54,140 @@
                                         $re_g1_oct_dec_ato = abs($recon_g1->oct_dec_ato);
                                         $re_g1_jan_mar_ato = abs($recon_g1->jan_mar_ato);
                                         $re_g1_apr_jun_ato = abs($recon_g1->apr_jun_ato);
-                                        
+
                                         $re_g1_jul_sep_diff = abs($recon_g1->jul_sep_gl) - abs($recon_g1->jul_sep_ato);
                                         $re_g1_oct_dec_diff = abs($recon_g1->oct_dec_gl) - abs($recon_g1->oct_dec_ato);
                                         $re_g1_jan_mar_diff = abs($recon_g1->jan_mar_gl) - abs($recon_g1->jan_mar_ato);
                                         $re_g1_apr_jun_diff = abs($recon_g1->apr_jun_gl) - abs($recon_g1->apr_jun_ato);
-                                        
+
                                         $re_g1_total = abs($re_g1_jul_sep_ato + $re_g1_oct_dec_ato + $re_g1_jan_mar_ato + $re_g1_apr_jun_ato);
                                         $re_g1_total_diff = $re_g1_jul_sep_diff + $re_g1_oct_dec_diff + $re_g1_jan_mar_diff + $re_g1_apr_jun_diff;
                                         // G1
-                                        
+
                                         // G3
                                         $recon_g3 = optional($recons->where('item', 'g3')->first());
                                         $re_g3_jul_sep_ato = abs($recon_g3->jul_sep_ato);
                                         $re_g3_oct_dec_ato = abs($recon_g3->oct_dec_ato);
                                         $re_g3_jan_mar_ato = abs($recon_g3->jan_mar_ato);
                                         $re_g3_apr_jun_ato = abs($recon_g3->apr_jun_ato);
-                                        
+
                                         $re_g3_jul_sep_diff = abs($recon_g3->jul_sep_gl) - abs($recon_g3->jul_sep_ato);
                                         $re_g3_oct_dec_diff = abs($recon_g3->oct_dec_gl) - abs($recon_g3->oct_dec_ato);
                                         $re_g3_jan_mar_diff = abs($recon_g3->jan_mar_gl) - abs($recon_g3->jan_mar_ato);
                                         $re_g3_apr_jun_diff = abs($recon_g3->apr_jun_gl) - abs($recon_g3->apr_jun_ato);
-                                        
+
                                         $re_g3_total = abs($re_g3_jul_sep_ato + $re_g3_oct_dec_ato + $re_g3_jan_mar_ato + $re_g3_apr_jun_ato);
                                         $re_g3_total_diff = $re_g3_jul_sep_diff + $re_g3_oct_dec_diff + $re_g3_jan_mar_diff + $re_g3_apr_jun_diff;
                                         // g3
-                                        
+
                                         // 1a
                                         $recon_1a = optional($recons->where('item', '1a')->first());
                                         $re_1a_jul_sep_ato = abs($recon_1a->jul_sep_ato);
                                         $re_1a_oct_dec_ato = abs($recon_1a->oct_dec_ato);
                                         $re_1a_jan_mar_ato = abs($recon_1a->jan_mar_ato);
                                         $re_1a_apr_jun_ato = abs($recon_1a->apr_jun_ato);
-                                        
+
                                         $re_1a_jul_sep_diff = abs($recon_1a->jul_sep_gl) - abs($recon_1a->jul_sep_ato);
                                         $re_1a_oct_dec_diff = abs($recon_1a->oct_dec_gl) - abs($recon_1a->oct_dec_ato);
                                         $re_1a_jan_mar_diff = abs($recon_1a->jan_mar_gl) - abs($recon_1a->jan_mar_ato);
                                         $re_1a_apr_jun_diff = abs($recon_1a->apr_jun_gl) - abs($recon_1a->apr_jun_ato);
-                                        
+
                                         $re_1a_total = abs($re_1a_jul_sep_ato + $re_1a_oct_dec_ato + $re_1a_jan_mar_ato + $re_1a_apr_jun_ato);
                                         $re_1a_total_diff = $re_1a_jul_sep_diff + $re_1a_oct_dec_diff + $re_1a_jan_mar_diff + $re_1a_apr_jun_diff;
                                         // 1a
-                                        
+
                                         // g11
                                         $recon_g11 = optional($recons->where('item', 'g11')->first());
                                         $re_g11_jul_sep_ato = abs($recon_g11->jul_sep_ato);
                                         $re_g11_oct_dec_ato = abs($recon_g11->oct_dec_ato);
                                         $re_g11_jan_mar_ato = abs($recon_g11->jan_mar_ato);
                                         $re_g11_apr_jun_ato = abs($recon_g11->apr_jun_ato);
-                                        
+
                                         $re_g11_jul_sep_diff = abs($recon_g11->jul_sep_gl) - abs($recon_g11->jul_sep_ato);
                                         $re_g11_oct_dec_diff = abs($recon_g11->oct_dec_gl) - abs($recon_g11->oct_dec_ato);
                                         $re_g11_jan_mar_diff = abs($recon_g11->jan_mar_gl) - abs($recon_g11->jan_mar_ato);
                                         $re_g11_apr_jun_diff = abs($recon_g11->apr_jun_gl) - abs($recon_g11->apr_jun_ato);
-                                        
+
                                         $re_g11_total = abs($re_g11_jul_sep_ato + $re_g11_oct_dec_ato + $re_g11_jan_mar_ato + $re_g11_apr_jun_ato);
                                         $re_g11_total_diff = $re_g11_jul_sep_diff + $re_g11_oct_dec_diff + $re_g11_jan_mar_diff + $re_g11_apr_jun_diff;
                                         // g11
-                                        
+
                                         // 1b
                                         $recon_1b = optional($recons->where('item', '1b')->first());
                                         $re_1b_jul_sep_ato = abs($recon_1b->jul_sep_ato);
                                         $re_1b_oct_dec_ato = abs($recon_1b->oct_dec_ato);
                                         $re_1b_jan_mar_ato = abs($recon_1b->jan_mar_ato);
                                         $re_1b_apr_jun_ato = abs($recon_1b->apr_jun_ato);
-                                        
+
                                         $re_1b_jul_sep_diff = abs($recon_1b->jul_sep_gl) - abs($recon_1b->jul_sep_ato);
                                         $re_1b_oct_dec_diff = abs($recon_1b->oct_dec_gl) - abs($recon_1b->oct_dec_ato);
                                         $re_1b_jan_mar_diff = abs($recon_1b->jan_mar_gl) - abs($recon_1b->jan_mar_ato);
                                         $re_1b_apr_jun_diff = abs($recon_1b->apr_jun_gl) - abs($recon_1b->apr_jun_ato);
-                                        
+
                                         $re_1b_total = abs($re_1b_jul_sep_ato + $re_1b_oct_dec_ato + $re_1b_jan_mar_ato + $re_1b_apr_jun_ato);
                                         $re_1b_total_diff = $re_1b_jul_sep_diff + $re_1b_oct_dec_diff + $re_1b_jan_mar_diff + $re_1b_apr_jun_diff;
                                         // 1b
-                                        
+
                                         // w1
                                         $recon_w1 = optional($recons->where('item', 'w1')->first());
                                         $re_w1_jul_sep_ato = abs($recon_w1->jul_sep_ato);
                                         $re_w1_oct_dec_ato = abs($recon_w1->oct_dec_ato);
                                         $re_w1_jan_mar_ato = abs($recon_w1->jan_mar_ato);
                                         $re_w1_apr_jun_ato = abs($recon_w1->apr_jun_ato);
-                                        
+
                                         $re_w1_jul_sep_diff = abs($recon_w1->jul_sep_gl) - abs($recon_w1->jul_sep_ato);
                                         $re_w1_oct_dec_diff = abs($recon_w1->oct_dec_gl) - abs($recon_w1->oct_dec_ato);
                                         $re_w1_jan_mar_diff = abs($recon_w1->jan_mar_gl) - abs($recon_w1->jan_mar_ato);
                                         $re_w1_apr_jun_diff = abs($recon_w1->apr_jun_gl) - abs($recon_w1->apr_jun_ato);
-                                        
+
                                         $re_w1_total = abs($re_w1_jul_sep_ato + $re_w1_oct_dec_ato + $re_w1_jan_mar_ato + $re_w1_apr_jun_ato);
                                         $re_w1_total_diff = $re_w1_jul_sep_diff + $re_w1_oct_dec_diff + $re_w1_jan_mar_diff + $re_w1_apr_jun_diff;
                                         // w1
-                                        
+
                                         // w2
                                         $recon_w2 = optional($recons->where('item', 'w2')->first());
                                         $re_w2_jul_sep_ato = abs($recon_w2->jul_sep_ato);
                                         $re_w2_oct_dec_ato = abs($recon_w2->oct_dec_ato);
                                         $re_w2_jan_mar_ato = abs($recon_w2->jan_mar_ato);
                                         $re_w2_apr_jun_ato = abs($recon_w2->apr_jun_ato);
-                                        
+
                                         $re_w2_jul_sep_diff = abs($recon_w2->jul_sep_gl) - abs($recon_w2->jul_sep_ato);
                                         $re_w2_oct_dec_diff = abs($recon_w2->oct_dec_gl) - abs($recon_w2->oct_dec_ato);
                                         $re_w2_jan_mar_diff = abs($recon_w2->jan_mar_gl) - abs($recon_w2->jan_mar_ato);
                                         $re_w2_apr_jun_diff = abs($recon_w2->apr_jun_gl) - abs($recon_w2->apr_jun_ato);
-                                        
+
                                         $re_w2_total = abs($re_w2_jul_sep_ato + $re_w2_oct_dec_ato + $re_w2_jan_mar_ato + $re_w2_apr_jun_ato);
                                         $re_w2_total_diff = $re_w2_jul_sep_diff + $re_w2_oct_dec_diff + $re_w2_jan_mar_diff + $re_w2_apr_jun_diff;
                                         // w2
-                                        
+
                                         // g10
                                         $recon_g10 = optional($recons->where('item', 'g10')->first());
                                         $re_g10_jul_sep_ato = abs($recon_g10->jul_sep_ato);
                                         $re_g10_oct_dec_ato = abs($recon_g10->oct_dec_ato);
                                         $re_g10_jan_mar_ato = abs($recon_g10->jan_mar_ato);
                                         $re_g10_apr_jun_ato = abs($recon_g10->apr_jun_ato);
-                                        
+
                                         $re_g10_jul_sep_diff = abs($recon_g10->jul_sep_gl) - abs($recon_g10->jul_sep_ato);
                                         $re_g10_oct_dec_diff = abs($recon_g10->oct_dec_gl) - abs($recon_g10->oct_dec_ato);
                                         $re_g10_jan_mar_diff = abs($recon_g10->jan_mar_gl) - abs($recon_g10->jan_mar_ato);
                                         $re_g10_apr_jun_diff = abs($recon_g10->apr_jun_gl) - abs($recon_g10->apr_jun_ato);
-                                        
+
                                         $re_g10_total = abs($re_g10_jul_sep_ato + $re_g10_oct_dec_ato + $re_g10_jan_mar_ato + $re_g10_apr_jun_ato);
                                         $re_g10_total_diff = $re_g10_jul_sep_diff + $re_g10_oct_dec_diff + $re_g10_jan_mar_diff + $re_g10_apr_jun_diff;
                                         // g10
-                                        
+
                                         // 9
                                         $recon_9 = optional($recons->where('item', '9')->first());
                                         $re_9_jul_sep_ato = abs($recon_9->jul_sep_ato);
                                         $re_9_oct_dec_ato = abs($recon_9->oct_dec_ato);
                                         $re_9_jan_mar_ato = abs($recon_9->jan_mar_ato);
                                         $re_9_apr_jun_ato = abs($recon_9->apr_jun_ato);
-                                        
+
                                         $re_9_jul_sep_diff = abs($recon_9->jul_sep_gl) - abs($recon_9->jul_sep_ato);
                                         $re_9_oct_dec_diff = abs($recon_9->oct_dec_gl) - abs($recon_9->oct_dec_ato);
                                         $re_9_jan_mar_diff = abs($recon_9->jan_mar_gl) - abs($recon_9->jan_mar_ato);
                                         $re_9_apr_jun_diff = abs($recon_9->apr_jun_gl) - abs($recon_9->apr_jun_ato);
-                                        
+
                                         $re_9_total = abs($re_9_jul_sep_ato + $re_9_oct_dec_ato + $re_9_jan_mar_ato + $re_9_apr_jun_ato);
                                         $re_9_total_diff = $re_9_jul_sep_diff + $re_9_oct_dec_diff + $re_9_jan_mar_diff + $re_9_apr_jun_diff;
                                         // 9
@@ -1057,15 +1057,14 @@
                                                         @endphp
                                                         <td class="tg-be25">
                                                             {{ nF2($total_9) }}
-                                                            <input type="hidden" id="9_total" value="{{ $total_9 }}">
+                                                            <input type="hidden" id="9_total"
+                                                                value="{{ $total_9 }}">
                                                         </td>
                                                         <td class="tg-5q6i">
-                                                            <span
-                                                                class="9">{{ nF2($re_9_total ) }}</span>
+                                                            <span class="9">{{ nF2($re_9_total) }}</span>
                                                         </td>
                                                         <td class="tg-xszb">
-                                                            <span
-                                                                class="9_diff">{{ nF2($total_9 - $re_9_total) }}</span>
+                                                            <span class="9_diff">{{ nF2($total_9 - $re_9_total) }}</span>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -1080,49 +1079,49 @@
                                                 $sales_bf_report = abs($sales_bf->report);
                                                 $sales_bf_ato = abs($sales_bf->ato);
                                                 $sales_bf_diff = max([$sales_bf_bas, $sales_bf_report, $sales_bf_ato]) - min([$sales_bf_bas, $sales_bf_report, $sales_bf_ato]);
-                                                
+
                                                 $sales = optional($recons_taxes->where('particular', 'GST amount in sales')->first());
                                                 $sales_bas = abs($sales->bas);
                                                 $sales_report = abs($sales->report);
                                                 $sales_ato = abs($sales->ato);
                                                 $sales_diff = max([$sales_bas, $sales_report, $sales_ato]) - min([$sales_bas, $sales_report, $sales_ato]);
-                                                
+
                                                 $sales_af = optional($recons_taxes->where('particular', 'Sales After GST')->first());
                                                 $sales_af_bas = abs($sales_af->bas);
                                                 $sales_af_report = abs($sales_af->report);
                                                 $sales_af_ato = abs($sales_af->ato);
                                                 $sales_af_diff = max([$sales_af_bas, $sales_af_report, $sales_af_ato]) - min([$sales_af_bas, $sales_af_report, $sales_af_ato]);
-                                                
+
                                                 $exp_bf = optional($recons_taxes->where('particular', 'Expesnes before GST')->first());
                                                 $exp_bf_bas = abs($exp_bf->bas);
                                                 $exp_bf_report = abs($exp_bf->report);
                                                 $exp_bf_ato = abs($exp_bf->ato);
                                                 $exp_bf_diff = max([$exp_bf_bas, $exp_bf_report, $exp_bf_ato]) - min([$exp_bf_bas, $exp_bf_report, $exp_bf_ato]);
-                                                
+
                                                 $exp = optional($recons_taxes->where('particular', 'GST ON EXPESNSE')->first());
                                                 $exp_bas = abs($exp->bas);
                                                 $exp_report = abs($exp->report);
                                                 $exp_ato = abs($exp->ato);
                                                 $exp_diff = max([$exp_bas, $exp_report, $exp_ato]) - min([$exp_bas, $exp_report, $exp_ato]);
-                                                
+
                                                 $exp_af = optional($recons_taxes->where('particular', 'Expense after GST')->first());
                                                 $exp_af_bas = abs($exp_af->bas);
                                                 $exp_af_report = abs($exp_af->report);
                                                 $exp_af_ato = abs($exp_af->ato);
                                                 $exp_af_diff = max([$exp_af_bas, $exp_af_report, $exp_af_ato]) - min([$exp_af_bas, $exp_af_report, $exp_af_ato]);
-                                                
+
                                                 $wages = optional($recons_taxes->where('particular', 'Total wages')->first());
                                                 $wages_bas = abs($wages->bas);
                                                 $wages_report = abs($wages->report);
                                                 $wages_ato = abs($wages->ato);
                                                 $wages_diff = max([$wages_bas, $wages_report, $wages_ato]) - min([$wages_bas, $wages_report, $wages_ato]);
-                                                
+
                                                 $payg = optional($recons_taxes->where('particular', 'PAYG')->first());
                                                 $payg_bas = abs($payg->bas);
                                                 $payg_report = abs($payg->report);
                                                 $payg_ato = abs($payg->ato);
                                                 $payg_diff = max([$payg_bas, $payg_report, $payg_ato]) - min([$payg_bas, $payg_report, $payg_ato]);
-                                                
+
                                             @endphp
                                             <h1 class="text-center">Income Tax Return Reconciliation</h1>
                                             <table class="tax_table">

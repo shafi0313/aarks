@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'GST Reconciliation')
+@section('title', 'GST Reconciliation for TR')
 @section('content')
 
     <div class="main-content">
@@ -11,7 +11,7 @@
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
                     <li>Report</li>
-                    <li class="active">GST Reconciliation</li>
+                    <li class="active">GST Reconciliation for TR</li>
                 </ul>
             </div>
 

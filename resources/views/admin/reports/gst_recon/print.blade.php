@@ -8,7 +8,7 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-        <title>{{$client->fullname}} - GST Reconcilation</title>
+        <title>{{$client->fullname}} - GST Reconciliation for TR</title>
         @include('admin.reports.gst_recon.css')
         @include('frontend.print-css')
     </head>

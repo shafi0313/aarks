@@ -3,7 +3,7 @@
         <th>{{$client->fullname}}</th>
     </tr>
     <tr>
-        <th>GST Reconcilation</th>
+        <th>GST Reconciliation</th>
     </tr>
     <tr>
         <th>From Date : {{ '01/07/'.($period->year-1)}} To {{

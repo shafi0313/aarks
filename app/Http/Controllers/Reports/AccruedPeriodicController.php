@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Period;
 use App\Models\Profession;
 use Illuminate\Http\Request;
+use App\Models\GeneralLedger;
 use Illuminate\Support\Facades\DB;
 use App\Actions\Reports\GstPeriodic;
 use App\Http\Controllers\Controller;
@@ -55,9 +56,14 @@ class AccruedPeriodicController extends Controller
         }
         if ($request->peroid_id) {
             $data = $periodic->acrued($request);
+            $client     = Client::findOrFail($request->client_id);
+            activity()
+                ->performedOn(new GeneralLedger())
+                ->withProperties(['client' => $client->fullname, 'report' => 'Console Balance Sheet Report'])
+                ->log('Report > Console Balance Sheet Report ');
             return view('admin.reports.accrued_periodic.report', $data);
         } else {
-            Alert::warning('You must select Period', 'Seletect at lest one period!');
+            Alert::warning('You must select Period', 'Select at lest one period!');
             return back();
         }
     }
