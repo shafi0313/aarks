@@ -10,7 +10,7 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="{{ route('admin.dashboard') }}">Home</a>
               </li>
-              <li>Report</li>
+              <li>Reports</li>
               <li class="active">Activity Balance Sheet Report</li>
             </ul><!-- /.breadcrumb -->
 
@@ -24,11 +24,11 @@
             </div><!-- /.nav-search --> --}}
           </div>
 
-          <div class="page-content">            
-            
+          <div class="page-content">
+
 
             <div class="row">
-              <div class="col-xs-12">               
+              <div class="col-xs-12">
 
                 <!-- PAGE CONTENT BEGINS -->
                 <div class="row">
@@ -58,42 +58,42 @@
                             <td></td>
                             <td>01/01/1990</td>
                           </tr>
-                
+
                         </table>
                       </div>
                     </div>
-                
-                
+
+
                     <div class="col-md-3"></div>
-                
+
                     <div class="col-md-5">
                       <div class="row">
                         <form action="" method="">
-                
+
                           <div class="panel-body" style="padding:0px;">
                             <div class="col-md-3" style="padding-top:7px;" align="right"><strong>As at</strong></div>
                             <div class="col-md-5">
                               <div class="row">
-                
+
                                 <input type="" class="form-control date-picker" name="form_date" id="form_date" placeholder="DD/MM/YYYY"
                                   data-date-format="dd/mm/yyyy" />
                                 <input type="hidden" name="professionid" id="professionid" value="14" />
-                                <input type="hidden" name="client_id" id="client_id" value="628" />                
+                                <input type="hidden" name="client_id" id="client_id" value="628" />
                               </div>
-                            </div>                
-                
+                            </div>
+
                             <div class="col-md-4">
                               <div class="row">
                                 <a style="background:#FF9900; color:white; border:none; padding:7px;" href="{{ route('balance_sheet_select_date') }}">Show Report</a>
                                 {{-- <button class="" style="background:#FF9900; color:white; border:none; padding:7px;">Show Report</button> --}}
                               </div>
-                            </div>                
+                            </div>
                           </div>
                         </form>
                       </div>
-                    </div>                
+                    </div>
                   </div>
-                </div> 
+                </div>
 
                 <!-- PAGE CONTENT ENDS -->
               </div><!-- /.col -->

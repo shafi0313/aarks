@@ -25,7 +25,7 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="{{ route('admin.dashboard') }}">Home</a>
                 </li>
-                <li>Report</li>
+                <li>Reports</li>
                 <li>Console Financial Report</li>
                 <li class="active">{{ clientName($client) }}</li>
             </ul><!-- /.breadcrumb -->

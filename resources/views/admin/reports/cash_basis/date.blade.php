@@ -11,7 +11,7 @@
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
 
-                    <li>Report</li>
+                    <li>Reports</li>
                     <li>GST/BAS(Consol.Cash)</li>
                     <li class="active"></li>
                 </ul><!-- /.breadcrumb -->

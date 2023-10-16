@@ -12,7 +12,7 @@
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
-                    <li>Report</li>
+                    <li>Reports</li>
                     <li class="active">Bank Reconciliation</li>
                 </ul><!-- /.breadcrumb -->
             </div>
@@ -94,7 +94,7 @@
                                                         @php
                                                             $debit = $credit = $diff = 0;
                                                             $date   = \Carbon\Carbon::parse($recon['date'])->addDay();
-                                                            
+
                                                             $debit  = abs($recon['debit']);
                                                             $credit = abs($recon['credit']);
                                                             if ($recon['debit'] < 0) {
@@ -110,11 +110,11 @@
                                                         @endphp
                                                         @if (!in_array($identifier, $posted_identify))
                                                             @php
-                                                                
+
                                                                 $totalDebit  += $debit;
                                                                 $totalCredit += $credit;
                                                                 $totalDiff   += $diff;
-                                                                
+
                                                             @endphp
                                                             <script>
                                                                 diff_array[{{ $i }}] = 0;
@@ -177,7 +177,7 @@
                                                         @if (empty($bank_recons))
                                                             <td class="text-right">
                                                                 <span id="total_diff">
-                                                                    {{ nFA2($totalDiff) }}                                                                    
+                                                                    {{ nFA2($totalDiff) }}
                                                                 </span>
                                                             </td>
                                                         @else

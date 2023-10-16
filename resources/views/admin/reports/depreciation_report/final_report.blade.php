@@ -11,7 +11,7 @@
                     <a href="{{ route('admin.dashboard') }}">Home</a>
                 </li>
 
-                <li>Report</li>
+                <li>Reports</li>
                 <li>Depreciation Report</li>
                 <li>{{ $profession->name }}</li>
                 <li class="active">{{ clientName($client) }}</li>

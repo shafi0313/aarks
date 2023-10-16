@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Trial Balance')
+@section('title', 'Trial Balance(S/Activity)')
 @section('content')
 
     <div class="main-content">
@@ -10,7 +10,8 @@
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
-                    <li class="active">Trial Balance</li>
+                    <li>Reports</li>
+                    <li class="active">Trial Balance(S/Activity)</li>
                 </ul><!-- /.breadcrumb -->
 
                 <div class="nav-search" id="nav-search">
@@ -36,10 +37,6 @@
                                 <div class="table-header">
                                     All Client
                                 </div>
-
-                                <!-- div.table-responsive -->
-
-                                <!-- div.dataTables_borderWrap -->
                                 <div>
                                     {{--                                ///////////////////// --}}
                                     @include('admin._client_index_table', [

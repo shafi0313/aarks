@@ -1,38 +1,7 @@
 @extends('admin.layout.master')
-
 @section('title', 'Select Profession')
-
 @section('content')
-
     <div class="main-content">
-{{--        <div class="main-content-inner">--}}
-{{--            <div class="breadcrumbs" id="breadcrumbs">--}}
-{{--                <script type="text/javascript">--}}
-{{--                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}--}}
-{{--                </script>--}}
-
-{{--                <ul class="breadcrumb">--}}
-{{--                    <li>--}}
-{{--                        <i class="ace-icon fa fa-home home-icon"></i>--}}
-{{--                        <a href="#">Home</a>--}}
-{{--                    </li>--}}
-
-{{--                    <li>--}}
-{{--                        <a href="#">Add/Edit Data</a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a href="#">Import Data</a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a href="#">{{$client->first_name}}</a>--}}
-{{--                    </li>--}}
-{{--                </ul><!-- /.breadcrumb -->--}}
-{{--            </div>--}}
-{{--        </div>--}}
-        <!-- Settings -->
-    {{-- @include('admin.layout.settings') --}}
-    <!-- /Settings -->
-
         <div class="page-content">
             <div class="row">
                 <div class="col-md-3">

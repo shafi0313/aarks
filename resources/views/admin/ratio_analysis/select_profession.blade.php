@@ -10,7 +10,7 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="{{ route('admin.dashboard') }}">Home</a>
               </li>
-              <li>Report</li>
+              <li>Reports</li>
               <li class="active">>Retio Analysis</li>
               <li class="active">Select Profession</li>
             </ul><!-- /.breadcrumb -->
@@ -25,15 +25,15 @@
             </div><!-- /.nav-search --> --}}
           </div>
 
-          <div class="page-content">            
-            
+          <div class="page-content">
+
 
             <div class="row">
-              <div class="col-xs-12">               
+              <div class="col-xs-12">
 
                 <!-- PAGE CONTENT BEGINS -->
                 <div class="row">
-                  <div class="col-xs-12">                
+                  <div class="col-xs-12">
                     <div class="col-md-3">
                     </div>
                     <div class="col-md-6" style="padding:20px; border:1px solid #999999;">
@@ -42,12 +42,12 @@
                           <label style="color:green;">Select Activity</label>
                           <select class="form-control" onchange="location = this.value;">
                             <option value="">Select Activity</option>
-                
+
                             <option value="{{ route('ratio_analysis_financial_report') }}">Kebab Shop</option>
                           </select>
-                        </div>                
-                      </form>                
-                    </div>                
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
 

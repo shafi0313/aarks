@@ -11,7 +11,7 @@
 					<a href="{{ route('admin.dashboard') }}">Home</a>
                 </li>
 
-                <li>Report</li>
+                <li>Reports</li>
                 <li>Console Accumulated P/L GST Inclusive</li>
                 <li class="active"></li>
             </ul><!-- /.breadcrumb -->

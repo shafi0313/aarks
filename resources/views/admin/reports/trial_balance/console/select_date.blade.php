@@ -11,7 +11,7 @@
                         <a href="#">Home</a>
                     </li>
 
-                    <li>Report</li>
+                    <li>Reports</li>
                     <li>Console Trial Balance</li>
                     <li>{{$client->fullname}}</li>
                 </ul><!-- /.breadcrumb -->

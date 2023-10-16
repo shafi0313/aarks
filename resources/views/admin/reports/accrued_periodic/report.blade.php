@@ -9,7 +9,7 @@
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
-                    <li>Report</li>
+                    <li>Reports</li>
                     <li>Periodic GST/BAS(Accrued)</li>
                     <li>{{ clientName($client) }}</li>
                     <li class="active">{{ $profession->name }}</li>
@@ -75,7 +75,7 @@
                                             </tr>
                                         </table>
                                     </div>
-                                </div>                                
+                                </div>
                                 @include('admin.reports.accrued_periodic.period-table')
                                 @include('admin.reports.accrued_periodic.gst-report-table')
                             </div>

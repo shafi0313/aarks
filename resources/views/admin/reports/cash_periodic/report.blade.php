@@ -9,7 +9,7 @@
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="{{ route('admin.dashboard') }}">Home</a>
                     </li>
-                    <li>Report</li>
+                    <li>Reports</li>
                     <li>Periodic BAS(s/actv.Cash)</li>
                     <li>{{ clientName($client) }}</li>
                     <li class="active">{{ $profession->name }}</li>

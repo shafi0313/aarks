@@ -10,7 +10,7 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="{{ route('admin.dashboard') }}">Home</a>
               </li>
-              <li>Report</li>
+              <li>Reports</li>
               <li class="active">>Retio Analysis</li>
               <li class="active">GST/BAS</li>
             </ul><!-- /.breadcrumb -->
@@ -25,14 +25,14 @@
             </div><!-- /.nav-search --> --}}
           </div>
 
-          <div class="page-content">            
-            
+          <div class="page-content">
+
 
             <div class="row">
-              <div class="col-xs-12">               
+              <div class="col-xs-12">
 
                 <!-- PAGE CONTENT BEGINS -->
-                
+
           <div class="row">
             <div class="col-xs-12" >
               <div class="panel panel-primary">
@@ -68,41 +68,41 @@
                 <div class="panel-heading">
                   <h3 class="panel-title"><i class="glyphicon glyphicon-align-justify"></i> GST BAS</h3>
                 </div>
-                <div class="panel-body" style="padding:0px;">			  
-				 <form action="" method="post">	
-			   	
+                <div class="panel-body" style="padding:0px;">
+				 <form action="" method="post">
+
                       <input type="hidden" name="client_id" value="512" />
-                      
-					<div class="col-md-4" >				
-					</div>	
+
+					<div class="col-md-4" >
+					</div>
 					<div class="col-md-2" style="padding-top:20px;">
 						<div class="form-group">
 							<label>Form Date</label>
 							<input type="text" id="form_date" name="form_date" class="form-control date-picker" data-date-format="dd/mm/yyyy" Placeholder="DD/MM/YYYY"/>
 						</div>
-					</div>				
+					</div>
 					<div class="col-md-2" style="padding-top:20px;">
 						<div class="form-group">
 							<label>To Date</label>
 							<input type="text" id="to_date" name="to_date" class="form-control date-picker" data-date-format="dd/mm/yyyy"  Placeholder="DD/MM/YYYY"/>
 						</div>
-					</div>				
+					</div>
 					<div class="col-md-2" style="padding-top:40px;">
 					<div class="form-group">
-          
+
 						{{-- <button type="submit" class="btn btn-primary">Show Report</button> --}}
 					</div>
-					</div>		
-					<div class="col-md-4">				
 					</div>
-							
-				    
+					<div class="col-md-4">
+					</div>
+
+
 	   		 </form>
                 </div>
               </div>
             </div>
           </div>
-       
+
 
                 <!-- PAGE CONTENT ENDS -->
               </div><!-- /.col -->

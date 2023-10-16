@@ -10,7 +10,7 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="{{ route('admin.dashboard') }}">Home</a>
                 </li>
-                <li>Report</li>
+                <li>Reports</li>
                 <li class="active">Comperative Balance Sheet</li>
               <li class="active">Select Profession</li>
               <li class="active">Select Date</li>
@@ -29,13 +29,13 @@
         </div>
 
         <div class="page-content">
-            
+
 
             <div class="row">
                 <div class="col-xs-12">
 
                     <!-- PAGE CONTENT BEGINS -->
-                    <style>						
+                    <style>
 						.doubleUnderline {
 							text-decoration:underline;
 							border-bottom: 1px solid #000;
@@ -47,22 +47,22 @@
 						<input type="hidden" name="form_date" value="27/03/2020" />
 						<input type="hidden" name="shortingdate" value="2020-03-27" />
 						<div class="col-md-12" style="padding-right:20px; padding-left:20px;">
-							<div class="col-xs-12">								
+							<div class="col-xs-12">
 								<div class="col-md-3"></div>
 								<div class="col-md-6" align="center">
 									<div style="font-size:24px; font-weight:800;">Rohan Arora <br />
-											
-									</div>										
+
+									</div>
 										Unit 14/22-24, Bailey Street, Westmead, NSW, 2145<br>
 											<strong style="font-size:14px;">ABN 75718257251</strong>
 										<br>
 										<strong style="font-size:16px;"><u>Detailed Balance Sheet as at: 27/03/2020</u></strong>
-										<br />								
-								</div>							
-								
-																
+										<br />
+								</div>
+
+
 								<div class="col-md-12" style="padding-top:10px; ">
-								
+
 									<table class="table table-bordered">
 										<thead>
 											<tr>
@@ -75,7 +75,7 @@
 										<tbody>
 											<tr>
 												<td colspan="2"><strong>Current Assets</strong></td>
-												
+
 												<td><strong>102.78</strong></td>
 												<td><strong>0.00</strong></td>
 											</tr>
@@ -84,14 +84,14 @@
 												<td></td>
 												<td><strong>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;102.78</strong></td>
 												<td><strong>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;0.00</strong></td>
-											</tr>										
-												 
+											</tr>
+
 													<tr>
 														<td> &nbsp; &nbsp;  &nbsp; &nbsp; Suspense clearing account</td>
 														<td></td>
 														<td>&nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;102.78 </td>
 														<td>&nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;0.00</td>
-													</tr>																				
+													</tr>
 											<tr>
 												<td colspan="2"><strong style>TOTAL ASSETS -</strong></td>
 												<td><strong><u>102.78</u></strong></td>
@@ -99,7 +99,7 @@
 											</tr>
 											<tr>
 												<td colspan="2"><strong>Current Libilty</strong></td>
-												
+
 												<td><strong>9.35</strong></td>
 												<td><strong>0.00</strong></td>
 											</tr>
@@ -108,15 +108,15 @@
 												<td></td>
 												<td><strong>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;9.35</strong></td>
 												<td><strong>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;0.00</strong></td>
-											</tr>											
-												 
+											</tr>
+
 													<tr>
 														<td> &nbsp; &nbsp;  &nbsp; &nbsp; GST Payable Controll Account</td>
 														<td></td>
 														<td>&nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;39.45 </td>
 														<td>&nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;0.00</td>
 													</tr>
-												 
+
 													<tr>
 														<td> &nbsp; &nbsp;  &nbsp; &nbsp; GST Clearing Account</td>
 														<td></td>
@@ -127,17 +127,17 @@
 												<td colspan="2"><strong style>TOTAL EQUITY -</strong></td>
 												<td><strong class="doubleUnderline">0.00</strong></td>
 												<td><strong class="doubleUnderline">0.00</strong></td>
-											</tr>											
-										</tbody>									
-									</table>																
-								</div>								
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 						</form>
 					</div>
 				</div>
 			</div>
-                    
+
 
                     <!-- PAGE CONTENT ENDS -->
                 </div><!-- /.col -->

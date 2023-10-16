@@ -9,7 +9,7 @@
 						<i class="ace-icon fa fa-home home-icon"></i>
 						<a href="{{ route('admin.dashboard') }}">Home</a>
 					</li>
-					<li>Report</li>
+					<li>Reports</li>
 					<li class="active">Accumulated P/L GST Inclusive</li>
 				</ul><!-- /.breadcrumb -->
 			</div>
@@ -76,6 +76,6 @@
 		</div>
 	</div><!-- /.main-content -->
     <script>
-        
+
     </script>
 @endsection

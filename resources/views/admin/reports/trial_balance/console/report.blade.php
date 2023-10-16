@@ -11,7 +11,7 @@
                     <a href="#">Home</a>
                 </li>
 
-                <li>Report</li>
+                <li>Reports</li>
                 <li>Console Trial Balance</li>
                 <li class="active">{{ ($client->company)? $client->company : $client->first_name.' '.$client->last_name}}</li>
             </ul><!-- /.breadcrumb -->

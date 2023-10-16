@@ -11,7 +11,7 @@
 					<a href="{{ route('admin.dashboard') }}">Home</a>
                 </li>
 
-                <li>Report</li>
+                <li>Reports</li>
                 <li>Comparative Balance Sheet</li>
                 <li class="active">{{ $profession->name }}</li>
             </ul><!-- /.breadcrumb -->
@@ -27,7 +27,7 @@
           </div>
 
           <div class="page-content">
-            
+
 
             <div class="row">
               <div class="col-xs-12">

@@ -11,14 +11,14 @@
 					<a href="{{ route('admin.dashboard') }}">Home</a>
                 </li>
 
-                <li>Report</li>
+                <li>Reports</li>
                 <li>Accumulated P/L GST Exclusive</li>
                 <li class="active"></li>
             </ul><!-- /.breadcrumb -->
         </div>
 
         <div class="page-content">
-            
+
 
             <div class="row">
                 <div class="col-xs-12">

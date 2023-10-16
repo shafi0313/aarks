@@ -9,7 +9,7 @@
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="#">Home</a>
                     </li>
-                    <li>Report</li>
+                    <li>Reports</li>
                     <li>Trial Balance Report</li>
                     <li>{{$client->fullname}}</li>
                     <li class="active">{{$profession->name}}</li>
