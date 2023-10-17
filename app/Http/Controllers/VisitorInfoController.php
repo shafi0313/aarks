@@ -17,7 +17,7 @@ class VisitorInfoController extends Controller
      */
     public function index()
     {
-        $visitors = VisitorInfo::paginate(100);
+        $visitors = VisitorInfo::latest('updated_at','created_at')->paginate(100);
         return view('admin.visitor_info.index', compact('visitors'));
     }
 

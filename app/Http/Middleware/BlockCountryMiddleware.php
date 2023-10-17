@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class BlockCountryMiddleware
 {
-    public $blockCountries = ['China', 'India', 'Russia', 'Japan', 'Brazil', 'Hong Kong'];
+    public $blockCountries = ['China', 'India', 'Russia', 'Japan', 'Brazil', 'Hong Kong', 'South Korea'];
     /**
      * Handle an incoming request.
      *
