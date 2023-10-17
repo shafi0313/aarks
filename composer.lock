@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4cd27256b6db7fe9603a0f5147f0d9e2",
+    "content-hash": "5b2bf35c9c310ba650c3a05031a04bf2",
     "packages": [
         {
             "name": "akaunting/laravel-firewall",
@@ -886,16 +886,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "00d03067f07482f025d41ab55e4ba0db5eca2cdf"
+                "reference": "5b7bd66c9ff58c04c5474ab85edce442f8081cb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/00d03067f07482f025d41ab55e4ba0db5eca2cdf",
-                "reference": "00d03067f07482f025d41ab55e4ba0db5eca2cdf",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/5b7bd66c9ff58c04c5474ab85edce442f8081cb2",
+                "reference": "5b7bd66c9ff58c04c5474ab85edce442f8081cb2",
                 "shasum": ""
             },
             "require": {
@@ -979,7 +979,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.7.0"
+                "source": "https://github.com/doctrine/dbal/tree/3.7.1"
             },
             "funding": [
                 {
@@ -995,7 +995,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-26T20:56:55+00:00"
+            "time": "2023-10-06T05:06:20+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1428,16 +1428,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "3a85486b709bc384dae8eb78fb2eec649bdb64ff"
+                "reference": "ebaaf5be6c0286928352e054f2d5125608e5405e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/3a85486b709bc384dae8eb78fb2eec649bdb64ff",
-                "reference": "3a85486b709bc384dae8eb78fb2eec649bdb64ff",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/ebaaf5be6c0286928352e054f2d5125608e5405e",
+                "reference": "ebaaf5be6c0286928352e054f2d5125608e5405e",
                 "shasum": ""
             },
             "require": {
@@ -1446,8 +1446,8 @@
                 "symfony/polyfill-intl-idn": "^1.26"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5.27",
-                "vimeo/psalm": "^4.30"
+                "phpunit/phpunit": "^10.2",
+                "vimeo/psalm": "^5.12"
             },
             "suggest": {
                 "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
@@ -1483,7 +1483,7 @@
             ],
             "support": {
                 "issues": "https://github.com/egulias/EmailValidator/issues",
-                "source": "https://github.com/egulias/EmailValidator/tree/4.0.1"
+                "source": "https://github.com/egulias/EmailValidator/tree/4.0.2"
             },
             "funding": [
                 {
@@ -1491,7 +1491,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-14T14:17:03+00:00"
+            "time": "2023-10-06T06:47:41+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1614,16 +1614,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.8.1",
+            "version": "v6.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "5dbc8959427416b8ee09a100d7a8588c00fb2e26"
+                "reference": "f03270e63eaccf3019ef0f32849c497385774e11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/5dbc8959427416b8ee09a100d7a8588c00fb2e26",
-                "reference": "5dbc8959427416b8ee09a100d7a8588c00fb2e26",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/f03270e63eaccf3019ef0f32849c497385774e11",
+                "reference": "f03270e63eaccf3019ef0f32849c497385774e11",
                 "shasum": ""
             },
             "require": {
@@ -1671,9 +1671,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.8.1"
+                "source": "https://github.com/firebase/php-jwt/tree/v6.9.0"
             },
-            "time": "2023-07-14T18:33:00+00:00"
+            "time": "2023-10-05T00:24:42+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -1757,21 +1757,21 @@
         },
         {
             "name": "fruitcake/php-cors",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruitcake/php-cors.git",
-                "reference": "58571acbaa5f9f462c9c77e911700ac66f446d4e"
+                "reference": "3d158f36e7875e2f040f37bc0573956240a5a38b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruitcake/php-cors/zipball/58571acbaa5f9f462c9c77e911700ac66f446d4e",
-                "reference": "58571acbaa5f9f462c9c77e911700ac66f446d4e",
+                "url": "https://api.github.com/repos/fruitcake/php-cors/zipball/3d158f36e7875e2f040f37bc0573956240a5a38b",
+                "reference": "3d158f36e7875e2f040f37bc0573956240a5a38b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0",
-                "symfony/http-foundation": "^4.4|^5.4|^6"
+                "symfony/http-foundation": "^4.4|^5.4|^6|^7"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.4",
@@ -1781,7 +1781,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -1812,7 +1812,7 @@
             ],
             "support": {
                 "issues": "https://github.com/fruitcake/php-cors/issues",
-                "source": "https://github.com/fruitcake/php-cors/tree/v1.2.0"
+                "source": "https://github.com/fruitcake/php-cors/tree/v1.3.0"
             },
             "funding": [
                 {
@@ -1824,7 +1824,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-20T15:07:15+00:00"
+            "time": "2023-10-12T05:21:21+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -3283,16 +3283,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.16.0",
+            "version": "3.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "4fdf372ca6b63c6e281b1c01a624349ccb757729"
+                "reference": "bd4c9b26849d82364119c68429541f1631fba94b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4fdf372ca6b63c6e281b1c01a624349ccb757729",
-                "reference": "4fdf372ca6b63c6e281b1c01a624349ccb757729",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/bd4c9b26849d82364119c68429541f1631fba94b",
+                "reference": "bd4c9b26849d82364119c68429541f1631fba94b",
                 "shasum": ""
             },
             "require": {
@@ -3310,8 +3310,8 @@
                 "symfony/http-client": "<5.2"
             },
             "require-dev": {
-                "async-aws/s3": "^1.5",
-                "async-aws/simple-s3": "^1.1",
+                "async-aws/s3": "^1.5 || ^2.0",
+                "async-aws/simple-s3": "^1.1 || ^2.0",
                 "aws/aws-sdk-php": "^3.220.0",
                 "composer/semver": "^3.0",
                 "ext-fileinfo": "*",
@@ -3357,7 +3357,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.16.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.17.0"
             },
             "funding": [
                 {
@@ -3369,7 +3369,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-07T19:22:17+00:00"
+            "time": "2023-10-05T20:15:05+00:00"
         },
         {
             "name": "league/flysystem-local",
@@ -4347,16 +4347,16 @@
         },
         {
             "name": "nette/schema",
-            "version": "v1.2.4",
+            "version": "v1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/schema.git",
-                "reference": "c9ff517a53903b3d4e29ec547fb20feecb05b8ab"
+                "reference": "0462f0166e823aad657c9224d0f849ecac1ba10a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/schema/zipball/c9ff517a53903b3d4e29ec547fb20feecb05b8ab",
-                "reference": "c9ff517a53903b3d4e29ec547fb20feecb05b8ab",
+                "url": "https://api.github.com/repos/nette/schema/zipball/0462f0166e823aad657c9224d0f849ecac1ba10a",
+                "reference": "0462f0166e823aad657c9224d0f849ecac1ba10a",
                 "shasum": ""
             },
             "require": {
@@ -4403,9 +4403,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/schema/issues",
-                "source": "https://github.com/nette/schema/tree/v1.2.4"
+                "source": "https://github.com/nette/schema/tree/v1.2.5"
             },
-            "time": "2023-08-05T18:56:25+00:00"
+            "time": "2023-10-05T20:37:59+00:00"
         },
         {
             "name": "nette/utils",
@@ -4715,16 +4715,16 @@
         },
         {
             "name": "opcodesio/log-viewer",
-            "version": "v3.1.4",
+            "version": "v3.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opcodesio/log-viewer.git",
-                "reference": "b5922f16e3f9386ddf00d0fa3cd8559d4ba24937"
+                "reference": "69d886a779611da501841148314b03b2c9a52108"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/b5922f16e3f9386ddf00d0fa3cd8559d4ba24937",
-                "reference": "b5922f16e3f9386ddf00d0fa3cd8559d4ba24937",
+                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/69d886a779611da501841148314b03b2c9a52108",
+                "reference": "69d886a779611da501841148314b03b2c9a52108",
                 "shasum": ""
             },
             "require": {
@@ -4787,7 +4787,7 @@
             ],
             "support": {
                 "issues": "https://github.com/opcodesio/log-viewer/issues",
-                "source": "https://github.com/opcodesio/log-viewer/tree/v3.1.4"
+                "source": "https://github.com/opcodesio/log-viewer/tree/v3.1.5"
             },
             "funding": [
                 {
@@ -4799,7 +4799,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-26T13:06:53+00:00"
+            "time": "2023-10-10T11:42:12+00:00"
         },
         {
             "name": "opcodesio/mail-parser",
@@ -6243,16 +6243,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.11.21",
+            "version": "v0.11.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "bcb22101107f3bf770523b65630c9d547f60c540"
+                "reference": "128fa1b608be651999ed9789c95e6e2a31b5802b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/bcb22101107f3bf770523b65630c9d547f60c540",
-                "reference": "bcb22101107f3bf770523b65630c9d547f60c540",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/128fa1b608be651999ed9789c95e6e2a31b5802b",
+                "reference": "128fa1b608be651999ed9789c95e6e2a31b5802b",
                 "shasum": ""
             },
             "require": {
@@ -6281,7 +6281,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.11.x-dev"
+                    "dev-0.11": "0.11.x-dev"
                 },
                 "bamarni-bin": {
                     "bin-links": false,
@@ -6317,9 +6317,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.11.21"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.11.22"
             },
-            "time": "2023-09-17T21:15:54+00:00"
+            "time": "2023-10-14T21:56:36+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -6548,21 +6548,21 @@
         },
         {
             "name": "realrashid/sweet-alert",
-            "version": "v5.1.0",
+            "version": "v7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/realrashid/sweet-alert.git",
-                "reference": "fb837beaa52568fb3106d311ff3c7a7b8e543608"
+                "reference": "769f951053cd3363fd7fb7a1dd30f9828b619b44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/realrashid/sweet-alert/zipball/fb837beaa52568fb3106d311ff3c7a7b8e543608",
-                "reference": "fb837beaa52568fb3106d311ff3c7a7b8e543608",
+                "url": "https://api.github.com/repos/realrashid/sweet-alert/zipball/769f951053cd3363fd7fb7a1dd30f9828b619b44",
+                "reference": "769f951053cd3363fd7fb7a1dd30f9828b619b44",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^5.6|^6.0|^7.0|^8.0|^9.0|^9.11|9.14.*",
-                "php": "^7.2|^8.0"
+                "laravel/framework": "^5.6|^6.0|^7.0|^8.0|^9.0|^9.11|9.14.*|^10.0",
+                "php": "^7.2|^8.0|^8.1"
             },
             "require-dev": {
                 "symfony/thanks": "^1.0"
@@ -6598,7 +6598,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "A BEAUTIFUL, RESPONSIVE, CUSTOMIZABLE, ACCESSIBLE (WAI-ARIA) REPLACEMENT FOR JAVASCRIPT'S POPUP BOXES FOR LARAVEL BY RASHID ALI",
+            "description": "Laravel Sweet Alert Is A Package For Laravel Provides An Easy Way To Display Alert Messages Using The SweetAlert2 Library.",
             "homepage": "https://github.com/realrashid/sweet-alert",
             "keywords": [
                 "alert",
@@ -6634,7 +6634,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-28T13:28:03+00:00"
+            "time": "2023-08-07T19:23:17+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -10421,16 +10421,16 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.13.2",
+            "version": "v1.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "bbb13460d7f8c5c0cd9a58109beedd79cd7331ff"
+                "reference": "93b2d0d49719bc6e444ba21cd4dbbccec935413d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/bbb13460d7f8c5c0cd9a58109beedd79cd7331ff",
-                "reference": "bbb13460d7f8c5c0cd9a58109beedd79cd7331ff",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/93b2d0d49719bc6e444ba21cd4dbbccec935413d",
+                "reference": "93b2d0d49719bc6e444ba21cd4dbbccec935413d",
                 "shasum": ""
             },
             "require": {
@@ -10441,7 +10441,7 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.26.1",
+                "friendsofphp/php-cs-fixer": "^3.34.1",
                 "illuminate/view": "^10.23.1",
                 "laravel-zero/framework": "^10.1.2",
                 "mockery/mockery": "^1.6.6",
@@ -10483,7 +10483,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2023-09-19T15:55:02+00:00"
+            "time": "2023-10-10T15:39:09+00:00"
         },
         {
             "name": "laravel/sail",
