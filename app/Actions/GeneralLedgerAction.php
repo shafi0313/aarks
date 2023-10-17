@@ -43,12 +43,11 @@ class GeneralLedgerAction
             })
             ->whereBetween('chart_id', [$request->from_account, $request->to_account])
             ->where('source', '!=', 'OPN')
+            ->where('balance', '!=', 0)
             ->orderBy('chart_id', 'asc')
             ->orderBy('date', 'asc')
             ->get(ledgerSetVisible())
-            ->groupBy('chart_id')
-            // ->sortBy('chart_id')
-        ;
+            ->groupBy('chart_id');
 
         $client_account_codes = ClientAccountCode::with([
             'generalLedger' => fn ($q) =>
