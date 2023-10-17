@@ -17,7 +17,7 @@ class AgentAuditController extends Controller
     }
     public function activity(Admin $agent)
     {
-        $activities = Activity::latest('created_at')->paginate(40);
+        $activities = Activity::where('causer_id', $agent->id)->latest('created_at')->paginate(40);
         // $activities = $agent->actions->sortByDesc('created_at');
         // $all = Activity::orderByDesc('created_at')->get();
         return view('admin.audit.agent.activity', compact('activities', 'agent'));
