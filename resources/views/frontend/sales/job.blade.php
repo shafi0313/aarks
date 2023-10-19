@@ -22,19 +22,19 @@
         <input class="form-control form-control-sm" step="any" type="Number" name="disc_rate" id="disc_rate"
             placeholder="Disc %">
     </div>
-    @if (!in_array('Services', $profession->industryCategories->pluck('name')->toArray()))
+    {{-- @if (!in_array('Services', $profession->industryCategories->pluck('name')->toArray())) --}}
         <div class="form-group mx-1" style="width: 120px">
             <label>Freight Charge: </label>
             <input class="form-control form-control-sm" step="any" type="Number" name="freight_charge"
                 id="freight_charge">
         </div>
-    @else
+    {{-- @else
         <div class="form-group mx-1" style="width: 120px">
             <label>Freight Charge: </label>
             <input class="form-control form-control-sm" disabled placeholder="0.00" step="any" type="Number"
                 id="freight_charge">
         </div>
-    @endif
+    @endif --}}
     <div class="form-group mx-1" style="width: 130px">
         <label>Income Account: </label>
         <input type="hidden" name="chart_id" id="chart_id">

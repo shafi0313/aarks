@@ -26,6 +26,7 @@ class DedotrInvoiceController extends Controller
         $client = Client::with('professions')->find(client()->id);
         return view('frontend.sales.invoice.select_activity', compact('client'));
     }
+
     public function quote(Profession $profession)
     {
         $client  = Client::find(client()->id);
@@ -207,6 +208,7 @@ class DedotrInvoiceController extends Controller
                 $fFreight_charge = $freight_charge;
                 $fgst            = 0;
             }
+            // return $fFreight_charge;
             $gst['gross_amount']       = $fPrice;
             $gst['gst_accrued_amount'] = $pgst;
             $gst['net_amount']         = $fPrice - $pgst;
@@ -225,8 +227,8 @@ class DedotrInvoiceController extends Controller
                 $gst['net_amount']         = $fFreight_charge - $fgst;
                 if ($dedotr->first()->is_tax == 'yes') {
                     $gst['chart_code'] = 191295;
-                    $checkfr      = $checksGst->where('chart_code', 191295)->first();
-                    if ($checkfr->net_amount + $fFreight_charge - $fgst != 0) {
+                    $checkfr           = $checksGst->where('chart_code', 191295)->first();
+                    if ($checkfr?->net_amount + $fFreight_charge - $fgst != 0) {
                         if ($checkfr != '') {
                             $gst['gross_amount']       = $checkfr->gross_amount + $fFreight_charge;
                             $gst['gst_accrued_amount'] = $checkfr->gst_accrued_amount + $fgst;
