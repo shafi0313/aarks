@@ -31,7 +31,7 @@
                         <div class="text-center">
                             <h2 style="padding: 0;margin:0"><b>{{ $client->full_name}}</b></h2>
                             <h2 style="padding: 0;margin:0"><b>ABN {{$client->abn_number}}</b></h2>
-                            <h4><b>Budget Report as at: {{$current->format('d/m/Y')}}</b></h4>
+                            <h4><b>Budget Report as at: {{$date->format('d/m/Y')}}</b></h4>
                         </div>
                         <style>
                             .text-danger {

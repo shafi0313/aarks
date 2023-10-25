@@ -28,7 +28,7 @@
         </div>
 
         <div class="page-content">
-            
+
 
             <div class="row">
 
@@ -63,7 +63,7 @@
                                     <option value="{{route('budget.index')}}">Prepare Budget</option>
                                     @endcan
                                     @can('admin.business_plan.index')
-                                    <option value="{{route('business-plan.index')}}">Business Plan</option>
+                                    <option value="{{route('business-plan.index')}}">Business Plan/Monthly Budget Plan for Existing Business</option>
                                     @endcan
                                 </select>
                             </div>
