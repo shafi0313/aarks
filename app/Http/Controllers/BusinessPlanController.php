@@ -53,7 +53,7 @@ class BusinessPlanController extends Controller
         $months = [];
         foreach (range(1, 12) as $month) {
             $lastYear->addMonth();
-            $months[] = $lastYear->format('F') .' '. $lastYear->format('y') + 1;
+            $months[] = $lastYear->format('F') .' '. $lastYear->format('y') + 1 ;
         }
         // return $months;
         // return $months = array_map(function () { return 0; }, array_flip($months));
