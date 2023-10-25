@@ -104,7 +104,7 @@
                                 </tr>
                                 <!-----percentage = add data theke asbe------>
                                 <tr>
-                                    <td style="color:#6633FF;">PERCENTAGE(%)</td>
+                                    <td style="color:#6633FF;">PERCENTAGE(%) T7/T11</td>
                                     <td class="text-right">{{
                                         number_format($payPersent,2) }}</td>
                                 </tr>
@@ -140,7 +140,7 @@
                                 </tr>
                                 <!----- 9  = 1A-1B------>
                                 <tr>
-                                    <td style="color:#6633FF;">9</td>
+                                    <td style="color:#6633FF;">3</td>
                                     <td>{{ number_format($diff_in_ex = $income_cash -
                                         $expense,2)}}</td>
                                 </tr>
@@ -165,7 +165,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="color:#6633FF;">PAYG</td>
+                                    <td style="color:#6633FF;">PAYG W2</td>
                                     <div style="display: none">{{ $payg_percent =
                                         ($income_gross - $income_cash) * ($payPersent /
                                         100)}}

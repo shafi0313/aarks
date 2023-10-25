@@ -171,7 +171,7 @@
 								<td>0.00</td>
 							  </tr>
 							  <tr>
-								<td style="color:#6633FF;">PAYG</td>
+								<td style="color:#6633FF;">PAYG W2</td>
 								<td>0.00</td>
 							  </tr>
 

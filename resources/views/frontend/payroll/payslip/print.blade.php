@@ -213,7 +213,7 @@
                                                         {{number_format($yearTo->sum('accum_cdep'),2)}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>PAYG</td>
+                                                    <td>PAYG W2</td>
                                                     <td class="text-right">
                                                         {{number_format($yearTo->sum('accum_payg'),2)}}</td>
                                                 </tr>

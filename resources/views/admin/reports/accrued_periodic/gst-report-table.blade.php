@@ -14,7 +14,7 @@
                     <td width="73%" style="color:#CC0066; text-align:center;">1B</td>
                 </tr>
                 <tr>
-                    <td width="73%" style="color:#CC0066; text-align:center;">9</td>
+                    <td width="73%" style="color:#CC0066; text-align:center;">3</td>
                 </tr>
                 <tr>
                     <td width="73%" style="color:#CC0066; text-align:center;">G1</td>
@@ -45,14 +45,14 @@
                 </tr>
                 <tr>
                     <td width="73%" style="color:#CC0066; text-align:center;">Percentage
-                        (%)
+                        (%) T7/T11
                     </td>
                 </tr>
                 <tr>
-                    <td width="73%" style="color:#CC0066; text-align:center;">PAYG </td>
+                    <td width="73%" style="color:#CC0066; text-align:center;">PAYG W2</td>
                 </tr>
                 <tr>
-                    <td width="73%" style="color:#CC0066; text-align:center;">Net payable
+                    <td width="73%" style="color:#CC0066; text-align:center;">Net payable (9)
                     </td>
                 </tr>
             </table>
@@ -91,7 +91,7 @@
                             } else {
                                 $gst_95 = 0;
                             }
-                            
+
                             $expense_gst = $expense_gst_amt = $gst_95 > 0 ? $gst_item - abs($gst_95) : $gst_item + abs($gst_95);
                         @endphp
                         <td>{{ $expense_gst }}</td>

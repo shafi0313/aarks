@@ -1292,7 +1292,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>PAYG</td>
+                                                        <td>PAYG W2</td>
                                                         <td>
                                                             <span class="tax_gl_w2">{{ nFA2($total_w2) }}</span>
                                                             <input type="hidden" name="bas[]"
