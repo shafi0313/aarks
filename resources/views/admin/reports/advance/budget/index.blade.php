@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title','Budget Entry')
+@section('title','Prepare Budget/Budget Entry')
 @section('content')
 
 <div class="main-content">
@@ -10,7 +10,7 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="{{ route('admin.dashboard') }}">Home</a>
                 </li>
-                <li class="active">Budget Entry</li>
+                <li class="active">Prepare Budget/Budget Entry</li>
                 <li class="active">Select</li>
             </ul>
         </div>
