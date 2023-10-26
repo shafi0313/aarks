@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Frontend\Accounts;
 
-use App\Actions\DataStore\BudgetAction;
 use Carbon\Carbon;
 use App\Models\Client;
 use App\Models\Profession;
@@ -11,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Actions\Reports\TrialBalance;
+use App\Actions\DataStore\BudgetAction;
+use App\Actions\DataStore\BusinessPlanAction;
 
 class BudgetEntryController extends Controller
 {
@@ -29,36 +30,42 @@ class BudgetEntryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, TrialBalance $trialBalance)
+    // public function create(Request $request, TrialBalance $trialBalance)
+    public function create(Request $request, BusinessPlanAction $trialBalance)
     {
         // return substr(123456, -6, 1);
         $request->validate([
             'profession_id' => 'required',
-            'date'          => 'required|date_format:d/m/Y',
+            'year'          => 'required',
         ]);
-        $client     = Client::findOrFail(client()->id);
-        $profession = Profession::findOrFail($request->profession_id);
-        $date = makeBackendCompatibleDate($request->date)->subYear();
+        $client          = Client::findOrFail(client()->id);
+        $profession      = Profession::findOrFail($request->profession_id);
+        // $date            = makeBackendCompatibleDate($request->date)->subYear();
+        $date            = Carbon::parse('30-Jun-'. $request->year);
+
         $existingBudgets = BudgetEntry::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('date', '>', $date->format('Y-m-d'))
             ->count();
+
         if ($existingBudgets > 0) {
             toast('You have been selected the date under existing Budget for update,please select last budget date', 'error');
             return redirect()->back();
         }
+
         $currentBudgets = BudgetEntry::with(['chart' => fn($q) => $q->where('client_id', $client->id)])->where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('date', $date->format('Y-m-d'))
             ->get()
             ->groupBy(fn($item) => substr($item->chart_id, -6, 1));
+
         if ($currentBudgets->count() > 0) {
             $CRetains =  pl($client, $profession, $date);
             return view('frontend.accounts.budget.current', compact('currentBudgets', 'client', 'profession', 'date', 'CRetains'));
             return 'Current budget ';
         }
         // return
-        $data       = $trialBalance->budget($request, $client, $profession);
+        $data = $trialBalance->budgetEntry($request, $client, $profession);
 
         if (isset($data['ledgers'][1]) || isset($data['ledgers'][2])) {
             return view('frontend.accounts.budget.create', $data);

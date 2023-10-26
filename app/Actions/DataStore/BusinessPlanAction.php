@@ -16,7 +16,8 @@ class BusinessPlanAction extends Controller
 {
     public function budgetEntry(Request $request, $client, $profession, $path = null)
     {
-        $date     = makeBackendCompatibleDate($request->date)->subYear();
+        // $date     = makeBackendCompatibleDate($request->date)->subYear();
+        $date = Carbon::parse('30-Jun-'. $request->year);
         $end_date = $date->format('Y-m-d');
         if ($date->format('m') >= 07 & $date->format('m') <= 12) {
             $start_date = $date->format('Y') . '-07-01';

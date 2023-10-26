@@ -538,6 +538,13 @@
                     'comperative_financial_report*',
                     'depreciation_report.*',
                     'complete_financial_report_tf*',
+
+                    'console_financial_report_tf*',
+                    'comperative_financial_report_tf*',
+                    'advance_report.business_plan.*',
+                    'advance_report.budget.*',
+                    'advance_report.business_analysis.*',
+
                 ]) }}">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-clipboard" aria-hidden="true"></i>
@@ -739,7 +746,7 @@
                         </li>
                     @endcan
                     @can('admin.advanced_report.index')
-                        <li class="">
+                        <li class="{{ activeOpenNav(['advance_report.business_plan.*','advance_report.business_analysis.*','advance_report.budget.*'])}}">
                             <a href="#" class="dropdown-toggle">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 <span style="color: green;">Advanced Report</span>
@@ -748,21 +755,21 @@
 
                             <b class="arrow"></b>
                             <ul class="submenu">
-                                <li class="">
+                                <li class="{{ activeNav('advance_report.business_plan.*') }}">
                                     <a href="{{ route('advance_report.business_plan.index') }}">
                                         <i class="menu-icon fa fa-caret-right"></i>
                                         Business Plan Report
                                     </a>
                                     <b class="arrow"></b>
                                 </li>
-                                <li class="">
+                                <li class="{{ activeNav('advance_report.business_analysis.*') }}">
                                     <a href="{{ route('advance_report.business_analysis.index') }}">
                                         <i class="menu-icon fa fa-caret-right"></i>
                                         Monthly Business Analysis Details P & L
                                     </a>
                                     <b class="arrow"></b>
                                 </li>
-                                <li class="">
+                                <li class="{{ activeNav('advance_report.budget.*') }}">
                                     <a href="{{ route('advance_report.budget.index') }}">
                                         <i class="menu-icon fa fa-caret-right"></i>
                                         Budget

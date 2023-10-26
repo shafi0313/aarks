@@ -3,8 +3,8 @@
         <tr>
             <td class="text-center" rowspan="2" style="width: 10%;">Account Code</td>
             <td class="text-center" rowspan="2" style="width: 30%;">Account Name</td>
-            <td class="text-center" colspan="2" style="width: 30%;">Last Year</td>
-            <td class="text-center" colspan="2" style="width: 30%;">Budget Year</td>
+            <td class="text-center" colspan="2" style="width: 30%;">Last Year ({{ \Carbon\Carbon::parse($date)->format('Y') }})</td>
+            <td class="text-center" colspan="2" style="width: 30%;">Budget Year ({{ \Carbon\Carbon::parse($date)->addYear()->format('Y') }})</td>
         </tr>
         <tr>
             <td class="text-center" style="width: 18%;">Amount</td>
@@ -24,7 +24,7 @@
                     $balance = abs($ledger->trail_balance);
                     // $sum_balance += abs($balance);
                     $cat_id = $code->category_id;
-                    
+
                     if ($i == 1) {
                         if ($ledger->balance_type == 1) {
                             if ($ledger->trail_balance < 0) {

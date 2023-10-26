@@ -27,7 +27,7 @@
                                 height: 28px;
                             }
                         </style>
-                        <div class="page-content" style="margin-top: 20px;">
+                        <div class="page-content">
                             <form action="{{route('client-budget.store')}}" method="post" autocomplete="off"
                                 autocapitalize="off">
                                 @csrf
@@ -38,9 +38,9 @@
                                     <div class="col-lg-12">
                                         <!-- PAGE CONTENT BEGINS -->
                                         <div class="text-center">
-                                            <h2 style="padding: 0;margin:0"><b>{{ $client->full_name}}</b></h2>
-                                            <h2 style="padding: 0;margin:0"><b>ABN {{$client->abn_number}}</b></h2>
-                                            <h4><b>Budget as at: {{\Carbon\Carbon::parse($date)->format('d/m/Y')}}</b>
+                                            <h3 style="padding: 0;margin:0">{{ $client->full_name}}</h3>
+                                            <h3 style="padding: 0;margin:0">ABN {{$client->abn_number}}</h3>
+                                            <h4><b>Budget as at: {{\Carbon\Carbon::parse($date)->addYear()->format('d/m/Y')}}</b>
                                             </h4>
                                         </div>
                                         <style>

@@ -105,8 +105,8 @@ class GstReconcilationController extends Controller
             ->where('profession_id', $profession_id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', 'like', '1%')
-            ->where('gst_accrued_amount', '<', 0)
-            ->where('gst_cash_amount', '<', 0)
+            ->where('gst_accrued_amount', '<=', 0)
+            ->where('gst_cash_amount', '<=', 0)
             ->get(['gst_cash_amount', 'gross_amount', 'net_amount', 'trn_date']); // _________G3_________
 
         $asset = Gsttbl::where('client_id', $client_id)

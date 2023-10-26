@@ -415,8 +415,9 @@
                                                     Report</a>
                                                 <a class="menu_dropdown-item {{ $p == 'avdbudget' ? 'active' : '' }}"
                                                     href="{{ route('client-avd.budget.index') }}">Budget</a>
-                                                <a class="menu_dropdown-item" href="#">Retie Analysis</a>
-                                                <a class="menu_dropdown-item" href="#">Decision Making Tools</a>
+
+                                                <a class="menu_dropdown-item" href="#">Monthly Business Analysis Details P & L</a>
+                                                <a class="menu_dropdown-item" href="#">Ratio Analysis</a>
                                             </div>
                                         </li>
                                     @endif

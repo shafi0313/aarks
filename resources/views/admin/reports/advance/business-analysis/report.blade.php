@@ -40,6 +40,12 @@
                     </div>
                 </div>
                 <div class="row" id="print-area">
+                    <div class="text-center">
+                        <h3 style="padding: 0;margin:2px"><b>{{ $client->full_name}}</b></h3>
+                        <h4 style="padding: 0;margin:2px"><b>Monthly Business Analysis Details P & L</b></h4>
+                        <h4 style="padding: 0;margin:0"><b>ABN {{$client->abn_number}}</b></h4>
+                        <h4><b>for the financial year: {{$date->format('d/m/Y')}}</b></h4>
+                    </div>
                     <div class="col-lg-12">
                         <div class="table-responsive">
                             <table class="table table-bordered">
@@ -99,7 +105,9 @@
                                                             <td class="text-right">100%</td>
                                                         @else
                                                             <td class="text-right">
-                                                                {{ number_format(($ledgerMonth->_balance * 100) / ${'in' . explode(' ', $month)[0]}, 2) }}%
+                                                                @if (${'in' . explode(' ', $month)[0]})
+                                                                {{ number_format(($ledgerMonth->_balance * 100) / ${'in' . explode(' ', $month)[0]}, 2)  }}%
+                                                                @endif
                                                             </td>
                                                         @endif
                                                     @else
@@ -231,10 +239,10 @@
                 body {
                     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
                 }
-                table,tr,td,th {
+                table,tr,td,th,b {
                     border-collapse: collapse;
-                    font-size: 10px;
-                    padding: 3px;
+                    font-size: 8px;
+                    padding: 0px !important;
                     border: 1px solid #eee;
                 }
                 img{

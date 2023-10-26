@@ -7,8 +7,6 @@ use App\Models\Client;
 use App\Models\Profession;
 use App\Models\BudgetEntry;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Actions\Reports\TrialBalance;
 use App\Actions\DataStore\BudgetAction;
 use App\Actions\DataStore\BusinessPlanAction;
 
@@ -40,11 +38,13 @@ class BudgetEntryController extends Controller
         $request->validate([
             'client_id'     => 'required',
             'profession_id' => 'required',
-            'date'          => 'required|date_format:d/m/Y',
+            'year'          => 'required',
         ]);
-        $client     = Client::findOrFail($request->client_id);
-        $profession = Profession::findOrFail($request->profession_id);
-        $date = makeBackendCompatibleDate($request->date)->subYear();
+        $client          = Client::findOrFail($request->client_id);
+        $profession      = Profession::findOrFail($request->profession_id);
+        // $date            = makeBackendCompatibleDate($request->date)->subYear();
+        $date            = Carbon::parse('30-Jun-'. $request->year);
+
         $existingBudgets = BudgetEntry::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('date', '>', $date->format('Y-m-d'))
