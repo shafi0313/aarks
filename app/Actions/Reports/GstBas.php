@@ -91,8 +91,8 @@ class GstBas extends Controller
             ->where('chart_code', 'like', '1%')
             ->whereIn('source', ['PIN','BST','INP'])
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
-            ->where('gst_accrued_amount', '<', 0)
-            ->where('gst_cash_amount', '<', 0)
+            ->where('gst_accrued_amount', '<=', 0)
+            ->where('gst_cash_amount', '<=', 0)
             // ->select('id', 'chart_code', 'gst_cash_amount', 'gross_amount', 'net_amount')
             ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
@@ -213,8 +213,8 @@ class GstBas extends Controller
             ->whereIn('profession_id', $professions)
             ->where('chart_code', 'like', '1%')
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
-            ->where('gst_accrued_amount', '<', 0)
-            ->where('gst_cash_amount', '<', 0)
+            ->where('gst_accrued_amount', '<=', 0)
+            ->where('gst_cash_amount', '<=', 0)
             // ->select('gst_cash_amount', 'gross_amount', 'net_amount')
             ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
@@ -281,7 +281,7 @@ class GstBas extends Controller
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, 'report' => 'GST/BAS(Consol.Cash) Report'])
             ->log('Report > GST/BAS(Consol.Cash) Report > ' . $client->fullname);
-            
+
         return view($path,compact(['data', 'client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'fuel_tax_ltr', 'payg']));
     }
 
@@ -335,8 +335,8 @@ class GstBas extends Controller
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', 'like', '1%')
-            ->where('gst_accrued_amount', '<', 0)
-            ->where('gst_cash_amount', '<', 0)
+            ->where('gst_accrued_amount', '<=', 0)
+            ->where('gst_cash_amount', '<=', 0)
             ->select('gst_cash_amount', 'gross_amount', 'net_amount', 'chart_code')
             ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);

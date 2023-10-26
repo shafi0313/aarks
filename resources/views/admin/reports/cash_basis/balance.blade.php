@@ -71,8 +71,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
