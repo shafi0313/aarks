@@ -40,10 +40,10 @@ class BudgetEntryController extends Controller
             'profession_id' => 'required',
             'year'          => 'required',
         ]);
-        $client          = Client::findOrFail($request->client_id);
-        $profession      = Profession::findOrFail($request->profession_id);
-        // $date            = makeBackendCompatibleDate($request->date)->subYear();
-        $date            = Carbon::parse('30-Jun-'. $request->year);
+        $client     = Client::findOrFail($request->client_id);
+        $profession = Profession::findOrFail($request->profession_id);
+          // $date            = makeBackendCompatibleDate($request->date)->subYear();
+        $date = Carbon::parse('30-Jun-'. $request->year);
 
         $existingBudgets = BudgetEntry::where('client_id', $client->id)
             ->where('profession_id', $profession->id)

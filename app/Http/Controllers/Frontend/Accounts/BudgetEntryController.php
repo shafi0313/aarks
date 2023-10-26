@@ -7,9 +7,7 @@ use App\Models\Client;
 use App\Models\Profession;
 use App\Models\BudgetEntry;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Actions\Reports\TrialBalance;
 use App\Actions\DataStore\BudgetAction;
 use App\Actions\DataStore\BusinessPlanAction;
 
