@@ -416,7 +416,7 @@
                                                 <a class="menu_dropdown-item {{ $p == 'avdbudget' ? 'active' : '' }}"
                                                     href="{{ route('client-avd.budget.index') }}">Budget</a>
 
-                                                <a class="menu_dropdown-item" href="#">Monthly Business Analysis Details P & L</a>
+                                                <a class="menu_dropdown-item" href="{{ route('client-avd.monthly_business_analysis.index') }}">Monthly Business Analysis Details P & L</a>
                                                 <a class="menu_dropdown-item" href="#">Ratio Analysis</a>
                                             </div>
                                         </li>

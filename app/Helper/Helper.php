@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Schema\Blueprint;
 
+if (!function_exists('bdDate')) {
+    function bdDate($data)
+    {
+        return Carbon::parse($data)->format('d/m/Y');
+    }
+}
+
 if (!function_exists('getClientsWithPayment')) {
     function getClientsWithPayment()
     {

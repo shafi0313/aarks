@@ -8,6 +8,7 @@ use App\Models\Frontend\Recurring;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Frontend\CustomerCard;
+use App\Models\PeriodLock;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class IndexController extends Controller
@@ -28,6 +29,7 @@ class IndexController extends Controller
                 ->get()
                 ->groupBy('profession_id');
             $data['profession'] = ClientProfession::whereClient_id(client()->id)->count();
+            $data['periodLock'] = PeriodLock::whereClient_id(client()->id)->first();
             $data['period_alert'] = Period::whereClient_id(client()->id)
                 ->orderBy('end_date', 'desc')
                 ->get()
@@ -38,10 +40,10 @@ class IndexController extends Controller
 
             foreach ($data['period_alert'] as $value) {
                 if($value->end_date < date('Y-m-d')){
-                    Alert::warning('Period Alert', 'Your period date is expired');                                        
-                }  
+                    Alert::warning('Period Alert', 'Your period date is expired');
+                }
             }
-            return view('frontend.index', $data);            
+            return view('frontend.index', $data);
         }
         return view('frontend.index');
     }

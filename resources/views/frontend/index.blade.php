@@ -38,7 +38,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         <!-- Widget Style 1 End --> --}}
 
@@ -54,7 +54,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div> --}}
 
 
@@ -73,12 +73,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div> --}}
                         @if (auth()->guard('client')->check())
-                            <div class="row">                                
+                            <div class="row">
                                 <div class="col-xl-3 mb-50">
-                                    <div class="gradient-style4 text-white box-shadow border-radius-10 height-100-p widget-style3">
+                                    <div
+                                        class="gradient-style4 text-white box-shadow border-radius-10 height-100-p widget-style3">
                                         <div class="d-flex flex-wrap align-items-center">
                                             <div class="widget-data">
                                                 <div class="weight-400 font-20">Professions</div>
@@ -145,10 +146,7 @@
                                                 <th>Financial Year</th>
                                                 <th>Period From Date</th>
                                                 <th>Period to Date</th>
-                                                {{-- <th class="text-center no-sort">Action</th>
-                                                <th class="text-center no-sort">Add Data</th> --}}
                                             </tr>
-
                                         </thead>
                                         <tbody>
                                             @foreach ($periods as $group)
@@ -158,10 +156,6 @@
                                                     </th>
                                                 </tr>
                                                 @foreach ($group as $period)
-                                                    @php
-                                                        $dStores = \App\Models\Data_storage::where('period_id', $period->id)->get();
-                                                    @endphp
-
                                                     <tr class="text-center">
                                                         <td>{{ $i++ }}</td>
                                                         <td>{{ $period->year }}</td>
@@ -169,29 +163,28 @@
                                                         </td>
                                                         <td>{{ $period->end_date->format(aarks('frontend_date_format')) }}
                                                         </td>
-                                                        {{-- @if (($period->can_delete == 1) & ($dStores->count() <= 0))
-                                                        <td class="text-center">
-                                                            <form action="{{ route('client.periodDelete', $period->id) }}" method='post'>
-                                                                @csrf @method('delete')
-                                                                <button title="Period Delete" type="submit" class=" btn btn-danger btn-sm">
-                                                                    <i class="fa fa-trash"></i>
-                                                                </button>
-                                                            </form>
-                                                        </td>
-                                                    @else
-                                                        <td></td>
-                                                    @endif
-                                                        <td class="text-center">
-                                                        <a class="btn btn-sm btn-outline-success"
-                                                            href="{{ route('client.periodAddEdit', [$period->client_id, $period->profession_id, $period->id]) }}">Add/Edit
-                                                            Data</a>
-                                                    </td> --}}
                                                     </tr>
                                                 @endforeach
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+                                @isset($periodLock->date)
+                                    <div class="col-xl-4 mb-50">
+                                        <div
+                                            class="gradient-style3 text-white box-shadow border-radius-10 widget-style3">
+                                            <div class="d-flex flex-wrap align-items-center">
+                                                <div class="widget-data">
+                                                    <div class="weight-400 font-20">Period lock as at:</div>
+                                                    <div class="weight-300 font-30">{{ ($periodLock->date) }}</div>
+                                                </div>
+                                                <div class="widget-icon">
+                                                    <div class="icon"><i class="fa-solid fa-lock"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endisset
                             </div>
                         @endif
                     </div>

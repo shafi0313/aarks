@@ -34,7 +34,6 @@
                         @endphp
                         @if ($period->id == $accrued_first->period_id)
                             <tr>
-                                {{-- <td style="color: blue; font-size: 10px">{{ $accrued_first->accountCodes->code }}</td> --}}
                                 <td>{{ $accrued_first->accountCodes->name }}</td>
                                 <td style="padding-right:0px; padding-left:0px; text-align:right;">
                                     {{ number_format($accrued->sum('gross_amount'), 2) }}</td>

@@ -53,6 +53,7 @@ use App\Http\Controllers\Frontend\Accounts\Depreciation\DesposalController;
 use App\Http\Controllers\Frontend\Accounts\Depreciation\RolloverController;
 use App\Http\Controllers\Frontend\Report\ComparativeBalanceSheetController;
 use App\Http\Controllers\Frontend\Report\IncomeExpenseComparisonController;
+use App\Http\Controllers\Frontend\Report\MonthlyBusinessAnalysisController;
 use App\Http\Controllers\Frontend\Report\CompleteFinancialReportTFController;
 use App\Http\Controllers\Frontend\Report\ComperativeFinancialReportController;
 use App\Http\Controllers\Frontend\Accounts\Depreciation\DepreciationController;
@@ -635,6 +636,11 @@ Route::middleware(['subsCheck', 'clientAuth'])->group(function () {
             Route::get('', [IncomeExpenseComparisonController::class, 'index'])->name('index');
             Route::get('report', [IncomeExpenseComparisonController::class, 'report'])->name('report');
             Route::get('print/{client}/{profession}/{year}', [IncomeExpenseComparisonController::class, 'print'])->name('print');
+        });
+
+        Route::prefix('monthly-business-analysis')->name('monthly_business_analysis.')->group(function(){
+            Route::get('/', [MonthlyBusinessAnalysisController::class, 'index'])->name('index');
+            Route::get('/report', [MonthlyBusinessAnalysisController::class, 'report'])->name('report');
         });
     });
     Route::get('support/{helpdesk:slug}', [HelpDeskController::class, 'byItem'])->name('helpdesk.byCat');

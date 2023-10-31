@@ -60,7 +60,7 @@ class GstPeriodic extends Controller
             ->where('profession_id', $profession_id)
             ->whereIn('period_id', $request->peroid_id)
             ->where('chart_code', 'like', '1%')
-            ->where('source', '!=', 'INV')
+            ->whereNotIn('source', ['INV', 'RIV'])
             ->orderBy('chart_code')
             ->get()->each(function ($item) {
                 $this->gstAbs($item);
@@ -153,8 +153,19 @@ class GstPeriodic extends Controller
             ->where('client_id', $request->client_id)
             ->where('profession_id', $profession_id)
             ->whereIn('period_id', $periods->pluck('id')->toArray())
-            ->where('source', '!=', 'INV')
-            ->orderBy('chart_code')->get()->groupBy('period_id');
+            ->whereNotIn('source', ['INV', 'RIV'])
+            ->orderBy('chart_code')
+            ->get()
+            ->groupBy('period_id');
+
+            // $data = Gsttbl::with(['accountCodes' => fn ($q) => $q->where('client_id', $client_id)])
+            // ->whereBetween('trn_date', [$dateFrom, $dateTo])
+            // ->where('client_id', $client_id)
+            // ->whereIn('profession_id', $professions)
+            // ->whereNotIn('source', ['INV','RIV'])
+            // ->orderBy('chart_code')
+            // ->get()
+            // ->groupBy('chart_code');
 
         activity()
             ->performedOn(new GeneralLedger())
