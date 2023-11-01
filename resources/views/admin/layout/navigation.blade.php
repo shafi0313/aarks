@@ -337,12 +337,19 @@
                     <li class="{{ activeOpenNav(['trash.*', 'admin.forceDelete.*']) }}">
                         <a href="#" class="dropdown-toggle">
                             <i class="menu-icon fa fa-caret-right"></i>
-                            Trash
+                            Trash/Move Data
                             <b class="arrow fa fa-angle-down"></b>
                         </a>
                         <b class="arrow"></b>
                         <ul class="submenu">
                             {{-- @can('trash.index') --}}
+                            <li class="{{ activeNav('trash.*') }}">
+                                <a href="{{ route('trash.index') }}">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    C/B data move
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
                             <li class="{{ activeNav('trash.*') }}">
                                 <a href="{{ route('trash.index') }}">
                                     <i class="menu-icon fa fa-caret-right"></i>
@@ -544,7 +551,6 @@
                     'advance_report.business_plan.*',
                     'advance_report.budget.*',
                     'advance_report.business_analysis.*',
-
                 ]) }}">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-clipboard" aria-hidden="true"></i>
@@ -746,7 +752,8 @@
                         </li>
                     @endcan
                     @can('admin.advanced_report.index')
-                        <li class="{{ activeOpenNav(['advance_report.business_plan.*','advance_report.business_analysis.*','advance_report.budget.*'])}}">
+                        <li
+                            class="{{ activeOpenNav(['advance_report.business_plan.*', 'advance_report.business_analysis.*', 'advance_report.budget.*']) }}">
                             <a href="#" class="dropdown-toggle">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 <span style="color: green;">Advanced Report</span>
