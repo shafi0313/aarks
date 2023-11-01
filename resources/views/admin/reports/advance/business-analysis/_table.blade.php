@@ -22,7 +22,7 @@
                 $mnt = json_decode($month);
                 $new_amount = $mnt->new_amount;
                 $total_ += $new_amount;
-                
+
                 $tb[$loop->iteration] += $new_amount;
             @endphp
             <td class="text-right">{{ $new_amount }}</td>
@@ -36,7 +36,7 @@
         </td>
     </tr>
 @endforeach
-<tr class="text-right" >
+<tr class="text-right">
     <td>
         <b>Total {{ $type }}</b>
     </td>

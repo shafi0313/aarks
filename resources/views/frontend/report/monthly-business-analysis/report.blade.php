@@ -5,17 +5,17 @@
     $mp = 'avdr'; ?>
     <!-- Page Content Start -->
     <section class="page-content">
-        <div class="container">
+        <div class="container-flued">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-heading py-2 d-flex justify-content-between">
                             <h3>Monthly business analysis report</h3>
-                            <a href="javascript:printDiv()" class="btn btn-warning mr-2">Print/PDF</a>
+                            <a href="javascript:printDiv()" class="btn btn-secondary mr-2">Print/PDF</a>
                         </div>
                         <div class="card-body">
                             <div class="row" id="print-area">
-                                <div class="col-md-12">
+                                <div class="col-md-12 mb-2">
                                     <div class="text-center">
                                         <h4 style="padding: 0;margin:2px"><b>{{ $client->full_name }}</b></h4>
                                         <h5 style="padding: 0;margin:2px"><b>Monthly Business Analysis Details P & L</b></h5>

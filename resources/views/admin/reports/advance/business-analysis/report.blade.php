@@ -13,25 +13,6 @@
                     <li class="active">Report</li>
                 </ul>
             </div>
-            <style>
-                .table>tbody>tr>td,
-                .table>tbody>tr>th,
-                .table>tfoot>tr>td,
-                .table>tfoot>tr>th,
-                .table>thead>tr>td,
-                .table>thead>tr>th {
-                    padding: 1px 5px;
-                    vertical-align: middle;
-                }
-
-                .form-control {
-                    height: 28px;
-                }
-
-                .text-danger {
-                    color: red;
-                }
-            </style>
             <div class="page-content" style="margin-top: 50px;">
                 <div class="row">
                     <div class="col-lg-2 text-center pull-right">

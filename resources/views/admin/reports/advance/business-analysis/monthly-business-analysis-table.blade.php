@@ -1,3 +1,23 @@
+
+<style>
+    .table>tbody>tr>td,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>td,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>thead>tr>th {
+        padding: 1px 5px;
+        vertical-align: middle;
+    }
+
+    .form-control {
+        height: 28px;
+    }
+
+    .text-danger {
+        color: red;
+    }
+</style>
 <div class="col-lg-12">
     <div class="table-responsive">
         <table class="table table-bordered">

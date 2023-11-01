@@ -1,5 +1,5 @@
 <script>
-    $(function(){
+    $(function() {
         $('[id^="total_income-"]').each(function() {
             const id = $(this).attr('id');
             const split = id.split('-');
@@ -13,7 +13,7 @@
             const ebit = parseFloat(income) - parseFloat(expense);
             $("#total_ebit-" + number).html(ebit.toFixed(2));
 
-            const tax    = parseFloat($('#total_tax-' + number).text() ?? 0);
+            const tax = parseFloat($('#total_tax-' + number).text() ?? 0);
             const profit = parseFloat(ebit) - parseFloat(tax);
             $("#total_profit-" + number).html(profit.toFixed(2));
 
@@ -21,12 +21,13 @@
             $("#total_margin-" + number).html(margin.toFixed(2) + '%');
         });
     });
+
     function printDiv() {
         let divToPrint = $("#print-area");
         newWin = window.open("");
         newWin.document.write(
             '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">'
-            );
+        );
         newWin.document.write(`<style>
             body {
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

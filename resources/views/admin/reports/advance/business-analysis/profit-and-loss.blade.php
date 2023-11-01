@@ -1,4 +1,3 @@
-
 <div class="table-responsive">
     <table class="table table-bordered">
         <thead>
@@ -31,8 +30,7 @@
 
                 @foreach ($months as $month)
                     <td>
-                        <b
-                            class="total-gross-profit-{{ $loop->iteration }}">{{ number_format(0, 2) }}</b>
+                        <b class="total-gross-profit-{{ $loop->iteration }}">{{ number_format(0, 2) }}</b>
                     </td>
                 @endforeach
             </tr>
@@ -83,8 +81,7 @@
 
                 @foreach ($months as $month)
                     <td>
-                        <b
-                            class="total-ebit-{{ $loop->iteration }}">{{ number_format(0, 2) }}</b>
+                        <b class="total-ebit-{{ $loop->iteration }}">{{ number_format(0, 2) }}</b>
                     </td>
                 @endforeach
             </tr>
@@ -111,8 +108,7 @@
 
                 @foreach ($months as $month)
                     <td>
-                        <b
-                            class="total-profit-after-{{ $loop->iteration }}">{{ number_format(0, 2) }}</b>
+                        <b class="total-profit-after-{{ $loop->iteration }}">{{ number_format(0, 2) }}</b>
                     </td>
                 @endforeach
             </tr>
@@ -123,8 +119,7 @@
 
                 @foreach ($months as $month)
                     <td>
-                        <b
-                            class="profit-margin-{{ $loop->iteration }}">{{ number_format(0, 2) }}</b>
+                        <b class="profit-margin-{{ $loop->iteration }}">{{ number_format(0, 2) }}</b>
                     </td>
                 @endforeach
             </tr>
