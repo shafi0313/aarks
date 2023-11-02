@@ -42,8 +42,10 @@ use App\Http\Controllers\VerifyAccountController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\Google2faAdminController;
 use App\Http\Controllers\AddDepreciationController;
+use App\Http\Controllers\CashbookDataMoveController;
 use App\Http\Controllers\ClientDataDeleteController;
 use App\Http\Controllers\ClientPaymentListController;
+use App\Http\Controllers\Frontend\CashBookController;
 use App\Http\Controllers\Reports\ConsolePLController;
 use App\Http\Controllers\StandardDeducationController;
 use App\Http\Controllers\AccountCodeCategoryController;
@@ -721,6 +723,14 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('visitor', [VisitorInfoController::class, 'index'])->name('visitor.index');
     Route::post('visitor/delete/selected', [VisitorInfoController::class, 'delSelected'])->name('visitor.delSelected');
     Route::get('visitor/delete/all', [VisitorInfoController::class, 'destroy'])->name('visitor.destroy');
+
+    Route::controller(CashbookDataMoveController::class)->prefix('cashbook-data-move')->name('cashbook_data_move.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/cashbook/{client}', 'cashbook')->name('cashbook');
+        Route::get('/cashbook-show/{client}/{pro_id}/{trn}', 'show')->name('show');
+        Route::post('/cashbook-update', 'update')->name('update');
+    });
+
 });
 
 
@@ -743,5 +753,7 @@ Route::middleware('auth:admin', '2fa')->prefix('force-delete')->as('admin.forceD
     Route::get('/', [ForceDeleteController::class, 'index'])->name('index');
     Route::post('/destroy', [ForceDeleteController::class, 'destroy'])->name('destroy');
 });
+
+
 
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index']);

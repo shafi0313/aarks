@@ -66,6 +66,7 @@
                 'helpdesk.*',
                 'trash.*',
                 'admin.forceDelete.*',
+                'cashbook_data_move.*',
             ]) }}">
             <a href="#" class="dropdown-toggle">
                 <i class="menu-icon fa fa-desktop"></i>
@@ -334,7 +335,7 @@
                 </li>
 
                 @role('Admin')
-                    <li class="{{ activeOpenNav(['trash.*', 'admin.forceDelete.*']) }}">
+                    <li class="{{ activeOpenNav(['trash.*', 'admin.forceDelete.*','cashbook_data_move.*']) }}">
                         <a href="#" class="dropdown-toggle">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Trash/Move Data
@@ -343,8 +344,8 @@
                         <b class="arrow"></b>
                         <ul class="submenu">
                             {{-- @can('trash.index') --}}
-                            <li class="{{ activeNav('trash.*') }}">
-                                <a href="{{ route('trash.index') }}">
+                            <li class="{{ activeNav('cashbook_data_move.*') }}">
+                                <a href="{{ route('cashbook_data_move.index') }}">
                                     <i class="menu-icon fa fa-caret-right"></i>
                                     C/B data move
                                 </a>
