@@ -63,13 +63,7 @@ class TrialBalance extends Controller
                 ->orderBy('chart_id')
                 ->get();
         }
-        // $retains = GeneralLedger::select('*', DB::raw("sum(balance) as totalRetain"))
-        //     ->where('client_id', $client_id)
-        //     ->where('profession_id', $profession->id)
-        //     ->where('date', '<', $start_date)
-        //     ->where('chart_id', 999999)
-        //     ->groupBy('chart_id')
-        //     ->first();
+
         $CRetains =  pl($client, $profession, $date);
         $retains =  retain($client, $profession, $date);
 

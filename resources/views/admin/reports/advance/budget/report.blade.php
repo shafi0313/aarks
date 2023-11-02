@@ -65,7 +65,8 @@
                                         <td class="text-center" colspan="2" style="width: 20%;">
                                             Budget Year ({{ $date->format('Y') }})
                                         </td>
-                                        <td class="text-center" rowspan="2" style="width: 13%;">Actual ({{ $date->format('Y') }})</td>
+                                        <td class="text-center" rowspan="2" style="width: 13%;">Actual
+                                            ({{ $date->format('Y') }})</td>
                                         <td class="text-center" rowspan="2" style="width: 13%;">Variance</td>
                                     </tr>
                                     <tr>
@@ -257,7 +258,8 @@
                                             <b class="total_budget">{{ number_format($other_actual, 2) }}</b>
                                         </td>
                                         <td>
-                                            <b class="total_budget">{{ number_format($sum_without_sales_variance, 2) }}</b>
+                                            <b
+                                                class="total_budget">{{ number_format($sum_without_sales_variance, 2) }}</b>
                                         </td>
                                     </tr>
                                     <tr class="text-center">

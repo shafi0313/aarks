@@ -81,7 +81,7 @@
                             </td>
                             <td>
                                 <div class="input-group">
-                                    <input class="old_percent form-control w-25" type="number"
+                                    <input class="old_percent form-control w-25" type="number" step="any"
                                         name="entries[old_percent][]"
                                         value="{{ number_format($budget->old_percent ?? 0, 4) }}"
                                         aria-describedby="old_percent_{{ $i }}_{{ $j }}">

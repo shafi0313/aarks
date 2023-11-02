@@ -34,7 +34,7 @@
                         $balance = abs($ledger->trail_balance);
                         // $sum_balance += abs($balance);
                         $cat_id = $code->category_id;
-                        
+
                         if ($i == 1) {
                             if ($ledger->balance_type == 1) {
                                 if ($ledger->trail_balance < 0) {
