@@ -107,10 +107,9 @@
                         @elseif($i==2)
                         <input type="hidden" value="{{(${explode(' ', $month)[0]})}}" id="total_expense-{{$key}}">
                         @endif
-                            <td style="font-size: 14px; color:blue">
+                            <td colspan="2" style="font-size: 14px; color:blue">
                                 <b>{{ abs_number(${explode(' ', $month)[0]}) }}</b>
                             </td>
-                            <td></td>
                         @endforeach
                     </tr>
                 @endforeach
