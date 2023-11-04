@@ -19,6 +19,7 @@ use App\Models\Frontend\CustomerCard;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Frontend\DedotrPaymentReceive;
 use App\Models\Frontend\CreditorPaymentReceive;
+use App\Models\Data_storage;
 
 class TrashActionController extends Controller
 {
@@ -26,7 +27,7 @@ class TrashActionController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->method = request()->method() == "PUT"?"restore":"forceDelete";
+        $this->method = request()->method() == "PUT" ? "restore" : "forceDelete";
     }
     public function index(Request $request, Client $client, $id, $src)
     {
@@ -62,11 +63,15 @@ class TrashActionController extends Controller
                 case 'BST':
                     $data = $this->bst($request, $client, $src, $id);
                     break;
-                default:
+                case 'ADT':
                     $data = $this->adt($request, $client, $src, $id);
                     break;
+                default:
+                    Alert::error('Error', 'Something went wrong!');
+                    return back();
+                    break;
             }
-            Alert::success($src . ' '. ucfirst($this->method).' successfully!');
+            Alert::success($src . ' ' . ucfirst($this->method) . ' successfully!');
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -503,8 +508,25 @@ class TrashActionController extends Controller
         $cashbook = CashBook::onlyTrashed()->whereClientId($client->id)->findOrFail($id)->{$this->method}();
         return 'Successfully';
     }
+
     protected function adt($request, $client, $src, $id)
     {
+        $input = Data_storage::onlyTrashed()->whereClientId($client->id)->findOrFail($id);
+        $tran_id = $input->trn_id;
+        Gsttbl::onlyTrashed()->where('client_id', $input->client_id)
+            ->where('trn_id', $tran_id)
+            ->where('source', $src)->{$this->method}();
+
+        GeneralLedger::onlyTrashed()->where('client_id', $input->client_id)
+            ->where('profession_id', $input->profession_id)
+            ->where('transaction_id', $tran_id)
+            ->where('source', $src)
+            ->where('chart_id', '!=', 999999)->{$this->method}();
+
+        Data_storage::onlyTrashed()->where('client_id', $input->client_id)
+            ->where('profession_id', $input->profession_id)
+            ->where('trn_id', $tran_id)->{$this->method}();
+
         return 'Successfully';
     }
 }

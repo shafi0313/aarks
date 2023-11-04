@@ -4,26 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Client;
+use App\Models\Data_storage;
 use App\Models\JournalEntry;
 use Illuminate\Http\Request;
 use App\Models\Frontend\Dedotr;
 use App\Models\Frontend\CashBook;
 use App\Models\Frontend\Creditor;
-use App\Http\Controllers\Controller;
-use App\Models\BankStatementImport;
 use App\Models\BankStatementInput;
-use App\Models\Data_storage;
+use App\Models\BankStatementImport;
+use App\Http\Controllers\Controller;
 use App\Models\Frontend\CustomerCard;
+use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Frontend\DedotrPaymentReceive;
 use App\Models\Frontend\CreditorPaymentReceive;
 
 class TrashController extends Controller
 {
-    // protected $get;
     public function __construct()
     {
         $this->middleware('auth:admin');
-        // $get = request()->method() == "GET"?"get":"forceDelete";
     }
     public function index()
     {
@@ -65,8 +64,12 @@ class TrashController extends Controller
             case 'BST':
                 $data = $this->bst($request, $client, $src);
                 break;
-            default:
+            case 'ADT':
                 $data = $this->adt($request, $client, $src);
+                break;
+            default:
+                Alert::error('Error', 'Something went wrong!');
+                return back();
                 break;
         }
         // return $data;
@@ -184,7 +187,8 @@ class TrashController extends Controller
             ->where('client_id', $client->id)
             ->orderBy('trn_date')
             ->get()
-            ->groupBy('trn_id');
+            ->groupBy('trn_id')
+            ;
         return [
             'src'     => $src,
             'client'  => $client,

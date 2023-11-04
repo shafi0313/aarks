@@ -35,6 +35,7 @@
                                     <select class="form-control" onchange="location = this.value;">
                                         <option disabled selected value>Select Source</option>
                                         {{-- <option value="{{ route('trash.details',[$client->id,'ADT']) }}">Data Entry From Receipt(ADT)</option> --}}
+                                        <option value="{{ route('trash.details',[$client->id,'ADT']) }}">Add Edit Entry(ADT)</option>
                                         <option value="{{ route('trash.details',[$client->id,'BST']) }}">Import Bank Statement(BST)</option>
                                         <option value="{{ route('trash.details',[$client->id,'INP']) }}">Input Bank Statement(INP)</option>
                                         <option value="{{ route('trash.details',[$client->id,'JNP']) }}">Journal(JNP)</option>
@@ -46,7 +47,7 @@
                                         <option value="{{ route('trash.details',[$client->id,'PBN']) }}">Bill-Payment</option>
                                         <option value="{{ route('trash.details',[$client->id,'PBP']) }}">Bill-Purchase</option>
                                         {{-- <option value="{{ route('trash.details',[$client->id,'PBN']) }}">Bank transaction</option> --}}
-                                        
+
                                     </select>
                                 </div>
                             </form>

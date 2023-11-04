@@ -54,6 +54,9 @@
                         @if ($src == "BST")
                             @include('admin.trashed.source.bst', ['imports'=>$ledgers])
                         @endif
+                        @if ($src == "ADT")
+                            @include('admin.trashed.source.adt', ['adts'=>$ledgers])
+                        @endif
                     </div>
                 </div>
             </div>
