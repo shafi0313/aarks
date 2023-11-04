@@ -334,16 +334,16 @@
                     <b class="arrow"></b>
                 </li>
 
-                @role('Admin')
-                    <li class="{{ activeOpenNav(['trash.*', 'admin.forceDelete.*','cashbook_data_move.*']) }}">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Trash/Move Data
-                            <b class="arrow fa fa-angle-down"></b>
-                        </a>
-                        <b class="arrow"></b>
-                        <ul class="submenu">
-                            {{-- @can('trash.index') --}}
+                @canany(['admin.CB-data-move', 'admin.trash', 'admin.delete-data-permanently'])
+                <li class="{{ activeOpenNav(['trash.*', 'admin.forceDelete.*', 'cashbook_data_move.*']) }}">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Trash/Move Data
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        @can('admin.CB-data-move')
                             <li class="{{ activeNav('cashbook_data_move.*') }}">
                                 <a href="{{ route('cashbook_data_move.index') }}">
                                     <i class="menu-icon fa fa-caret-right"></i>
@@ -351,6 +351,8 @@
                                 </a>
                                 <b class="arrow"></b>
                             </li>
+                        @endcan
+                        @can('admin.trash')
                             <li class="{{ activeNav('trash.*') }}">
                                 <a href="{{ route('trash.index') }}">
                                     <i class="menu-icon fa fa-caret-right"></i>
@@ -358,8 +360,8 @@
                                 </a>
                                 <b class="arrow"></b>
                             </li>
-                            {{-- @endcan --}}
-                            {{-- @can('admin.forceDelete.index') --}}
+                        @endcan
+                        @can('admin.delete-data-permanently')
                             <li class="{{ activeNav('admin.forceDelete.*') }}">
                                 <a href="{{ route('admin.forceDelete.index') }}">
                                     <i class="menu-icon fa fa-caret-right"></i>
@@ -367,10 +369,10 @@
                                 </a>
                                 <b class="arrow"></b>
                             </li>
-                            {{-- @endcan --}}
-                        </ul>
-                    </li>
-                @endrole
+                        @endcan
+                    </ul>
+                </li>
+                @endcanany
             </ul>
         </li>
 

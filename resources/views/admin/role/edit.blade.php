@@ -464,7 +464,6 @@
                                         <hr>
 
                                         <div class="row">
-
                                             <div class="col-sm-2">
                                                 <div class="row">
                                                     <div class="col-sm-5 text-center">
@@ -807,7 +806,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
 
                                             {{-- <div class="col-sm-2">
                                                 <div class="row">
@@ -861,13 +860,13 @@
                                                             value="{{ $permissions['admin.periodic_cash.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.periodic_cash.index', $role_permissions) ? 'checked' : '' }}>
-                                                        Periodic BAS(<span style="color: green">s/actv</span>Cash) <br>                                                        
+                                                        Periodic BAS(<span style="color: green">s/actv</span>Cash) <br>
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.periodic_accrued.index'] }}"
                                                             name="permission[]"
                                                             {{ in_array('admin.periodic_accrued.index', $role_permissions) ? 'checked' : '' }}>
                                                             Periodic BAS(<span style="color: green">s/actv</span>Acur) <br>
-                                                            
+
                                                         <input type="checkbox"
                                                             value="{{ $permissions['admin.general_ledger.index'] }}"
                                                             name="permission[]"
@@ -918,7 +917,7 @@
                                                             name="permission[]"
                                                             {{ in_array('admin.balance_sheet.index', $role_permissions) ? 'checked' : '' }}>
                                                         Balance Sheet(S/Activity)<br>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -1174,6 +1173,30 @@
                                         </div>
                                         <hr>
                                         <div class="row">
+                                            <div class="col-sm-2">
+                                                <div class="row">
+                                                    <div class="col-sm-5 text-center">
+                                                        Trash/Move Data
+                                                    </div>
+                                                    <div class="col-sm-7">
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.CB-data-move'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.CB-data-move', $role_permissions) ? 'checked' : '' }}>
+                                                        C/B Data Move <br>
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.trash'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.trash', $role_permissions) ? 'checked' : '' }}>
+                                                        Trash <br>
+                                                        <input type="checkbox"
+                                                            value="{{ $permissions['admin.delete-data-permanently'] }}"
+                                                            name="permission[]"
+                                                            {{ in_array('admin.delete-data-permanently', $role_permissions) ? 'checked' : '' }}>
+                                                        Delete Data Permanently <br>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-2">
                                                 <div class="row">
                                                     <div class="col-sm-5 text-center">
