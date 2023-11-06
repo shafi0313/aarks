@@ -44,11 +44,11 @@ class CashbookDataMoveController extends Controller
             return $error;
         }
 
-        $cashbooks = CashBook::select('id', 'client_id', 'profession_id', 'period_id', 'tran_id', 'tran_date')
-            ->whereClientId($clientId)
+        $cashbooks = CashBook::whereClientId($clientId)
             ->whereProfessionId($professionId)
             ->whereTranId($trnId)
             ->whereIsPost(1)
+            ->orderBy('chart_id', 'asc')
             ->get();
         return view('admin.cashbook-data-move.show', compact('cashbooks'));
     }
@@ -80,7 +80,6 @@ class CashbookDataMoveController extends Controller
             ->whereSource('CBC')->update([
                 'trn_date' => $date,
                 'period_id' => $period->id,
-
             ]);
 
         GeneralLedger::whereClientId($request->client_id)

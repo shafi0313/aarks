@@ -66,9 +66,13 @@
                                     <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="center">SN</th>
+                                                {{-- <th class="center">SN</th> --}}
+                                                <th>Code</th>
                                                 <th>Transaction id</th>
+                                                <th>Narration</th>
                                                 <th>Date</th>
+                                                <th>Dr</th>
+                                                <th>Cr</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -76,9 +80,13 @@
 
                                             @foreach ($cashbooks as $cashbook)
                                                 <tr>
-                                                    <td class="center">{{ $x++ }}</td>
+                                                    {{-- <td class="center">{{ $x++ }}</td> --}}
+                                                    <td class="center">{{ $cashbook->chart_id }}</td>
                                                     <td class="center">{{ $cashbook->tran_id }}</td>
+                                                    <td class="center">{{ $cashbook->narration }}</td>
                                                     <td class="center">{{ bdDate($cashbook->tran_date) }}</td>
+                                                    <td class="text-right">{{ nF2($cashbook->amount_debit) }}</td>
+                                                    <td class="text-right">{{ nF2($cashbook->amount_credit) }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
