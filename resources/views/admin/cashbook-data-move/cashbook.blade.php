@@ -13,6 +13,7 @@
                     <li>Admin</li>
                     <li>Trash/Move Data</li>
                     <li class="active">Cashbook Data Move</li>
+                    <li>{{ clientName($client) }}</li>
                 </ul><!-- /.breadcrumb -->
 
                 {{-- <div class="nav-search" id="nav-search">

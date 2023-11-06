@@ -35,7 +35,7 @@ class CashbookDataMoveController extends Controller
             ->whereIsPost(1)
             ->get()
             ->groupBy('tran_id');
-        return view('admin.cashbook-data-move.cashbook', compact('cashbooks'));
+        return view('admin.cashbook-data-move.cashbook', compact('cashbooks', 'client'));
     }
 
     public function show($clientId, $professionId, $trnId)
@@ -48,6 +48,7 @@ class CashbookDataMoveController extends Controller
             ->whereClientId($clientId)
             ->whereProfessionId($professionId)
             ->whereTranId($trnId)
+            ->whereIsPost(1)
             ->get();
         return view('admin.cashbook-data-move.show', compact('cashbooks'));
     }
