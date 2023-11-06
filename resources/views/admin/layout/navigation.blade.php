@@ -347,7 +347,7 @@
                             <li class="{{ activeNav('cashbook_data_move.*') }}">
                                 <a href="{{ route('cashbook_data_move.index') }}">
                                     <i class="menu-icon fa fa-caret-right"></i>
-                                    C/B data move
+                                    C/B Data Move
                                 </a>
                                 <b class="arrow"></b>
                             </li>
@@ -393,7 +393,7 @@
                         <li class="{{ activeNav('verify_account.*') }}">
                             <a href="{{ route('verify_account.index') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                Verify & fixed trans
+                                Verify & Fixed Trans
                             </a>
                             <b class="arrow"></b>
                         </li>
@@ -479,13 +479,6 @@
                 </a>
                 <b class="arrow"></b>
                 <ul class="submenu">
-                    {{-- <li class="{{activeNav('journal_entry*')}}">
-                    <a href="{{route('journal_entry_client')}}">
-                        <i class="menu-icon fa fa-download" aria-hidden="true"></i>
-                        <span class="menu-text">Journal Entry(JNP)</span>
-                    </a>
-                    <b class="arrow"></b>
-                </li> --}}
                     @can('admin.journal_list.index')
                         <li class="{{ activeNav('journal_list.*') }}">
                             <a href="{{ route('journal_list.index') }}">
@@ -674,15 +667,6 @@
                             <b class="arrow"></b>
                         </li>
                     @endcan
-                    {{-- @can('admin.balance_sheet.index')
-                <li class="">
-                    <a href="{{ route('balance_sheet_index') }}">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Balance Sheet
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                @endcan --}}
                     @can('admin.balance_sheet.index')
                         <li class="{{ activeNav('balance_sheet.*') }}">
                             <a href="{{ route('balance_sheet.index') }}">
@@ -822,7 +806,7 @@
         @can('admin.agent_audit.index')
             <li class="">
                 <a href="{{ route('audit.agent_index') }}">
-                    <i class="menu-icon fa fa-sign-out" aria-hidden="true"></i>
+                    <i class="menu-icon fa fa-user" aria-hidden="true"></i>
                     <span class="menu-text">
                         Agent Audit
                     </span>
@@ -835,7 +819,7 @@
         @can('admin.logging_audit.index')
             <li class="">
                 <a href="{{ route('logging_audit_index') }}">
-                    <i class="menu-icon fa fa-sign-out" aria-hidden="true"></i>
+                    <i class="menu-icon fa fa-user-secret" aria-hidden="true"></i>
                     <span class="menu-text">
                         Logging Audit
                     </span>
@@ -847,9 +831,9 @@
         @can('admin.visitor_info.index')
             <li class="">
                 <a href="{{ route('visitor.index') }}">
-                    <i class="menu-icon fa fa-sign-out" aria-hidden="true"></i>
+                    <i class="menu-icon fa fa-users" aria-hidden="true"></i>
                     <span class="menu-text">
-                        visitor Information
+                        Visitor Information
                     </span>
                 </a>
                 <b class="arrow"></b>
