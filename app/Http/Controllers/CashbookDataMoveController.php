@@ -44,7 +44,7 @@ class CashbookDataMoveController extends Controller
             return $error;
         }
 
-        $cashbooks = CashBook::whereClientId($clientId)
+        $cashbooks = CashBook::with('accountCode')->whereClientId($clientId)
             ->whereProfessionId($professionId)
             ->whereTranId($trnId)
             ->whereIsPost(1)

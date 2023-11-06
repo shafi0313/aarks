@@ -67,8 +67,8 @@
                                         <thead>
                                             <tr>
                                                 {{-- <th class="center">SN</th> --}}
-                                                <th>Code</th>
-                                                <th>Transaction id</th>
+                                                <th>A/C Code</th>
+                                                <th>A/C Name</th>
                                                 <th>Narration</th>
                                                 <th>Date</th>
                                                 <th>Dr</th>
@@ -82,8 +82,8 @@
                                                 <tr>
                                                     {{-- <td class="center">{{ $x++ }}</td> --}}
                                                     <td class="center">{{ $cashbook->chart_id }}</td>
-                                                    <td class="center">{{ $cashbook->tran_id }}</td>
-                                                    <td class="center">{{ $cashbook->narration }}</td>
+                                                    <td>{{ $cashbook->accountCode->name }}</td>
+                                                    <td>{{ $cashbook->narration }}</td>
                                                     <td class="center">{{ bdDate($cashbook->tran_date) }}</td>
                                                     <td class="text-right">{{ nF2($cashbook->amount_debit) }}</td>
                                                     <td class="text-right">{{ nF2($cashbook->amount_credit) }}</td>
