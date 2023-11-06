@@ -40,8 +40,8 @@
                                     <input type="hidden" name="client_id" value="{{ $cash->client_id }}">
                                     <input type="hidden" name="profession_id" value="{{ $cash->profession_id }}">
                                     <input type="hidden" name="tran_id" value="{{ $cash->tran_id }}">
-                                    <div class="row" style="display:flex;margin: 0 h-auto ">
-                                        <div class="col-md-6">
+                                    <div class="row" style="display:flex; justify-content: center;">
+                                        <div class="col-md-3" >
                                             <div class="form-group">
                                                 <label>Date</label>
                                                 <input type="" id="to_date" name="date"
@@ -49,7 +49,7 @@
                                                     data-date-format="dd/mm/yyyy" Placeholder="DD/MM/YYYY" required />
                                             </div>
                                         </div>
-                                        <div class="col-md-6" style="padding-top:25px;">
+                                        <div class="col-md-2" style="padding-top:20px;">
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </div>
@@ -60,13 +60,11 @@
                                 <div class="clearfix">
                                     <div class="pull-right tableTools-container"></div>
                                 </div>
-
                                 <div class="table-header" style="text-align: right;"> </div>
                                 <div>
                                     <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                {{-- <th class="center">SN</th> --}}
                                                 <th>A/C Code</th>
                                                 <th>A/C Name</th>
                                                 <th>Narration</th>
@@ -80,7 +78,6 @@
 
                                             @foreach ($cashbooks as $cashbook)
                                                 <tr>
-                                                    {{-- <td class="center">{{ $x++ }}</td> --}}
                                                     <td class="center">{{ $cashbook->chart_id }}</td>
                                                     <td>{{ $cashbook->accountCode->name }}</td>
                                                     <td>{{ $cashbook->narration }}</td>
