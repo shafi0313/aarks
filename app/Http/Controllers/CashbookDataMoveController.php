@@ -15,18 +15,18 @@ class CashbookDataMoveController extends Controller
 {
     public function index()
     {
-        // if ($error = $this->sendPermissionError('admin.comperative_financial_report.index')) {
-        //     return $error;
-        // }
+        if ($error = $this->sendPermissionError('admin.admin.CB-data-move')) {
+            return $error;
+        }
 
         $clients = getClientsWithPayment();
         return view('admin.cashbook-data-move.index', compact('clients'));
     }
     public function cashbook(Client $client)
     {
-        // if ($error = $this->sendPermissionError('admin.comperative_financial_report.index')) {
-        //     return $error;
-        // }
+        if ($error = $this->sendPermissionError('admin.admin.CB-data-move')) {
+            return $error;
+        }
 
         $cashbooks = CashBook::select('id', 'client_id', 'profession_id', 'period_id', 'tran_id', 'tran_date')
             ->whereClientId($client->id)
@@ -40,9 +40,9 @@ class CashbookDataMoveController extends Controller
 
     public function show($clientId, $professionId, $trnId)
     {
-        // if ($error = $this->sendPermissionError('admin.comperative_financial_report.index')) {
-        //     return $error;
-        // }
+        if ($error = $this->sendPermissionError('admin.admin.CB-data-move')) {
+            return $error;
+        }
 
         $cashbooks = CashBook::select('id', 'client_id', 'profession_id', 'period_id', 'tran_id', 'tran_date')
             ->whereClientId($clientId)
@@ -54,6 +54,9 @@ class CashbookDataMoveController extends Controller
 
     public function update(Request $request)
     {
+        if ($error = $this->sendPermissionError('admin.admin.CB-data-move')) {
+            return $error;
+        }
 
         $date = sqlDate($request->date);
         $period = Period::whereClientId($request->client_id)
