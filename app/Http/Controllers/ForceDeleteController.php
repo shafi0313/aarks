@@ -14,7 +14,7 @@ class ForceDeleteController extends Controller
 {
     public function index()
     {
-        if ($error = $this->sendPermissionError('admin.force_delete.index')) {
+        if ($error = $this->sendPermissionError('admin.delete-data-permanently')) {
             return $error;
         }
         return view('admin.force-delete.index');
@@ -28,18 +28,18 @@ class ForceDeleteController extends Controller
      */
     public function destroy(Request $request)
     {
-        if ($error = $this->sendPermissionError('admin.force_delete.index')) {
+        if ($error = $this->sendPermissionError('admin.delete-data-permanently')) {
             return $error;
         }
         $request->validate([
             'password' => 'required|string'
         ]);
-        
+
         // return auth()->user()->password;
-        if (Hash::check($request->password, auth()->user()->password)) {       
+        if (Hash::check($request->password, auth()->user()->password)) {
             $tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
             $affected_rows = 0;
-    
+
             DB::beginTransaction();
             try {
                 foreach ($tables as $table) {
