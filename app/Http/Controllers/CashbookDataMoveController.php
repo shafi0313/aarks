@@ -32,6 +32,7 @@ class CashbookDataMoveController extends Controller
             ->whereClientId($client->id)
             // ->take(10)
             ->orderBy('tran_date', 'DESC')
+            ->whereIsPost(1)
             ->get()
             ->groupBy('tran_id');
         return view('admin.cashbook-data-move.cashbook', compact('cashbooks'));

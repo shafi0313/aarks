@@ -42,17 +42,17 @@
                                         <thead>
                                             <tr>
                                                 <th class="center">SN</th>
-                                                <th>Date</th>
                                                 <th>Transaction id</th>
+                                                <th>Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @php $x=1; @endphp
 
-                                            @foreach ($cashbooks as $cashbook)
+                                            @foreach ($cashbooks as $cashbookk)
                                             @php
-                                                $cashbook = $cashbook->first()
+                                                $cashbook = $cashbookk->first()
                                             @endphp
                                                 <tr>
                                                     <td class="center">{{ $x++ }}</td>
