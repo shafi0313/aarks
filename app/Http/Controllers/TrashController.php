@@ -26,15 +26,24 @@ class TrashController extends Controller
     }
     public function index()
     {
+        if ($error = $this->sendPermissionError('admin.trash')) {
+            return $error;
+        }
         $clients = getClientsWithPayment();
         return view('admin.trashed.client', compact('clients'));
     }
     public function source(Request $request, Client $client)
     {
+        if ($error = $this->sendPermissionError('admin.trash')) {
+            return $error;
+        }
         return view('admin.trashed.source', compact('client'));
     }
     public function details(Request $request, Client $client, $src)
     {
+        if ($error = $this->sendPermissionError('admin.trash')) {
+            return $error;
+        }
         $data = '';
         switch ($src) {
             case 'INV':
