@@ -32,13 +32,13 @@
                                     <a href="#" data-dismiss="modal" class="job_copy" data-title="${v.title}" data-des="${v.details}" data-code_name="${v.code.name}" data-code="${v.code.code}" data-tax="${v.is_tax}">
                                         ${v.title}
                                     </a>
-                                </td>                                
+                                </td>
                                 <td width="8px">
                                     <a href="#" class="job_edit_btn" data-job_id="${v.id}" data-job_title="${v.title}" data-job_details="${v.details}" data-code_id="${v.client_account_code_id}" data-code_name="${v.code.name}">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
                                 </td>
-                                <td width="8px">                                    
+                                <td width="8px">
                                     <a href="#" class="text-danger job_btn_remove" id="${v.id}">
                                         <i class="fas fa-trash-alt" aria-hidden="true"></i>
                                     </a>

@@ -132,7 +132,7 @@ class DedotrQuoteOrderController extends Controller
         $client         = Client::find($request->client_id);
         $code           = ClientAccountCode::find($request->client_account_code_id);
         $data['is_tax'] = ($client->is_gst_enabled == 1 && in_array($code->gst_code, ['GST', 'CAP', 'INP'])) ? 'yes' : 'no';
-        // return$data = Dedotr_job::find($request->job_id);      
+        // return$data = Dedotr_job::find($request->job_id);
         try {
             $data = Dedotr_job::find($request->job_id)->update($data);
             return response()->json(['status'=>200,'data'=>$data]);
@@ -144,7 +144,7 @@ class DedotrQuoteOrderController extends Controller
     public function jobShow()
     {
         $client = Client::find(client()->id);
-        $jobs   = Dedotr_job::where('client_id', $client->id)
+        $jobs   = Dedotr_job::with('code')->where('client_id', $client->id)
                 ->where('type', 1)->get();
         return response()->json(['status'=>200,'jobs'=>$jobs]);
     }
