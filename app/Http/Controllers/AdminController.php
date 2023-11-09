@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Admin;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -191,6 +192,10 @@ class AdminController extends Controller
         // /Google Authenticator
 
         if ($this->isUserAuthenticated($request)) {
+            $admin->update([
+                'last_login_at' => Carbon::now()->toDateTimeString(),
+                'last_login_ip' => $request->getClientIp()
+            ]);
             return redirect()->intended(route($this->default_admin_redirect_route));
         }
 

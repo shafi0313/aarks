@@ -47,6 +47,7 @@ use App\Http\Controllers\ClientDataDeleteController;
 use App\Http\Controllers\ClientPaymentListController;
 use App\Http\Controllers\Frontend\CashBookController;
 use App\Http\Controllers\Reports\ConsolePLController;
+use App\Http\Controllers\Admin\LoggingAuditController;
 use App\Http\Controllers\StandardDeducationController;
 use App\Http\Controllers\AccountCodeCategoryController;
 use App\Http\Controllers\Reports\BudgetReportController;
@@ -78,6 +79,7 @@ use App\Http\Controllers\Reports\ComperativeFinancialReportController;
 Route::get('/gst', [TestController::class, 'gst'])->name('gst');
 
 
+
 Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login.post');
 Route::get('admin/impersonate/destroy', [ClientController::class, 'destroyImpersonate'])->name('destroy.impersonate');
@@ -106,6 +108,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::resource('profession', ProfessionController::class);
     Route::resource('client', ClientController::class);
     Route::get('client/impersonate/{client}', [ClientController::class, 'impersonate'])->name('impersonate');
+    Route::get('/logging-audit', [LoggingAuditController::class, 'index'])->name('logging_audit.index');
 
     Route::controller(ClientDataDeleteController::class)->prefix('client-data-delete')->name('client.data.')->group(function () {
         Route::get('/password', 'password')->name('password');
@@ -719,7 +722,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     });
 
     // logging_audit
-    Route::get('logging_audit', [TestController::class, 'logging_audit_index'])->name('logging_audit_index');
+    // Route::get('logging_audit', [TestController::class, 'logging_audit_index'])->name('logging_audit_index');
     Route::get('visitor', [VisitorInfoController::class, 'index'])->name('visitor.index');
     Route::post('visitor/delete/selected', [VisitorInfoController::class, 'delSelected'])->name('visitor.delSelected');
     Route::get('visitor/delete/all', [VisitorInfoController::class, 'destroy'])->name('visitor.destroy');

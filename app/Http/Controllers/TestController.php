@@ -388,8 +388,8 @@ class TestController extends Controller
 
 
     // logging_audit
-    public function logging_audit_index()
-    {
-        return view('admin.logging_audit.index');
-    }
+    // public function logging_audit_index()
+    // {
+    //     return view('admin.logging_audit.index');
+    // }
 }

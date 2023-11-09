@@ -21,6 +21,8 @@ class Admin extends Authenticatable
         $this->save();
         return $this;
     }
+
+    protected $dates = ['last_login_at'];
     // public function setTwoFactorSecretAttribute($value)
     // {
     //      $this->attributes['two_factor_secret'] = encrypt($value);

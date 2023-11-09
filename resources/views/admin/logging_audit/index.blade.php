@@ -25,8 +25,6 @@
         </div>
 
         <div class="page-content">
-
-
             <div class="row">
                 <div class="col-xs-12">
                     <!-- PAGE CONTENT BEGINS -->
@@ -38,11 +36,6 @@
                             <div class="table-header" style="text-align: center;">
                                 <strong>Logging Audit</strong>
 							</div>
-							<br>
-							<div align="center">
-								<a class="btn btn-primary bnt-xl" >Delete All</a>
-							</div>
-							<br>
 
                             <!-- div.table-responsive -->
 
@@ -52,32 +45,23 @@
                                     <thead>
                                         <tr>
                                             <th>SL</th>
-                                            <th>Client Name</th>
-                                            <th>Time Date</th>
-                                            <th>Random Code</th>
-                                            <th>Status</th>
-                                            <th>Add/Amendmend</th>
-                                            <th>Access Area</th>
-                                            <th>IP </th>
-                                            <th>TFN</th>
-                                            <th style="display:none;">SL</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Last Login at</th>
+                                            <th>Last Login IP</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($admins as $admin)
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td style="display:none;"></td>
-
+                                            <td>{{ @$i += 1 }}</td>
+                                            <td>{{ $admin->name }}</td>
+                                            <td>{{ $admin->email }}</td>
+                                            <td>{{ $admin->last_login_at ? \Carbon\Carbon::parse($admin->last_login_at)->diffForhumans() :'' }}</td>
+                                            <td>{{ $admin->last_login_ip }}</td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
