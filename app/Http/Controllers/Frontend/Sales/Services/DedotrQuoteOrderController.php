@@ -647,4 +647,52 @@ class DedotrQuoteOrderController extends Controller
             return back();
         }
     }
+
+    public function show($source, $inv_no, Client $client, $customer)
+    {
+        $client   = Client::find(client()->id);
+        $invoices = DedotrQuoteOrder::with(['client', 'customer'])->where('client_id', $client->id)
+            ->where('customer_card_id', $customer)
+            ->where('inv_no', $inv_no)
+            ->get();
+        if ($source == 'item') {
+            return view('frontend.sales.inv-report.invItem', compact('client', 'source', 'invoices', 'inv_no'));
+        }else{
+            return view('frontend.sales.quote.service_inv_show', compact('client', 'source', 'invoices', 'inv_no'));
+        }
+
+    }
+
+    // public function mail($source, $inv_no, Client $client)
+    // {
+    //     $client = Client::find(client()->id);
+    //     $invoices = Dedotr::with(['client', 'customer'])->where('client_id', $client->id)
+    //         ->where('inv_no', $inv_no)->get();
+    //     $inv = $invoices->first();
+
+    //     $customer = $invoices->first()->customer;
+    //     if ($source == 'item') {
+    //         $pdf = PDF::loadView('frontend.sales.inv-report.invItemPrint', compact('client', 'source', 'invoices'));
+    //     } elseif ($source == 'email-view') {
+    //         // Mail::to('info@aarks.net.au')->send(new InvoiceViewableMail($inv, $customer, $client));
+    //         Mail::to($customer->email)->send(new InvoiceViewableMail($source, $inv, $customer, $client));
+    //         toast('Invoice email view  successful!', 'success');
+    //         return redirect()->back();
+    //     } else {
+    //         $pdf = PDF::loadView('frontend.sales.inv-report.invServicePrint', compact('client', 'source', 'invoices'));
+    //     }
+    //     // return $pdf->stream();
+    //     try {
+    //         Mail::send('frontend.sales.payment.mail', ['client'=>$client, 'customer'=>$customer], function ($mail) use ($invoices, $client, $pdf, $customer) {
+    //             $mail->to($customer->email, $customer->email)
+    //                 ->subject('🧾  ' . invoice($invoices->first()->inv_no) . ' Invoice Generated')
+    //                 ->attachData($pdf->output(), invoice($invoices->first()->inv_no) . ".pdf");
+    //         });
+    //         toast('Invoice Mailed Successful!', 'success');
+    //     } catch (\Exception $e) {
+    //         toast('Opps! Server Side Error!', 'error');
+    //         return $e->getMessage();
+    //     }
+    //     return redirect()->back();
+    // }
 }

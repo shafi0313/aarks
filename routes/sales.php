@@ -112,6 +112,8 @@ Route::prefix('payment')->group(function () {
 
 
 
+Route::get('manage/quote/show/{source}/{inv_no}/{client}/{customer}', [DedotrQuoteOrderController::class, 'show'])->name('quote.show');
+
 //! Invoice Reports
 Route::get('/invoice/report/{source}/{inv_no}/{client}/{customer}', [InvoiceReportController::class, 'report'])->name('inv.report');
 Route::get('/invoice/report/print/{source}/{inv_no}/{client}/{customer}', [InvoiceReportController::class, 'print'])->name('inv.report.print');
