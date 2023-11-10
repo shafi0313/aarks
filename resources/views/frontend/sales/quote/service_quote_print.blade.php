@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Invoice{{ invoice($invoices->first()->inv_no) }} | AARKS</title>
+    <title>Invoice{{ invoice($invoices->first()?->inv_no) }} | AARKS</title>
     <style type="text/css">
         @media print {
             body {
@@ -132,7 +132,7 @@
                     </tr>
                     <tr>
                         <td align="center" style="border-right:1px solid #000;font-size: 10pt;">
-                            {{ $inv->tran_date->format('d/m/Y') }}</td>
+                            {{ bdDate($inv->tran_date) }}</td>
                         <td align="left" style="border-right:1px solid #000;font-size: 10pt;">
                             {{ invoice($inv->inv_no) }}</td>
                         {{-- <td align="left" style="border-right:1px solid #000;font-size: 10pt;">

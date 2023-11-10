@@ -667,7 +667,7 @@ class DedotrQuoteOrderController extends Controller
     public function print($source, $inv_no, Client $client)
     {
         $client   = Client::find($client->id);
-        $invoices = Dedotr::with(['client', 'customer'])->where('client_id', $client->id)
+        $invoices = DedotrQuoteOrder::with(['client', 'customer'])->where('client_id', $client->id)
             ->where('inv_no', $inv_no)->get();
         $inv = $invoices->first();
         // if (periodLock($client->id, $inv->tran_date)) {
