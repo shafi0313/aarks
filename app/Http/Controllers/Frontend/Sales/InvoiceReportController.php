@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Frontend\Sales;
 
-use App\Models\Client;
 use PDF;
+use App\Models\Client;
 use App\Models\Frontend\Dedotr;
 use App\Mail\InvoiceViewableMail;
 use App\Http\Controllers\Controller;

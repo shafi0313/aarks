@@ -193,7 +193,7 @@
                                                 class="fa fa-"></i> EMAIL </a>
                                     </div>
                                     <div class="mx-2">
-                                        <a href="{{ route('inv.report.print', ['service', $inv_no, $client->id, $customer->id]) }}"
+                                        <a href="{{ route('quote.print', ['service', $inv_no, $client->id, $customer->id]) }}"
                                             target="_blank" class="btn btn-outline-info text-dark btn-lg"> <i
                                                 class="fa fa-print"></i> PRINT</a>
                                     </div>
