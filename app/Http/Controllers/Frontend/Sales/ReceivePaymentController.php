@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Frontend\Sales;
 
+use PDF;
 use App\Models\Client;
 use App\Models\Gsttbl;
 use App\Models\Period;
-use Barryvdh\DomPDF\PDF;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use App\Models\GeneralLedger;
