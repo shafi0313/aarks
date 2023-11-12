@@ -50,7 +50,7 @@
                                 </thead>
                                 <tbody>
                                     @php $i=1; @endphp
-                                    @foreach ($quotes->groupBy('inv_no') as $quote)
+                                    @foreach ($quotes as $quote)
                                         <tr>
                                             <td class="text-center">{{ $i++ }}</td>
                                             <td>{{ $quote->first()->start_date->format('d/m/Y') }} </td>
@@ -77,11 +77,11 @@
                                                         <i class="far fa-envelope-open"></i>
                                                     </a> --}}
                                                     <a title="Quote Edit"
-                                                        href="{{ route('quote.edit', $quote->first()->inv_no) }}"
+                                                        href="{{ route('quote.edit', [$quote->first()->profession_id, $quote->first()->customer_card_id, $quote->first()->inv_no]) }}"
                                                         class="btn btn-info btn-sm">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('quote.destroy', $quote->first()->id) }}"
+                                                    <form action="{{ route('quote.destroy', [$quote->first()->id, $quote->first()->profession_id, $quote->first()->customer_card_id, $quote->first()->inv_no]) }}"
                                                         method="post" style="display: inline">
                                                         @csrf @method('delete')
                                                         <button title="Quote Delete" type="submit"

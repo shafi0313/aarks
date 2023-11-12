@@ -65,7 +65,9 @@ Route::prefix('services-layout')->group(function () {
         Route::get('manage/convert/manage/view/{inv}', [DedotrQuoteOrderController::class, 'convertView'])->name('quote.convertView');
         Route::get('manage/convert/store/{quote}', [DedotrQuoteOrderController::class, 'convertStore'])->name('quote.convertStore');
     });
-    Route::resource('quote', DedotrQuoteOrderController::class);
+    Route::resource('/quote', DedotrQuoteOrderController::class)->except(['edit', 'destroy']);
+    Route::get('/quote/edit/{profession}/{cusCardId}/{inv_no}', [DedotrQuoteOrderController::class, 'edit'])->name('quote.edit');
+    Route::delete('/quote/destroy/{quote}/{profession}/{cusCardId}/{inv_no}', [DedotrQuoteOrderController::class, 'destroy'])->name('quote.destroy');
     Route::prefix('dedotr')->group(function () {
         Route::post('template/store', [DedotrController::class, 'templateStore'])->name('dedotrs.tmstore');
         Route::get('template/show', [DedotrController::class, 'templateShow'])->name('dedotrs.tmShow');

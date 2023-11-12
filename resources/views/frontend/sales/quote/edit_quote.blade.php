@@ -266,7 +266,7 @@ function deleteData(id){
 };
 function Quotes() {
     $.ajax({
-        url: '{{route("quote.edit",$quote->inv_no)}}',
+        url: '{{route("quote.edit",[$quote->profession_id, $quote->customer_card_id, $quote->inv_no])}}',
         method:'get',
         success:res=>{
             if(res.status == 200){

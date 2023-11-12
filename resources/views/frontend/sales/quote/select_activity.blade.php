@@ -14,7 +14,7 @@
                                 <select class="form-control" type="submit" onchange="location = this.value">
                                     <option disabled selected value>Select Profession</option>
                                     @foreach ($client->professions as $profession)
-                                    <option value="{{route('quote.quote',$profession->id)}}">{{$profession->name}}</option>
+                                    <option value="{{route('quote.quote', $profession->id)}}">{{$profession->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
