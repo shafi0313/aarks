@@ -710,8 +710,8 @@ class DedotrQuoteOrderController extends Controller
             ->where('inv_no', $inv_no)->get();
         $inv = $invoices->first();
         if ($source == 'item') {
-            // return view('frontend.sales.inv-report.invItemPrint1', compact('client', 'source', 'invoices'));
-            // $pdf = PDF::loadView('frontend.sales.inv-report.invItemPrint1', compact('client', 'source', 'invoices'));
+            return view('frontend.sales.quote.service_quote_print', compact('client', 'source', 'invoices'));
+            $pdf = PDF::loadView('frontend.sales.inv-report.invItemPrint1', compact('client', 'source', 'invoices'));
         } else {
             $pdf = PDF::loadView('frontend.sales.quote.service_quote_print', compact('client', 'source', 'invoices'));
         }
