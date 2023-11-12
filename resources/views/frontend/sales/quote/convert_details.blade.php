@@ -43,7 +43,7 @@
                                     <tbody>
                                         <tr>
                                             <th style="text-align:center">Transaction Date</th>
-                                            <th style="text-align:center">Naration</th>
+                                            <th style="text-align:center">Narration</th>
                                             <th style="text-align:center">Code Name</th>
                                             <th style="text-align:center"> Paid Amount</th>
                                             <th style="text-align:center"> Balance</th>
@@ -66,7 +66,7 @@
                                                     class="btn btn-warning btn-sm">
                                                     <i class="far fa-edit"></i> Edit
                                                 </a>
-                                                <a href="{{route('quote.convertStore',$dedotrs->first()->inv_no)}}"
+                                                <a href="{{route('quote.convertStore',[$dedotrs->first()->profession_id, $dedotrs->first()->inv_no])}}"
                                                     class="btn btn-info btn-sm">
                                                     <i class="fas fa-exchange-alt"></i> CONVERT
                                                 </a>

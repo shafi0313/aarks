@@ -33,28 +33,31 @@ class DedotrQuoteItemController extends Controller
     {
         $client  = Client::find(client()->id);
         $payment = $client->payment;
-        $quation = DedotrQuoteOrder::whereClientId($client->id)->where('start_date', '>=', $payment->started_at->format('Y-m-d'))->where('end_date', '<=', $payment->expire_at->format('Y-m-d'))->count();
+        $quation = DedotrQuoteOrder::whereClientId($client->id)
+            ->where('start_date', '>=', $payment->started_at->format('Y-m-d'))
+            ->where('end_date', '<=', $payment->expire_at->format('Y-m-d'))
+            ->count();
         if ($quation > $payment->sales_quotation) {
             toast('Quotation limit reached.', 'error');
             return redirect()->back();
         }
         $customers = CustomerCard::where('client_id', $client->id)
-        ->where('profession_id', $profession->id)
-        ->orderBy('name')
-        ->where('type', 1)->get();
-        $categories = InventoryCategory::with(['items'=>function ($q) {
+            ->where('profession_id', $profession->id)
+            ->orderBy('name')
+            ->where('type', 1)->get();
+        $categories = InventoryCategory::with(['items' => function ($q) {
             $q->where('type', '!=', 1);
-        },'items.code'])->where('client_id', $client->id)
-        ->where('profession_id', $profession->id)
-        ->where('parent_id', '!=', 0)
-        ->get();
+        }, 'items.code'])->where('client_id', $client->id)
+            ->where('profession_id', $profession->id)
+            ->where('parent_id', '!=', 0)
+            ->get();
 
         $codes = ClientAccountCode::where('client_id', $client->id)
-                    ->where('profession_id', $profession->id)
-                    ->where('code', 'like', '1%')
-                    ->where('type', '2')
-                    ->orderBy('code')
-                    ->get();
+            ->where('profession_id', $profession->id)
+            ->where('code', 'like', '1%')
+            ->where('type', '2')
+            ->orderBy('code')
+            ->get();
 
         return view('frontend.sales.quote_item.service_quote', compact('client', 'customers', 'profession', 'categories', 'codes'));
     }
@@ -62,14 +65,14 @@ class DedotrQuoteItemController extends Controller
     {
         // return $request;
         $data          = $request->validated();
-        $data ['start_date'] = $date = makeBackendCompatibleDate($request->start_date);
+        $data['start_date'] = $date = makeBackendCompatibleDate($request->start_date);
         if ($request->end_date != '') {
-            $data ['end_date'] = $date = makeBackendCompatibleDate($request->end_date);
+            $data['end_date'] = $date = makeBackendCompatibleDate($request->end_date);
         }
         if (periodLock($request->client_id, $date)) {
             return response()->json('Your enter data period is locked, check administration', 500);
         }
-        $data ['tax_rate'] = 10;
+        $data['tax_rate'] = 10;
         foreach ($request->chart_id as $i => $chart_id) {
             $data['chart_id']       = $chart_id;
             $data['item_no']        = $request->item_id[$i];
@@ -84,56 +87,60 @@ class DedotrQuoteItemController extends Controller
             $data['ex_rate']        = $request->rate[$i];
 
             if ($request->is_tax[$i] == 'yes') {
-                $data ['tax_rate'] = 10;
+                $data['tax_rate'] = 10;
             } else {
-                $data ['tax_rate'] = 0;
+                $data['tax_rate'] = 0;
             }
             DedotrQuoteOrder::create($data);
         }
         try {
-            $toast = ['message'=>'Dedotr Quote Item Create success', 'status'=>200,'inv_no'=> DedotrQuoteOrder::whereClientId($request->client_id)->whereProfessionId($request->profession_id)->max('inv_no')+1];
+            $toast = ['message' => 'Dedotr Quote Item Create success', 'status' => 200, 'inv_no' => DedotrQuoteOrder::whereClientId($request->client_id)->whereProfessionId($request->profession_id)->max('inv_no') + 1];
             return response()->json($toast);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
     }
+
     public function manage()
     {
         $client = Client::find(client()->id);
         $quotes = DedotrQuoteOrder::where('client_id', $client->id)
-                ->where('source', 'quote')
-                // ->where('job_title', '!=', '')
-                ->where('chart_id', 'not like', '551%')->get();
+            ->where('source', 'quote')
+            ->where('chart_id', 'not like', '551%')
+            ->get();
         return view('frontend.sales.quote_item.manage', compact('client', 'quotes'));
     }
-    public function edit(Request $request, $inv_no)
+
+    public function edit(Request $request, $proId, $cusCardId, $inv_no)
     {
         $quotes = DedotrQuoteOrder::with(['client', 'customer'])
-                ->where('source', 'quote')
-                // ->where('job_title', '!=', '')
-                ->where('inv_no', $inv_no)->get();
+            ->whereClientId(client()->id)
+            ->whereProfessionId($proId)
+            ->whereCustomerCardId($cusCardId)
+            ->where('source', 'quote')
+            ->where('inv_no', $inv_no)->get();
         if ($request->ajax()) {
-            return response()->json(['quotes'=>$quotes,'status'=>200]);
+            return response()->json(['quotes' => $quotes, 'status' => 200]);
         }
         if ($quotes->count() > 0) {
             $quote_order = $quotes->first();
             $client      = Client::find($quote_order->client_id);
             $customers   = CustomerCard::where('client_id', $client->id)
-            ->where('profession_id', $quote_order->profession_id)
-            ->where('type', 1)->get();
-            $categories = InventoryCategory::with(['items'=>function ($q) {
+                ->where('profession_id', $quote_order->profession_id)
+                ->where('type', 1)->get();
+            $categories = InventoryCategory::with(['items' => function ($q) {
                 $q->where('type', '!=', 1);
-            },'items.code'])->where('client_id', $client->id)
-            ->where('profession_id', $quote_order->profession_id)
-            ->where('parent_id', '!=', 0)
-            ->get();
+            }, 'items.code'])->where('client_id', $client->id)
+                ->where('profession_id', $quote_order->profession_id)
+                ->where('parent_id', '!=', 0)
+                ->get();
 
             $codes = ClientAccountCode::where('client_id', $quote_order->client_id)
-            ->where('profession_id', $quote_order->profession_id)
-            ->where('code', 'like', '1%')
-            ->where('type', '2')
-            ->orderBy('code')
-            ->get();
+                ->where('profession_id', $quote_order->profession_id)
+                ->where('code', 'like', '1%')
+                ->where('type', '2')
+                ->orderBy('code')
+                ->get();
 
 
             return view('frontend.sales.quote_item.edit_quote', compact('quote_order', 'quotes', 'customers', 'client', 'categories', 'codes'));
@@ -145,21 +152,26 @@ class DedotrQuoteItemController extends Controller
 
     public function update(Request $request, DedotrQuoteOrder $quote)
     {
-        $data         = $request->except(['_token','_method']);
+        $data               = $request->except(['_token', '_method']);
         $data['start_date'] = $date = makeBackendCompatibleDate($request->start_date);
         if ($request->end_date != '') {
-            $data ['end_date'] = $date = makeBackendCompatibleDate($request->end_date);
+            $data['end_date'] = $date = makeBackendCompatibleDate($request->end_date);
         }
         if (periodLock($request->client_id, $date)) {
             Alert::error('Your enter data period is locked, check administration');
             return back();
         }
         foreach ($request->item_name as $i => $itemName) {
-            $dedotr = DedotrQuoteOrder::where('id', $request->inv_id[$i])->first();
+            $dedotr = DedotrQuoteOrder::whereClientId($request->client_id)
+                ->whereProfessionId($request->profession_id)
+                ->whereCustomerCardId($request->customer_card_id)
+                ->where('id', $request->inv_id[$i])
+                ->first();
+
             $rprice = $request->amount[$i];
             if ($request->has('disc_rate')) {
-                $data['amount']      = $price = $rprice - ($rprice * ($request->disc_rate[$i]/100));
-                $data['disc_amount'] = ($rprice * ($request->disc_rate[$i]/100));
+                $data['amount']      = $price = $rprice - ($rprice * ($request->disc_rate[$i] / 100));
+                $data['disc_amount'] = ($rprice * ($request->disc_rate[$i] / 100));
             }
             if ($request->has('freight_charge')) {
                 $data['amount'] = $price = $price + $request->freight_charge[$i];
@@ -181,9 +193,9 @@ class DedotrQuoteItemController extends Controller
 
 
             if ($request->is_tax[$i] == 'yes') {
-                $data ['tax_rate'] = 10;
+                $data['tax_rate'] = 10;
             } else {
-                $data ['tax_rate'] = 0;
+                $data['tax_rate'] = 0;
             }
 
             if ($dedotr != '') {
@@ -200,8 +212,7 @@ class DedotrQuoteItemController extends Controller
         try {
             toast('Dedotr Quote Order Updated success', 'success');
         } catch (\Exception $e) {
-            // return $e->getMessage();
-            toast('Something goes wrong!', 'error');
+            Alert::error('Error','Something wrong!, please try again');
         }
         return redirect()->route('quote_item.manage', $quote->customer_card_id);
     }
@@ -215,22 +226,27 @@ class DedotrQuoteItemController extends Controller
         }
         try {
             $quote->delete();
-            $message = ['message'=>'dedotr Quote Order deleted success', 'status'=>'200'];
+            $message = ['message' => 'dedotr Quote Order deleted success', 'status' => '200'];
         } catch (\Exception $e) {
-            $message = ['message'=>$e->getMessage(), 'status'=>'500'];
+            $message = ['message' => $e->getMessage(), 'status' => '500'];
         }
         return response()->json($message);
     }
 
-    public function destroy(DedotrQuoteOrder $quote)
+    public function destroy(DedotrQuoteOrder $quote, $proId, $cusCardId, $inv_no)
     {
         if (periodLock($quote->client_id, $quote->end_date)) {
             Alert::error('Your enter data period is locked, check administration');
             return back();
         }
         try {
-            $quote->delete();
-            toast('dedotr deleted success', 'success');
+            DedotrQuoteOrder::whereClientId(client()->id)
+            ->whereProfessionId($proId)
+            ->whereCustomerCardId($cusCardId)
+            ->where('inv_no', $inv_no)
+            ->delete();
+
+            toast('Debtor deleted success', 'success');
         } catch (\Exception $e) {
             toast($e->getMessage(), 'error');
         }
@@ -241,19 +257,19 @@ class DedotrQuoteItemController extends Controller
     {
         $client = Client::find(client()->id);
         $quotes = DedotrQuoteOrder::with('customer')
-                    ->where('client_id', $client->id)
-                    ->where('source', 'quote')
-                    ->get();
+            ->where('client_id', $client->id)
+            ->where('source', 'quote')
+            ->get();
         $codes = ClientAccountCode::where('client_id', $client->id)
-                    ->where(function ($q) {
-                        $q->where('code', 'like', '1%')
-                        ->orWhere('code', 'like', '2%')
-                        ->orWhere('code', 'like', '5%')
-                        ->orWhere('code', 'like', '9%');
-                    })
-                    ->where('type', '2')
-                    ->orderBy('code')
-                    ->get();
+            ->where(function ($q) {
+                $q->where('code', 'like', '1%')
+                    ->orWhere('code', 'like', '2%')
+                    ->orWhere('code', 'like', '5%')
+                    ->orWhere('code', 'like', '9%');
+            })
+            ->where('type', '2')
+            ->orderBy('code')
+            ->get();
         return view('frontend.sales.quote_item.convert_invoice', compact('client', 'quotes', 'codes'));
     }
 
@@ -261,15 +277,15 @@ class DedotrQuoteItemController extends Controller
     {
         $dedotrs = DedotrQuoteOrder::where('inv_no', $inv_no)->get();
         $codes   = ClientAccountCode::where('client_id', $dedotrs->first()->client_id)
-                    ->where(function ($q) {
-                        $q->where('code', 'like', '1%')
-                        ->orWhere('code', 'like', '2%')
-                        ->orWhere('code', 'like', '5%')
-                        ->orWhere('code', 'like', '9%');
-                    })
-                    ->where('type', '2')
-                    ->orderBy('code')
-                    ->get();
+            ->where(function ($q) {
+                $q->where('code', 'like', '1%')
+                    ->orWhere('code', 'like', '2%')
+                    ->orWhere('code', 'like', '5%')
+                    ->orWhere('code', 'like', '9%');
+            })
+            ->where('type', '2')
+            ->orderBy('code')
+            ->get();
         return view('frontend.sales.quote_item.convert_details', compact('dedotrs', 'codes'));
     }
     public function convertStore($inv_no)
@@ -289,17 +305,17 @@ class DedotrQuoteItemController extends Controller
             return redirect()->back();
         }
         $dedos = Dedotr::where('client_id', $first_quote->client_id)
-                ->where('customer_card_id', $first_quote->customer_card_id)->get();
+            ->where('customer_card_id', $first_quote->customer_card_id)->get();
         // $tran_id = $first_quote->client_id.$first_quote->profession_id.$first_quote->id.$first_quote->customer_card_id.$first_quote->start_date->format('dmy').rand(11, 99);
         $tran_id = transaction_id('QCI');
 
         $tran_date = $first_quote->start_date->format('Y-m-d');
 
         $period = Period::where('client_id', $first_quote->client_id)
-                ->where('profession_id', $first_quote->profession_id)
-                // ->where('start_date', '<=', $first_quote->start_date->format('Y-m-d'))
-                ->where('end_date', '>=', $first_quote->start_date->format('Y-m-d'))
-                ->first();
+            ->where('profession_id', $first_quote->profession_id)
+            // ->where('start_date', '<=', $first_quote->start_date->format('Y-m-d'))
+            ->where('end_date', '>=', $first_quote->start_date->format('Y-m-d'))
+            ->first();
 
         DB::beginTransaction();
         if ($period != '') {
@@ -308,7 +324,7 @@ class DedotrQuoteItemController extends Controller
                 $data["customer_card_id"] = $quote->customer_card_id;
                 $data["profession_id"]    = $quote->profession_id;
                 $data["chart_id"]         = $quote->chart_id;
-                $data["inv_no"]           = str_pad($dedos->max('inv_no')+1, 8, '0', STR_PAD_LEFT);
+                $data["inv_no"]           = str_pad($dedos->max('inv_no') + 1, 8, '0', STR_PAD_LEFT);
                 $data["your_ref"]         = $quote->your_ref;
                 $data["quote_terms"]      = $quote->quote_terms;
                 $data["job_title"]        = $quote->job_title;
@@ -337,7 +353,7 @@ class DedotrQuoteItemController extends Controller
                 $regData['profession_id']     = $quote->profession_id;
                 $regData['inventory_item_id'] = $inv_item->id;
                 $regData['source']            = 'sales';
-                $regData['item_name']         = $item_name = Str::slug($inv_item->item_name.'-'.$inv_item->item_number);
+                $regData['item_name']         = $item_name = Str::slug($inv_item->item_name . '-' . $inv_item->item_number);
                 $regData['date']              = $data["tran_date"];
                 $regData['sales_qty']         = $quote->item_quantity;
                 $regData['sales_rate']        = $quote->ex_rate;
@@ -358,9 +374,9 @@ class DedotrQuoteItemController extends Controller
                 // }
             }
             $dedotrs = Dedotr::where('client_id', $first_quote->client_id)
-                    ->where('tran_id', $tran_id)
-                    ->orderBy('chart_id')
-                    ->get();
+                ->where('tran_id', $tran_id)
+                ->orderBy('chart_id')
+                ->get();
             $gst = [
                 'client_id'          => $first_quote->client_id,
                 'profession_id'      => $first_quote->profession_id,
@@ -379,22 +395,22 @@ class DedotrQuoteItemController extends Controller
                 $gst['chart_code']   = $dedotr->first()->chart_id;
                 $amount         = $dedotr->sum('amount');
                 $price          = $dedotr->sum('price');
-                $disc_rate      = $dedotr->sum('disc_rate')/$dedotr->count();
+                $disc_rate      = $dedotr->sum('disc_rate') / $dedotr->count();
                 $freight_charge = $dedotr->sum('freight_charge');
                 $gst['source']       = 'QCI';
                 if ($dedotr->first()->is_tax == 'yes') {
                     $fPrice          = $price + ($price * 0.1);
-                    $pgst            = $price * 0.1 ;
-                    $fDisc_rate      = $price * ($disc_rate/100) + (($price * ($disc_rate/100)) * 0.1) ;
-                    $dgst            = ($price * ($disc_rate/100)) * 0.1 ;
+                    $pgst            = $price * 0.1;
+                    $fDisc_rate      = $price * ($disc_rate / 100) + (($price * ($disc_rate / 100)) * 0.1);
+                    $dgst            = ($price * ($disc_rate / 100)) * 0.1;
                     $fFreight_charge = $freight_charge + ($freight_charge * 0.1);
-                    $fgst            = $freight_charge * 0.1 ;
+                    $fgst            = $freight_charge * 0.1;
                 } else {
                     $fPrice          = $price;
                     $pgst            = 0;
-                    $fDisc_rate      = $price * ($disc_rate/100);
+                    $fDisc_rate      = $price * ($disc_rate / 100);
                     $dgst            = 0;
-                    $fFreight_charge = $freight_charge ;
+                    $fFreight_charge = $freight_charge;
                     $fgst            = 0;
                 }
                 $gst['gross_amount']       = $fPrice;
@@ -439,9 +455,9 @@ class DedotrQuoteItemController extends Controller
                 }
 
                 if ($dedotr->first()->disc_rate != '') {
-                    $gst['gross_amount']       = - $fDisc_rate;
-                    $gst['gst_accrued_amount'] = - $dgst;
-                    $gst['net_amount']         = - $fDisc_rate + $dgst;
+                    $gst['gross_amount']       = -$fDisc_rate;
+                    $gst['gst_accrued_amount'] = -$dgst;
+                    $gst['net_amount']         = -$fDisc_rate + $dgst;
                     if ($dedotr->first()->is_tax == 'yes') {
                         $gst['chart_code'] = 191998;
                         $checkdis     = $checksGst->where('chart_code', 191998)->first();
@@ -485,8 +501,8 @@ class DedotrQuoteItemController extends Controller
                 ->get();
 
             $codes = ClientAccountCode::where('client_id', $cid)
-                    ->where('profession_id', $pid)
-                    ->get();
+                ->where('profession_id', $pid)
+                ->get();
             // Account code fron QCI
             foreach ($gstData->where('source', 'QCI') as $gd) {
                 $code                     = $codes->where('code', $gd->chart_code)->first();
@@ -523,9 +539,9 @@ class DedotrQuoteItemController extends Controller
             GeneralLedger::create($ledger);
 
             //RetailEarning Calculation
-            RetainEarning::retain($first_quote->client_id, $first_quote->profession_id, $first_quote->start_date, $ledger, ['QCI','QCI']);
+            RetainEarning::retain($first_quote->client_id, $first_quote->profession_id, $first_quote->start_date, $ledger, ['QCI', 'QCI']);
             // Retain Earning For each Transection
-            RetainEarning::tranRetain($first_quote->client_id, $first_quote->profession_id, $tran_id, $ledger, ['QCI','QCI']);
+            RetainEarning::tranRetain($first_quote->client_id, $first_quote->profession_id, $tran_id, $ledger, ['QCI', 'QCI']);
             //RetailEarning Calculation End....
 
             try {

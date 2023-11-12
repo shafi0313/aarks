@@ -26,7 +26,9 @@ Route::prefix('item-layout')->group(function () {
         Route::get('manage/convert/manage/view/{inv}', [DedotrQuoteItemController::class, 'convertView'])->name('convertView');
         Route::get('manage/convert/store/{quote_item}', [DedotrQuoteItemController::class, 'convertStore'])->name('convertStore');
     });
-    Route::resource('quote_item', DedotrQuoteItemController::class);
+    Route::resource('quote_item', DedotrQuoteItemController::class)->except(['edit', 'destroy']);
+    Route::get('/quote-item/edit/{profession}/{cusCardId}/{inv_no}', [DedotrQuoteItemController::class, 'edit'])->name('quote_item.edit');
+    Route::delete('/quote-item/destroy/{quote_item}/{profession}/{cusCardId}/{inv_no}', [DedotrQuoteItemController::class, 'destroy'])->name('quote_item.destroy');
     // invoice item
     Route::prefix('invoice-item')->name('invoice_item.')->group(function () {
         Route::get('create/{profession}', [DedotrInvoiceItemController::class, 'quote'])->name('quote');
@@ -62,8 +64,8 @@ Route::prefix('services-layout')->group(function () {
         Route::get('manage/list/', [DedotrQuoteOrderController::class, 'manage'])->name('quote.manage');
         Route::get('manage/convert/', [DedotrQuoteOrderController::class, 'convertInvoice'])->name('quote.convert');
         Route::get('manage/detele/', [DedotrQuoteOrderController::class, 'delete'])->name('quote.delete');
-        Route::get('manage/convert/manage/view/{inv}', [DedotrQuoteOrderController::class, 'convertView'])->name('quote.convertView');
-        Route::get('manage/convert/store/{quote}', [DedotrQuoteOrderController::class, 'convertStore'])->name('quote.convertStore');
+        Route::get('manage/convert/manage/view/{proId}/{inv}', [DedotrQuoteOrderController::class, 'convertView'])->name('quote.convertView');
+        Route::get('manage/convert/store/{proId}/{invNo}', [DedotrQuoteOrderController::class, 'convertStore'])->name('quote.convertStore');
     });
     Route::resource('/quote', DedotrQuoteOrderController::class)->except(['edit', 'destroy']);
     Route::get('/quote/edit/{profession}/{cusCardId}/{inv_no}', [DedotrQuoteOrderController::class, 'edit'])->name('quote.edit');
@@ -142,5 +144,3 @@ Route::get('customer/ledger/payment/{dedotr}', [CustomerLedgerController::class,
 //Dedotr/Customer report
 Route::get('dedotrs-report/select-date', [DedotorReportController::class, 'index'])->name('debtors_report.index');
 Route::get('dedotrs-report/show', [DedotorReportController::class, 'report'])->name('debtors_report.report');
-
-

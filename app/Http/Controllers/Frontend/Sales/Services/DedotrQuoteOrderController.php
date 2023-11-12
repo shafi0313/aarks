@@ -340,7 +340,8 @@ class DedotrQuoteOrderController extends Controller
         $quotes    = DedotrQuoteOrder::with('customer')
             ->where('client_id', $client->id)
             ->where('source', 'quote')
-            ->get();
+            ->get()
+            ->groupBy('inv_no');
         $codes     = ClientAccountCode::where('client_id', $client->id)
             ->where(function ($q) {
                 $q->where('code', 'like', '1%')
@@ -354,10 +355,13 @@ class DedotrQuoteOrderController extends Controller
         return view('frontend.sales.quote.convert_invoice', compact('client', 'quotes', 'codes'));
     }
 
-    public function convertView($inv_no)
+    public function convertView($proId, $inv_no)
     {
-        $dedotrs = DedotrQuoteOrder::where('inv_no', $inv_no)->get();
-        $codes     = ClientAccountCode::where('client_id', $dedotrs->first()->client_id)
+        $dedotrs = DedotrQuoteOrder::whereClientId(client()->id)
+            ->whereProfessionId($proId)
+            ->where('inv_no', $inv_no)
+            ->get();
+        $codes   = ClientAccountCode::where('client_id', $dedotrs->first()->client_id)
             ->where(function ($q) {
                 $q->where('code', 'like', '1%')
                     ->orWhere('code', 'like', '2%')
@@ -369,9 +373,12 @@ class DedotrQuoteOrderController extends Controller
             ->get();
         return view('frontend.sales.quote.convert_details', compact('dedotrs', 'codes'));
     }
-    public function convertStore($inv_no)
+    public function convertStore($proId, $inv_no)
     {
-        $quotes  = DedotrQuoteOrder::where('inv_no', $inv_no)->get();
+        $quotes  = DedotrQuoteOrder::whereClientId(client()->id)
+            ->whereProfessionId($proId)
+            ->where('inv_no', $inv_no)
+            ->get();
         $request = $quotes->first();
         if (periodLock($request->client_id, $request->end_date)) {
             Alert::error('Your enter data period is locked, contact with administration');
@@ -380,13 +387,17 @@ class DedotrQuoteOrderController extends Controller
 
         $client  = Client::find(client()->id);
         $payment = $client->payment;
-        $quation = DedotrQuoteOrder::whereClientId($client->id)->where('start_date', '>=', $payment->started_at->format('Y-m-d'))->where('end_date', '<=', $payment->expire_at->format('Y-m-d'))->count();
+        $quation = DedotrQuoteOrder::whereClientId($client->id)
+        ->where('start_date', '>=', $payment->started_at->format('Y-m-d'))
+        ->where('end_date', '<=', $payment->expire_at->format('Y-m-d'))
+        ->count();
         if ($quation > $payment->sales_quotation) {
             toast('Quotation limit reached.', 'error');
             return redirect()->back();
         }
         $dedos = Dedotr::where('client_id', $request->client_id)
-            ->where('customer_card_id', $request->customer_card_id)->get();
+            ->where('customer_card_id', $request->customer_card_id)
+            ->get();
         // $tran_id = $request->client_id.$request->profession_id.$request->id.$request->customer_card_id.$request->start_date->format('dmy').rand(11, 99);
         $tran_id = transaction_id('QCI');
         $tran_date = $request->start_date->format('Y-m-d');

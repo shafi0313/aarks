@@ -65,11 +65,11 @@
                                         {{number_format($quote->first()->payment_amount,2)}} </td>
                                     <td>
                                         <div class="action">
-                                            <a  title="Item Edit" href="{{route('quote_item.edit',$quote->first()->inv_no)}}"
+                                            <a  title="Item Edit" href="{{route('quote_item.edit',[$quote->first()->profession_id, $quote->first()->customer_card_id, $quote->first()->inv_no])}}"
                                                 class="btn btn-info btn-sm">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="{{route('quote_item.destroy',$quote->first()->id)}}" method="post"
+                                            <form action="{{route('quote_item.destroy',[$quote->first()->id, $quote->first()->profession_id, $quote->first()->customer_card_id, $quote->first()->inv_no])}}" method="post"
                                                 style="display: inline">
                                                 @csrf @method('delete')
                                                 <button  title="Item Delete" type="submit" class="btn btn-sm btn-danger"

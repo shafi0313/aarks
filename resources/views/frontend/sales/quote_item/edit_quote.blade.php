@@ -101,16 +101,13 @@
         </div>
     </div>
 </section>
-<!-- Page Content End -->
-<!-- Footer Start -->
 
-<!-- Footer End -->
 
 @include('frontend.sales.quote_item.modal')
-<!-- inline scripts related to this page -->
-<!-- inline scripts related to this page -->
+
 <script>
 $(document).ready(function() {
+    $('#tearms_area').summernote();
     readData();
     Quotes();
 });
@@ -279,7 +276,7 @@ function deleteData(id){
 };
 function Quotes() {
     $.ajax({
-        url: '{{route("quote_item.edit",$quote_order->inv_no)}}',
+        url: '{{route("quote_item.edit",[$quote_order->profession_id, $quote_order->customer_card_id, $quote_order->inv_no])}}',
         method:'get',
         success:res=>{
             if(res.status == 200){

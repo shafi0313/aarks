@@ -1,7 +1,8 @@
 @extends('frontend.layout.master')
-@section('title','Category')
+@section('title', 'Category')
 @section('content')
-<?php $p="qci"; $mp="sales";?>
+    <?php $p = 'qci';
+    $mp = 'sales'; ?>
     <!-- Page Content Start -->
     <section class="page-content">
         <div class="container">
@@ -10,13 +11,13 @@
                     <div class="card">
                         <div class="card-body">
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <strong style="color:green; font-size:20px;">Quote Convert to Invoice</strong>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong style="color:green; font-size:20px;">Quote Convert to Invoice</strong>
+                                </div>
                             </div>
-                        </div>
 
-                        <br>
+                            <br>
 
                             <div class="table-header">
                                 <p>Quote Data List</p>
@@ -36,19 +37,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($quotes->groupBy('inv_no') as $i=>$quote)
-                                    <tr>
-                                        <td class="text-center">{{ $i+1 }}</td>
-                                        <td>{{$quote->first()->start_date->format('d/m/Y')}} </td><td>{{$quote->first()->end_date != '' ?$quote->first()->end_date->format('d/m/Y'):''}} </td>
-                                        <td>{{$quote->first()->customer->name}} </td>
-                                        <td>{{$quote->first()->inv_no}} </td>
-                                        <td>{{$codes->where('code',$quote->first()->chart_id)->first()->name}} </td>
-                                        <td class="text-info">$ {{number_format($quote->sum('amount'),2)}} </td>
-                                        <td>
-                                            <a href="{{route('quote.convertView',$quote->first()->inv_no)}}" class="btn btn-sm btn-info">VIEW</a>
-                                            <a href="{{route('quote.convertStore',$quote->first()->inv_no)}}" class="btn btn-sm btn-primary">Convert</a>
-                                        </td>
-                                    </tr>
+                                    @foreach ($quotes as $i => $quote)
+                                        <tr>
+                                            <td class="text-center">{{ $i + 1 }}</td>
+                                            <td>{{ $quote->first()->start_date->format('d/m/Y') }} </td>
+                                            <td>{{ $quote->first()->end_date != '' ? $quote->first()->end_date->format('d/m/Y') : '' }}
+                                            </td>
+                                            <td>{{ $quote->first()->customer->name }} </td>
+                                            <td>{{ $quote->first()->inv_no }} </td>
+                                            <td>{{ $codes->where('code', $quote->first()->chart_id)->first()->name }} </td>
+                                            <td class="text-info">$ {{ number_format($quote->sum('amount'), 2) }} </td>
+                                            <td>
+                                                <a href="{{ route('quote.convertView', [$quote->first()->profession_id, $quote->first()->inv_no]) }}"
+                                                    class="btn btn-sm btn-info">VIEW</a>
+                                                <a href="{{ route('quote.convertStore', [$quote->first()->profession_id, $quote->first()->inv_no]) }}"
+                                                    class="btn btn-sm btn-primary">Convert</a>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -68,10 +73,12 @@
     <!-- inline scripts related to this page -->
     <script>
         $(document).ready(function() {
-            $('#example').DataTable( {
-                "order": [[ 0, "asc" ]]
-            } );
-        } );
+            $('#example').DataTable({
+                "order": [
+                    [0, "asc"]
+                ]
+            });
+        });
     </script>
 
 @stop
