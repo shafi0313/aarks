@@ -62,7 +62,7 @@
                     <tr>
                         <td width="100%">
                             <br>
-                            <div style="text-align: center; font-size: 20px"><u>TAX Quote</u> </div> <br> <br>
+                            <div style="text-align: center; font-size: 20px"><u>Quotation</u> </div> <br> <br>
                         </td>
                     </tr>
                 </table>
@@ -80,7 +80,7 @@
                             <table border="0" cellpadding="5" cellspacing="0" width="100%">
                                 <tr>
                                     <td width="96%" style="font-size: 12px;">
-                                        <div style="font-size:14px; font-weight:800;">Billing Address:</div> <br> <br>
+                                        <div style="font-size:14px; font-weight:800;">Address to:</div>
                                         <span style="font-size:17px;"> {{ $customer->name }} </span><br>
                                         <span>{{ $customer->b_address }}</span>,
                                         <span>{{ $customer->b_city }}</span>,<br>
@@ -292,7 +292,7 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center">We appreciate your business with us.</td>
+                                    <td class="text-center">We look forward to see you soon.</td>
                                 </tr>
                             </table>
                         </td>

@@ -37,13 +37,13 @@
                             </div>
 
                             <div class="col-md-12 text-center" style="font-size: 25px; font-weight: bold">
-                                <u>TAX Quote</u>
+                                <u>Quotation</u>
                             </div>
 
                             <div class="col-md-8" align="left" style="padding-right:20px;">
                                 @if ($one_of)
                                     <div style="padding:10px; border:2px solid #666666;">
-                                        <div style="font-size:14px; font-weight:800;">Billing Address:</div>
+                                        <div style="font-size:14px; font-weight:800;">Address to:</div>
                                         <span style="font-size:17px;"> {{ $one_of->name }} </span><br>
                                         <span>{{ $one_of->address }}</span><br>
                                         <span>{{ $one_of->city }}</span><br>
@@ -53,7 +53,7 @@
                                     </div>
                                 @else
                                     <div style="padding:10px; border:2px solid #666666;">
-                                        <div style="font-size:14px; font-weight:800;">Billing Address:</div>
+                                        <div style="font-size:14px; font-weight:800;">Address to:</div>
                                         <span style="font-size:17px;"> {{ $customer->name }} </span><br>
                                         <span>{{ $customer->b_address }}</span><br>
                                         <span>{{ $customer->b_city }}</span><br>
@@ -154,8 +154,7 @@
                                         </tr> --}}
                                         <tr>
                                             <td>
-                                                <p style="margin: 0" class="text-center">We appreciate your business with
-                                                    us.</p>
+                                                <p style="margin: 0" class="text-center">We look forward to see you soon.</p>
                                             </td>
                                         </tr>
                                     </tbody>
