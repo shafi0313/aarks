@@ -115,10 +115,14 @@ Route::prefix('payment')->group(function () {
 });
 
 
+Route::controller(DedotrQuoteOrderController::class)->prefix('/manage/quote')->name('quote.')->group(function(){
+    Route::get('/show/{source}/{inv_no}/{client}/{customer}','show')->name('show');
+    Route::get('/mail/{source}/{inv_no}/{client}/{customer}', 'mail')->name('mail');
+    Route::get('/mail-view/{source}/{inv_no}/{client}/{customer}', 'viewableMail')->name('viewable_mail');
+    Route::get('/email-view-report/{source?}/{inv_no}/{client}',  'emailViewReport')->name('email_view_report');
+    Route::get('/print/{source}/{inv_no}/{client}/{customer}','print')->name('print');
+});
 
-Route::get('/manage/quote/show/{source}/{inv_no}/{client}/{customer}', [DedotrQuoteOrderController::class, 'show'])->name('quote.show');
-// Route::get('/manage/quote/mail/{source}/{inv_no}/{client}', [DedotrQuoteOrderController::class, 'mail'])->name('quote.mail');
-Route::get('/manage/quote/print/{source}/{inv_no}/{client}/{customer}', [DedotrQuoteOrderController::class, 'print'])->name('quote.print');
 
 
 //! Invoice Reports

@@ -17,7 +17,7 @@
                                     <th width="15%">Balance</th>
                                     <th width="9%">Enter Receipt</th>
                                     <th width="11%">Phone</th>
-                                    <th width="11%">Mobaile</th>
+                                    <th width="11%">Mobile</th>
                                     <th width="9%" class="no-sort">E-mail</th>
                                 </tr>
                             </thead>

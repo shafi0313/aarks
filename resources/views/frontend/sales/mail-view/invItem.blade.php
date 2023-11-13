@@ -84,7 +84,8 @@
                                         <span>{{ $customer->b_postcode }}</span><br>
                                         <span>Phone : {{ $customer->phone }}</span><br>
                                         <span>E-mail : {{ $customer->email }}</span> <br>
-                                        <strong>Website: <a href="{{ $client->website }}">{{ $client->website }}</a></strong>
+                                        <strong>Website: <a
+                                                href="{{ $client->website }}">{{ $client->website }}</a></strong>
                                     </div>
                                 @endif
                             </div>
@@ -102,7 +103,7 @@
                                             <td align="center">Our Ref</td>
                                         </tr>
                                         <tr>
-                                            <td align="center">{{ $inv->tran_date->format('d/m/Y') }}</td>
+                                            <td align="center">{{ bdDate($inv->tran_date) }}</td>
                                             <td align="center">
 
                                                 {{ invoice($inv->inv_no) }}
@@ -188,7 +189,8 @@
                                         <tr>
                                             <td>
                                                 <p>
-                                                    <strong style="font-size:15px;">{{$one_of ? $one_of->name:$customer->name }}</strong><br>
+                                                    <strong
+                                                        style="font-size:15px;">{{ $one_of ? $one_of->name : $customer->name }}</strong><br>
                                                     Please forward your payment to BSB :
                                                     {{ $client->bsb->bsb_number ?? '' }}&nbsp;&nbsp;Account no
                                                     {{ $client->bsb->account_number ?? '' }} Account Name :
@@ -201,11 +203,13 @@
                             </div>
                             {{-- @endif --}}
                             <div class="col-12" align="center">
-                                <b>Powered by <a href="https://aarks.com.au">AARKS</a> <a href="https://aarks.net.au">(ADVANCED ACCOUNTING & RECORD KEEPING SOFTWARE)</a></b>
+                                <b>Powered by <a href="https://aarks.com.au">AARKS</a> <a
+                                        href="https://aarks.net.au">(ADVANCED ACCOUNTING & RECORD KEEPING SOFTWARE)</a></b>
                             </div>
                             <div class="col-12">
-                                <a href="{{ route('inv.report.print', ['item', $inv_no, $client->id, $customer->id]) }}" target="_blank"
-                                    class="btn btn-outline-info text-dark pull-right btn-lg"> <i class="fa fa-print"></i>
+                                <a href="{{ route('inv.report.print', ['item', $inv_no, $client->id, $customer->id]) }}"
+                                    target="_blank" class="btn btn-outline-info text-dark pull-right btn-lg"> <i
+                                        class="fa fa-print"></i>
                                     PRINT</a>
                             </div>
                         </div>

@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <title>🧾 Invoice {{ invoice($inv_no) }} from {{ $client->fullname }}</title>
+    <title>🧾 Quotation {{ invoice($inv_no) }} from {{ $client->fullname }}</title>
 </head>
 
 <body>
@@ -18,6 +18,14 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
+                        @php
+                            $inv = $invoices->first();
+                            $customer = $invoices->first()->customer;
+                            $one_of = \App\Models\CustomerTempInfo::whereCustomerCardId($customer->id)
+                                ->whereInvNo($inv->inv_no)
+                                ->first();
+                            $one_of = $one_of ?: $customer;
+                        @endphp
                         <div class="row">
                             <div class="col-10">
                                 <div class="d-flex">
@@ -27,7 +35,7 @@
                                     </div>
                                     <div class="">
                                         <h2>{{ $client->fullname }}</h2>
-                                        <p>Invoice No: <b>{{ invoice($inv_no) }}</b></p>
+                                        <p>Quotation No: <b>{{ invoice($inv_no) }}</b></p>
                                     </div>
                                 </div>
                                 <nav>
@@ -65,14 +73,6 @@
                             </div>
                         </div>
                         <div class="col-md-8" style="padding:5px;">
-                            @php
-                                $inv = $invoices->first();
-                                $customer = $invoices->first()->customer;
-                                $one_of = \App\Models\CustomerTempInfo::whereCustomerCardId($customer->id)
-                                    ->whereInvNo($inv->inv_no)
-                                    ->first();
-
-                            @endphp
                             <strong style="font-size:25px;">{{ $client->fullname }}</strong><br>
                             <strong>A.B.N : {{ $client->abn_number }}</strong><br>
                             <strong> {{ $client->street_address }}</strong><br>
@@ -83,13 +83,13 @@
                         </div>
 
                         <div class="col-md-12 text-center" style="font-size: 25px; font-weight: bold">
-                            <u>TAX INVOICE</u>
+                            <u>Quotation</u>
                         </div>
 
                         <div class="col-md-8" align="left" style="padding-right:20px;">
                             @if ($one_of)
                                 <div style="padding:10px; border:2px solid #666666;">
-                                    <div style="font-size:14px; font-weight:800;">Billing Address:</div>
+                                    <div style="font-size:14px; font-weight:800;">Address to:</div>
                                     <span style="font-size:17px;"> {{ $one_of->name }} </span><br>
                                     <span>{{ $one_of->address }}</span><br>
                                     <span>{{ $one_of->city }}</span><br>
@@ -99,7 +99,7 @@
                                 </div>
                             @else
                                 <div style="padding:10px; border:2px solid #666666;">
-                                    <div style="font-size:14px; font-weight:800;">Billing Address:</div>
+                                    <div style="font-size:14px; font-weight:800;">Address to:</div>
                                     <span style="font-size:17px;"> {{ $customer->name }} </span><br>
                                     <span>{{ $customer->b_address }}</span><br>
                                     <span>{{ $customer->b_city }}</span><br>
@@ -113,16 +113,16 @@
                         <div class="col-md-4" align="center" style="padding-right:20px;">
                         </div>
                         <div class="col-md-12" style="padding-top:5px;">
-                            <div align="left"><strong>Invoice Details :</strong></div>
+                            <div align="left"><strong>Quotation Details :</strong></div>
                             <table width="100%" cellpadding="2" class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <td align="center">Invoice Date</td>
-                                        <td align="center">Invoice Number</td>
+                                        <td align="center">Quotation Date</td>
+                                        <td align="center">Quotation Number</td>
                                         {{-- <td align="center">Terms</td> --}}
                                         <td align="center">Your Ref</td>
                                         <td align="center">Our Ref</td>
-                                        <td align="center">Due Date</td>
+                                        {{-- <td align="center">Due Date</td> --}}
                                     </tr>
                                     <tr>
                                         <td align="center">{{ bdDate($inv->tran_date) }}</td>
@@ -130,7 +130,7 @@
                                         {{-- <td align="center">{!! $inv->quote_terms !!}</td> --}}
                                         <td align="center">{{ $inv->your_ref }}</td>
                                         <td align="center">{{ $inv->our_ref }}</td>
-                                        <td align="center"></td>
+                                        {{-- <td align="center"></td> --}}
                                     </tr>
                                 </tbody>
                             </table>
@@ -190,20 +190,11 @@
                                         <td>TOTAL</td>
                                         <td>{{ number_format($invoices->sum('amount'), 2) }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>PAID Amt</td>
-                                        <td>{{ number_format($invoices->sum('payment_amount'), 2) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Due on this Invoice</td>
-                                        <td>{{ number_format($invoices->sum('amount') - $invoices->sum('payment_amount'), 2) }}
-                                        </td>
-                                    </tr>
                                     <br>
                                     <tr>
                                         <td>
                                             <hr>
-                                            <p>We appreciate your business with us.</p>
+                                            <p>We look forward to see you soon.</p>
                                         </td>
                                     </tr>
                                 </tbody>

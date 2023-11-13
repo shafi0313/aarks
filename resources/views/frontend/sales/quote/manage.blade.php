@@ -45,7 +45,7 @@
                                         <th>Quote Amount</th>
                                         <th>Due Amount</th>
                                         <th>Paid Amount</th>
-                                        <th width="120px" class="no-sort">Action</th>
+                                        <th width="160px" class="no-sort">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,21 +67,22 @@
                                             <td>
                                                 <div class="action">
                                                     <a title="Quote Print"
-                                                            href="{{ route('quote.show', ['service', $quote->first()->inv_no, $client->id, $quote->first()->customer_card_id]) }}"
-                                                            class="btn btn-success btn-sm">
-                                                            <i class="fas fa-print"></i>
-                                                        </a>
-                                                    {{-- <a title="Quote Mail"
-                                                        href="{{ route('inv.viewable_mail', ['service', $quote->inv_no, $client->id, $quote->customer_card_id]) }}"
+                                                        href="{{ route('quote.show', ['service', $quote->first()->inv_no, $client->id, $quote->first()->customer_card_id]) }}"
+                                                        class="btn btn-success btn-sm">
+                                                        <i class="fas fa-print"></i>
+                                                    </a>
+                                                    <a title="Quote Mail"
+                                                        href="{{ route('quote.viewable_mail', ['service', $quote->first()->inv_no, $client->id, $quote->first()->customer_card_id]) }}"
                                                         class="btn btn-primary btn-sm">
                                                         <i class="far fa-envelope-open"></i>
-                                                    </a> --}}
+                                                    </a>
                                                     <a title="Quote Edit"
                                                         href="{{ route('quote.edit', [$quote->first()->profession_id, $quote->first()->customer_card_id, $quote->first()->inv_no]) }}"
                                                         class="btn btn-info btn-sm">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('quote.destroy', [$quote->first()->id, $quote->first()->profession_id, $quote->first()->customer_card_id, $quote->first()->inv_no]) }}"
+                                                    <form
+                                                        action="{{ route('quote.destroy', [$quote->first()->id, $quote->first()->profession_id, $quote->first()->customer_card_id, $quote->first()->inv_no]) }}"
                                                         method="post" style="display: inline">
                                                         @csrf @method('delete')
                                                         <button title="Quote Delete" type="submit"

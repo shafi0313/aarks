@@ -21,13 +21,13 @@
                             <div class="col-md-8" style="padding:5px;">
                                 @php
                                     $inv = $invoices->first();
-                                    info($inv)
-;                                    $customer = $invoices->first()->customer;
+                                    info($inv);
+                                    $customer = $invoices->first()->customer;
                                     // info($customer);
                                     $one_of = \App\Models\CustomerTempInfo::whereCustomerCardId($customer->id)
                                         ->whereInvNo($inv->inv_no)
                                         ->first();
-                                    
+
                                 @endphp
                                 <strong style="font-size:25px;">{{ clientName($client) }}</strong><br>
                                 <strong>A.B.N : {{ $client->abn_number }}</strong><br>
@@ -80,7 +80,7 @@
                                             <td align="center">Due Date</td>
                                         </tr>
                                         <tr>
-                                            <td align="center">{{ $inv->tran_date->format('d/m/Y') }}</td>
+                                            <td align="center">{{ bdDate($inv->tran_date) }}</td>
                                             <td align="center">{{ invoice($inv->inv_no) }}</td>
                                             <td align="center">{{ $inv->your_ref }}</td>
                                             <td align="center">{{ $inv->our_ref }}</td>
@@ -172,7 +172,7 @@
                                                     <p>
                                                         Please forward your payment to BSB :
                                                         <b style="font-size: 18px">{{ $client->bsb->bsb_number }}</b>
-                                                        &nbsp;Account number 
+                                                        &nbsp;Account number
                                                         <b style="font-size: 18px">{{ $client->bsb->account_number }}</b>
                                                         Account Name :
                                                         {{ $client->company ?? $client->first_name . ' ' . $client->last_name }}

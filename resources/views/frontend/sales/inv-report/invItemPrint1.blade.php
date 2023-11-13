@@ -14,10 +14,11 @@
             padding: 5px 5px;
         }
 
-        .header{
+        .header {
             padding-top: 20px;
         }
-        .header p{
+
+        .header p {
             margin: 0;
         }
 
@@ -30,10 +31,12 @@
             width: 64%;
             display: inline-block;
         }
-        .tax p{
+
+        .tax p {
             margin: 0px;
         }
-        .tax .invoice{
+
+        .tax .invoice {
             text-align: center;
             font-size: 20px;
             font-weight: bold;
@@ -45,23 +48,27 @@
             padding: 10px;
             border: 2px solid #666666;
         }
+
         .inv_total .quote {
             width: 60%;
             /* float: left; */
             display: inline-block;
             height: 243px;
         }
+
         .inv_total .data {
             width: 39%;
             display: inline-block;
-            background:red;
+            background: red;
 
         }
-        table{
+
+        table {
             margin-bottom: 2px !important;
         }
     </style>
 </head>
+
 <body>
     <div class="area">
         <div class="header">
@@ -150,9 +157,9 @@
                         <td align="center">Our Ref</td>
                     </tr>
                     <tr>
-                        <td align="center">{{ $inv->tran_date->format('d/m/Y') }}</td>
+                        <td align="center">{{ bdDate($inv->tran_date) }}</td>
                         <td align="center">
-                            {{ str_pad($inv->inv_no , 9, '0', STR_PAD_LEFT)}}
+                            {{ str_pad($inv->inv_no, 9, '0', STR_PAD_LEFT) }}
                         </td>
                         <td align="center">{{ $terms }}</td>
                         <td align="center">{{ $inv->your_ref }}</td>
@@ -195,10 +202,10 @@
             </table>
         </div>
 
-        <table  width="100%" cellpadding="2" class="table inv_total">
+        <table width="100%" cellpadding="2" class="table inv_total">
             <tr>
                 <td width="60%">
-                      <table  width="100%" cellpadding="2" class="table">
+                    <table width="100%" cellpadding="2" class="table">
                         <tr>
                             <td style="border: none">
                                 <strong>Terms and Condition: </strong><br>
@@ -208,33 +215,33 @@
                     </table>
                 </td>
                 <td width="40%">
-                <table  width="100%" cellpadding="2" class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <td width="80%">Total Amount(Without GST)</td>
-                            <td>{{ number_format($invoices->sum('price'), 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Freight Charge</td>
-                            <td>{{ number_format($invoices->sum('freight_charge'), 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td>GST </td>
-                            {{-- <td>{{number_format($invoices->sum('disc_amount'),2)}}</td> --}}
-                            <td>{{ number_format($invoices->sum('amount') - $invoices->sum('freight_charge') - $invoices->sum('price'), 2) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total</td>
-                            <td>{{ number_format($invoices->sum('amount'), 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <p>We appreciate your business with us.</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <table width="100%" cellpadding="2" class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td width="80%">Total Amount(Without GST)</td>
+                                <td>{{ number_format($invoices->sum('price'), 2) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Freight Charge</td>
+                                <td>{{ number_format($invoices->sum('freight_charge'), 2) }}</td>
+                            </tr>
+                            <tr>
+                                <td>GST </td>
+                                {{-- <td>{{number_format($invoices->sum('disc_amount'),2)}}</td> --}}
+                                <td>{{ number_format($invoices->sum('amount') - $invoices->sum('freight_charge') - $invoices->sum('price'), 2) }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>{{ number_format($invoices->sum('amount'), 2) }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <p>We appreciate your business with us.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
         </table>
@@ -244,7 +251,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <strong style="font-size:15px;">{{$one_of ? $one_of->name:$customer->name }}</strong><br>
+                            <strong style="font-size:15px;">{{ $one_of ? $one_of->name : $customer->name }}</strong><br>
                             Please forward your payment to BSB :
                             {{ $client->bsb->bsb_number ?? '' }}&nbsp;&nbsp;Account no
                             {{ $client->bsb->account_number ?? '' }} Account Name :
