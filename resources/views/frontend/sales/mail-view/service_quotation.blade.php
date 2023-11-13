@@ -42,14 +42,14 @@
                                     <ul class="nav">
                                         <li class="nav-item">
                                             <a target="_blank"
-                                                href="{{ route('inv.report.print', ['service', $inv_no, $client->id, $one_of->id]) }}"
+                                                href="{{ route('quote.print', ['service', $inv_no, $client->id, $one_of->id]) }}"
                                                 class="nav-link">
                                                 <div class="fa fa-download"></div> PDF
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a target="_blank"
-                                                href="{{ route('inv.report.print', ['service', $inv_no, $client->id, $one_of->id]) }}"
+                                                href="{{ route('quote.print', ['service', $inv_no, $client->id, $one_of->id]) }}"
                                                 class="nav-link">
                                                 <div class="fa fa-print"></div> Print
                                             </a>
