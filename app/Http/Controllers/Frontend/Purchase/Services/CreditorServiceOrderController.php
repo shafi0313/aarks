@@ -209,10 +209,14 @@ class CreditorServiceOrderController extends Controller
         return response()->json($message);
     }
 
-    public function destroy(CreditorServiceOrder $service_order)
+    public function destroy($proId, $cusCardId, $inv_no)
     {
+        $service_order = CreditorServiceOrder::whereClientId(client()->id)
+            ->whereProfessionId($proId)
+            ->whereCustomerCardId($cusCardId)
+            ->where('inv_no', $inv_no);
         try {
-            if (periodLock($service_order->client_id, $service_order->start_date)) {
+            if (periodLock($service_order->first()->client_id, $service_order->first()->start_date)) {
                 Alert::error('Your enter data period is locked, check administration');
                 return back();
             }

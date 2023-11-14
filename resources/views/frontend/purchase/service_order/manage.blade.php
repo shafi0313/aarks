@@ -69,7 +69,7 @@
                                                 class="btn btn-info btn-sm">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="{{route('service_order.destroy',$service->first()->id)}}"
+                                            <form action="{{route('service_order.destroy', [$service->first()->profession_id, $service->first()->customer_card_id, $service->first()->inv_no])}}"
                                                 method="post" style="display: inline">
                                                 @csrf @method('delete')
                                                 <button  title="Order Delete" type="submit" class="btn btn-sm btn-danger"
