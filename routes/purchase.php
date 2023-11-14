@@ -52,7 +52,8 @@ Route::prefix('services-layout')->group(function () {
         Route::get('manage/convert/view/{inv}', [CreditorServiceOrderController::class, 'convertView'])->name('service_order.convertView');
         Route::post('manage/convert/store/{quote}', [CreditorServiceOrderController::class, 'convertStore'])->name('service_order.convertStore');
     });
-    Route::resource('service_order', CreditorServiceOrderController::class);
+    Route::resource('service_order', CreditorServiceOrderController::class)->except(['edit']);
+    Route::get('/service_order/edit/{proId}/{cusCardId}/{invNo}', [CreditorServiceOrderController::class, 'edit'])->name('service_order.edit');
 
     // Service Enter BILL
     Route::prefix('service-bill')->as('service_bill.')->group(function () {

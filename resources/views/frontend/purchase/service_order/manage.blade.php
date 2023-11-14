@@ -65,7 +65,7 @@
                                         {{number_format($service->first()->payment_amount,2)}} </td>
                                     <td>
                                         <div class="action">
-                                            <a  title="Order Edit" href="{{route('service_order.edit',$service->first()->inv_no)}}"
+                                            <a  title="Order Edit" href="{{route('service_order.edit', [$service->first()->profession_id, $service->first()->customer_card_id, $service->first()->inv_no])}}"
                                                 class="btn btn-info btn-sm">
                                                 <i class="fas fa-edit"></i>
                                             </a>

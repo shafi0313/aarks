@@ -94,6 +94,7 @@ class CreditorServiceOrderController extends Controller
         }
         return response()->json($toast);
     }
+    // manage
     public function manage()
     {
         $client   = client();
@@ -101,9 +102,15 @@ class CreditorServiceOrderController extends Controller
             ->where('chart_id', 'not like', '551%')->get();
         return view('frontend.purchase.service_order.manage', compact('client', 'services'));
     }
-    public function edit(Request $request, $inv_no)
+
+    public function edit(Request $request, $proId, $cusCardId, $inv_no)
     {
-        $services    = CreditorServiceOrder::with(['client', 'customer'])->where('inv_no', $inv_no)->get();
+        $services    = CreditorServiceOrder::with(['client', 'customer'])
+            ->whereClientId(client()->id)
+            ->whereProfessionId($proId)
+            ->whereCustomerCardId($cusCardId)
+            ->where('inv_no', $inv_no)
+            ->get();
         $service     = $services->first();
         if (periodLock($service->client_id, $service->start_date)) {
             Alert::error('Your enter data period is locked, check administration');
