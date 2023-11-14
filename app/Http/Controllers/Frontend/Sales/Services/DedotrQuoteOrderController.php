@@ -768,8 +768,8 @@ class DedotrQuoteOrderController extends Controller
             ->where('inv_no', $inv_no)->get();
         $inv = $invoices->first();
         $customer = $invoices->first()->customer;
-        Mail::to('msh.shafiul@gmail.com')->queue(new QuoteViewableMail($src, $inv, $customer, $client));
-        // Mail::to($customer->email)->send(new InvoiceViewableMail($src, $inv, $customer, $client));
+        // Mail::to('msh.shafiul@gmail.com')->queue(new QuoteViewableMail($src, $inv, $customer, $client));
+        Mail::to($customer->email)->send(new QuoteViewableMail($src, $inv, $customer, $client));
         try {
             toast('Invoice Mailed Successful!', 'success');
         } catch (\Exception $e) {
