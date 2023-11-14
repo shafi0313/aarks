@@ -58,6 +58,7 @@ class DedotrQuoteRequest extends FormRequest
             "totalamount"      => 'sometimes',
             "gst_amt"          => 'sometimes',
             "gst_amt_subtotal" => 'sometimes',
+            "sub_val"          => 'sometimes',
         ];
     }
 }

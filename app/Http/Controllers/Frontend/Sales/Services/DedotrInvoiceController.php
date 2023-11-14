@@ -364,37 +364,27 @@ class DedotrInvoiceController extends Controller
         // Retain Earning For each Transaction
         // RetainEarning::tranRetain($cid, $pid, $tran_id, $ledger, ['INV', 'INV']);
 
-        if ($request->ajax() && $period) {
-            DB::commit();
-            $toast   = 'Invoice Create successfully';
-            $message = ['status' => 200, 'message' => $toast, 'inv_no' => Dedotr::whereClientId($cid)->whereProfessionId($pid)->max('inv_no') + 1];
-            return response()->json($message);
-        } elseif (!$request->ajax() && $period) {
-            DB::commit();
-            return redirect()->route('inv.report', ['service', $request->inv_no, $client->id, $request->customer_card_id]);
-        } elseif (!$request->ajax() && !$period) {
-            $toast = 'Please check your accounting period from the Accounts>add/edit period';
-            Alert::info($toast);
-            return back();
-        } else {
-            $toast   = 'Please check your accounting period from the Accounts>add/edit period';
-            $message = ['status' => 500, 'message' => $toast];
-            DB::commit();
-            return response()->json($message);
-        }
-        // if (!$request->ajax() && $period) {
-        //     return redirect()->route('inv.report', ['service', $request->inv_no, $client->id, $request->customer_card_id]);
-        // }else{
-        //     $toast = 'Please check your accounting period from the Accounts>add/edit period';
-        //     Alert::info($toast);
-        //     return back();
-        // }
+
 
         try {
-            // DB::commit();
-            // $toast   = 'Invoice Create successfully';
-            // $message = ['status' => 200, 'message' => $toast, 'inv_no' => Dedotr::whereClientId($cid)->whereProfessionId($pid)->max('inv_no') + 1];
-            // return response()->json($message);
+            if ($request->ajax() && $period) {
+                DB::commit();
+                $toast   = 'Invoice Create successfully';
+                $message = ['status' => 200, 'message' => $toast, 'inv_no' => Dedotr::whereClientId($cid)->whereProfessionId($pid)->max('inv_no') + 1];
+                return response()->json($message);
+            } elseif (!$request->ajax() && $period) {
+                DB::commit();
+                return redirect()->route('inv.report', ['service', $request->inv_no, $client->id, $request->customer_card_id]);
+            } elseif (!$request->ajax() && !$period) {
+                $toast = 'Please check your accounting period from the Accounts>add/edit period';
+                Alert::info($toast);
+                return back();
+            } else {
+                $toast   = 'Please check your accounting period from the Accounts>add/edit period';
+                $message = ['status' => 500, 'message' => $toast];
+                DB::commit();
+                return response()->json($message);
+            }
         } catch (\Exception $e) {
             DB::rollBack();
             $toast   = $e->getMessage();

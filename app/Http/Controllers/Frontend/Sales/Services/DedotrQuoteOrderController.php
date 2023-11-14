@@ -83,11 +83,18 @@ class DedotrQuoteOrderController extends Controller
             DedotrQuoteOrder::create($data);
         }
         try {
-            $toast = ['message' => 'Debtor Quote Create success', 'status' => 200, 'inv_no' => DedotrQuoteOrder::whereClientId($request->client_id)->whereProfessionId($request->profession_id)->max('inv_no') + 1];
+            if(!$request->ajax()){
+                toast('Debtor Quote Create success', 'success');
+                return redirect()->route('quote.show', ['service', $request->inv_no, $request->client_id, $request->customer_card_id]);
+            }else{
+                $toast = ['message' => 'Debtor Quote Create success', 'status' => 200, 'inv_no' => DedotrQuoteOrder::whereClientId($request->client_id)->whereProfessionId($request->profession_id)->max('inv_no') + 1];
+                return response()->json($toast);
+            }
+
         } catch (\Exception $e) {
             $toast = ['message' => $e->getMessage(), 'status' => 500];
+            return response()->json($toast);
         }
-        return response()->json($toast);
     }
 
     public function manage()

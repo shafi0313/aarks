@@ -15,12 +15,12 @@ $("form").on("submit", function (e) {
 
     setTimeout(function () {
         buttons.prop("disabled", false);
-    }, 30000); // 30 seconds in milliseconds
+    }, 5000); // 5 seconds in milliseconds
 });
 
 // $(document).ready(function () {
 //     // Select 2
-//     $(".select2Single").select2();    
+//     $(".select2Single").select2();
 // });
 
 function digitInput(event) {
