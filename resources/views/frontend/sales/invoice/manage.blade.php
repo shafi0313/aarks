@@ -77,11 +77,6 @@
                                                             class="btn btn-success btn-sm">
                                                             <i class="fas fa-print"></i>
                                                         </a>
-                                                        {{-- <a title="Invoice Mail"
-                                                href="{{route('inv.report.mail',['service',$invoice->inv_no,$client->id])}}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="far fa-envelope"></i>
-                                            </a> --}}
                                                         <a title="Invoice Mail"
                                                             href="{{ route('inv.viewable_mail', ['service', $invoice->inv_no, $client->id, $invoice->customer_card_id]) }}"
                                                             class="btn btn-primary btn-sm">

@@ -81,6 +81,15 @@ Route::prefix('bill/payment')->name('spayment.')->group(function () {
     Route::get('/list/report/{payment}/mail', [CreditorPaymentController::class, 'mailReport'])->name('mailReport');
     Route::delete('/list/destroy/{payment}', [CreditorPaymentController::class, 'destroy'])->name('destroy');
 });
+
+Route::controller(CreditorServiceOrderController::class)->prefix('/manage/order')->name('order.')->group(function(){
+    Route::get('/show/{source}/{client}/{proId}/{customer}/{inv_no}','show')->name('show');
+    // Route::get('/mail/{source}/{client}/{proId}/{customer}/{inv_no}', 'mail')->name('mail');
+    Route::get('/mail-view/{source}/{client}/{proId}/{customer}/{inv_no}', 'viewableMail')->name('viewable_mail');
+    Route::get('/email-view-report/{source?}/{inv_no}/{client}',  'emailViewReport')->name('email_view_report');
+    Route::get('/print/{source}/{client}/{proId}/{customer}/{inv_no}','print')->name('print');
+});
+
 //! Invoice Reports
 Route::get('/bill/report/{source}/{inv_no}/{client}', [BillReportController::class, 'report'])->name('bill.report');
 Route::get('/bill/report/print/{source}/{inv_no}/{client}', [BillReportController::class, 'print'])->name('bill.report.print');

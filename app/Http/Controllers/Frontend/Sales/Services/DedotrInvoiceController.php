@@ -363,9 +363,7 @@ class DedotrInvoiceController extends Controller
 
         // Retain Earning For each Transaction
         // RetainEarning::tranRetain($cid, $pid, $tran_id, $ledger, ['INV', 'INV']);
-
-
-
+        
         try {
             if ($request->ajax() && $period) {
                 DB::commit();
