@@ -8,6 +8,7 @@ use App\Http\Controllers\Frontend\Sales\SalesRegisterController;
 use App\Http\Controllers\Frontend\Sales\CustomerLedgerController;
 use App\Http\Controllers\Frontend\Sales\ReceivePaymentController;
 use App\Http\Controllers\Frontend\Sales\Services\DedotrController;
+use App\Http\Controllers\Frontend\Report\QuotationReportController;
 use App\Http\Controllers\Frontend\Sales\Items\ItemRecurringController;
 use App\Http\Controllers\Frontend\Sales\Items\DedotrQuoteItemController;
 use App\Http\Controllers\Frontend\Sales\Services\DedotrInvoiceController;
@@ -115,7 +116,7 @@ Route::prefix('payment')->group(function () {
 });
 
 
-Route::controller(DedotrQuoteOrderController::class)->prefix('/manage/quote')->name('quote.')->group(function(){
+Route::controller(QuotationReportController::class)->prefix('/manage/quote')->name('quote.')->group(function(){
     Route::get('/show/{source}/{inv_no}/{client}/{customer}','show')->name('show');
     Route::get('/mail/{source}/{inv_no}/{client}/{customer}', 'mail')->name('mail');
     Route::get('/mail-view/{source}/{inv_no}/{client}/{customer}', 'viewableMail')->name('viewable_mail');

@@ -45,7 +45,7 @@
                                         <th>Order Amount</th>
                                         <th>Due Amount</th>
                                         <th>Paid Amount</th>
-                                        <th width="120px" class="no-sort">Action</th>
+                                        <th width="140px" class="no-sort">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -70,6 +70,11 @@
                                                         href="{{ route('quote.show', ['item', $quote->first()->inv_no, $client->id, $quote->first()->customer_card_id]) }}"
                                                         class="btn btn-success btn-sm">
                                                         <i class="fas fa-print"></i>
+                                                    </a>
+                                                    <a title="Quote Mail"
+                                                        href="{{ route('quote.viewable_mail', ['item', $quote->first()->inv_no, $client->id, $quote->first()->customer_card_id]) }}"
+                                                        class="btn btn-primary btn-sm">
+                                                        <i class="far fa-envelope-open"></i>
                                                     </a>
                                                     <a title="Item Edit"
                                                         href="{{ route('quote_item.edit', [$quote->first()->profession_id, $quote->first()->customer_card_id, $quote->first()->inv_no]) }}"
