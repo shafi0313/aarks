@@ -36,15 +36,15 @@
                         <table id="example" class="table table-striped table-bordered table-hover display table-sm">
                             <thead class="text-center" style="font-size: 14px">
                                 <tr>
-                                    <th width="4%">SL</th>
-                                    <th width="10%">Date</th>
-                                    <th width="10%">Tran Id</th>
-                                    <th width="15%">Supplier Name</th>
-                                    <th width="9%">Order No</th>
-                                    <th width="9%">Order Amount</th>
-                                    <th width="9%">Due Amount</th>
-                                    <th width="9%">Paid Amount</th>
-                                    <th width="9%" class="no-sort">Action</th>
+                                    <th>SL</th>
+                                    <th>Date</th>
+                                    <th>Tran Id</th>
+                                    <th>Supplier Name</th>
+                                    <th>Order No</th>
+                                    <th>Order Amount</th>
+                                    <th>Due Amount</th>
+                                    <th>Paid Amount</th>
+                                    <th width="130px" class="no-sort">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
