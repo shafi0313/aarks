@@ -203,7 +203,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <strong style="color:red">please click once it will be appaer your Job Description space in the quote</strong>
+                        <strong style="color:red">please click once it will be appear your Job Description space in the quote</strong>
                         <br>
                         <br>
                     </div>

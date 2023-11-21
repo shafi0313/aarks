@@ -69,6 +69,7 @@ $((e) => {
         html += '<input type="hidden" name="amount[]" value="' + amount + '" />';
         html += '<input type="hidden" name="quantity[]" value="' + quantity + '" />';
         html += '<input type="hidden" name="rate[]" value="' + rate + '" />';
+        html += '<input type="hidden" name="tax_rate[]" value="' + rate + '" />';
         html += '<input type="hidden" name="disc_rate[]" value="' + disc + '" />';
         html += '<input type="hidden" name="disc_amount[]" value="' + disc_amount + '" />';
         html += '<input type="hidden" name="freight_charge[]" value="' + freight + '" />';
@@ -147,7 +148,7 @@ $((e) => {
     $("#item_id").on('change', function() {
         var item_id = $(this).val();
         if (item_id == 'new') {
-            var url = location.origin + '/inv_item';
+            var url = location.origin + '/client/inv_item';
             location.replace(url);
         }
     });

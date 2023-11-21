@@ -123,7 +123,7 @@ $('.add-item').on('click', function() {
     var item_name = $('#item_id option:selected').html();
 
     if (item_id == '') {
-        toast('warning', 'Please Seletec An Item');
+        toast('warning', 'Please Select An Item');
         $('#item_id').focus();
         return false;
     }

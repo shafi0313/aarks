@@ -52,10 +52,12 @@
                                         placeholder="Your Reference">
                                 </div>
                                 <div class="col-2 form-group">
-                                    <label>Our Reference: <button type="button" class="btn btn-warning btn-sm"
-                                            style="padding:0 13px; font-size:12px" data-toggle="modal"
-                                            data-target="#ourReference"><i
-                                                class="fas fa-sticky-note"></i></button></label>
+                                    <label>Our Reference:
+                                        <button type="button" class="btn btn-warning btn-sm" style="padding:0 13px; font-size:12px" data-toggle="modal"
+                                            data-target="#ourReference">
+                                            <i class="fas fa-sticky-note"></i>
+                                        </button>
+                                    </label>
                                     <input class="form-control form-control-sm ourRefInput" type="text" name=""
                                         placeholder="Our Reference">
 

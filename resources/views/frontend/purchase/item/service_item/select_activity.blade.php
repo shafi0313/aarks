@@ -10,7 +10,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group" style="padding:10px;">
-                                <label>Select Bussiness Activity</label>
+                                <label>Select Business Activity</label>
                                 <select class="form-control" type="submit" onchange="location = this.value">
                                     <option disabled selected value>Select Profession</option>
                                     @foreach ($client->professions as $profession)
