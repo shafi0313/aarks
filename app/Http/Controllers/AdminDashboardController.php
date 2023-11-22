@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
@@ -42,7 +43,7 @@ class AdminDashboardController extends Controller
         //     $meminfo[$key] = trim($val);
         // }
         // end
-        return view('admin.dashboard', compact(['clientCount','profession','adminUser','acCode','visitors']));
+        return view('admin.dashboard', compact(['clientCount', 'profession', 'adminUser', 'acCode', 'visitors']));
     }
     public function profile(Request $request)
     {
@@ -60,7 +61,7 @@ class AdminDashboardController extends Controller
             $user->email,
             $secret_key
         );
-        return view('admin.profile.index', compact(['user','QR','secret_key']));
+        return view('admin.profile.index', compact(['user', 'QR', 'secret_key']));
     }
     public function selectTwo(Request $request)
     {
@@ -68,37 +69,39 @@ class AdminDashboardController extends Controller
             switch ($request->type) {
                 case 'getClient':
                     $response = Client::where('first_name', 'like', '%' . $request->q . '%')->orWhere('company', 'like', '%' . $request->q . '%')
-                    ->select('id', 'first_name', 'last_name', 'company')
-                    ->get()
-                    ->map(function ($client) {
-                        return [
-                            'id' => $client->id,
-                            // 'id' => route('client-pro', $client->id),
-                            "text" => $client->company . '-' . $client->full_name
-                        ];
-                    })->toArray();
+                        ->select('id', 'first_name', 'last_name', 'company')
+                        ->get()
+                        ->map(function ($client) {
+                            return [
+                                'id' => $client->id,
+                                // 'id' => route('client-pro', $client->id),
+                                "text" => $client->company . '-' . $client->full_name
+                            ];
+                        })->toArray();
                     break;
                 case 'getProfession':
                     $response = Client::findOrFail($request->client_id)->professions()->where('name', 'like', '%' . $request->q . '%')
-                    ->where('client_id', $request->client_id)
-                    ->select('professions.id', 'professions.name')
-                    ->get()
-                    ->map(function ($profession) {
-                        return [
-                            'id'   => $profession->id,
-                            "text" => $profession->name
-                        ];
-                    })->toArray();
+                        ->where('client_id', $request->client_id)
+                        ->select('professions.id', 'professions.name')
+                        ->get()
+                        ->map(function ($profession) {
+                            return [
+                                'id'   => $profession->id,
+                                "text" => $profession->name
+                            ];
+                        })->toArray();
                     break;
                 case 'getDates':
                     $years = BudgetEntry::where('client_id', $request->client_id)->where('profession_id', $request->profession_id)->selectRaw('YEAR(date) as year,date')->get()->groupBy(['year', 'date']);
                     $html = '';
                     foreach ($years as $i => $year) {
-                        $html .= "<tr><td>{$i} =>";
+                        $ii = $i +1;
+                        $html .= "<tr><td>{$ii } =>";
                         foreach ($year as $date) {
-                            $date = $date->first()->date->format('d/m/Y');
+                            $date1 = $date->first()->date->format('d/m/Y');
+                            $date2 = $date->first()->date->addYear()->format('d/m/Y');
                             $html .= "<div class='checkbox-inline d-inline px-4'>
-                        <label><input type='radio' name='date' value='{$date}' required> &nbsp; {$date}</label>
+                        <label><input type='radio' name='date' value='{$date1}' required> &nbsp; {$date2}</label>
                     </div>";
                         }
                         "</td></tr>";
