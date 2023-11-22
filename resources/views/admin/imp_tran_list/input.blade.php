@@ -100,7 +100,7 @@
                                                     value="{{ $input->narration }}">
                                             </td>
                                             <td>
-                                                <input type="text" name="gst_code[]" value="{{ $code->gst_code }}"
+                                                <input type="text" name="gst_code[]" value="{{ $input->gst_code }}"
                                                     readonly class="form-control">
                                             </td>
                                             <td>

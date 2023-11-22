@@ -113,7 +113,7 @@ class BankStatementTranList extends Controller
             ->where('source', 'BST')
             ->where('narration', 'BST_BANK')
             ->first(ledgerSetVisible());
-            
+
         $codes = ClientAccountCode::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             // ->where('code', '!=', $bank->chart_id)
