@@ -68,12 +68,12 @@
                                             <td>
                                                 <div class="action">
                                                     <a title="Order Print"
-                                                        href="{{ route('order.show', ['service', $client->id, $service->first()->profession_id, $service->first()->customer_card_id, $service->first()->inv_no]) }}"
+                                                        href="{{ route('pur.order.show', ['service', $client->id, $service->first()->profession_id, $service->first()->customer_card_id, $service->first()->inv_no]) }}"
                                                         class="btn btn-success btn-sm">
                                                         <i class="fas fa-print"></i>
                                                     </a>
                                                     <a title="Invoice Mail"
-                                                        href="{{ route('order.viewable_mail', ['service', $client->id, $service->first()->profession_id, $service->first()->customer_card_id, $service->first()->inv_no]) }}"
+                                                        href="{{ route('pur.order.viewable_mail', ['service', $client->id, $service->first()->profession_id, $service->first()->customer_card_id, $service->first()->inv_no]) }}"
                                                         class="btn btn-primary btn-sm">
                                                         <i class="far fa-envelope-open"></i>
                                                     </a>

@@ -6,7 +6,7 @@ To<br>
 
 <br>
 <p>Your order ready to view.
-    <a href="{{route('order.email_view_report',[($src == 'item'?'item':'service'),open_encrypt($invoice->inv_no), open_encrypt($client->id)])}}"
+    <a href="{{route('pur.order.email_view_report',[($src == 'item'?'item':'service'),open_encrypt($invoice->inv_no), open_encrypt($client->id)])}}"
         class="btn btn-primary pull-right" style="    color: #fff;
     background-color: #204d74;
     border-color: #122b40;    background-image: none;  text-decoration: none;    float: right!important;display: inline-block;

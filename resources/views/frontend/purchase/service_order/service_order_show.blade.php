@@ -168,7 +168,7 @@
                                 Powered by <b class="text-info">AARKS</b>
                             </div>
                             <div class="col-12">
-                                <a href="{{ route('order.print', ['service', $client->id, $invoice->profession_id, $invoice->customer_card_id, $invoice->inv_no]) }}"
+                                <a href="{{ route('pur.order.print', ['service', $client->id, $invoice->profession_id, $invoice->customer_card_id, $invoice->inv_no]) }}"
                                     target="_blank" class="btn btn-outline-info text-dark pull-right btn-lg"> <i
                                         class="fa fa-print"></i> PRINT</a>
                             </div>

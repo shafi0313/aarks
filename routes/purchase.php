@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\Purchase\SupplierLedgerController;
 use App\Http\Controllers\Frontend\Purchase\CreditorPaymentController;
 use App\Http\Controllers\Frontend\Purchase\PurchaseRegisterController;
 use App\Http\Controllers\Frontend\Purchase\Services\CreditorController;
+use App\Http\Controllers\Frontend\Report\PurchaseOrderReportController;
 use App\Http\Controllers\Frontend\Purchase\Items\CreditorItemController;
 use App\Http\Controllers\Frontend\Purchase\Items\CreditorServiceItemController;
 use App\Http\Controllers\Frontend\Purchase\Services\CreditorServiceOrderController;
@@ -24,8 +25,11 @@ Route::prefix('item-layout')->group(function () {
         Route::get('manage/convert/', [CreditorServiceItemController::class, 'convertInvoice'])->name('convert');
         Route::get('manage/convert/view/{client}/{profession}/{inv}', [CreditorServiceItemController::class, 'convertView'])->name('convertView');
         Route::post('manage/convert/store/{client}/{profession}/{inv}', [CreditorServiceItemController::class, 'convertStore'])->name('convertStore');
+
+        Route::get('service_item/edit/{client}/{proId}/{cus}/{inv}', [CreditorServiceItemController::class, 'edit'])->name('edit');
+        Route::delete('service_item/destroy/{client}/{proId}/{cus}/{inv}', [CreditorServiceItemController::class, 'destroy'])->name('destroy');
     });
-    Route::resource('service_item', CreditorServiceItemController::class);
+    Route::resource('service_item', CreditorServiceItemController::class)->except(['edit','destroy']);
     // Service Enter Item
     Route::prefix('enter-item')->name('enter_item.')->group(function () {
         Route::get('create/{profession}', [CreditorItemController::class, 'quote'])->name('enter');
@@ -82,7 +86,7 @@ Route::prefix('bill/payment')->name('spayment.')->group(function () {
     Route::delete('/list/destroy/{payment}', [CreditorPaymentController::class, 'destroy'])->name('destroy');
 });
 
-Route::controller(CreditorServiceOrderController::class)->prefix('/manage/order')->name('order.')->group(function(){
+Route::controller(PurchaseOrderReportController::class)->prefix('/manage/order')->name('pur.order.')->group(function(){
     Route::get('/show/{source}/{client}/{proId}/{customer}/{inv_no}','show')->name('show');
     // Route::get('/mail/{source}/{client}/{proId}/{customer}/{inv_no}', 'mail')->name('mail');
     Route::get('/mail-view/{source}/{client}/{proId}/{customer}/{inv_no}', 'viewableMail')->name('viewable_mail');

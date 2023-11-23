@@ -75,10 +75,6 @@
                                                 class="btn btn-primary btn-sm">
                                                 <i class="fa fa-print"></i>
                                             </a>
-                                            {{-- <a  title="Bill Mail" href="{{route('bill.report.mail',['service',$service->first()->inv_no, $client->id])}}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="far fa-envelope"></i>
-                                            </a> --}}
 
                                             <a title="BILL Mail"
                                                 href="{{route('bill.viewable_mail',['service',$service->first()->inv_no,$client->id])}}"

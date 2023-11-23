@@ -39,6 +39,6 @@ class OrderViewableMail extends Mailable
     {
         return $this->subject("🧾 Order ". invoice($this->invoice->inv_no)." from {$this->client->fullname}")
         // ->view('mail.invoice-viewable-mail');
-        ->markdown('mail.quotation-viewable-mail-markdown');
+        ->markdown('mail.order-viewable-mail-markdown');
     }
 }

@@ -39,14 +39,14 @@ class CreditorServiceItemController extends Controller
         }
 
         $suppliers = CustomerCard::where('client_id', $client->id)
-        ->where('profession_id', $profession->id)
-        ->where('type', 2)->get();
-        $categories = InventoryCategory::with(['items'=>function ($q) {
+            ->where('profession_id', $profession->id)
+            ->where('type', 2)->get();
+        $categories = InventoryCategory::with(['items' => function ($q) {
             $q->where('type', '!=', 2);
-        },'items.code'])->where('client_id', $client->id)
-        ->where('profession_id', $profession->id)
-        ->where('parent_id', '!=', 0)
-        ->get();
+        }, 'items.code'])->where('client_id', $client->id)
+            ->where('profession_id', $profession->id)
+            ->where('parent_id', '!=', 0)
+            ->get();
         $codes     = ClientAccountCode::where('client_id', $client->id)
             ->where('profession_id', $profession->id)
             ->where('code', 'like', '2%')
@@ -59,14 +59,14 @@ class CreditorServiceItemController extends Controller
     public function store(DedotrQuoteRequest $request)
     {
         $data         = $request->validated();
-        $data ['start_date'] = $start_date = makeBackendCompatibleDate($request->start_date);
+        $data['start_date'] = $start_date = makeBackendCompatibleDate($request->start_date);
         if ($request->end_date != '') {
-            $data ['end_date']   = makeBackendCompatibleDate($request->end_date);
+            $data['end_date']   = makeBackendCompatibleDate($request->end_date);
         }
         if (periodLock($request->client_id, $start_date)) {
             return response()->json('Your enter data period is locked, check administration', 500);
         }
-        $data ['tax_rate']   = 10;
+        $data['tax_rate']   = 10;
         foreach ($request->chart_id as $i => $chart_id) {
             $data['chart_id']       = $chart_id;
             $data['disc_rate']      = $request->disc_rate[$i];
@@ -81,17 +81,17 @@ class CreditorServiceItemController extends Controller
             $data['ex_rate']        = $request->rate[$i];
 
             if ($request->is_tax[$i] == 'yes') {
-                $data ['tax_rate']   = 10;
+                $data['tax_rate']   = 10;
             } else {
-                $data ['tax_rate']   = 0;
+                $data['tax_rate']   = 0;
             }
 
             CreditorServiceOrder::create($data);
         }
         try {
-            $toast=['message'=>'Creditor Service Order Create success', 'status'=>200,'inv_no'=> CreditorServiceOrder::whereClientId($request->client_id)->whereProfessionId($request->profession_id)->max('inv_no')+1];
+            $toast = ['message' => 'Creditor Service Order Create success', 'status' => 200, 'inv_no' => CreditorServiceOrder::whereClientId($request->client_id)->whereProfessionId($request->profession_id)->max('inv_no') + 1];
         } catch (\Exception $e) {
-            $toast=['message'=>$e->getMessage(), 'status'=>500];
+            $toast = ['message' => $e->getMessage(), 'status' => 500];
         }
         return response()->json($toast);
     }
@@ -99,41 +99,45 @@ class CreditorServiceItemController extends Controller
     {
         $client   = client();
         $services = CreditorServiceOrder::where('client_id', $client->id)
-                // ->where('source', 'PIO')
-                ->where('chart_id', 'not like', '551%')->get();
+            // ->where('source', 'PIO')
+            ->where('chart_id', 'not like', '551%')->get();
         return view('frontend.purchase.item.service_item.manage', compact('client', 'services'));
     }
-    public function edit(Request $request, $inv_no)
+    public function edit(Request $request, $clientId, $proId, $cusCardId, $inv_no)
     {
-        $services    = CreditorServiceOrder::with(['client', 'customer'])
-                    // ->where('source', 'PIO')
-                    ->where('inv_no', $inv_no)->get();
-        $service     = $services->first();
+        $services = CreditorServiceOrder::with(['client', 'customer'])
+            ->whereClientId($clientId)
+            ->whereProfessionId($proId)
+            ->whereCustomerCardId($cusCardId)
+            ->where('inv_no', $inv_no)
+            ->get();
+
+        $service = $services->first();
         if (periodLock($service->client_id, $service->start_date)) {
             Alert::error('Your enter data period is locked, check administration');
             return back();
         }
         if ($request->ajax()) {
-            return response()->json(['services'=>$services,'status'=>200]);
+            return response()->json(['services' => $services, 'status' => 200]);
         }
         if ($services->count() > 0) {
             $client    = Client::find($service->client_id);
             $suppliers = CustomerCard::where('client_id', $client->id)
-            ->where('profession_id', $service->profession_id)
-            ->where('type', 2)->get();
-            $categories = InventoryCategory::with(['items'=>function ($q) {
+                ->where('profession_id', $service->profession_id)
+                ->where('type', 2)->get();
+            $categories = InventoryCategory::with(['items' => function ($q) {
                 $q->where('type', '!=', 2);
-            },'items.code'])->where('client_id', $client->id)
-            ->where('profession_id', $service->profession_id)
-            ->where('parent_id', '!=', 0)
-            ->get();
+            }, 'items.code'])->where('client_id', $client->id)
+                ->where('profession_id', $service->profession_id)
+                ->where('parent_id', '!=', 0)
+                ->get();
 
             $codes   = ClientAccountCode::where('client_id', $service->client_id)
-            ->where('profession_id', $service->profession_id)
-            ->where('code', 'like', '2%')
-            ->where('type', '1')
-            ->orderBy('code')
-            ->get();
+                ->where('profession_id', $service->profession_id)
+                ->where('code', 'like', '2%')
+                ->where('type', '1')
+                ->orderBy('code')
+                ->get();
 
             return view('frontend.purchase.item.service_item.edit_service', compact('codes', 'service', 'services', 'suppliers', 'client', 'categories'));
         } else {
@@ -145,7 +149,7 @@ class CreditorServiceItemController extends Controller
     public function update(Request $request, CreditorServiceOrder $service_item)
     {
         // return
-        $data = $request->except(['_token','_method']);
+        $data = $request->except(['_token', '_method']);
         $data['start_date'] = $start_date = makeBackendCompatibleDate($request->start_date);
         $data['end_date']   = makeBackendCompatibleDate($request->end_date);
         if (periodLock($service_item->client_id, $start_date)) {
@@ -154,12 +158,12 @@ class CreditorServiceItemController extends Controller
         }
         foreach ($request->item_name as $i => $item_name) {
             $serv = CreditorServiceOrder::where('client_id', $service_item->client_id)
-            ->where('profession_id', $service_item->profession_id)
-            ->where('id', $request->inv_id[$i])->first();
+                ->where('profession_id', $service_item->profession_id)
+                ->where('id', $request->inv_id[$i])->first();
             $rprice = $request->amount[$i];
             if ($request->has('disc_rate')) {
-                $data['amount'] = $price = $rprice - ($rprice * ($request->disc_rate[$i]/100));
-                $data['disc_amount'] = ($rprice * ($request->disc_rate[$i]/100));
+                $data['amount'] = $price = $rprice - ($rprice * ($request->disc_rate[$i] / 100));
+                $data['disc_amount'] = ($rprice * ($request->disc_rate[$i] / 100));
             }
             if ($request->has('freight_charge')) {
                 $data['amount'] = $price = $price + $request->freight_charge[$i];
@@ -181,9 +185,9 @@ class CreditorServiceItemController extends Controller
 
 
             if ($request->is_tax[$i] == 'yes') {
-                $data ['tax_rate']   = 10;
+                $data['tax_rate']   = 10;
             } else {
-                $data ['tax_rate']   = 0;
+                $data['tax_rate']   = 0;
             }
 
             if ($serv != '') {
@@ -196,7 +200,6 @@ class CreditorServiceItemController extends Controller
                 CreditorServiceOrder::create($data);
             }
         }
-
 
         try {
             toast('Creditor Services Order Updated success', 'success');
@@ -216,22 +219,26 @@ class CreditorServiceItemController extends Controller
                 return back();
             }
             $service->delete();
-            $message = ['message'=>'Creditor Service Order deleted success', 'status'=>'200'];
+            $message = ['message' => 'Creditor Service Order deleted success', 'status' => '200'];
         } catch (\Exception $e) {
-            $message = ['message'=>$e->getMessage(), 'status'=>'500'];
+            $message = ['message' => $e->getMessage(), 'status' => '500'];
         }
         return response()->json($message);
     }
 
-    public function destroy(CreditorServiceOrder $service_item)
+    public function destroy($clientId, $proId, $cusCardId, $inv_no)
     {
+        $service_order = CreditorServiceOrder::whereClientId($clientId)
+            ->whereProfessionId($proId)
+            ->whereCustomerCardId($cusCardId)
+            ->where('inv_no', $inv_no);
         try {
-            if (periodLock($service_item->client_id, $service_item->start_date)) {
+            if (periodLock($service_order->first()->client_id, $service_order->first()->start_date)) {
                 Alert::error('Your enter data period is locked, check administration');
                 return back();
             }
-            CreditorServiceOrder::where('client_id', $service_item->client_id)->where('profession_id', $service_item->profession_id)->whereInvNo($service_item->inv_no)->delete();
-            toast('service_order deleted success', 'success');
+            $service_order->delete();
+            toast('Service order deleted success', 'success');
         } catch (\Exception $e) {
             toast($e->getMessage(), 'error');
         }
@@ -242,9 +249,9 @@ class CreditorServiceItemController extends Controller
     {
         $client    = client();
         $services  = CreditorServiceOrder::with('customer')
-                    ->where('client_id', $client->id)
-                    ->where('source', 'PIV')
-                    ->get();
+            ->where('client_id', $client->id)
+            ->where('source', 'PIV')
+            ->get();
         $service     = $services->first();
         if (!$service) {
             Alert::error('No transaction found!');
@@ -255,13 +262,13 @@ class CreditorServiceItemController extends Controller
             return back();
         }
         $codes     = ClientAccountCode::where('client_id', $client->id)
-                    ->where(function ($q) {
-                        $q->where('code', 'like', '2%')
-                        ->orWhere('code', 'like', '56%');
-                    })
-                    ->where('type', '1')
-                    ->orderBy('code')
-                    ->get();
+            ->where(function ($q) {
+                $q->where('code', 'like', '2%')
+                    ->orWhere('code', 'like', '56%');
+            })
+            ->where('type', '1')
+            ->orderBy('code')
+            ->get();
         return view('frontend.purchase.item.service_item.convert_invoice', compact('client', 'services', 'codes'));
     }
     public function convertView(Client $client, Profession $profession, $inv_no)
@@ -269,13 +276,13 @@ class CreditorServiceItemController extends Controller
         $creditors = CreditorServiceOrder::whereClientId($client->id)->whereProfessionId($profession->id)->whereInvNo($inv_no)->get();
 
         $codes     = ClientAccountCode::where('client_id', $creditors->first()->client_id)
-                    ->where(function ($q) {
-                        $q->where('code', 'like', '2%')
-                        ->orWhere('code', 'like', '56%');
-                    })
-                    ->where('type', '1')
-                    ->orderBy('code')
-                    ->get();
+            ->where(function ($q) {
+                $q->where('code', 'like', '2%')
+                    ->orWhere('code', 'like', '56%');
+            })
+            ->where('type', '1')
+            ->orderBy('code')
+            ->get();
 
         return view('frontend.purchase.item.service_item.convert_details', compact('creditors', 'codes'));
     }
@@ -295,16 +302,16 @@ class CreditorServiceItemController extends Controller
             return redirect()->back();
         }
         $credit    = Creditor::where('client_id', $qt->client_id)
-                    ->where('customer_card_id', $qt->customer_card_id)->get();
+            ->where('customer_card_id', $qt->customer_card_id)->get();
         // $tran_id   = $qt->client_id.$qt->profession_id.$qt->id.$qt->customer_card_id.$qt->start_date->format('dmy').rand(11, 99);
         $tran_id = transaction_id('SCI');
         $tran_date = $qt->start_date->format('Y-m-d');
 
         $period = Period::where('client_id', $qt->client_id)
-                ->where('profession_id', $qt->profession_id)
-                // ->where('start_date', '<=', $qt->start_date->format('Y-m-d'))
-                ->where('end_date', '>=', $qt->start_date->format('Y-m-d'))
-                ->first();
+            ->where('profession_id', $qt->profession_id)
+            // ->where('start_date', '<=', $qt->start_date->format('Y-m-d'))
+            ->where('end_date', '>=', $qt->start_date->format('Y-m-d'))
+            ->first();
 
         DB::beginTransaction();
         if ($period != '') {
@@ -313,7 +320,7 @@ class CreditorServiceItemController extends Controller
                 $data["customer_card_id"] = $creditor->customer_card_id;
                 $data["profession_id"]    = $creditor->profession_id;
                 $data["chart_id"]         = $creditor->chart_id;
-                $data["inv_no"]           = str_pad($credit->max('inv_no')+1, 8, '0', STR_PAD_LEFT);
+                $data["inv_no"]           = str_pad($credit->max('inv_no') + 1, 8, '0', STR_PAD_LEFT);
                 $data["your_ref"]         = $creditor->your_ref;
                 $data["quote_terms"]      = $creditor->quote_terms;
                 $data["job_title"]        = $creditor->job_title;
@@ -343,7 +350,7 @@ class CreditorServiceItemController extends Controller
                 $regData['profession_id']     = $creditor->profession_id;
                 $regData['inventory_item_id'] = $inv_item->id;
                 $regData['source']            = 'sales';
-                $regData['item_name']         = $item_name =Str::slug($inv_item->item_name.'-'.$inv_item->item_number);
+                $regData['item_name']         = $item_name = Str::slug($inv_item->item_name . '-' . $inv_item->item_number);
                 $regData['date']              = $data["tran_date"];
                 $regData['sales_qty']         = $creditor->item_quantity;
                 $regData['sales_rate']        = $creditor->ex_rate;
@@ -364,9 +371,9 @@ class CreditorServiceItemController extends Controller
                 // }
             }
             $credits = Creditor::where('client_id', $qt->client_id)
-                    ->where('tran_id', $tran_id)
-                    ->orderBy('chart_id')
-                    ->get();
+                ->where('tran_id', $tran_id)
+                ->orderBy('chart_id')
+                ->get();
             $gst = [
                 'client_id'          => $qt->client_id,
                 'profession_id'      => $qt->profession_id,
@@ -385,22 +392,22 @@ class CreditorServiceItemController extends Controller
                 $gst['chart_code']   = $creditt->first()->chart_id;
                 $amount         = $creditt->sum('amount');
                 $price          = $creditt->sum('price');
-                $disc_rate      = $creditt->sum('disc_rate')/$creditt->count();
+                $disc_rate      = $creditt->sum('disc_rate') / $creditt->count();
                 $freight_charge = $creditt->sum('freight_charge');
                 $gst['source']  = 'SCI';
                 if ($creditt->first()->is_tax == 'yes') {
                     $fPrice          = $price + ($price * 0.1);
-                    $pgst            = $price * 0.1 ;
-                    $fDisc_rate      = $price * ($disc_rate/100) + (($price * ($disc_rate/100)) * 0.1) ;
-                    $dgst            = ($price * ($disc_rate/100)) * 0.1 ;
+                    $pgst            = $price * 0.1;
+                    $fDisc_rate      = $price * ($disc_rate / 100) + (($price * ($disc_rate / 100)) * 0.1);
+                    $dgst            = ($price * ($disc_rate / 100)) * 0.1;
                     $fFreight_charge = $freight_charge + ($freight_charge * 0.1);
-                    $fgst            = $freight_charge * 0.1 ;
+                    $fgst            = $freight_charge * 0.1;
                 } else {
                     $fPrice          = $price;
                     $pgst            = 0;
-                    $fDisc_rate      = $price * ($disc_rate/100);
+                    $fDisc_rate      = $price * ($disc_rate / 100);
                     $dgst            = 0;
-                    $fFreight_charge = $freight_charge ;
+                    $fFreight_charge = $freight_charge;
                     $fgst            = 0;
                 }
                 $gst['gross_amount']       = $fPrice;
@@ -445,9 +452,9 @@ class CreditorServiceItemController extends Controller
                 }
 
                 if ($creditt->first()->disc_rate != '') {
-                    $gst['gross_amount']       = - $fDisc_rate;
-                    $gst['gst_accrued_amount'] = - $dgst;
-                    $gst['net_amount']         = - $fDisc_rate + $dgst;
+                    $gst['gross_amount']       = -$fDisc_rate;
+                    $gst['gst_accrued_amount'] = -$dgst;
+                    $gst['net_amount']         = -$fDisc_rate + $dgst;
                     if ($creditt->first()->is_tax == 'yes') {
                         $gst['chart_code'] = 228998;
                         $checkdis = $checksGst->where('chart_code', 228998)->first();
@@ -491,8 +498,8 @@ class CreditorServiceItemController extends Controller
                 ->get();
 
             $codes = ClientAccountCode::where('client_id', $cid)
-                    ->where('profession_id', $pid)
-                    ->get();
+                ->where('profession_id', $pid)
+                ->get();
             // Account code fron SCI
             foreach ($gstData->where('source', 'SCI') as $gd) {
                 $code = $codes->where('code', $gd->chart_code)->first();
@@ -535,20 +542,20 @@ class CreditorServiceItemController extends Controller
                 $end_year   = $qt->start_date->format('Y') . '-06-30';
             } else {
                 $start_year = $qt->start_date->format('Y') . '-07-01';
-                $end_year   = $qt->start_date->format('Y')+1 . '-06-30';
+                $end_year   = $qt->start_date->format('Y') + 1 . '-06-30';
             }
             $inRetain   = GeneralLedger::where('date', '>=', $start_year)
-                    ->where('date', '<=', $end_year)
-                    ->where('chart_id', 'LIKE', '2%')
-                    ->where('client_id', $qt->client_id)
-                    ->where('source', 'SCI')
-                    ->get();
+                ->where('date', '<=', $end_year)
+                ->where('chart_id', 'LIKE', '2%')
+                ->where('client_id', $qt->client_id)
+                ->where('source', 'SCI')
+                ->get();
             $retainData = $inRetain->where('balance_type', 2)->sum('balance') -
-                        $inRetain->where('balance_type', 1)->sum('balance');
+                $inRetain->where('balance_type', 1)->sum('balance');
 
             $ledger['chart_id']               = 999999;
             $ledger['client_account_code_id'] =
-            $ledger['gst']                    = 0;
+                $ledger['gst']                    = 0;
             $ledger['balance']                = $retainData;
             $ledger['credit']                 = abs($retainData);
             $ledger['debit']                  = 0;
@@ -557,10 +564,10 @@ class CreditorServiceItemController extends Controller
 
 
             $isRetain = GeneralLedger::where('date', '>=', $start_year)
-                    ->where('date', '<=', $end_year)
-                    ->where('chart_id', 999999)
-                    ->where('client_id', $qt->client_id)
-                    ->where('source', 'SCI')->first();
+                ->where('date', '<=', $end_year)
+                ->where('chart_id', 999999)
+                ->where('client_id', $qt->client_id)
+                ->where('source', 'SCI')->first();
             if ($isRetain != null) {
                 $isRetain->update($ledger);
             } else {
@@ -579,17 +586,17 @@ class CreditorServiceItemController extends Controller
                 ->where('source', 'SCI')
                 ->get();
             $tranRetainData = $inTranRetain->where('balance_type', 2)->sum('balance') -
-                            $inTranRetain->where('balance_type', 1)->sum('balance');
+                $inTranRetain->where('balance_type', 1)->sum('balance');
             $ledger['chart_id']               = 999998;
             $ledger['gst']                    = 0;
             $ledger['balance']                = $tranRetainData;
             $ledger['credit']                 = abs($tranRetainData);
 
             $isRetain = GeneralLedger::where('date', '>=', $periodStartDate)
-                    ->where('date', '<=', $periodEndDate)
-                    ->where('chart_id', 999998)
-                    ->where('client_id', $qt->client_id)
-                    ->where('source', 'SCI')->first();
+                ->where('date', '<=', $periodEndDate)
+                ->where('chart_id', 999998)
+                ->where('client_id', $qt->client_id)
+                ->where('source', 'SCI')->first();
             if ($isRetain != null) {
                 $isRetain->update($ledger);
             } else {
@@ -609,7 +616,7 @@ class CreditorServiceItemController extends Controller
             }
             return redirect()->route('enter_item.manage');
         } else {
-            toast('please check your accounting period from the Accouts>add/editperiod', 'error');
+            toast('please check your accounting period from the Accounts>add/edit period', 'error');
             return back();
         }
     }
