@@ -171,7 +171,7 @@
                                             <span style="solid;border-bottom:1px solid;float:right;font-weight: bold;">
                                                 @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
                                                     {{-- For Retain Earning & Profit & Loss Account --}}
-                                                    {{ number_format($totalPl + $totalRetain, 2) }}
+                                                    {{ number_format($subSubGrpBalance + $totalPl + $totalRetain, 2) }}
                                                 @else
                                                     {{ number_format($subSubGrpBalance, 2) }}
                                                 @endif
