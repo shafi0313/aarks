@@ -148,7 +148,12 @@
                                     </td>
                                     <td style="color: violet;text-align: right;">
                                         <span style="solid;border-bottom:1px solid;float:right;font-weight: bold;">
-                                            {{ number_format($subSubGrpBalance, 2) }}
+                                            @if ($additionalCategory->name == 'P/L Appropriation' || $additionalCategory->id == 76)
+                                                    {{-- For Retain Earning & Profit & Loss Account --}}
+                                                    {{ number_format($subSubGrpBalance + $totalPl + $totalRetain, 2) }}
+                                                @else
+                                                    {{ number_format($subSubGrpBalance, 2) }}
+                                                @endif
                                             @php
                                                 $subGrpBalance += $subSubGrpBalance;
                                             @endphp
