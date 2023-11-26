@@ -44,7 +44,7 @@
                                     <th>Order Amount</th>
                                     <th>Due Amount</th>
                                     <th>Paid Amount</th>
-                                    <th width="130px" class="no-sort">Action</th>
+                                    <th width="140px" class="no-sort">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

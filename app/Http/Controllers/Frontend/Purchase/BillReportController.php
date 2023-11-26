@@ -51,7 +51,7 @@ class BillReportController extends Controller
         }
         // return $pdf->stream();
         try {
-            Mail::send('frontend.sales.payment.mail', ['client'=>$client, 'customer'=>$customer], function ($mail) use ($invoices, $client, $pdf, $customer) {
+            Mail::send('frontend.sales.payment.mail', ['client' => $client, 'customer' => $customer], function ($mail) use ($invoices, $client, $pdf, $customer) {
                 $mail->to($customer->email, $customer->email)
                     ->subject('🧾  ' . invoice($invoices->first()->inv_no) . ' Invoice Generated')
                     ->attachData($pdf->output(), invoice($invoices->first()->inv_no) . ".pdf");
@@ -59,20 +59,12 @@ class BillReportController extends Controller
             toast('Invoice Mailed Successful!', 'success');
         } catch (\Exception $e) {
             toast('Opps! Server Side Error!', 'error');
-            return $e->getMessage();
         }
         return redirect()->back();
     }
 
-
-
-
-
-
-
     public function viewableMail($src, $inv_no, Client $client)
     {
-
         $client = Client::find(client()->id);
         $invoices = Creditor::with(['client', 'customer'])->where('client_id', $client->id)
             ->where('inv_no', $inv_no)->get();
