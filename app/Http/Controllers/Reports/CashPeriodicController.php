@@ -15,19 +15,19 @@ class CashPeriodicController extends Controller
 {
     public function index()
     {
-        $periods = Period::whereClientId(60)->get();
-        $gsts = Gsttbl::whereClientId(60)->get();
+        // $periods = Period::whereClientId(60)->get();
+        // $gsts = Gsttbl::whereClientId(60)->get();
+        // foreach ($gsts as $gst) {
+        //     $trnDate = $gst->trn_date;
+        //     $period = $periods->first(function ($period) use ($trnDate) {
+        //         return $trnDate >= $period->start_date && $trnDate <= $period->end_date;
+        //     });
 
-        foreach ($gsts as $gst) {
-            $trnDate = $gst->trn_date;
-            $period = $periods->first(function ($period) use ($trnDate) {
-                return $trnDate >= $period->start_date && $trnDate <= $period->end_date;
-            });
+        //     if ($period) {
+        //         $gst->update(['period_id' => $period->id]);
+        //     }
+        // }
 
-            if ($period) {
-                $gst->update(['period_id' => $period->id]);
-            }
-        }
         if ($error = $this->sendPermissionError('admin.periodic_cash.index')) {
             return $error;
         }
