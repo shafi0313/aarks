@@ -2,6 +2,7 @@
 
 namespace App\Actions\Reports;
 
+use Carbon\Carbon;
 use App\Models\Payg;
 use App\Models\Client;
 use App\Models\Gsttbl;
@@ -45,12 +46,18 @@ class GstPeriodic extends Controller
     {
         $client_id         = $request->client_id;
         $profession_id     = $request->profession_id;
-        $dateFrom          = $request->form_date;
-        $dateTo            = $request->to_date;
+        // $dateFrom          = $request->form_date;
+        // $dateTo            = $request->to_date;
+        // $dateFrom          = makeBackendCompatibleDate($request->from_date)->format('Y-m-d');
+        // $dateTo            = makeBackendCompatibleDate($request->to_date)->format('Y-m-d');
         $expense_code_from = '245000';
         $expense_code_to   = '245999';
         $w1_from           = '245100';
         $w1_to             = '245199';
+
+        $period_stat_date = Period::whereIn('id', $request->peroid_id)->first()->start_date;
+        $period_end_date = Period::whereIn('id', $request->peroid_id)->latest()->first()->end_date;
+
 
         $client       = Client::find($client_id);
         $profession   = Profession::find($profession_id);
@@ -66,7 +73,8 @@ class GstPeriodic extends Controller
                 $this->gstAbs($item);
             });
 
-        $sum95 = Gsttbl::with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->where('client_id', $client_id)
+        $sum95 = Gsttbl::with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
+            ->where('client_id', $client_id)
             ->whereIn('period_id', $request->peroid_id)
             ->where('source', '!=', 'INV')
             ->where('chart_code', 'like', '95%')
@@ -76,9 +84,12 @@ class GstPeriodic extends Controller
                 $this->gstAbs($item);
             });
 
-        $expense = Gsttbl::with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->where('client_id', $client_id)
+        $expense = Gsttbl::with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
+            ->where('client_id', $client_id)
             ->where('profession_id', $profession_id)
             ->whereIn('period_id', $request->peroid_id)
+            // ->whereBetween('trn_date', ['2023-07-01', '2023-09-30'])
+            ->whereBetween('trn_date', [$period_stat_date, $period_end_date])
             ->where('source', '!=', 'INV')
             ->where(function ($q) {
                 $q->where('chart_code', 'like', '2%')
@@ -89,6 +100,20 @@ class GstPeriodic extends Controller
             ->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________1B_________
+        // return$expenses = Gsttbl::with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
+        //     ->where('client_id', $client_id)
+        //     ->where('profession_id', $profession_id)
+        //     ->where('source', '!=', 'INV')
+        //     ->whereIn('period_id', $request->peroid_id)
+        //     // ->whereBetween('trn_date', [$dateFrom, $dateTo])
+        //     ->where(function ($q) {
+        //         $q->where('chart_code', 'like', '2%')
+        //             ->orWhere('chart_code', 'like', '56%');
+        //     })
+        //     ->selectRaw('sum(gst_cash_amount) as gst_cash_amount')
+        //     ->get()->each(function ($item) {
+        //         $this->gstAbs($item);
+        //     });
 
         $incomeNonGst = Gsttbl::with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->where('client_id', $client_id)
             ->where('profession_id', $profession_id)
