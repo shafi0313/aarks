@@ -506,12 +506,12 @@
     <script src="{{ asset('admin/assets/js/ace-elements.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/ace.min.js') }}"></script>
     <script>
-        // $("#gstNo").on('click', function() {
-        //     $(".gstMethod").attr('disabled', true)
-        // })
-        // $("#gstYes").on('click', function() {
-        //     $(".gstMethod").attr('disabled', false)
-        // })
+        $("#gstNo").on('click', function() {
+            $(".gstMethod").attr('disabled', true)
+        })
+        $("#gstYes").on('click', function() {
+            $(".gstMethod").attr('disabled', false)
+        })
     </script>
     <!-- inline scripts related to this page -->
     <script type="text/javascript">
