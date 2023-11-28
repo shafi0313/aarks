@@ -47,7 +47,7 @@
 <body>
     <div class="container-fluid">
         <!-- PAGE CONTENT BEGINS -->
-        <div class="row" style="height:100vh;display:flex;align-items:center;justify-content:center;">
+        <div class="row" style="height:100vh;display:flex;align-items:center;justify-content:center; margin: 0 auto">
             <div class="col-md-12 text-center">
                 <h1>{{ clientName($client) }}</h1>
                 <h4>ABN {{ $client->abn_number }}{{ $client->charitable_number?', Charitable License Number '.$client->charitable_number:'' }}
@@ -62,14 +62,15 @@
                 <h5>{{ $client->agent_address }}</h5>
             </div>
         </div>
-
+        <div class="page-break"></div>
         <div class="row" style="height:100vh;display:flex;align-items:center;justify-content:center;">
             <div class="col-md-12 text-center">
                 <h1>{{ clientName($client) }}</h1>
-                <h4>ABN {{ $client->abn_number }}</h4>
+                <h4>ABN {{ $client->abn_number }}{{ $client->charitable_number?', Charitable License Number '.$client->charitable_number:'' }}
+                    {{ $client->iran_number?', IRAN Number '.$client->iran_number:'' }}</h4>
                 <h4>FINANCIAL REPORT</h4>
                 <h3>Contents</h3>
-                <br><br><br><br><br><br><br><br>
+                <br><br>
                 <ul style="list-style: none;">
                     <li>{{ $data['is_balance_sheet'] == true ? 'Balance Sheet' : '' }}</li>
                     <li>{{ $data['is_incomestatment_note'] == true ? $data['incomestatment_note'] : '' }}</li>
