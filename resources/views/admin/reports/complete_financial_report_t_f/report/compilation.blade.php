@@ -57,7 +57,7 @@
                 for the contents of the accounting purpose financial statements.</p>
             <br><br>
 
-            <p>Name of Accountant &nbsp; &nbsp; &nbsp; <b>{{$client->agent_name}}</b></p>
+            <p>Name of Accountant:</p>
             <p style="width: 400px;border-top: 2px solid;">
                 On behalf of &nbsp; &nbsp; &nbsp; &nbsp;
                 <b>{{ $client->agent_name }}</b> <br>
