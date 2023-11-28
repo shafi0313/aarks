@@ -68,7 +68,7 @@
                 <h1>{{ clientName($client) }}</h1>
                 <h4>ABN {{ $client->abn_number }}{{ $client->charitable_number?', Charitable License Number '.$client->charitable_number:'' }}
                     {{ $client->iran_number?', IRAN Number '.$client->iran_number:'' }}</h4>
-                    <br><br><br>
+                    <br><br><br><br><br><br>
                 <h4>FINANCIAL REPORT</h4>
                 <h3>Contents</h3>
                 <ul style="list-style: none;">
