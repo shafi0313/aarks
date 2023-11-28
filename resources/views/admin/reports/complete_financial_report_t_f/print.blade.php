@@ -50,7 +50,8 @@
         <div class="row" style="height:100vh;display:flex;align-items:center;justify-content:center;">
             <div class="col-md-12 text-center">
                 <h1>{{ clientName($client) }}</h1>
-                <h4>ABN {{ $client->abn_number }}</h4>
+                <h4>ABN {{ $client->abn_number }}{{ $client->charitable_number?', Charitable License Number '.$client->charitable_number:'' }}
+                    {{ $client->iran_number?', IRAN Number '.$client->iran_number:'' }}</h4>
                 <br>
                 <h2>FINANCIAL REPORT</h2>
                 <h3 style="border-bottom:1px solid black;display:inline-block; padding-bottom:2px;margin:0">
