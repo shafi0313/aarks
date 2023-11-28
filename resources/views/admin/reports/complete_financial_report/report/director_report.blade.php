@@ -75,9 +75,6 @@
                 <p>b. Reconciliation of CashFlow from Operations with Profit from Ordinary
                     Activities
                     after Income Tax</p><br><br>
-                @if ($data['is_notes_to_financial_statements']==true)
-                @include('admin.reports.complete_financial_report.report.report_footer_note')
-                @endif
                 <p>Dated : {{$data['date']->format('d-M-Y')}}</p>
             </div>
         </div>

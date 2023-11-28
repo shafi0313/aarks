@@ -68,9 +68,6 @@
             <p>Auditor Signature <br>
                 Name of Auditor:{{$client->auditor_name}} <br>
                 Dated : {{$data['date']->format('d-M-Y')}}</p>
-            <p style="text-align: center">The accompanying notes form part of these financial
-                statements. These statements should be
-                read in conjunction with the attached compilation report.</p>
         </div>
     </div>
 </div>

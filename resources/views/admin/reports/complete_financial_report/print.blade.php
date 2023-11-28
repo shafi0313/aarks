@@ -100,66 +100,79 @@
                 @if ($data['is_balance_sheet'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.balance_sheet')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- Income statement REPORT --}}
                 @if ($data['is_incomestatment_note'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.incomestatment_note')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- Details Balance Sheet REPORT --}}
                 @if ($data['is_details_balance_sheet'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.details_balance_sheet')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- DETAILED TRADING, PROFIT & LOSS --}}
                 @if ($data['is_trading_profit_loss'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.trading_profit_loss')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- Trail Balance Sheet REPORT --}}
                 @if ($data['is_trial_balance'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.trial_balance')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- cash_flow_statement REPORT --}}
                 @if ($data['is_cash_flow_statement'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.cash_flow_statement')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- statement_of_receipts_and_payments --}}
                 @if ($data['is_statement_of_receipts_and_payments'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.statement_of_receipts_and_payments')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- Depriciation REPORT --}}
                 @if ($data['is_depreciation'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.console_financial_report.report.depreciation')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- Notes to financial statements --}}
                 @if ($data['is_notes_to_financial_statements'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.notes_to_financial_statements')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- Directors' report REPORT --}}
                 @if ($data['is_directors_report'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.director_report')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- DIRECTORS' DECLARATION REPORT --}}
                 @if ($data['is_directors_declaration'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.director_declaration')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- Audit REPORT --}}
                 @if ($data['is_audit_report'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.audit')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 {{-- compilation REPORT --}}
                 @if ($data['is_compilation_report'] == true)
                     <div class="page-break"></div>
                     @include('admin.reports.complete_financial_report.report.compilation')
+                    @include('admin.reports.financial-report-footer')
                 @endif
                 <div class="row">
                     <div class="col-md-12" style="margin: 0 auto; float: none;">

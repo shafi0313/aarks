@@ -27,9 +27,6 @@
             </p>
             <p>Director : {{$client->director_name}}</p>
             <p>Dated : {{$data['date']->format('d-M-Y')}}</p><br>
-            @if ($data['is_notes_to_financial_statements']==true)
-            @include('admin.reports.complete_financial_report.report.report_footer_note')
-            @endif
         </div>
     </div>
 </div>

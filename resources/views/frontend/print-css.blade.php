@@ -564,4 +564,18 @@
         top: 96px;
         transform: rotate(-90deg) translateX(0%);
     }
+
+    footer {
+        position: fixed;
+        bottom: -20px;
+        left: 0px;
+        right: 0px;
+        /* height: 50px; */
+
+        /** Extra personal styles **/
+        /* background-color: #03a9f4;
+        color: white;
+        text-align: center;
+        line-height: 35px; */
+    }
 </style>
