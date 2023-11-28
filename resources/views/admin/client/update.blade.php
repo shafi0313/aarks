@@ -400,7 +400,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-12">
+                                                {{-- <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label style="font-size:20px;">GST Method:<span
                                                                 style="color:red;"></span></label>
@@ -410,9 +410,9 @@
                                                         <input type="radio" name="gst_method" value="1"
                                                             {{ $client->gst_method == 1 ? 'checked' : '' }} class="gstMethod">Cash
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
-                                                {{-- <div class="col-md-12">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label style="font-size:20px;">GST Method:<span
                                                                 style="color:red;"></span></label>
@@ -424,7 +424,7 @@
                                                             {{ $client->gst_method == 1 ? 'checked' : '' }} class="gstMethod"
                                                             {{ $client->is_gst_enabled == 0 ? 'disabled' : '' }}>Cash
                                                     </div>
-                                                </div> --}}
+                                                </div>
 
                                                 <div class="col-md-12">
                                                     <label style="font-size:20px;">Profession<span

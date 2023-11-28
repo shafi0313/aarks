@@ -7,9 +7,9 @@
         </tr>
         <tr class="tr-center">
             <td>Date</td>
-            @if (empty($print))
+            {{-- @if (empty($print)) --}}
                 <td>Particular</td>
-            @endif
+            {{-- @endif --}}
             <td class="center">Transaction Id</td>
             <td>JFL</td>
             <td>Dr.amount</td>
@@ -84,11 +84,11 @@
             @endphp
             <tr>
                 <td>{{ $gen_ledger->date->format('d/m/Y') }}</td>
-                @if (empty($print))
+                {{-- @if (empty($print)) --}}
                     <td>{{ $gen_ledger->narration ?? '' }}
                         {{-- for narration view click <i class="fa fa-hand-o-right" aria-hidden="true"></i> --}}
                     </td>
-                @endif
+                {{-- @endif --}}
 
                 <td class="center">
                     <a href="{{ route($url, [$gen_ledger->transaction_id, $gen_ledger->source]) }}"
