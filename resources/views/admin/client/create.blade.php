@@ -146,8 +146,6 @@
                                                 </div>
                                             </div>
 
-
-
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="person_color">Tax File Number</label>
@@ -156,7 +154,21 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="person_color">Charitable License Number</label>
+                                                    <input type="text" class="form-control" name="charitable_number"
+                                                        value="{{ old('charitable_number') }}">
+                                                </div>
+                                            </div>
 
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="person_color">IRAN Number</label>
+                                                    <input type="text" class="form-control" name="iran_number"
+                                                        value="{{ old('iran_number') }}">
+                                                </div>
+                                            </div>
 
                                             <div class="col-md-4">
                                                 <div class="form-group">
@@ -167,8 +179,6 @@
                                                 </div>
                                             </div>
 
-
-
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="person_color">Suburb<span
@@ -177,7 +187,6 @@
                                                         value="{{ old('suburb') }}">
                                                 </div>
                                             </div>
-
 
                                             <div class="col-md-4">
                                                 <div class="form-group">

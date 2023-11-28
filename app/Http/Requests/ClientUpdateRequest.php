@@ -34,6 +34,8 @@ class ClientUpdateRequest extends FormRequest
             'abn_number'            => 'required|integer|digits:11|unique:clients,abn_number,' . $this->client->id,
             'branch'                => 'required|integer|digits:1',
             'tax_file_number'       => 'nullable|string|min:6|max:10',
+            'charitable_number'     => 'nullable|string|max:191',
+            'iran_number'           => 'nullable|string|max:191',
             'street_address'        => 'required|max:191',
             'suburb'                => 'required|max:191',
             'state'                 => 'required|max:191',

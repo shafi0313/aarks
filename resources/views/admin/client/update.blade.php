@@ -160,18 +160,29 @@
                                                     </div>
                                                 </div>
 
-
-
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="person_color">Tax File Number <span
-                                                                style="color:red;">*</span></label>
+                                                        <label class="person_color">Tax File Number</label>
                                                         <input type="text" class="form-control" name="tax_file_number"
                                                             value="{{ $client->tax_file_number }}">
                                                     </div>
                                                 </div>
 
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="person_color">Charitable License Number</label>
+                                                        <input type="text" class="form-control" name="charitable_number"
+                                                            value="{{ $client->charitable_number }}">
+                                                    </div>
+                                                </div>
 
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="person_color">IRAN Number</label>
+                                                        <input type="text" class="form-control" name="iran_number"
+                                                            value="{{ $client->iran_number }}">
+                                                    </div>
+                                                </div>
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -182,8 +193,6 @@
                                                     </div>
                                                 </div>
 
-
-
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="person_color">Suburb<span
@@ -192,7 +201,6 @@
                                                             value="{{ $client->suburb }}">
                                                     </div>
                                                 </div>
-
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
