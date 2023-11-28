@@ -2,7 +2,11 @@
     <div class="row justify-content-center">
         <div class="col-12 text-center">
             <h3 class="company_name">{{$client->fullname}}</h3>
-            <h4 class="company_name">ABN {{$client->abn_number}}</h4>
+            <h4 class="company_name">
+                ABN {{$client->abn_number}}
+                {{ $client->charitable_number?', Charitable License Number '.$client->charitable_number:'' }}
+                {{ $client->iran_number?', IRAN Number '.$client->iran_number:'' }}
+            </h4>
             <h5 class="report_name">COMPILATION REPORT TO {{$client->fullname}}</h5>
             {{-- <h5 style="border-bottom:1px solid black;display:inline-block; padding-bottom:2px;margin:0">For the
                 year ended
