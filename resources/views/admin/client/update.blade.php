@@ -388,7 +388,7 @@
 
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label style="font-size:20px;">GST Resgitaration:<span
+                                                        <label style="font-size:20px;">GST Registration:<span
                                                                 style="color:red;"></span></label>
                                                         <br />
                                                         <input type="radio" name="is_gst_enabled" value="1"
@@ -406,13 +406,25 @@
                                                                 style="color:red;"></span></label>
                                                         <br />
                                                         <input type="radio" name="gst_method" value="2"
+                                                            {{ $client->gst_method == 2 ? 'checked' : '' }} class="gstMethod">Accrued
+                                                        <input type="radio" name="gst_method" value="1"
+                                                            {{ $client->gst_method == 1 ? 'checked' : '' }} class="gstMethod">Cash
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label style="font-size:20px;">GST Method:<span
+                                                                style="color:red;"></span></label>
+                                                        <br />
+                                                        <input type="radio" name="gst_method" value="2"
                                                             {{ $client->gst_method == 2 ? 'checked' : '' }} class="gstMethod"
                                                             {{ $client->is_gst_enabled == 0 ? 'disabled' : '' }}>Accrued
                                                         <input type="radio" name="gst_method" value="1"
                                                             {{ $client->gst_method == 1 ? 'checked' : '' }} class="gstMethod"
                                                             {{ $client->is_gst_enabled == 0 ? 'disabled' : '' }}>Cash
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="col-md-12">
                                                     <label style="font-size:20px;">Profession<span
@@ -494,12 +506,12 @@
     <script src="{{ asset('admin/assets/js/ace-elements.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/ace.min.js') }}"></script>
     <script>
-        $("#gstNo").on('click', function() {
-            $(".gstMethod").attr('disabled', true)
-        })
-        $("#gstYes").on('click', function() {
-            $(".gstMethod").attr('disabled', false)
-        })
+        // $("#gstNo").on('click', function() {
+        //     $(".gstMethod").attr('disabled', true)
+        // })
+        // $("#gstYes").on('click', function() {
+        //     $(".gstMethod").attr('disabled', false)
+        // })
     </script>
     <!-- inline scripts related to this page -->
     <script type="text/javascript">

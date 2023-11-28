@@ -53,8 +53,8 @@ class ClientUpdateRequest extends FormRequest
             'password'              => 'nullable|string|min:8|max:191|confirmed',
             'password_confirmation' => 'nullable|string|same:password',
             'services'              => 'required|max:191',
-            'is_gst_enabled'        => 'nullable|integer|max:1',
-            'gst_method'            => 'nullable|integer|max:11',
+            'is_gst_enabled'        => 'required|integer|max:1',
+            'gst_method'            => 'required|integer|max:11',
             'professions'           => 'required|max:191',
             'website'               => 'nullable|string|max:191',
         ];
