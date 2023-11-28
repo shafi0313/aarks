@@ -52,7 +52,7 @@ class CompleteFinancialReportTFController extends Controller
         return view('admin.reports.complete_financial_report_t_f.final_report', $data);
     }
 
-    public function print(Client $client, Profession $profession, Request $request, CompleteFinancial $complete)
+    public function print(Client $client, Profession $profession, Request $request, CompleteFinancialTFAction $complete)
     {
         $data = $complete->report($request, $client, $profession);
 
@@ -63,6 +63,6 @@ class CompleteFinancialReportTFController extends Controller
 
         // return view('admin.reports.complete_financial_report_t_f.print', $data);
         $pdf = PDF::loadView('admin.reports.complete_financial_report_t_f.print', $data);
-        return $pdf->stream('Complete Financial Report.pdf');
+        return $pdf->stream('Complete Financial Report T Form.pdf');
     }
 }
