@@ -271,7 +271,7 @@ class CompleteFinancial extends Controller
         }
         if ($request->has('cash_flow_statement')) {
             $data['is_cash_flow_statement'] = true;
-            $data['cash_flow_statement'] = 'STATEMENT OF CASH FLOW';
+            $data['cash_flow_statement'] = 'Statement of Cash Flow';
             $bst_inp = GeneralLedger::where('client_id', $client->id)
                 ->where('profession_id', $profession->id)
                 ->where('chart_id', 'like', "1%")
