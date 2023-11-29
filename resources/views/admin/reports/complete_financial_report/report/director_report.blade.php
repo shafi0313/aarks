@@ -33,7 +33,7 @@
                     the
                     financial year.</p>
                 <p>The principal activities of the economic entity during the financial year were
-                    "{{optional($profession)->name}}".
+                    {{-- "{{optional($profession)->name}}". --}}
                 </p>
                 <p>No significant change in the nature of these activities occurred during the year.
                 </p>

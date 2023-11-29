@@ -48,7 +48,7 @@
                     <td style="width: 30px; vertical-align: top">b.</td>
                     <td>
                         <p><b>Inventories</b></p>
-                        <p>Inventories are measured at the lower of cost and net realisable value. Costs are assigned on
+                        <p>Inventories are measured at the lower of cost and net realizable value. Costs are assigned on
                             a first-in first-out
                             basis and include direct materials, direct labour and an appropriate proportion of variable
                             and fixed overhead
