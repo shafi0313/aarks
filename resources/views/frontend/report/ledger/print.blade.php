@@ -12,7 +12,11 @@
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     @include('frontend.print-css')
 </head>
-
+<style>
+    body {
+        font-size: 12px;
+    }
+</style>
 <body>
     <div class="container">
         <div class="row justify-content-center">
