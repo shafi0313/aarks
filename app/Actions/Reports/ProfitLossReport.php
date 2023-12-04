@@ -123,8 +123,8 @@ class ProfitLossReport
                 ->where('profession_id', $profession_id)
                 ->groupBy('chart_id')
                 ->orderBy('chart_id')
-                // ->dd();
                 ->get();
+
             $expensCodes = GeneralLedger::with(['client_account_code' => fn ($q) => $q->select(clientAccountCodeSetVisible())])
                 ->select('*', DB::raw('sum(debit) as inDebit', DB::raw('sum(credit) as eCredit')))
                 ->Where('chart_id', 'like', '2%')
