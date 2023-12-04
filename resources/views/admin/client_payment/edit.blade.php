@@ -93,20 +93,17 @@
                                         <th>Receipt</th>
                                     </tr>
                                     <tr>
-                                        @php
-                                            $q = ((strtotime($payment->expire_at->format('Y-m-d')) - strtotime(now()->format('Y-m-d'))) / 60 / 60 / 24)/30
-                                        @endphp
                                         <td>
                                             <input type="number" step="any" class="form-control" name="sales_quotation"
-                                                id="sales_quotation" value="{{ $q * $quation }}">
+                                                id="sales_quotation" value="{{ $quation }}">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="form-control" name="invoice"
-                                                id="invoice" value="{{ $q * $invoice }}">
+                                                id="invoice" value="{{ $invoice }}">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="form-control" name="receipt"
-                                                id="receipt" value="{{ $q * $receipt }}">
+                                                id="receipt" value="{{ $receipt }}">
                                         </td>
                                     </tr>
                                 </table>
@@ -123,15 +120,15 @@
                                         <td>
                                             <input type="number" step="any" class="form-control"
                                                 name="purchase_quotation" id="purchase_quotation"
-                                                value="{{ $q * $bill_quation }}">
+                                                value="{{ $bill_quation }}">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="form-control" name="bill"
-                                                id="bill" value="{{ $q * $bill }}">
+                                                id="bill" value="{{ $bill }}">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="form-control" name="payment"
-                                                id="payment" value="{{ $q * $bill_payment }}">
+                                                id="payment" value="{{ $bill_payment }}">
                                         </td>
                                     </tr>
                                 </table>

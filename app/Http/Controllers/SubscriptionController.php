@@ -133,20 +133,20 @@ class SubscriptionController extends Controller
         ]);
         $plan = Subscription::findOrFail($request->subscription_id);
 
-        $data['sales_quotation']    = $plan->sales_quotation;
-        $data['purchase_quotation'] = $plan->purchase_quotation;
-        $data['invoice']            = $plan->invoice;
-        $data['bill']               = $plan->bill;
-        $data['receipt']            = $plan->receipt;
-        $data['payment']            = $plan->payment;
-        $data['payslip']            = $plan->payslip;
+        $data['sales_quotation']    = $plan->sales_quotation * $request->duration;
+        $data['purchase_quotation'] = $plan->purchase_quotation * $request->duration;
+        $data['invoice']            = $plan->invoice * $request->duration;
+        $data['bill']               = $plan->bill * $request->duration;
+        $data['receipt']            = $plan->receipt * $request->duration;
+        $data['payment']            = $plan->payment * $request->duration;
+        $data['payslip']            = $plan->payslip * $request->duration;
         $data['discount']           = $plan->discount;
         $data['access_report']      = $plan->access_report;
         $data['customer_support']   = $plan->customer_support;
         $data['started_at']         = now();
         $data['expire_at']          = now()->addMonth($request->duration);
 
-        $rcpt         = $request->file('rcpt');
+        $rcpt = $request->file('rcpt');
         if ($request->hasFile('rcpt')) {
             $rcptNew  = "payment_rcpt_" . Str::random(5) . '.' . $rcpt->getClientOriginalExtension();
             if ($rcpt->isValid()) {
