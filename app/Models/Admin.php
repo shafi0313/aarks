@@ -6,13 +6,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
-
-class Admin extends Authenticatable  implements Auditable
+class Admin extends Authenticatable
 {
     use SoftDeletes, HasRoles, CausesActivity;
-    use \OwenIt\Auditing\Auditable;
 
     protected $guard   = 'admin';
     protected $guarded = ['id'];
