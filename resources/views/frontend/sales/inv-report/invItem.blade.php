@@ -85,7 +85,7 @@
                                         <span>Phone : {{ $customer->phone }}</span><br>
                                         <span>E-mail : {{ $customer->email }}</span> <br>
                                         <strong>Website: <a
-                                                href="{{ $client->website }}">{{ $client->website }}</a></strong>
+                                                href="{{ $client->website }}">{{ $client->website }}</a></strong><br>
                                     </div>
                                 @endif
                             </div>

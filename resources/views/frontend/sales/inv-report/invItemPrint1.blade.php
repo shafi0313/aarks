@@ -114,7 +114,7 @@
                 <strong>{{ $client->state }} {{ $client->post_code }}</strong>
                 <strong>Phone: {{ $client->phone }}</strong><br>
                 <strong>E-mail: {{ $client->email }}</strong> <br>
-                <strong>Website: <a href="{{ $client->website }}">{{ $client->website }}</a></strong>
+                <strong>Website: <a href="{{ $client->website }}">{{ $client->website }}</a></strong><br>
             </div>
         </div>
 

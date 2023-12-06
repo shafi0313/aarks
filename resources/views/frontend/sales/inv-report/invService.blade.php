@@ -31,11 +31,12 @@
                                 @endphp
                                 <strong style="font-size:25px;">{{ clientName($client) }}</strong><br>
                                 <strong>A.B.N : {{ $client->abn_number }}</strong><br>
-                                <strong> {{ $client->street_address }}</strong><br>
+                                <strong> {{ $client->street_address }}, </strong>
                                 <strong>{{ $client->suburb }}</strong><br>
                                 <strong>{{ $client->state }} {{ $client->post_code }}</strong>
                                 <strong>Phone: {{ $client->phone }}</strong><br>
                                 <strong>E-mail: {{ $client->email }}</strong><br>
+                                <strong>Website: <a href="{{ $client->website }}">{{ $client->website }}</a></strong><br>
                             </div>
 
                             <div class="col-md-12 text-center" style="font-size: 25px; font-weight: bold">

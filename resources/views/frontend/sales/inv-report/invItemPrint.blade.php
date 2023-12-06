@@ -38,11 +38,12 @@
                             @endphp
                             <strong style="font-size:25px;">{{ $client->fullname }}</strong><br>
                             <span>A.B.N : {{ $client->abn_number }}</span><br>
-                            <span> {{ $client->street_address }}</span><br>
+                            <span> {{ $client->street_address }}, </span>
                             <span>{{ $client->suburb }}</span><br>
                             <span>{{ $client->state }} {{ $client->post_code }}</span>
                             <span>Phone: {{ $client->phone }}</span><br>
                             <span>E-mail: {{ $client->email }}</span><br>
+                            <strong>Website: <a href="{{ $client->website }}">{{ $client->website }}</a></strong><br>
                         </td>
                     </tr>
                 </table>
