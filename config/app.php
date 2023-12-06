@@ -197,6 +197,7 @@ return [
         BugsnagServiceProvider::class,
         GeoIPServiceProvider::class,
         AuditingServiceProvider::class,
+        OwenIt\Auditing\AuditingServiceProvider::class,
         PermissionServiceProvider::class,
         ExcelServiceProvider::class,
         /*
