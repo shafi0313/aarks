@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Admin;
 use App\Models\Client;
 use App\Models\Period;
@@ -10,9 +11,11 @@ use App\Models\BudgetEntry;
 use App\Models\VisitorInfo;
 use App\Models\DepAssetName;
 use Illuminate\Http\Request;
+use App\Models\GeneralLedger;
 use App\Models\MasterAccountCode;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Schema;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminDashboardController extends Controller
@@ -95,8 +98,8 @@ class AdminDashboardController extends Controller
                     $years = BudgetEntry::where('client_id', $request->client_id)->where('profession_id', $request->profession_id)->selectRaw('YEAR(date) as year,date')->get()->groupBy(['year', 'date']);
                     $html = '';
                     foreach ($years as $i => $year) {
-                        $ii = $i +1;
-                        $html .= "<tr><td>{$ii } =>";
+                        $ii = $i + 1;
+                        $html .= "<tr><td>{$ii} =>";
                         foreach ($year as $date) {
                             $date1 = $date->first()->date->format('d/m/Y');
                             $date2 = $date->first()->date->addYear()->format('d/m/Y');
