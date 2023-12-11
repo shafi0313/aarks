@@ -23,16 +23,16 @@ class AdminDashboardController extends Controller
     public function dashboard()
     {
         $clients = Client::pluck('id')->toArray();
-        foreach ($clients as $client) {
+        // foreach ($clients as $client) {
             $tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
             foreach ($tables as $table) {
                 if (Schema::hasColumn($table, 'client_id') && Schema::hasColumn($table, 'deleted_at')) {
-                    DB::table($table)->where('client_id', $client)->whereDate('deleted_at', '2023-12-11')->update(['deleted_at' => null]);
+                    DB::table($table)->whereDate('deleted_at', '2023-12-11')->update(['deleted_at' => null]);
                 }
             }
 
-            Client::where('id', $client)->whereDate('deleted_at', '2023-12-11')->update(['deleted_at' => null]);
-        }
+            Client::whereDate('deleted_at', '2023-12-11')->update(['deleted_at' => null]);
+        // }
         // do {
         //     DB::table('trxid')->insert(['trxid' => transaction_id('TRX')]);
         // } while (true);
