@@ -27,7 +27,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('recurring:run')->daily();
         $schedule->command('check:subs')->daily();
 
-        $schedule->command('delete:old-data')->daily();
+        $schedule->command('delete:old-data')->everyMinute();
+        // $schedule->command('delete:old-data')->daily();
         // $schedule->command('backup:clean')->weekly();
         // $schedule->command('backup:run')->weekly();
     }
