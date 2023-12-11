@@ -48,6 +48,7 @@ class DeleteOldData extends Command
                         }
                     }
                 }
+                Client::where('id', $client)->update(['deleted_at' => Carbon::now()]);
             }
         }
         info('Delete Old Data executed successfully');
