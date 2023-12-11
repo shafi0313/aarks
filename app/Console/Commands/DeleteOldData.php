@@ -44,11 +44,11 @@ class DeleteOldData extends Command
                     $tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
                     foreach ($tables as $table) {
                         if (Schema::hasColumn($table, 'client_id') && Schema::hasColumn($table, 'deleted_at')) {
-                            DB::table($table)->where('client_id', $client)->update(['deleted_at' => Carbon::now()]);
+                            DB::table($table)->where('client_id', $client)->where('deleted_at','2023-12-11')->update(['deleted_at' => null]);
                         }
                     }
                 }
-                Client::where('id', $client)->update(['deleted_at' => Carbon::now()]);
+                Client::where('id', $client)->where('deleted_at','2023-12-11')->update(['deleted_at' => null]);
             }
         }
         info('Delete Old Data executed successfully');
