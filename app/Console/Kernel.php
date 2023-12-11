@@ -19,18 +19,16 @@ class Kernel extends ConsoleKernel
         //     info('MANOAR '. now());
         // })->everyMinute();
 
-        // $schedule->command('inspire')->hourly();
-
-        // $schedule->command('db:backup')->everyMinute();
-        //  ->daily();
-        $schedule->command('recurring:run')->everyMinute();
-        // $schedule->command('recurring:run')->daily();
-        $schedule->command('check:subs')->daily();
-
-        $schedule->command('delete:old-data')->everyMinute();
-        // $schedule->command('delete:old-data')->daily();
+        // $schedule->command('db:backup')->daily();
         // $schedule->command('backup:clean')->weekly();
         // $schedule->command('backup:run')->weekly();
+
+        // Recurring invoice
+        $schedule->command('recurring:run')->everyMinute();
+        // Check subscription status
+        $schedule->command('check:subs')->daily();
+        // Delete 6 years old data from database
+        $schedule->command('delete:old-data')->daily();
     }
 
     /**
