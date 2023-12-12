@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Service;
 use App\Models\Profession;
 use Illuminate\Http\Request;
+use App\Actions\LoggingInfoAction;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use PragmaRX\Google2FALaravel\Facade as TwoFactor;
 use App\Actions\AccountCodeActions\CopyClientAccountCode;
 use App\Actions\AccountCodeActions\DeleteClientAccountCode;
+use Browser;
 
 class ClientController extends Controller
 {
@@ -264,6 +266,7 @@ class ClientController extends Controller
             'email'    => ['required', 'email'],
             'password' => ['required', 'min:5'],
         ]);
+
         $client = Client::whereEmail($request->email)->first();
         if ($client && $client->two_factor_secret) {
             $this->validate($request, [
@@ -271,6 +274,7 @@ class ClientController extends Controller
             ]);
             if (TwoFactor::verifyKey($client->two_factor_secret, $request->code)) {
                 if ($this->isUserAuthenticated($request)) {
+                    LoggingInfoAction::login($request);
                     return redirect()->route('index');
                 }
             } else {
@@ -280,6 +284,7 @@ class ClientController extends Controller
             }
         }
         if ($this->isUserAuthenticated($request)) {
+            LoggingInfoAction::login($request);
             return redirect()->route('index');
         }
         return redirect()->back()->withErrors([
@@ -318,9 +323,12 @@ class ClientController extends Controller
         ], $remember);
         // return true;
     }
+
+
     public function logout(Request $request)
     {
         $this->guard('client')->logout();
+        LoggingInfoAction::logout($request);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login');

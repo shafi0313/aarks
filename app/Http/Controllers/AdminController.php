@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use App\Models\Admin;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Actions\LoggingInfoAction;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -181,6 +182,7 @@ class AdminController extends Controller
             ]);
             if (TwoFactor::verifyKey($admin->two_factor_secret, $request->code)) {
                 if ($this->isUserAuthenticated($request)) {
+                    LoggingInfoAction::login($request);
                     return redirect()->intended(route($this->default_admin_redirect_route));
                 }
             } else {
@@ -217,6 +219,7 @@ class AdminController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
+        LoggingInfoAction::logout($request);
         $request->session()->invalidate();
         return redirect()->route('admin.login');
     }

@@ -12,6 +12,7 @@
         "bugsnag/bugsnag-laravel": "^2.25",
         "doctrine/dbal": "^3.5",
         "guzzlehttp/guzzle": "^7.2",
+        "hisorange/browser-detect": "^4.5",
         "laravel/framework": "^10.0",
         "laravel/passport": "^11.3",
         "laravel/sanctum": "^3.2",
