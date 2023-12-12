@@ -96,7 +96,7 @@
             correct, and the agent is authorised to lodge this TAX / BAS / GST
             return.<br />
             <b>Tax file number : </b> ABN :{{ $client->abn_number }} , Year : {{ $period->year }} Period :
-            {{ $period->start_date->format('d/m/Y') }} - {{ $period->end_date->format('d/m/Y') }}
+            {{ bdDate($period->start_date) }} - {{ bdDate($period->end_date) }}
         </p>
         <button class="btn btn-primary pull-right btn-lg" disabled>Submit</button>
     </div>

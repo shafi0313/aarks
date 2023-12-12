@@ -235,25 +235,30 @@ if (!function_exists('notEmpty')) {
 if (!function_exists('periodLock')) {
     function periodLock(int $client_id, $date)
     {
-        if (is_object($date)) {
-            $lock = PeriodLock::where('client_id', $client_id)
-                ->where('date', '>=', $date->format('Y-m-d'))
-                ->first();
-        } else {
-            $lock = '';
+        if (is_array($date)) {
+            $lock = null; // Initialize $lock as null
             foreach ($date as $d) {
-                $lock = PeriodLock::where('client_id', $client_id)
+                $currentLock = PeriodLock::where('client_id', $client_id)
                     ->where('date', '>=', $d->format('Y-m-d'))
                     ->first();
+
+                // Check if a lock exists for the current date and update $lock accordingly
+                if (!is_null($currentLock)) {
+                    $lock = $currentLock;
+                    break; // Exit the loop as soon as a lock is found
+                }
             }
-        }
-        if (!empty($lock)) {
-            return true;
         } else {
-            return false;
+            $lock = PeriodLock::where('client_id', $client_id)
+                ->where('date', '>=', $date)
+                ->first();
         }
+
+        return !is_null($lock);
     }
 }
+
+
 if (!function_exists('niceSize')) {
     function niceSize($bytes)
     {

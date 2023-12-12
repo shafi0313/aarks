@@ -1,68 +1,68 @@
 <div class="" style="padding-top:0px;">
-@if ($errors->any())
-<span class="text-danger">{{$errors->first()}}</span>
-@endif
-    <form id="addForm" action="{{route('dataStore.store')}}" method="post" autocomplete="off">
+    @if ($errors->any())
+        <span class="text-danger">{{ $errors->first() }}</span>
+    @endif
+    <form id="addForm" action="{{ route('dataStore.store') }}" method="post" autocomplete="off">
         @csrf
-        <input type="hidden" name="clientId" value="{{$client->id}} ">
-        <input type="hidden" name="professionId" value="{{$professions->id}} ">
-        <input type="hidden" name="periodId" value="{{$period->id}} ">
-        <input type="hidden" name="fyear" value="{{$period->year}} ">
-        <input type="hidden" name="startDate" value="{{$period->start_date}} ">
-        <input type="hidden" name="endDate" value="{{$period->end_date}} ">
-        <input type="hidden" name="chartId" value="{{$sub_profession->code}} ">
-        <input type="hidden" name="code_id" value="{{$client_account->id}} ">
-        <input type="hidden" name="sub_cat_type" value="{{$sub_profession->type}} ">
-        <input type="hidden" name="gst_method" value="{{$client->gst_method}} ">
-        <input type="hidden" name="gst_code" value="{{$sub_profession->gst_code}} ">
-        <input type="hidden" name="is_gst_enabled" value="{{$client->is_gst_enabled}} ">
+        <input type="hidden" name="clientId" value="{{ $client->id }} ">
+        <input type="hidden" name="professionId" value="{{ $professions->id }} ">
+        <input type="hidden" name="periodId" value="{{ $period->id }} ">
+        <input type="hidden" name="fyear" value="{{ $period->year }} ">
+        <input type="hidden" name="startDate" value="{{ $period->start_date }} ">
+        <input type="hidden" name="endDate" value="{{ $period->end_date }} ">
+        <input type="hidden" name="chartId" value="{{ $sub_profession->code }} ">
+        <input type="hidden" name="code_id" value="{{ $client_account->id }} ">
+        <input type="hidden" name="sub_cat_type" value="{{ $sub_profession->type }} ">
+        <input type="hidden" name="gst_method" value="{{ $client->gst_method }} ">
+        <input type="hidden" name="gst_code" value="{{ $sub_profession->gst_code }} ">
+        <input type="hidden" name="is_gst_enabled" value="{{ $client->is_gst_enabled }} ">
         <strong class="datelock"></strong>
         <table width="100%" border="1" cellspacing="0" cellpadding="0">
             <tbody>
                 <tr>
                     <td style="width:12%">
                         <input type="text" id="date" class="form-control" name="date" style="width:100%"
-                            value="{{$period->end_date->format('d/m/Y')}}">
+                            value="{{ bdDate($period->end_date) }}">
                     </td>
                     <td style="width:10%">
-                        <input type="text" id="amount" name="amount" style="width:100%"
-                            placeholder=" Amount $">
+                        <input type="text" id="amount" name="amount" style="width:100%" placeholder=" Amount $">
                     </td>
-                    @if ($sub_profession->gst_code === 'GST' ||
-                    $sub_profession->gst_code === 'CAP' ||
-                    $sub_profession->gst_code === 'INP')
-                    <td style="width:8%" id="gstfild">
-                        <input class="gst form-control" type="number" id="gstamt" name="gstamt" style="width:100%" placeholder=" GST $">
-                    </td>
-                    <td style="width:9%" id="totalinvfild">
-                        <input class="totalinv form-control" type="text" id="totalinv" name="totalinv" style="width:100%" placeholder=" T/Inv $">
-                    </td>
+                    @if ($sub_profession->gst_code === 'GST' || $sub_profession->gst_code === 'CAP' || $sub_profession->gst_code === 'INP')
+                        <td style="width:8%" id="gstfild">
+                            <input class="gst form-control" type="number" id="gstamt" name="gstamt"
+                                style="width:100%" placeholder=" GST $">
+                        </td>
+                        <td style="width:9%" id="totalinvfild">
+                            <input class="totalinv form-control" type="text" id="totalinv" name="totalinv"
+                                style="width:100%" placeholder=" T/Inv $">
+                        </td>
                     @else
-                    <td style="width:8%" id="gstfild">
-                        <input class="gst form-control" type="number" id="gstamt" name="gstamt" style="width:100%" placeholder=" GST $" disabled>
-                    </td>
-                    <td style="width:9%" id="totalinvfild">
-                        <input class="totalinv form-control" type="text" id="totalinv" name="totalinv" style="width:100%" placeholder=" T/Inv $" disabled>
-                    </td>
+                        <td style="width:8%" id="gstfild">
+                            <input class="gst form-control" type="number" id="gstamt" name="gstamt"
+                                style="width:100%" placeholder=" GST $" disabled>
+                        </td>
+                        <td style="width:9%" id="totalinvfild">
+                            <input class="totalinv form-control" type="text" id="totalinv" name="totalinv"
+                                style="width:100%" placeholder=" T/Inv $" disabled>
+                        </td>
                     @endif
                     <td style="width:10%" id="balancefiled">
-                        <input class="balance" type="text" id="balance"
-                            name="balance" style="width:100%" placeholder=" Balance" readonly>
+                        <input class="balance" type="text" id="balance" name="balance" style="width:100%"
+                            placeholder=" Balance" readonly>
                     </td>
                     <td style="width:10%">
                         <input type="text" id="percentile" name="percentile" style="width:100%"
                             placeholder=" %">
                     </td>
                     <td style="width:40%">
-                        <input type="text" id="note" name="note" style="width:100%"
-                            placeholder=" Note">
+                        <input type="text" id="note" name="note" style="width:100%" placeholder=" Note">
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <div style="font-weight:16px; font-weight:800; color:red;">Total Entry = {{$data->count()}} <strong
-                style="margin-left:80px;">Total Balance : $ {{ $balance}}</strong></div>
+        <div style="font-weight:16px; font-weight:800; color:red;">Total Entry = {{ $data->count() }} <strong
+                style="margin-left:80px;">Total Balance : $ {{ $balance }}</strong></div>
 
         <div class="mgs"></div>
         <button type="submit" class="valueempty" id="date_inv_submit" style="padding:0px;"></button>
@@ -360,9 +360,7 @@
     });
     */
 
-		function ConfirmDelete(){
-			return confirm('Are you sure delete this data?');
-		}
-
-
+    function ConfirmDelete() {
+        return confirm('Are you sure delete this data?');
+    }
 </script>

@@ -166,7 +166,7 @@ class PeriodController extends Controller
 
         // Check Period Lock
         if (periodLock($client->id, $period->end_date)) {
-            Alert::error('Your enter data period is locked, check administration');
+            Alert::error('Your entered data period is locked, check administration');
             return back();
         }
 
@@ -206,7 +206,7 @@ class PeriodController extends Controller
             return $error;
         }
 
-        
+
 
         $start_date    = $period->start_date->format('Y-m-d');
         $end_date      = $period->end_date->format('Y-m-d');
