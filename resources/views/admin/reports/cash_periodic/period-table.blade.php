@@ -8,9 +8,9 @@
         <div class="col-md-3">
             <strong class="pull-right" style="color:#00CC66; padding-right:10px;">
                 <u>
-                    {{ $period->start_date->format(aarks('frontend_date_format')) }}
+                    {{ bdDate($period->start_date) }}
                     to
-                    {{ $period->end_date->format(aarks('frontend_date_format')) }}
+                    {{ bdDate($period->end_date) }}
                 </u>
             </strong>
             <table class="table table-bordered table-hover table-striped">
@@ -23,8 +23,8 @@
                 @if (isset($accrueds[$period->id]))
                     @php
                         $arr_accrueds = $accrueds[$period->id]
-                            ->where('trn_date', '>=', $period->start_date->format('Y-m-d'))
-                            ->where('trn_date', '<=', $period->end_date->format('Y-m-d'))
+                            ->where('trn_date', '>=', $period->start_date)
+                            ->where('trn_date', '<=', $period->end_date)
                             ->groupBy('chart_code');
                         $code = '';
                     @endphp

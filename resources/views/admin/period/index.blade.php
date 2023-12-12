@@ -120,9 +120,9 @@
                                             @foreach ($periods as $period)
                                                 <tr>
                                                     <td>{{ $period->year }}</td>
-                                                    <td>{{ $period->start_date->format(aarks('frontend_date_format')) }}
+                                                    <td>{{ bdDate($period->start_date) }}
                                                     </td>
-                                                    <td>{{ $period->end_date->format(aarks('frontend_date_format')) }}</td>
+                                                    <td>{{ bdDate($period->end_date) }}</td>
                                                     @canany(['admin.period.delete'])
                                                         <td class="center">
                                                             <a class="_delete"

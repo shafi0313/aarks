@@ -86,16 +86,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
-                            @foreach ($periods as $period)                            
+
+                            @foreach ($periods as $period)
                                 @php
                                     $dStores = \App\Models\Data_storage::where('period_id', $period->id)->get();
                                 @endphp
                                 <tr class="text-center">
                                     <td>{{ @$i += 1 }}</td>
                                     <td>{{ $period->year }}</td>
-                                    <td>{{ $period->start_date->format(aarks('frontend_date_format')) }}</td>
-                                    <td>{{ $period->end_date->format(aarks('frontend_date_format')) }}</td>
+                                    <td>{{ bdDate($period->start_date) }}</td>
+                                    <td>{{ bdDate($period->end_date) }}</td>
                                     @if (($period->can_delete == 1) & ($dStores->count() <= 0))
                                         <td class="text-center">
                                             <form action="{{ route('client.periodDelete', $period->id) }}" method='post'>
@@ -124,7 +124,7 @@
     <!-- Page Content End -->
     @include('frontend.layout.includes.data_table_js')
 
-    <script>  
+    <script>
         $('#myModal').on('shown.bs.modal', function() {
             $('#myInput').trigger('focus')
         })

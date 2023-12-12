@@ -64,7 +64,7 @@
                 <table class="table table-bordered table-hover table-striped text-right">
                     <tr style="background:#178BFF; color:white;">
                         <th colspan="2" style="text-align:right;">
-                            {{ $period->end_date->format(aarks('frontend_date_format')) }}
+                            {{ bdDate($period->end_date) }}
                         </th>
                     </tr>
                     <!-----1a = ac 1 er gst total------>

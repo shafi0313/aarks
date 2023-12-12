@@ -89,9 +89,9 @@
                                                                 <div class="checkbox-inline px-4">
                                                                     <label>
                                                                         <input type="checkbox" name="peroid_id[]"
-                                                                            value="{{ $per->id }} ">{{ $per->start_date->format(aarks('frontend_date_format')) }}
+                                                                            value="{{ $per->id }} ">{{ bdDate($per->start_date) }}
                                                                         To
-                                                                        {{ $per->end_date->format(aarks('frontend_date_format')) }}
+                                                                        {{ bdDate($per->end_date) }}
                                                                     </label>
                                                                 </div>
                                                             @endforeach

@@ -159,9 +159,9 @@
                                                     <tr class="text-center">
                                                         <td>{{ $i++ }}</td>
                                                         <td>{{ $period->year }}</td>
-                                                        <td>{{ $period->start_date->format(aarks('frontend_date_format')) }}
+                                                        <td>{{ bdDate($period->start_date) }}
                                                         </td>
-                                                        <td>{{ $period->end_date->format(aarks('frontend_date_format')) }}
+                                                        <td>{{ bdDate($period->end_date) }}
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -171,12 +171,11 @@
                                 </div>
                                 @isset($periodLock->date)
                                     <div class="col-xl-4 mb-50">
-                                        <div
-                                            class="gradient-style3 text-white box-shadow border-radius-10 widget-style3">
+                                        <div class="gradient-style3 text-white box-shadow border-radius-10 widget-style3">
                                             <div class="d-flex flex-wrap align-items-center">
                                                 <div class="widget-data">
                                                     <div class="weight-400 font-20">Period lock as at:</div>
-                                                    <div class="weight-300 font-30">{{ ($periodLock->date) }}</div>
+                                                    <div class="weight-300 font-30">{{ $periodLock->date }}</div>
                                                 </div>
                                                 <div class="widget-icon">
                                                     <div class="icon"><i class="fa-solid fa-lock"></i></div>
