@@ -3,6 +3,7 @@
 use App\Models\Period;
 use App\Actions\Creatable;
 use App\Actions\BaseAction;
+use Carbon\Carbon;
 
 class CreateClientPeriodAction extends BaseAction
 {
@@ -69,10 +70,7 @@ class CreateClientPeriodAction extends BaseAction
         }
         $last_created_period_start_date = $client_periods->last()->start_date;
         $last_created_period_end_date = $client_periods->last()->end_date;
-        // info($last_created_period_start_date .' === '. $this->data['start_date']);
-        // info($last_created_period_end_date .' === '. $this->data['end_date']);
-        // info($last_created_period_end_date->addDay(1)->isSameDay($this->data['start_date']));
-        if (!$last_created_period_end_date->addDay(1)->isSameDay($this->data['start_date']) && !$last_created_period_start_date->subDay()->isSameDay($this->data['end_date'])) {
+        if (!Carbon::parse($last_created_period_end_date)->addDay(1)->isSameDay($this->data['start_date']) && !$last_created_period_start_date->subDay()->isSameDay($this->data['end_date'])) {
             throw new \Exception("Your selected date not been continuity........");
         }
     }
