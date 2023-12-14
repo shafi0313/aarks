@@ -19,8 +19,9 @@ class LoggingInfoAction extends Controller
             $userType = 'admin';
             $userId = Auth::guard('admin')->user()->id;
         }
-        
+
         $mfa = $request->two_factor_secret;
+
         $data = [
             'user_id'       => $userId,
             'user_type'     => $userType,
@@ -36,7 +37,7 @@ class LoggingInfoAction extends Controller
             'mfa'           => $mfa ? 1 : 0,
             'mfa_code'      => $mfa ? $mfa : '',
         ];
-        LoggingInfo::create($data);
+        $userId ? LoggingInfo::create($data): '';
     }
 
     public static function logout(Request $request)
@@ -48,6 +49,8 @@ class LoggingInfoAction extends Controller
             $userType = 'admin';
             $userId = Auth::guard('admin')->user()->id;
         }
-        LoggingInfo::whereUserId($userId)->whereUserType($userType)->latest()->first()->update(['logout_at' => now()]);
+        if($userId){
+            LoggingInfo::whereUserId($userId)->whereUserType($userType)->latest()->first()->update(['logout_at' => now()]);
+        }
     }
 }
