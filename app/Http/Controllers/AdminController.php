@@ -198,6 +198,7 @@ class AdminController extends Controller
                 'last_login_at' => Carbon::now()->toDateTimeString(),
                 'last_login_ip' => $request->getClientIp()
             ]);
+            LoggingInfoAction::login($request);
             return redirect()->intended(route($this->default_admin_redirect_route));
         }
 
@@ -218,8 +219,8 @@ class AdminController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
         LoggingInfoAction::logout($request);
+        Auth::guard('admin')->logout();
         $request->session()->invalidate();
         return redirect()->route('admin.login');
     }
