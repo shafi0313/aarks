@@ -818,7 +818,7 @@
         <!-- Logging Audit -->
         @can('admin.logging_audit.index')
             <li class="">
-                <a href="{{ route('logging_audit.index') }}">
+                <a href="{{ route('logging-infos.index') }}">
                     <i class="menu-icon fa fa-user-secret" aria-hidden="true"></i>
                     <span class="menu-text">
                         Logging Audit

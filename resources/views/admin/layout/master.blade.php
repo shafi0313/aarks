@@ -123,6 +123,7 @@
         @include('admin.layout.footer')
         {{-- <!-- /Footer --> --}}
         @include('admin.layout.includes.data_table_js')
+
         <script src="{{ asset('admin/assets/js/jquery-2.1.4.min.js') }}"></script>
         <script src="{{ asset('admin/assets/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript">

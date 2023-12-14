@@ -103,6 +103,7 @@ Route::post('admin/google-2fa-Verify', function () {
 })->name('2faVerify')->middleware('2fa');
 
 Route::get('select-two', [AdminDashboardController::class, 'selectTwo'])->name('select-two');
+
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/profile', [AdminDashboardController::class, 'profile'])->name('admin.profile');
