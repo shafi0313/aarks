@@ -44,6 +44,7 @@ use App\Http\Controllers\Google2faAdminController;
 use App\Http\Controllers\AddDepreciationController;
 use App\Http\Controllers\CashbookDataMoveController;
 use App\Http\Controllers\ClientDataDeleteController;
+use App\Http\Controllers\Admin\LoggingInfoController;
 use App\Http\Controllers\ClientPaymentListController;
 use App\Http\Controllers\Frontend\CashBookController;
 use App\Http\Controllers\Reports\ConsolePLController;
@@ -109,6 +110,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::resource('client', ClientController::class);
     Route::get('client/impersonate/{client}', [ClientController::class, 'impersonate'])->name('impersonate');
     Route::get('/logging-audit', [LoggingAuditController::class, 'index'])->name('logging_audit.index');
+
+    Route::resource('/logging-infos', LoggingInfoController::class)->only(['index', 'show']);
 
     Route::controller(ClientDataDeleteController::class)->prefix('client-data-delete')->name('client.data.')->group(function () {
         Route::get('/password', 'password')->name('password');
