@@ -62,12 +62,12 @@
 
 
     @push('custom_scripts')
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" /> --}}
+        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" /> --}}
 
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
         <script>
             $(function() {
                 $('#data_table').DataTable({
@@ -93,6 +93,80 @@
                             data: 'user_id',
                             name: 'user_id',
                             title: 'User Name',
+                            render: function(data, type, full, meta) {
+                                if (full.user_type === 'client') {
+                                    return full.client_user.company ?? full.client_user.first_name + ' ' + full.client_user.last_name ;
+                                } else {
+                                    return full.admin_user.name;
+                                }
+                            },
+                        },
+                        {
+                            data: 'user_id',
+                            name: 'user_id',
+                            title: 'User Email',
+                            render: function(data, type, full, meta) {
+                                if (full.user_type === 'client') {
+                                    return full.client_user.email;
+                                } else {
+                                    return full.admin_user.email;
+                                }
+                            },
+                        },
+                        {
+                            data: 'user_type',
+                            name: 'user_type',
+                            title: 'User Type',
+                        },
+                        {
+                            data: 'login_at',
+                            name: 'login_at',
+                            title: 'Date Time',
+                        },
+                        {
+                            data: 'logout_at',
+                            name: 'logout_at',
+                            title: 'Session End',
+                        },
+                        {
+                            data: 'duration',
+                            name: 'duration',
+                            title: 'Duration',
+                        },
+                        {
+                            data: 'mfa_code',
+                            name: 'mfa_code',
+                            title: 'MFA Code',
+                        },
+                        {
+                            data: 'attempt',
+                            name: 'attempt',
+                            title: 'Attempt',
+                        },
+                        {
+                            data: 'system_locked',
+                            name: 'system_locked',
+                            title: 'System Locked',
+                        },
+                        {
+                            data: 'mfa',
+                            name: 'mfa',
+                            title: 'MFA',
+                        },
+                        {
+                            data: 'browser',
+                            name: 'browser',
+                            title: 'Browser',
+                        },
+                        {
+                            data: 'os',
+                            name: 'os',
+                            title: 'OS',
+                        },
+                        {
+                            data: 'device',
+                            name: 'device',
+                            title: 'Device',
                         },
                         // {
                         //     data: 'action',
