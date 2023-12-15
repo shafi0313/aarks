@@ -50,12 +50,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($invoices->groupBy(['tran_id']) as $inv_grp)
-                                        {{-- <tr>
-                                    <td colspan="8">{{$inv_grp->first()->tran_date->format('d/m/Y')}}</td>
-                                </tr> --}}
                                         @foreach ($inv_grp as $invoice)
                                             <tr>
-                                                <td>{{ $invoice->tran_date->format('d/m/Y') }} </td>
+                                                <td>{{ bdDate($invoice->tran_date) }} </td>
                                                 <td>{{ $invoice->tran_id }} </td>
                                                 <td>{{ $invoice->customer->name }} </td>
                                                 <td class="text-center text-primary">

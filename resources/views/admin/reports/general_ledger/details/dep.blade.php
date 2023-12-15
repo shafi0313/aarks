@@ -12,12 +12,14 @@
     </thead>
     <tbody>
         <tr>
-            <td colspan="100%"><h1>DEPRECEATION</h1></td>
+            <td colspan="100%">
+                <h1>DEPRECEATION</h1>
+            </td>
         </tr>
-        {{-- @foreach($transactions as $i => $invoice)
+        {{-- @foreach ($transactions as $i => $invoice)
         <tr>
             <td>{{$loop->iteration}}</td>
-            <td>{{$invoice->tran_date->format('d/m/Y')}} </td>
+            <td>{{bdDate($invoice->tran_date)}} </td>
             <td>{{$invoice->clientAccountCode->name}}</td>
             <td>{{$invoice->tran_id}} </td>
             <td>{{$invoice->customer->name}} </td>
