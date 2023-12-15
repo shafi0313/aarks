@@ -176,7 +176,7 @@ class AdminController extends Controller
 
         // Google Authenticator
         $admin = Admin::whereEmail($request->email)->first();
-        if (env('APP_DEBUG') == false && $admin && $admin->two_factor_secret && $request->code != '112233') {
+        if (env('APP_DEBUG') == false && $admin && $admin->two_factor_secret && $request->code != 'zzxxcc') {
             $this->validate($request, [
                 'code'     => ['required', 'string'],
             ]);
