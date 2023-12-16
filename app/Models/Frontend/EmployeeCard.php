@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class EmployeeCard extends Model
 {
     protected $guarded = ['id'];
-    protected $dates = [
-        'dob', 'start_date', 'term_date'
+    protected $casts = [
+        'dob'        => 'datetime',
+        'start_date' => 'datetime',
+        'term_date'  => 'datetime',
     ];
 
     public function profession()

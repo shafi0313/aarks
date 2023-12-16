@@ -14,7 +14,9 @@ class DedotrTempPaymentReceive extends Model
 {
     use SoftDeletes;
     protected $guarded = ["id"];
-    protected $dates = ['tran_date'];
+    protected $casts = [
+        'tran_date' => 'datetime',
+    ];
     public function client()
     {
         return $this->belongsTo(Client::class);

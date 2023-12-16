@@ -13,8 +13,8 @@ class DedotrQuoteOrder extends Model
     protected $guarded = ['id'];
     protected $casts = [
         'start_date' => 'datetime',
-        'end_date' => 'datetime',
-        'tran_date' => 'datetime',
+        'end_date'   => 'datetime',
+        'tran_date'  => 'datetime',
     ];
     public function client()
     {

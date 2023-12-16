@@ -12,7 +12,9 @@ class InventoryRegister extends Model
 {
     use SoftDeletes;
     protected $guarded = ['id'];
-    protected $dates = ['date'];
+    protected $casts = [
+        'date' => 'datetime',
+    ];
     public function client()
     {
         return $this->belongsTo(Client::class);
