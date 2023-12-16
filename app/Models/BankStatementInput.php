@@ -10,7 +10,9 @@ class BankStatementInput extends Model
     use SoftDeletes;
     protected $table = 'bank_statement_inputs';
     protected $guarded = ['id'];
-    protected $dates = ['date'];
+    protected $casts = [
+        'date' => 'datetime'
+    ];
 
     public function client_account_code()
     {

@@ -15,7 +15,10 @@ class BankReconciliationLedger extends Model
 
     use HasFactory;
     protected $guarded = ["id"];
-    protected $dates = ['date'];
+    protected $casts = [
+        'date' => 'datetime'
+    ];
+
     public function client()
     {
         return $this->belongsTo(Client::class);

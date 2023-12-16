@@ -16,6 +16,7 @@ class BusinessPlan extends Model
         "amount"           => "double",
         "old_percent"      => "double",
         "last_year_amount" => "double",
+        'date'             => 'datetime'
     ];
     public function client()
     {

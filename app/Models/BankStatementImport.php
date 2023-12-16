@@ -10,9 +10,8 @@ class BankStatementImport extends Model
     use SoftDeletes;
 
     protected $guarded = ['id'];
-
     protected $casts = [
-        'date' => 'date',
+        'date' => 'datetime'
     ];
 
     public function client_account_code()

@@ -28,5 +28,5 @@ class Data_storage extends Model
     {
         return $this->belongsTo(ClientAccountCode::class, 'chart_id', 'code');
     }
-    protected $casts = ['trn_date'=>'datetime'];
+    protected $casts = ['trn_date' => 'datetime'];
 }

@@ -9,12 +9,12 @@ class BudgetEntry extends Model
 {
     use HasFactory;
     protected $guarded = ["id"];
-    protected $dates = ["date"];
     protected $casts = [
         "percent"          => "double",
         "amount"           => "double",
         "old_percent"      => "double",
         "last_year_amount" => "double",
+        'date'             => 'datetime'
     ];
     public function client()
     {
