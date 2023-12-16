@@ -14,7 +14,7 @@ class Period extends Model
     protected $guarded = ['id'];
 
     protected $dates = [
-        'start_date', 'end_date'
+        'date' => 'datetime',
     ];
 
     public function client()

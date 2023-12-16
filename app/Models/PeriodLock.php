@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class PeriodLock extends Model
 {
     protected $guarded = [];
-    // protected $casts = [
-    //     'date' => 'date',
-    // ];
+    
     public function client()
     {
         return $this->belongsTo(Client::class);

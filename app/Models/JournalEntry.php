@@ -27,6 +27,6 @@ class JournalEntry extends Model
         return $this->belongsTo(ClientAccountCode::class, 'account_code', 'id');
     }
     protected $casts = [
-        'date'=>'datetime',
+        'date' => 'datetime',
     ];
 }

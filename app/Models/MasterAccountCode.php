@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Models\AccountCode;
@@ -11,10 +12,10 @@ class MasterAccountCode extends Model
 {
     use SoftDeletes;
     protected $guarded = ['id'];
-//    public function accountCode()
-//    {
-//        return $this->belongsTo(AccountCode::class)->whereNull('deleted_at')->orderBy('code');
-//    }
+    //    public function accountCode()
+    //    {
+    //        return $this->belongsTo(AccountCode::class)->whereNull('deleted_at')->orderBy('code');
+    //    }
 
     public function industryCategories()
     {

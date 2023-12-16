@@ -16,7 +16,7 @@ class LoggingInfo extends Model
             'name' => 'N/A',
         ]);
     }
-    
+
     public function adminUser()
     {
         return $this->belongsTo(Admin::class, 'user_id', 'id')->withDefault([
