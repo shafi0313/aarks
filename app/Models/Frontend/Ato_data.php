@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Ato_data extends Model
 {
     protected $guarded = ['id'];
-    protected $dates = ['payment_date'];
+    
+    protected $casts = [
+        'payment_date' => 'datetime'
+    ];
     protected $with = ['client'];
     public function client()
     {

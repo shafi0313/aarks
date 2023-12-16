@@ -15,8 +15,11 @@ class CustomerCard extends Model
 {
     use SoftDeletes;
     protected $guarded = ['id'];
-    protected $dates = [
-        'opening_blnc_date','by_date','after_date'
+
+    protected $casts = [
+        'opening_blnc_date' => 'datetime',
+        'by_date'           => 'datetime',
+        'after_date'        => 'datetime'
     ];
 
     public function profession()
