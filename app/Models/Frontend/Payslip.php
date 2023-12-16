@@ -10,8 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 class Payslip extends Model
 {
     protected $guarded = ['id'];
-    protected $with = ['client','employee','pay_accum'];
-    protected $dates = ['tran_date'];
+    protected $with = ['client', 'employee', 'pay_accum'];
+    protected $casts = [
+        'tran_date' => 'datetime',
+    ];
+
     public function client()
     {
         return $this->belongsTo(Client::class);
