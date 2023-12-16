@@ -11,8 +11,11 @@ class DedotrQuoteOrder extends Model
 {
     use SoftDeletes;
     protected $guarded = ['id'];
-    
-    protected $dates = ['start_date','end_date','tran_date'];
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+        'tran_date' => 'datetime',
+    ];
     public function client()
     {
         return $this->belongsTo(Client::class);

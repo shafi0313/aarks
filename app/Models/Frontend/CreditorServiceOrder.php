@@ -11,8 +11,10 @@ class CreditorServiceOrder extends Model
 {
     use SoftDeletes;
     protected $guarded = ['id'];
-    // protected $with = ['client','customer'];
-    protected $dates = ['start_date','end_date'];
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date'   => 'datetime',
+    ];
     public function client()
     {
         return $this->belongsTo(Client::class);

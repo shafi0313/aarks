@@ -15,7 +15,9 @@ class DedotrPaymentReceive extends Model
 {
     use SoftDeletes;
     protected $guarded = ["id"];
-    protected $dates = ['tran_date'];
+    protected $casts = [
+        'tran_date' => 'datetime'
+    ];
 
     public function clientAccountCode()
     {

@@ -14,8 +14,10 @@ class Creditor extends Model
 {
     use SoftDeletes;
     protected $guarded = ['id'];
-    // protected $with = ['client','customer'];
-    protected $dates = ['tran_date'];
+    
+    protected $casts = [
+        'tran_date' => 'datetime'
+    ];
 
     public function clientAccountCode()
     {

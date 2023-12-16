@@ -16,8 +16,9 @@ class Dedotr extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
-    // protected $with = ['client','customer'];
-    protected $dates = ['tran_date'];
+    protected $casts = [
+        'tran_date' => 'datetime'
+    ];
 
     public function clientAccountCode()
     {
