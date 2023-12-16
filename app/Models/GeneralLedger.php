@@ -13,7 +13,11 @@ class GeneralLedger extends Model
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
 
-    protected $dates = ['date'];
+    // protected $dates = ['date'];
+
+    protected $casts = [
+        'date' => 'datetime'
+    ];
 
     public function client()
     {
