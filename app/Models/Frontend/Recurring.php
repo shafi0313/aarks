@@ -12,11 +12,16 @@ class Recurring extends Model
 {
     use SoftDeletes;
     protected $guarded = ['id'];
-    protected $dates = ['tran_date','untill_date'];
+    protected $casts = [
+        'tran_date'   => 'datetime',
+        'untill_date' => 'datetime',
+    ];
+
     public function client()
     {
         return $this->belongsTo(Client::class);
     }
+
     public function customer()
     {
         return $this->belongsTo(CustomerCard::class, 'customer_card_id');
