@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class PreparePayroll extends Model
 {
     protected $guarded = ['id'];
-
-    protected $dates = [
-        'payment_date',
-        'payperiod_start',
-        'payperiod_end',
+    protected $casts = [
+        'payment_date'    => 'datetime',
+        'payperiod_start' => 'datetime',
+        'payperiod_end'   => 'datetime',
     ];
+    
     public function employee_card()
     {
         return $this->belongsTo(EmployeeCard::class);
