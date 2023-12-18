@@ -13,10 +13,10 @@ class DepAssetName extends Model
     use SoftDeletes;
 
     protected $guarded = [];
-    protected $dates = [
-        'purchase_date',
-        'disposal_date',
-        'owdv_value_date',
+    protected $casts = [
+        'purchase_date' => 'datetime',
+        'owdv_value_date' => 'datetime',
+        'disposal_date' => 'datetime',
     ];
 
     public function depreciation()
