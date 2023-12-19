@@ -160,7 +160,7 @@ class DedotrQuoteOrderController extends Controller
             return back();
         }
         foreach ($request->job_title as $i => $jobTitle) {
-            $Debtor = DedotrQuoteOrder::where('id', $request->inv_id[$i])->first();
+            $dedotr = DedotrQuoteOrder::where('id', $request->inv_id[$i])->first();
             $rprice = $request->price[$i];
             if ($request->is_tax[$i] == 'yes') {
                 $data['amount'] = $price = $rprice + ($rprice * 0.1);
@@ -182,7 +182,7 @@ class DedotrQuoteOrderController extends Controller
             $data['freight_charge'] = $request->freight_charge[$i];
             $data['chart_id'] = $request->chart_id[$i];
             $data['is_tax'] = $request->is_tax[$i];
-            if ($Debtor != '') {
+            if ($dedotr != '') {
                 $dedotr->update($data);
             } else {
                 $data['disc_amount'] = $request->disc_amount[$i];
@@ -654,32 +654,32 @@ class DedotrQuoteOrderController extends Controller
 
             // Retain Earning For each Transection
 
-            $periodStartDate   = $period->start_date->format('Y-m-d');
-            $periodEndDate     = $period->end_date->format('Y-m-d');
+            // $periodStartDate   = $period->start_date->format('Y-m-d');
+            // $periodEndDate     = $period->end_date->format('Y-m-d');
 
-            $inTranRetain   = GeneralLedger::where('transaction_id', $tran_id)
-                ->where('client_id', $request->client_id)
-                ->where('profession_id', $request->profession_id)
-                ->where('chart_id', 'LIKE', '1%')
-                ->where('source', 'QCI')
-                ->get();
-            $tranRetainData = $inTranRetain->where('balance_type', 2)->sum('balance') -
-                $inTranRetain->where('balance_type', 1)->sum('balance');
-            $ledger['chart_id']               = 999998;
-            $ledger['gst']                    = 0;
-            $ledger['balance']                = $tranRetainData;
-            $ledger['credit']                 = abs($tranRetainData);
+            // $inTranRetain   = GeneralLedger::where('transaction_id', $tran_id)
+            //     ->where('client_id', $request->client_id)
+            //     ->where('profession_id', $request->profession_id)
+            //     ->where('chart_id', 'LIKE', '1%')
+            //     ->where('source', 'QCI')
+            //     ->get();
+            // $tranRetainData = $inTranRetain->where('balance_type', 2)->sum('balance') -
+            //     $inTranRetain->where('balance_type', 1)->sum('balance');
+            // $ledger['chart_id']               = 999998;
+            // $ledger['gst']                    = 0;
+            // $ledger['balance']                = $tranRetainData;
+            // $ledger['credit']                 = abs($tranRetainData);
 
-            $isRetain = GeneralLedger::where('transaction_id', $tran_id)
-                ->where('client_id', $request->client_id)
-                ->where('profession_id', $request->profession_id)
-                ->where('chart_id', 999998)
-                ->where('source', 'QCI')->first();
-            if ($isRetain != null) {
-                $isRetain->update($ledger);
-            } else {
-                GeneralLedger::create($ledger);
-            }
+            // $isRetain = GeneralLedger::where('transaction_id', $tran_id)
+            //     ->where('client_id', $request->client_id)
+            //     ->where('profession_id', $request->profession_id)
+            //     ->where('chart_id', 999998)
+            //     ->where('source', 'QCI')->first();
+            // if ($isRetain != null) {
+            //     $isRetain->update($ledger);
+            // } else {
+            //     GeneralLedger::create($ledger);
+            // }
 
             //RetailEarning Calculation End....
 
