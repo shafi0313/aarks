@@ -21,6 +21,17 @@ class LoggingInfo extends Model
     {
         return $this->belongsTo(Admin::class, 'user_id', 'id')->withDefault([
             'name' => 'N/A',
+
         ]);
     }
+
+    // public function clientUsers()
+    // {
+    //     return $this->hasMany(Client::class, 'user_id', 'id');
+    // }
+
+    // public function activities()
+    // {
+    //     return $this->hasMany(ActivityLog::class, 'user_id', 'id');
+    // }
 }
