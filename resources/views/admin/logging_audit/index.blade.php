@@ -77,8 +77,8 @@
                     ordering: true,
                     // // responsive: true,
                     paging: true,
-                    searchable: true,
-                    scrollY: 400,
+                    // searchable: true,
+                    // scrollY: 400,
                     ajax: "{{ route('logging-infos.index') }}",
                     columns: [{
                             data: 'DT_RowIndex',
@@ -92,24 +92,24 @@
                         {
                             data: 'user_id',
                             name: 'user_id',
-                            title: 'User Name',
-                            render: function(data, type, full, meta) {
-                                if (full.user_type === 'client') {
-                                    return full.client_user.company ?? full.client_user.first_name + ' ' + full.client_user.last_name ;
-                                } else {
-                                    return full.admin_user.name;
-                                }
-                            },
-                        },
-                        {
-                            data: 'user_id',
-                            name: 'user_id',
                             title: 'User Email',
                             render: function(data, type, full, meta) {
                                 if (full.user_type === 'client') {
                                     return full.client_user.email;
                                 } else {
                                     return full.admin_user.email;
+                                }
+                            },
+                        },
+                        {
+                            data: 'user_id',
+                            name: 'user_id',
+                            title: 'User Name',
+                            render: function(data, type, full, meta) {
+                                if (full.user_type === 'client') {
+                                    return full.client_user.company ?? full.client_user.first_name + ' ' + full.client_user.last_name ;
+                                } else {
+                                    return full.admin_user.name;
                                 }
                             },
                         },
@@ -154,6 +154,16 @@
                             title: 'MFA',
                         },
                         {
+                            data: 'ip_address',
+                            name: 'ip_address',
+                            title: 'IP Address',
+                        },
+                        {
+                            data: 'area',
+                            name: 'area',
+                            title: 'Country',
+                        },
+                        {
                             data: 'browser',
                             name: 'browser',
                             title: 'Browser',
@@ -168,15 +178,15 @@
                             name: 'device',
                             title: 'Device',
                         },
-                        // {
-                        //     data: 'action',
-                        //     name: 'action',
-                        //     title: 'Action',
-                        //     className: "text-center",
-                        //     width: "60px",
-                        //     orderable: false,
-                        //     searchable: false,
-                        // },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            title: 'Action',
+                            className: "text-center",
+                            width: "60px",
+                            orderable: false,
+                            searchable: false,
+                        },
                     ],
                     // fixedColumns: false,
                     scroller: {

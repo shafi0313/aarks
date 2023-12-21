@@ -41,10 +41,20 @@
                                         <table id="data_table" class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td>Name</td>
+                                                    <td>Client</td>
+                                                    <td>Access Area</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach ($loggingInfos as $loggingInfo)
+                                                @php
+                                                    $client = json_decode($loggingInfo->properties)
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $client->client }}</td>
+                                                    <td>{{ $loggingInfo->description }}</td>
+                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>

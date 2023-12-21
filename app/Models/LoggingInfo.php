@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ActivityLog;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class LoggingInfo extends Model
 {
@@ -25,13 +26,8 @@ class LoggingInfo extends Model
         ]);
     }
 
-    // public function clientUsers()
-    // {
-    //     return $this->hasMany(Client::class, 'user_id', 'id');
-    // }
-
-    // public function activities()
-    // {
-    //     return $this->hasMany(ActivityLog::class, 'user_id', 'id');
-    // }
+    public function activities()
+    {
+        return $this->hasMany(ActivityLog::class, 'causer_id', 'user_id')->latest();
+    }
 }

@@ -43,20 +43,14 @@ class LoggingInfoController extends Controller
                     $logoutAt = Carbon::parse($row->logout_at);
                     return $loginAt->diffForHumans($logoutAt, true);
                 })
-                // ->addColumn('action', function ($row) {
-                //     $btn = '';
-                //     // if (userCan('slider-edit')) {
-                //         // $btn .= view('button', ['type' => 'ajax-edit', 'route' => route('logging-infos.show', $row->id), 'row' => $row]);
-                //     // }
-                //     // if (userCan('slider-delete')) {
-                //     //     $btn .= view('button', ['type' => 'ajax-delete', 'route' => route('admin.sliders.destroy', $row->id), 'row' => $row, 'src' => 'dt']);
-                //     // }
-
-                //     $btn .= '<a href="'.route('logging-infos.show', $row->id).'" class="btn btn-sm btn-info" title="View"><i class="fa fa-eye"></i></a>';
-
-                //     return $btn;
-                // })
-                ->rawColumns(['login_at','action'])
+                ->addColumn('action', function ($row) {
+                    $btn = '';
+                    $btn .= '<a href="' . route('logging-infos.show', $row->id) . '" class="btn btn-sm btn-info" title="View">
+                            <i class="fa fa-eye"></i>
+                        </a>';
+                    return $btn;
+                })
+                ->rawColumns(['login_at', 'action'])
                 ->make(true);
         }
         return view('admin.logging_audit.index');
@@ -67,13 +61,7 @@ class LoggingInfoController extends Controller
         // if ($error = $this->authorize('logging-info-manage')) {
         //     return $error;
         // }
-        $loggingInfo = LoggingInfo::findOrFail($id);
-        if($loggingInfo->user_type == 'client'){
-            $loggingInfos = LoggingInfo::with(['clientUser'])->findOrFail($id);
-        }else{
-            $loggingInfos = LoggingInfo::with(['adminUsers'])->findOrFail($id);
-        }
-        return $loggingInfos;
+        $loggingInfos = LoggingInfo::with('activities')->findOrFail($id)->activities()->paginate(40);
         return view('admin.logging_audit.show', compact('loggingInfos'));
     }
 }
