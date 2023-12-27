@@ -769,6 +769,13 @@ if (!function_exists('ledgerSetVisible')) {
     }
 }
 
+if (!function_exists('GSTVisible')) {
+    function GSTVisible()
+    {
+        return ['id', 'chart_code', 'gst_cash_amount', 'gross_amount', 'net_amount', 'gst_accrued_amount', 'source', 'trn_date', 'client_id'];
+    }
+}
+
 if (!function_exists('clientAccountCodeSetVisible')) {
     function clientAccountCodeSetVisible()
     {

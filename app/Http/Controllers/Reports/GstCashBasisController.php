@@ -20,6 +20,7 @@ class GstCashBasisController extends Controller
         $clients = getClientsWithPayment();
         return view('admin.reports.cash_basis.index', compact('clients'));
     }
+
     public function profession($id)
     {
         if ($error = $this->sendPermissionError('admin.cash_basis.index')) {
@@ -33,6 +34,7 @@ class GstCashBasisController extends Controller
             return back();
         }
     }
+
     public function date(Client $client)
     {
         if ($error = $this->sendPermissionError('admin.cash_basis.index')) {
@@ -50,6 +52,7 @@ class GstCashBasisController extends Controller
         }
         return view('admin.reports.cash_basis.date', compact(['client']));
     }
+    
     public function report(Request $request, GstBas $gst)
     {
         if ($error = $this->sendPermissionError('admin.cash_basis.index')) {

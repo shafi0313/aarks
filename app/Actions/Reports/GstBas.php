@@ -22,21 +22,21 @@ class GstBas extends Controller
         if ($code) {
             $chart_id = $code->code;
             $type     = $code->type;          // 1=Debit , 2=Credit
-            if ($type == 1 && in_array(substr($chart_id, -6, 1), [1,2])) {
+            if ($type == 1 && in_array(substr($chart_id, -6, 1), [1, 2])) {
                 if ($item->gross_amount != 0) {
-                    $item->gross_amount    = - abs($item->gross_amount);
+                    $item->gross_amount    = -abs($item->gross_amount);
                 }
                 if ($item->gross_cash_amount != 0) {
-                    $item->gross_cash_amount    = - abs($item->gross_cash_amount);
+                    $item->gross_cash_amount    = -abs($item->gross_cash_amount);
                 }
                 if ($item->gst_accrued_amount != 0) {
-                    $item->gst_accrued_amount    = - abs($item->gst_accrued_amount);
+                    $item->gst_accrued_amount    = -abs($item->gst_accrued_amount);
                 }
                 if ($item->gst_cash_amount != 0) {
-                    $item->gst_cash_amount    = - abs($item->gst_cash_amount);
+                    $item->gst_cash_amount    = -abs($item->gst_cash_amount);
                 }
                 if ($item->net_amount != 0) {
-                    $item->net_amount    = - abs($item->net_amount);
+                    $item->net_amount    = -abs($item->net_amount);
                 }
             }
         }
@@ -82,25 +82,25 @@ class GstBas extends Controller
             ->where('chart_code', 'like', '1%')
             ->where('source', '!=', 'INV')
             ->select('id', 'chart_code', 'gst_cash_amount', 'gross_amount')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________G1_________
 
         $incomeNonGst = Gsttbl::where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->where('chart_code', 'like', '1%')
-            ->whereIn('source', ['PIN','BST','INP'])
+            ->whereIn('source', ['PIN', 'BST', 'INP'])
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('gst_accrued_amount', '<=', 0)
             ->where('gst_cash_amount', '<=', 0)
             // ->select('id', 'chart_code', 'gst_cash_amount', 'gross_amount', 'net_amount')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________G3_________
         $asset = Gsttbl::where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
-            ->whereIn('source', ['PIN','BST','INP'])
+            ->whereIn('source', ['PIN', 'BST', 'INP'])
             ->where('chart_code', 'like', '56%')
             ->sum('gross_amount'); // _________G10_________
 
@@ -109,7 +109,7 @@ class GstBas extends Controller
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereNotBetween('chart_code', [$expense_code_from, $expense_code_to])
             ->where('chart_code', 'like', '2%')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
 
@@ -128,17 +128,17 @@ class GstBas extends Controller
                 $q->where('chart_code', 'like', '2%')
                     ->orWhere('chart_code', 'like', '56%');
             })
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
-            });// _________1B_________
+            }); // _________1B_________
         $expense = $sum95 > 0 ? $expenses->sum('gst_cash_amount') - abs($sum95) : $expenses->sum('gst_cash_amount') + abs($sum95); // _________1B_________
 
         $w1 = Gsttbl::where('client_id', $client_id)
             ->whereProfessionId($profession->id)
-            ->whereIn('source', ['PIN','BST','INP'])
+            ->whereIn('source', ['PIN', 'BST', 'INP'])
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereBetween('chart_code', [$w1_from, $w1_to])
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
 
@@ -146,14 +146,14 @@ class GstBas extends Controller
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', '245103')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
 
         activity()
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, 'report' => 'Cash Basis Balance Report'])
-            ->log('Report > Cash Basis Balance Report > ' . $client->fullname .' > Profession :'. $profession->name);
+            ->log('Report > Cash Basis Balance Report > ' . $client->fullname . ' > Profession :' . $profession->name);
         return compact(['data', 'client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'fuel_tax_ltr', 'payg']);
     }
     public function consoleCash(Request $request, $path = null)
@@ -189,62 +189,70 @@ class GstBas extends Controller
             ->first();
         $fuel_tax_ltr = FuelTaxLtr::where('client_id', $client_id)->whereBetween('date', [$dateFrom, $dateTo])->sum('amount');
 
-        $data = Gsttbl::with(['accountCodes' => fn ($q) => $q->where('client_id', $client_id)])
+        $data = Gsttbl::with([
+            'accountCodes' => fn ($q) => $q->select('id', 'name', 'code')->where('client_id', $client_id)
+        ])
+            ->select(GSTVisible())
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
-            ->whereNotIn('source', ['INV','RIV'])
+            ->whereNotIn('source', ['INV', 'RIV'])
             ->orderBy('chart_code')
             ->get()
             ->groupBy('chart_code');
 
-        $income = Gsttbl::where('client_id', $client_id)
+        $income = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereIn('profession_id', $professions)
             ->where('chart_code', 'like', '1%')
-            ->whereNotIn('source', ['INV','RIV'])
+            ->whereNotIn('source', ['INV', 'RIV'])
             // ->whereIn('source', ['PIN','BST','INP'])
             // ->select('chart_code', 'gst_cash_amount')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________G1_________
 
-        $incomeNonGst = Gsttbl::where('client_id', $client_id)
+        $incomeNonGst = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
             ->where('chart_code', 'like', '1%')
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('gst_accrued_amount', '<=', 0)
             ->where('gst_cash_amount', '<=', 0)
             // ->select('gst_cash_amount', 'gross_amount', 'net_amount')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________G3_________
 
-        $asset = Gsttbl::where('client_id', $client_id)
+        $asset = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
-            ->whereIn('source', ['PIN','BST','INP'])
+            ->whereIn('source', ['PIN', 'BST', 'INP'])
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', 'like', '56%')
             ->sum('gross_amount'); // _________G10_________
 
-        $expense_code = Gsttbl::where('client_id', $client_id)
+        $expense_code = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereNotBetween('chart_code', [$expense_code_from, $expense_code_to])
             ->where('chart_code', 'like', '2%')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
             ->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
 
-        $sum95 = Gsttbl::where('client_id', $client_id)
+        $sum95 = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('source', '!=', 'INV')
             ->where('chart_code', 'like', '95%')
             ->sum('gst_cash_amount');
 
-        $expenses = Gsttbl::with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
+        $expenses = Gsttbl::with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
             ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
             ->where('source', '!=', 'INV')
@@ -257,22 +265,24 @@ class GstBas extends Controller
             ->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________1B_________
-            $expense = $sum95 > 0 ? $expenses->sum('gst_cash_amount') - abs($sum95) : $expenses->sum('gst_cash_amount') + abs($sum95); // _________1B_________
+        $expense = $sum95 > 0 ? $expenses->sum('gst_cash_amount') - abs($sum95) : $expenses->sum('gst_cash_amount') + abs($sum95); // _________1B_________
 
-        $w1 = Gsttbl::where('client_id', $client_id)
+        $w1 = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereBetween('chart_code', [$w1_from, $w1_to])
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
             ->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
 
-        $w2 = Gsttbl::where('client_id', $client_id)
+        $w2 = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereIn('profession_id', $professions)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', '245103')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
+            ->with(['accountCodes' => fn ($q) => $q->select('id', 'code', 'type', 'gst_code')->whereClientId($client_id)])
             ->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
@@ -282,7 +292,7 @@ class GstBas extends Controller
             ->withProperties(['client' => $client->fullname, 'report' => 'GST/BAS(Consol.Cash) Report'])
             ->log('Report > GST/BAS(Consol.Cash) Report > ' . $client->fullname);
 
-        return view($path,compact(['data', 'client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'fuel_tax_ltr', 'payg']));
+        return view($path, compact(['data', 'client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'fuel_tax_ltr', 'payg']));
     }
 
     public function acured(Request $request, $path = null)
@@ -328,7 +338,7 @@ class GstBas extends Controller
             ->where('chart_code', 'like', '1%')
             ->where('source', '!=', 'PIN')
             ->select('gst_cash_amount', 'gross_amount', 'chart_code')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
         $incomeNonGst = Gsttbl::where('client_id', $clientId)
@@ -338,7 +348,7 @@ class GstBas extends Controller
             ->where('gst_accrued_amount', '<=', 0)
             ->where('gst_cash_amount', '<=', 0)
             ->select('gst_cash_amount', 'gross_amount', 'net_amount', 'chart_code')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________G3_________
         $asset = Gsttbl::where('client_id', $clientId)
@@ -351,7 +361,7 @@ class GstBas extends Controller
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereNotBetween('chart_code', [$expense_code_from, $expense_code_to])
             ->where('chart_code', 'like', '2%')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
 
@@ -370,28 +380,28 @@ class GstBas extends Controller
                 $q->where('chart_code', 'like', '2%')
                     ->orWhere('chart_code', 'like', '56%');
             })
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
-            });// _________1B_________
+            }); // _________1B_________
         $expense = $sum95 > 0 ? $expenses->sum('gst_cash_amount') - abs($sum95) : $expenses->sum('gst_cash_amount') + abs($sum95); // _________1B_________
         $w1 = Gsttbl::where('client_id', $clientId)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereBetween('chart_code', [$w1_from, $w1_to])
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
         $w2 = Gsttbl::where('client_id', $clientId)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', '245103')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
         activity()
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, 'report' => 'Accrued Basis Balance Report'])
-            ->log('Report > Accrued Basis Balance Report > '.$client->fullname);
+            ->log('Report > Accrued Basis Balance Report > ' . $client->fullname);
         return compact(['data', 'client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'fuel_tax_ltr', 'payg']);
     }
 
@@ -437,7 +447,7 @@ class GstBas extends Controller
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', 'like', '1%')
             ->where('source', '!=', 'PIN')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
         $incomeNonGst = Gsttbl::where('client_id', $clientId)
@@ -446,7 +456,7 @@ class GstBas extends Controller
             ->where('chart_code', 'like', '1%')
             ->where('gst_accrued_amount', '<', 0)
             ->where('gst_cash_amount', '<', 0)
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________G3_________
         $asset = Gsttbl::where('client_id', $clientId)
@@ -459,16 +469,16 @@ class GstBas extends Controller
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereNotBetween('chart_code', [$expense_code_from, $expense_code_to])
             ->where('chart_code', 'like', '2%')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
 
         $sum95 = Gsttbl::where('client_id', $clientId)
-        ->whereIn('profession_id', $professions)
-        ->whereBetween('trn_date', [$dateFrom, $dateTo])
-        ->where('source', '!=', 'INV')
-        ->where('chart_code', 'like', '95%')
-        ->sum('gst_cash_amount');
+            ->whereIn('profession_id', $professions)
+            ->whereBetween('trn_date', [$dateFrom, $dateTo])
+            ->where('source', '!=', 'INV')
+            ->where('chart_code', 'like', '95%')
+            ->sum('gst_cash_amount');
 
         $expense = Gsttbl::where('client_id', $clientId)
             ->whereIn('profession_id', $professions)
@@ -478,28 +488,28 @@ class GstBas extends Controller
                 $q->where('chart_code', 'like', '2%')
                     ->orWhere('chart_code', 'like', '56%');
             })
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
-            });// _________1B_________
+            }); // _________1B_________
         $expense = $sum95 > 0 ? $expense->sum('gst_cash_amount') - abs($sum95) : $expense->sum('gst_cash_amount') + abs($sum95); // _________1B_________
         $w1 = Gsttbl::where('client_id', $clientId)
             ->whereIn('profession_id', $professions)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereBetween('chart_code', [$w1_from, $w1_to])
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
         $w2 = Gsttbl::where('client_id', $clientId)
             ->whereIn('profession_id', $professions)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', '245103')
-            ->with(['accountCodes'=> fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->with(['accountCodes' => fn ($q) => $q->whereClientId($clientId)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             });
         activity()
             ->performedOn(new GeneralLedger())
             ->withProperties(['client' => $client->fullname, 'report' => 'Accrued Basis Balance Report'])
-            ->log('Report > Accrued Basis Balance Report > '.$client->fullname);
+            ->log('Report > Accrued Basis Balance Report > ' . $client->fullname);
         return compact(['data', 'client', 'dateFrom', 'dateTo', 'income', 'asset', 'expense_code', 'expense', 'w1', 'w2', 'incomeNonGst', 'fuel_tax_ltr', 'payg']);
     }
 }
