@@ -20,7 +20,7 @@ class LoggingInfoAction extends Controller
             $userId = Auth::guard('admin')->user()->id;
         }
 
-        $mfa = $request->two_factor_secret;
+        $mfa = $request->code;
 
         $data = [
             'user_id'       => $userId,

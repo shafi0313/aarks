@@ -170,7 +170,7 @@ class AdminController extends Controller
     public function login(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required|min:5'
         ]);
 
@@ -178,7 +178,7 @@ class AdminController extends Controller
         $admin = Admin::whereEmail($request->email)->first();
         if (env('APP_DEBUG') == false && $admin && $admin->two_factor_secret && $request->code != 112233) {
             $this->validate($request, [
-                'code'     => ['required', 'string'],
+                'code' => ['required', 'string'],
             ]);
             if (TwoFactor::verifyKey($admin->two_factor_secret, $request->code)) {
                 if ($this->isUserAuthenticated($request)) {
