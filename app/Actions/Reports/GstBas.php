@@ -70,13 +70,15 @@ class GstBas extends Controller
 
         $data = Gsttbl::with(['accountCodes' => fn ($q) => $q->where('client_id', $client_id)
             ->whereProfessionId($profession->id)])
+            ->select(GSTVisible())
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('client_id', $client_id)
             ->where('source', '!=', 'INV')
             ->orderBy('chart_code')
             ->get()->groupBy('chart_code');
 
-        $income = Gsttbl::where('client_id', $client_id)
+        $income = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', 'like', '1%')
@@ -86,7 +88,8 @@ class GstBas extends Controller
                 $this->gstAbs($item);
             }); // _________G1_________
 
-        $incomeNonGst = Gsttbl::where('client_id', $client_id)
+        $incomeNonGst = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->where('chart_code', 'like', '1%')
             ->whereIn('source', ['PIN', 'BST', 'INP'])
@@ -97,14 +100,17 @@ class GstBas extends Controller
             ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________G3_________
-        $asset = Gsttbl::where('client_id', $client_id)
+
+        $asset = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereIn('source', ['PIN', 'BST', 'INP'])
             ->where('chart_code', 'like', '56%')
             ->sum('gross_amount'); // _________G10_________
 
-        $expense_code = Gsttbl::where('client_id', $client_id)
+        $expense_code = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->whereNotBetween('chart_code', [$expense_code_from, $expense_code_to])
@@ -113,14 +119,16 @@ class GstBas extends Controller
                 $this->gstAbs($item);
             });
 
-        $sum95 = Gsttbl::where('client_id', $client_id)
+        $sum95 = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('source', '!=', 'INV')
             ->where('chart_code', 'like', '95%')
             ->sum('gst_cash_amount');
 
-        $expenses = Gsttbl::where('client_id', $client_id)
+        $expenses = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('source', '!=', 'INV')
@@ -133,7 +141,8 @@ class GstBas extends Controller
             }); // _________1B_________
         $expense = $sum95 > 0 ? $expenses->sum('gst_cash_amount') - abs($sum95) : $expenses->sum('gst_cash_amount') + abs($sum95); // _________1B_________
 
-        $w1 = Gsttbl::where('client_id', $client_id)
+        $w1 = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->whereIn('source', ['PIN', 'BST', 'INP'])
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
@@ -142,7 +151,8 @@ class GstBas extends Controller
                 $this->gstAbs($item);
             });
 
-        $w2 = Gsttbl::where('client_id', $client_id)
+        $w2 = Gsttbl::select(GSTVisible())
+            ->where('client_id', $client_id)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', '245103')
@@ -324,7 +334,9 @@ class GstBas extends Controller
             ->whereBetween('date', [$dateFrom, $dateTo])
             ->sum('amount');
 
-        $data = Gsttbl::with(['accountCodes' => fn ($q) => $q->where('client_id', $client->id)])
+        $data = Gsttbl::with([
+            'accountCodes' => fn ($q) => $q->select('id', 'name', 'code')->where('client_id', $client_id)
+        ])->select(GSTVisible())
             ->where('client_id', $clientId)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
@@ -332,7 +344,8 @@ class GstBas extends Controller
             ->where('source', '!=', 'PIN')
             ->orderBy('chart_code')
             ->get()->groupBy('chart_code');
-        $income = Gsttbl::where('client_id', $clientId)
+        $income = Gsttbl::select(GSTVisible())
+            ->where('client_id', $clientId)
             ->whereProfessionId($profession->id)
             ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where('chart_code', 'like', '1%')
