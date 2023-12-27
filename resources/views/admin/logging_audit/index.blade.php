@@ -1,7 +1,6 @@
 @extends('admin.layout.master')
 @section('title', 'Logging Audit')
 @section('content')
-
     <div class="main-content">
         <div class="main-content-inner">
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -36,10 +35,6 @@
                                 <div class="table-header" style="text-align: center;">
                                     <strong>Logging Audit</strong>
                                 </div>
-
-                                <!-- div.table-responsive -->
-
-                                <!-- div.dataTables_borderWrap -->
                                 <div>
                                     <div class="table-responsive">
                                         <table id="data_table" class="table table-striped table-bordered">
@@ -52,22 +47,14 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.page-content -->
         </div>
     </div><!-- /.main-content -->
 
-
     @push('custom_scripts')
-        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" /> --}}
-
-        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+        @include('admin.layout.includes.yajra_datatable')
         <script>
             $(function() {
                 $('#data_table').DataTable({

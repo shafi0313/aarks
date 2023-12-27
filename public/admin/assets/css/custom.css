@@ -38,10 +38,11 @@ thead tr th {
 }
 
 .breadcrumb .bCColor {
-    color: red; 
+    color: red;
     font-weight: bold;
 }
 .breadcrumb .bPColor {
-    color: blue; 
+    color: blue;
     font-weight: bold;
 }
+
