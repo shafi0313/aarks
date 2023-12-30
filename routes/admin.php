@@ -108,8 +108,12 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/profile', [AdminDashboardController::class, 'profile'])->name('admin.profile');
     Route::resource('profession', ProfessionController::class);
-    Route::resource('client', ClientController::class);
+
+    Route::resource('client', ClientController::class)->except(['show']);
+    Route::get('client/get-note', [ClientController::class, 'getNote'])->name('client.get_note');
+    Route::post('client/note/store', [ClientController::class, 'noteStore'])->name('client.note_store');
     Route::get('client/impersonate/{client}', [ClientController::class, 'impersonate'])->name('impersonate');
+
     Route::get('/logging-audit', [LoggingAuditController::class, 'index'])->name('logging_audit.index');
 
     Route::resource('/logging-infos', LoggingInfoController::class)->only(['index', 'show']);

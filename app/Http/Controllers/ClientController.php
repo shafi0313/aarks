@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Browser;
 use App\Models\Client;
 use App\Models\Service;
+use App\Models\ClientNote;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use App\Actions\LoggingInfoAction;
@@ -20,7 +22,6 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use PragmaRX\Google2FALaravel\Facade as TwoFactor;
 use App\Actions\AccountCodeActions\CopyClientAccountCode;
 use App\Actions\AccountCodeActions\DeleteClientAccountCode;
-use Browser;
 
 class ClientController extends Controller
 {
@@ -350,5 +351,20 @@ class ClientController extends Controller
     {
         session()->forget('impersonate');
         return redirect()->route('client.index');
+    }
+
+    public function getNote(Request $request)
+    {
+        $client = clientName(Client::find($request->id));
+        $clientNote = ClientNote::whereClientId($request->id)->first()->note ?? 'No Note Found';
+        return response()->json(['clientNote' => $clientNote, 'client' => $client]);
+    }
+
+    public function noteStore(Request $request)
+    {
+        ClientNote::updateOrCreate(
+            ['client_id' => $request->client_id],
+            ['note' => $request->note]
+        );
     }
 }

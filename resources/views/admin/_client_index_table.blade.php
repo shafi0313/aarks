@@ -9,7 +9,7 @@
             <th width="63px">Pay Status</th>
             <th>{{ $from == 'client_index' ? 'Mobile' : 'ABN Number' }}</th>
             @canany(['admin.client.edit', 'admin.bs_import.edit'])
-                <th style="width: 75px">Action</th>
+                <th style="width: 110px">Action</th>
             @endcanany
         </tr>
     </thead>
@@ -35,13 +35,16 @@
                     @canany(['admin.client.edit'])
                         <td>
                             <div>
-                                <a class="green" title="Client Edit" href="{{ route('client.edit', $row->id) }}"
-                                    title="Edit">
+                                <a class="blue note" title="Note" data-id="{{ $row->id }}" data-toggle="modal" data-target="#noteModal" title="Note" style="cursor: pointer">
+                                    <i class="ace-icon fa-regular fa-note-sticky bigger-130"></i>
+                                </a> ||
+                                <a class="green" title="Client Edit" href="{{ route('client.edit', $row->id) }}">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a> ||
                                 <a class="_delete" title="Client Delete"
-                                    data-route="{{ route('client.destroy', $row->id) }}" title="Delete"><i
-                                        class="ace-icon fa fa-trash-o bigger-130 red"></i></a> ||
+                                    data-route="{{ route('client.destroy', $row->id) }}" title="Delete">
+                                    <i class="ace-icon fa fa-trash-o bigger-130 red"></i>
+                                    </a> ||
                                 <a class="blue" title="Client Impersonate" href="{{ route('impersonate', $row->id) }}"
                                     target="_blank" title="Client panel">
                                     <i class="ace-icon fa fa-eye bigger-130"></i>
