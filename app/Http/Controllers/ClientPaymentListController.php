@@ -31,7 +31,7 @@ class ClientPaymentListController extends Controller
         if ($error = $this->sendPermissionError('admin.client_payment.index')) {
             return $error;
         }
-        $paylists = ClientPaymentList::filter()->get();
+        $paylists = ClientPaymentList::with('subscription')->filter()->latest()->get();
         return view('admin.client_payment.list', compact('paylists'));
     }
     public function pendingDetails(ClientPaymentList $payment)
@@ -103,7 +103,7 @@ class ClientPaymentListController extends Controller
         }
         return redirect()->route('client_payment_index');
     }
-    
+
     public function status(Request $request, ClientPaymentList $paylist)
     {
         if ($error = $this->sendPermissionError('admin.client_payment.edit')) {

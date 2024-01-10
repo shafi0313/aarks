@@ -42,7 +42,7 @@
                                                     <td>{{ $paylist->created_at->format('d/m/Y') }}</td>
                                                     <td>{{ $paylist->client->fullname }}</td>
                                                     <td>
-                                                        {{ $paylist->pack_name }}
+                                                        {{ $paylist->subscription->name }}
                                                     </td>
                                                     <td>$ {{ number_format($paylist->amount, 2) }}</td>
                                                     <td>
@@ -74,7 +74,7 @@
                                                                 action="{{ route('client_payment_delete', $paylist->id) }}"
                                                                 method="post">
                                                                 @csrf @method('DELETE')
-                                                                <button type="submit" class="red delete" style="border: none; background: #fff; margin-left: 10px">
+                                                                <button type="submit" class="red delete" style="border: none; background: transparent; margin-left: 10px">
                                                                     <i class="ace-icon fa fa-trash-o"></i>
                                                                 </button>
                                                             </form>
@@ -102,11 +102,4 @@
         </div>
     </div><!-- /.main-content -->
 
-
-    <!-- inline scripts related to this page -->
-    <script type="text/javascript">
-        jQuery(function($) {
-
-        });
-    </script>
 @endsection
