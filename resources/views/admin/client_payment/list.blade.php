@@ -65,7 +65,7 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <div class="action-buttons">
+                                                        <div class="action-buttons" style="display: flex; justify-content: center; font-size: 16px">
                                                             <a title="Client Payment Edit" class="green"
                                                                 href="{{ route('client_payment_edit', $paylist->id) }}">
                                                                 <i class="ace-icon fa fa-pencil"></i>
@@ -74,7 +74,7 @@
                                                                 action="{{ route('client_payment_delete', $paylist->id) }}"
                                                                 method="post">
                                                                 @csrf @method('DELETE')
-                                                                <button type="submit" class="red delete">
+                                                                <button type="submit" class="red delete" style="border: none; background: #fff; margin-left: 10px">
                                                                     <i class="ace-icon fa fa-trash-o"></i>
                                                                 </button>
                                                             </form>
@@ -106,7 +106,7 @@
     <!-- inline scripts related to this page -->
     <script type="text/javascript">
         jQuery(function($) {
-            
+
         });
     </script>
 @endsection
