@@ -74,7 +74,6 @@ class LoggingInfoController extends Controller
             Alert::success('All Logging Audit Information Deleted');
         } catch (\Exception $e) {
             Alert::error('Oops server error');
-            #return $e->getMessage();
         }
         return back();
     }
