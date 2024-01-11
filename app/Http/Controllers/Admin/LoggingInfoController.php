@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\LoggingInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class LoggingInfoController extends Controller
@@ -63,5 +65,17 @@ class LoggingInfoController extends Controller
         // }
         $loggingInfos = LoggingInfo::with('activities')->findOrFail($id)->activities()->paginate(40);
         return view('admin.logging_audit.show', compact('loggingInfos'));
+    }
+
+    public function destroyAll()
+    {
+        try {
+            DB::table('logging_infos')->delete();
+            Alert::success('All Logging Audit Information Deleted');
+        } catch (\Exception $e) {
+            Alert::error('Oops server error');
+            #return $e->getMessage();
+        }
+        return back();
     }
 }

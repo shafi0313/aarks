@@ -117,6 +117,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/logging-audit', [LoggingAuditController::class, 'index'])->name('logging_audit.index');
 
     Route::resource('/logging-infos', LoggingInfoController::class)->only(['index', 'show']);
+    Route::get('/logging_infos/destroy_all', [LoggingInfoController::class, 'destroyAll'])->name('logging_infos.destroy_all');
 
     Route::controller(ClientDataDeleteController::class)->prefix('client-data-delete')->name('client.data.')->group(function () {
         Route::get('/password', 'password')->name('password');

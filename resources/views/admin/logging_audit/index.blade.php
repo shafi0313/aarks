@@ -36,6 +36,7 @@
                                     <strong>Logging Audit</strong>
                                 </div>
                                 <div>
+                                    <a href="{{ route('logging_infos.destroy_all') }}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete All Data</a>
                                     <div class="table-responsive">
                                         <table id="data_table" class="table table-striped table-bordered">
                                             <thead>
