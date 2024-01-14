@@ -25,6 +25,14 @@ class HomeController extends Controller
         $start = Carbon::now()->startOfYear();
         $end = Carbon::now()->endOfYear();
         $datas['all_list']  = Calendar::whereBetween('startdatetime', [$start, $end])->orderBy('startdatetime', 'desc')->paginate(10);
+        $datas['rooms'] = [
+            101 => 'R-101',
+            102 => 'R-102',
+            103 => 'R-103',
+            104 => 'R-104',
+            105 => 'R-105',
+            106 => 'R-106',
+        ];
 
         // Apply the search filter if a search query is provided
         if ($request->has('search')) {

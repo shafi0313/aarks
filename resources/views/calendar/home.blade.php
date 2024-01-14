@@ -215,13 +215,13 @@
 
         <div class="flex gap-4 text-white text-sm font-bold font-mono leading-6 rounded-lg">
             <div class="w-14 h-14 flex-none rounded-lg flex items-center justify-center "></div>
-            <div class="p-4 grow rounded-lg flex items-center justify-center ">
+            {{-- <div class="p-4 grow rounded-lg flex items-center justify-center ">
                 <h3 onclick="window.location.href = '{{ route('calendar.home') }}';"
                     class="font-bold leading-tight text-center tracking-tight text-blue-900 md:text-2xl dark:text-white"
                     style="color:orange; cursor:pointer;">
                     <u> Focus Taxation & Accounting Calendar </u>
                 </h3>
-            </div>
+            </div> --}}
             <div class="flex-none rounded-lg flex items-center justify-center b">
                 {{-- @if (Auth::user()->email == 'focustaxationwa@gmail.com')
                     <button onclick="toggleModal('setting-modal')"
