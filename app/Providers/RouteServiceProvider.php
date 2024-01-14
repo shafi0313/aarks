@@ -44,6 +44,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('client')
                 ->group(base_path('routes/web.php'));
 
+            Route::middleware(['2fa', 'web', 'blockCountry'])
+                ->prefix('client/calendar')
+                ->group(base_path('routes/calendar.php'));
+
             Route::prefix('api')
                 ->middleware('api')
                 ->group(base_path('routes/api.php'));

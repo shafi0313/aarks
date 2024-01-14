@@ -19,64 +19,12 @@
                             </h3>
                         </div>
                     </div>
-                    <div class="pt-4 pb-4">
-                        {{-- <!-- Widget Style 1 Start -->
-                            <div class="row">
-                                <div class="col-xl-3 mb-50">
-                                    <div class="bg-white box-shadow border-radius-10 height-100-p widget-style1">
-                                        <div class="d-flex flex-wrap align-items-center">
-                                            <div class="circle-icon">
-                                                <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-user" aria-hidden="true"></i></div>
-                                            </div>
-                                            <div class="widget-data">
-                                                <div class="weight-800 font-18">2020</div>
-                                                <div class="weight-500">Contact</div>
-                                            </div>
-                                            <div class="progress-data">
-                                                <div id="chart"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        <!-- Widget Style 1 End --> --}}
-
-                        {{-- <div class="row">
-                                <div class="col-xl-3 mb-50">
-                                    <div class="bg-white box-shadow border-radius-10 height-100-p widget-style2">
-                                        <div class="widget-data">
-                                            <div class="weight-800 font-24">11,020</div>
-                                            <div class="weight-500 font-18">Online Signups</div>
-                                        </div>
-                                        <div class="progress-data">
-                                            <div id="chart5"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div> --}}
-
-
-
-                        {{-- <div class="row">
-                                <div class="col-xl-3 mb-50 ">
-                                    <div class="bg-white box-shadow border-radius-10 height-100-p widget-style3">
-                                        <div class="d-flex flex-wrap align-items-center ">
-                                            <div class="widget-data">
-                                                <div class="weight-500 font-20">Server</div>
-                                                <div class="weight-500 font-30 text-dark">75%</div>
-                                            </div>
-                                            <div class="widget-icon">
-                                                <div class="icon"><i class="fa fa-server" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div> --}}
+                    <div class="pb-4">
                         @if (auth()->guard('client')->check())
                             <div class="row">
+                                <div class="col-md-12 my-3">
+                                    <a href="{{ route('calendar.home') }}" class="btn btn-primary">Calendar</a>
+                                </div>
                                 <div class="col-xl-3 mb-50">
                                     <div
                                         class="gradient-style4 text-white box-shadow border-radius-10 height-100-p widget-style3">
