@@ -250,14 +250,14 @@
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-2 lg:grid-cols-10"
                     style="background:#ac725e;color:white;">
                     @php
-                        $list = DB::table('users')
-                            ->orderBy('id', 'asc')
-                            ->get();
+                        // $rooms = DB::table('users')
+                        //     ->orderBy('id', 'asc')
+                        //     ->get();
                     @endphp
-                    @foreach ($list as $v)
+                    @foreach ($rooms as $v)
                         <p value="1" class="bg-orange-500 text-white text-center py-1"
-                            style="background:{{ $v->color_code }};color:white;cursor: pointer;"
-                            @if (Auth::user()->email == 'focustaxationwa@gmail.com') onclick="userInfoUpdae('{{ $v->id }}','{{ $v->name }}','{{ $v->email }}','{{ $v->color }}','{{ $v->color_code }}','{{ $v->calendar_id }}')" @endif>
+                            style="background:{{ $v->color }};color:white;cursor: pointer;">
+                            {{-- @if (Auth::user()->email == 'focustaxationwa@gmail.com') onclick="userInfoUpdae('{{ $v->id }}','{{ $v->name }}','{{ $v->email }}','{{ $v->color }}','{{ $v->color }}','{{ $v->calendar_id }}')" @endif> --}}
                             {{ $v->name }} </p>
                     @endforeach
                 </div>
@@ -463,9 +463,9 @@
                         <div class="input-container">
                             <select name="colorId" required id="colorId" class="input-field">
                                 <option value=""></option>
-                                @foreach ($list as $v)
+                                @foreach ($rooms as $v)
                                     <option value="{{ $v->id }}"
-                                        style="background:{{ $v->color_code }};color:white;">{{ $v->name }}
+                                        style="background:{{ $v->color }};color:white;">{{ $v->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -753,9 +753,9 @@
                         </div>
 
                         <div class="input-container">
-                            <input type="color" class="input-field w-2/2 h-11" id="user_color_code"
-                                name="color_code" required>
-                            <label for="user_color_code" class="input-label">Enter color code</label>
+                            <input type="color" class="input-field w-2/2 h-11" id="user_color" name="color"
+                                required>
+                            <label for="user_color" class="input-label">Enter color code</label>
                         </div>
 
                         <div class="input-container">
@@ -787,7 +787,7 @@
         //     ->where('id', 1)
         //     ->first();
 
-            $setting = 'des';
+        $setting = 'des';
     @endphp
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none "
         id="setting-modal">
@@ -945,7 +945,7 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'timeGridWeek',
-                events: '{{ url('events') }}',
+                events: '{{ route('events') }}',
                 timeZone: 'Australia/Perth',
                 height: 'auto',
                 headerToolbar: headerConfig,
@@ -984,7 +984,7 @@
                     // Extract date and time components
                     var startedDate = startDate.toISOString().split('T')[0];
                     var startedTime = startDate.toTimeString().split(' ')[0].slice(0,
-                    5); // Extract HH:mm
+                        5); // Extract HH:mm
 
                     var endedDate = endDate.toISOString().split('T')[0];
                     var endedTime = endDate.toTimeString().split(' ')[0].slice(0, 5); // Extract HH:mm
@@ -1000,7 +1000,7 @@
                                 (minutes === 0 ? "00" : minutes);
 
                             var isSelected = timeString === startedTime ? 'selected' :
-                            ''; // Check if the option should be selected
+                                ''; // Check if the option should be selected
 
                             starthourmin += '<option value="' + timeString + '" ' + isSelected + '>' +
                                 timeString + '</option>';
@@ -1015,7 +1015,7 @@
                                 (minutes === 0 ? "00" : minutes);
 
                             var isSelected = timeString2 === endedTime ? 'selected' :
-                            ''; // Check if the option should be selected
+                                ''; // Check if the option should be selected
 
                             endhourmin += '<option value="' + timeString2 + '" ' + isSelected + '>' +
                                 timeString2 + '</option>';
@@ -1030,8 +1030,8 @@
                             '<input type="text" class="input-field2" id="swalEvtLocation" name="location" placeholder="Location (Optional)" value="8A Rochford way Girrawheen WA 6064">' +
                             '<input type="text" class="input-field2" id="swalEvtPhone" name="phone" placeholder="Enter Phone No" required>' +
                             '<select name="colorId" required id="swalEvtColorId" class="input-field2"><option value="">With Whom - Required</option>' +
-                            @foreach ($list as $v)
-                                '<option value="{{ $v->id }}" style="background:{{ $v->color_code }};color:white;">{{ $v->name }}</option>' +
+                            @foreach ($rooms as $v)
+                                '<option value="{{ $v->id }}" style="background:{{ $v->color }};color:white;">{{ $v->name }}</option>' +
                             @endforeach
                         '</select>' +
                         '<label>Start Date: </label><input type="date" name="swalEvtStartdatetimeCal" id="swalEvtStartdatetimeCal" class=""   onchange="handleStartDateTimeChange()" value="' +
@@ -1069,7 +1069,7 @@
                         // Add event
                         console.log('Form Values:', formValues); // Add this line
                         //  console.log('Summary:', document.getElementById('summmery').value);
-                        fetch("{{ url('events-store') }}", {
+                        fetch("{{ route('events-store') }}", {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -1157,9 +1157,9 @@
                             var optionsHTML = '<option value="' + info.event.extendedProps
                                 .user_id + '" selected ">' + info.event.extendedProps.created +
                                 '</option>';
-                            @foreach ($list as $v)
+                            @foreach ($rooms as $v)
                                 optionsHTML +=
-                                    '<option value="{{ $v->id }}" style="background:{{ $v->color_code }};color:white" {{ $v->id == '+info.event.extendedProps.user_id+' ? `selected` : '' }}>{{ $v->name }}</option>';
+                                    '<option value="{{ $v->id }}" style="background:{{ $v->color }};color:white" {{ $v->id == '+info.event.extendedProps.user_id+' ? `selected` : '' }}>{{ $v->name }}</option>';
                             @endforeach
 
 
@@ -1306,7 +1306,7 @@
                                                 // Swal.fire('Event Update feature is disabled for this demo!', '', 'warning');
                                             } else {
                                                 Swal.fire(data.message, '',
-                                                'error');
+                                                    'error');
                                             }
 
                                             // Refetch events from all sources and rerender
@@ -1623,13 +1623,13 @@
 
 
 
-        function userInfoUpdae(userid, full_name, email, color_name, color_code, calendar_id) {
+        function userInfoUpdae(userid, full_name, email, color_name, color, calendar_id) {
 
             $('#userid').val(userid);
             $('#user_name').val(full_name).addClass('has-content');
             $('#user_email').val(email).addClass('has-content');
             $('#user_color_name').val(color_name).addClass('has-content');
-            $('#user_color_code').val(color_code).addClass('has-content');
+            $('#user_color').val(color).addClass('has-content');
             $('#user_calendar_id').val(calendar_id).addClass('has-content');
 
 

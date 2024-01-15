@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('phone');
             $table->text('location');
-            $table->text('colorId');
+            // $table->text('colorId');
             $table->string('calender_id');
             $table->dateTime('startdatetime');
             $table->dateTime('enddatetime');

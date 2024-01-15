@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\Calendar;
 
-use App\Models\User;
-use App\Models\Calendar;
-use Illuminate\Support\Facades\Auth;
-use Spatie\GoogleCalendar\Event;
-use App\Models\Calender;
-use Carbon\Carbon;
-use Exception;
-use Session;
-use Pagination;
 use DateTime;
-use Str;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\Controller;
+use Exception;
+use Pagination;
+use Carbon\Carbon;
+use App\Models\Room;
+use App\Models\Calendar;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Spatie\GoogleCalendar\Event;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -24,15 +22,8 @@ class HomeController extends Controller
     {
         $start = Carbon::now()->startOfYear();
         $end = Carbon::now()->endOfYear();
-        $datas['all_list']  = Calendar::whereBetween('startdatetime', [$start, $end])->orderBy('startdatetime', 'desc')->paginate(10);
-        $datas['rooms'] = [
-            101 => 'R-101',
-            102 => 'R-102',
-            103 => 'R-103',
-            104 => 'R-104',
-            105 => 'R-105',
-            106 => 'R-106',
-        ];
+        $datum['all_list']  = Calendar::whereBetween('startdatetime', [$start, $end])->orderBy('startdatetime', 'desc')->paginate(10);
+        $datum['rooms'] = Room::whereClientId(client()->id)->get();
 
         // Apply the search filter if a search query is provided
         if ($request->has('search')) {
@@ -40,7 +31,7 @@ class HomeController extends Controller
             $events = Calendar::where('summmery', 'like', '%' . $searchQuery . '%')->paginate(50);
             return response()->json($events);
         }
-        return View('calendar.home', $datas);
+        return View('calendar.home', $datum);
     }
 
     public function getEvents(Request $request)
@@ -61,6 +52,7 @@ class HomeController extends Controller
                     ->where('enddatetime', '>=', $start);
             })->get();
         }
+        // $events = Calendar::all();
 
 
 
@@ -82,7 +74,7 @@ class HomeController extends Controller
 
     private function formatEvent($event)
     {
-        $userInfo = User::where('id', $event->user_id)->select('name', 'id', 'color_code')->first();
+        // $userInfo = User::where('id', $event->user_id)->select('name', 'id', 'color_code')->first();
 
         return [
             'calender_id' => $event->calender_id,
@@ -94,8 +86,8 @@ class HomeController extends Controller
             'description' => $event->description,
             'phone' => $event->phone,
             'location' => $event->location,
-            'color' => $userInfo->color_code,
-            'created' => $userInfo->name,
+            // 'color' => $userInfo->color_code,
+            'created' => client()->name,
             'user_id' => $event->user_id,
             'recurrence_type' => $event->recurrence_type,
         ];
@@ -305,7 +297,7 @@ class HomeController extends Controller
     public function store(Request $request)
     {
 
-        $event = new Event;
+        // $event = new Event;
         $validator = Validator::make($request->all(), [
             'summmery' => 'required',
             'description' => 'required',
@@ -329,7 +321,7 @@ class HomeController extends Controller
         $endDateTime    = $dateTime2->format('Y-m-d H:i:s');
 
 
-        $userInfo = User::find($request->colorId);
+        // $userInfo = User::find($request->colorId);
 
 
         if (empty($request->location)) {
@@ -340,7 +332,7 @@ class HomeController extends Controller
 
 
         Calendar::create([
-            'user_id' => $userInfo->id,
+            'user_id' => client()->id,
             'calender_id' => Str::random(10),
             'summmery' => $request->summmery,
             'location' => $location,
@@ -359,6 +351,7 @@ class HomeController extends Controller
 
     public function event_store(Request $request)
     {
+        // return 'ok';
 
         if (isset($request->event_data) && is_array($request->event_data)) {
             $value1 = isset($request->event_data[0]) ? $request->event_data[0] : null;
@@ -393,7 +386,7 @@ class HomeController extends Controller
         $dateTime2      = new DateTime($inputDateTime2);
         $endDateTime    = $dateTime2->format('Y-m-d H:i:s');
 
-        $userInfo = User::find($request->event_data[3]);
+        // $userInfo = User::find($request->event_data[3]);
 
         if (empty($request->event_data[1])) {
             $location = '8A Rochford way Girrawheen WA 6064';
@@ -417,12 +410,12 @@ class HomeController extends Controller
         // $new = $event->save();
 
         Calendar::create([
-            'user_id' => $userInfo->id,
+            'client_id' => client()->id,
             'calender_id' => Str::random(10), //$new->id,
             'summmery' => $request->event_data[0],
             'location' => $location,
             'phone' => $request->event_data[2] ?? 1,
-            'colorId' => $userInfo->color_code,
+            // 'colorId' => $userInfo->color_code,
             'description' => $request->event_data[8],
             'recurrence_type' => $request->event_data[9],
             'startdatetime' => $startDateTime,
