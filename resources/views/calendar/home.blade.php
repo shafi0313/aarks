@@ -11,208 +11,18 @@
 
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
+    {{-- <!-- Styles --> --}}
     <link href="https://unpkg.com/tailwindcss@0.3.0/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Styles -->
 
 
-    <!--<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" /> -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
-    <!-- <link href="https://demos.codexworld.com/php-event-calendar-using-fullcalendar-javascript-library/css/style.css" rel="stylesheet" /> -->
-
-    <style>
-        /* Customize the width and height of the scroll bar */
-        ::-webkit-scrollbar {
-            width: 4px;
-            /* You can adjust this value to change the width */
-            height: 4px;
-            /* You can adjust this value to change the height */
-        }
-
-        /* Customize the track (the area behind the thumb) */
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            /* Change the background color as desired */
-        }
-
-        /* Customize the thumb (the draggable scrolling element) */
-        ::-webkit-scrollbar-thumb {
-            background: red;
-            /* Change the color of the thumb */
-            border-radius: 6px;
-            /* Adjust the border radius for rounded corners */
-        }
-
-        /* Customize the thumb when hovering */
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-            /* Change the color when hovering */
-        }
-
-
-
-        .login-fornm {
-            position: relative;
-            background-color: #1D0E1A;
-            border: 2px solid #1D0E1A;
-            margin-inline: 1.5rem;
-            row-gap: 1.25rem;
-            backdrop-filter: blur(20px);
-            padding: 2rem;
-            border-radius: 1rem;
-        }
-
-        .login-fornm p {
-            color: white;
-
-        }
-
-        .login-fornm h3 {
-            color: white;
-
-        }
-
-        .form-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 300px;
-        }
-
-        .input-container {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #271F25;
-            border-radius: 5px;
-            background: #374151;
-            color: white;
-        }
-
-        .input-field2 {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #271F25;
-            border-radius: 5px;
-            background: #374151;
-            color: white;
-        }
-
-        .input-label {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            padding: 0 5px;
-            font-size: 12px;
-            color: #999;
-            pointer-events: none;
-            transition: top 0.3s, font-size 0.3s, color 0.3s;
-        }
-
-        .input-field:focus+.input-label,
-        .has-content+.input-label {
-            top: 8px;
-            right: 0px;
-            font-size: 10px;
-            color: white;
-
-        }
-
-        .input-field:focus-visible {
-            border-color: #484849;
-            /* Change this to your desired color */
-            outline: none;
-            /* Optional: Remove default browser focus outline */
-        }
-
-        .nav-pills .nav-link.active,
-        .nav-pills .show>.nav-link {
-            color: var(--bs-nav-pills-link-active-color);
-            background-color: #0d6efd00;
-            border-bottom: 1px solid white;
-        }
-
-        .nav-pills .nav-link {
-            border-radius: 0px;
-        }
-
-        .nav-link {
-            color: #747b87;
-        }
-
-        /* Styles for the loading indicator */
-        #loadingIndicator {
-            z-index: 9999;
-        }
-
-        /* Styles for the spinner (adjust as needed) */
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .py-1 {
-            padding-top: 0px !important;
-            padding-bottom: 0px !important;
-        }
-
-        .fc-day-grid-container {
-            overflow-x: hidden;
-        }
-
-        @media (max-width: 768px) {
-            .fc-day-grid-container {
-                overflow-x: scroll;
-            }
-        }
-
-
-
-        @media (max-width: 768px) {
-            .fc .fc-toolbar-title {
-                font-size: 13px !important;
-            }
-
-            .fc .fc-button {
-                padding: 0.1em 0.3em;
-            }
-        }
-
-        h3:hover {
-            background-color: #009933;
-            color: white !important;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('calendar/style.css') }}">
 
 </head>
 
 <body class="antialiased">
-
-
     <section class="bg-gray-50 dark:bg-gray-900 ">
-
         <div class="flex gap-4 text-white text-sm font-bold font-mono leading-6 rounded-lg">
             <div class="w-14 h-14 flex-none rounded-lg flex items-center justify-center "></div>
             {{-- <div class="p-4 grow rounded-lg flex items-center justify-center ">
@@ -245,20 +55,19 @@
             </div>
         </div>
 
+
+
+
+
         <div class="hidden sm:block grid grid-cols-1 gap-1 md:grid-cols-3">
             <div class="md:col-span-3 mt-4">
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-2 lg:grid-cols-10"
                     style="background:#ac725e;color:white;">
-                    @php
-                        // $rooms = DB::table('users')
-                        //     ->orderBy('id', 'asc')
-                        //     ->get();
-                    @endphp
-                    @foreach ($rooms as $v)
+                    @foreach ($rooms as $room)
                         <p value="1" class="bg-orange-500 text-white text-center py-1"
-                            style="background:{{ $v->color }};color:white;cursor: pointer;">
+                            style="background:{{ $room->color }};color:white;cursor: pointer;">
                             {{-- @if (Auth::user()->email == 'focustaxationwa@gmail.com') onclick="userInfoUpdae('{{ $v->id }}','{{ $v->name }}','{{ $v->email }}','{{ $v->color }}','{{ $v->color }}','{{ $v->calendar_id }}')" @endif> --}}
-                            {{ $v->name }} </p>
+                            {{ $room->name }} </p>
                     @endforeach
                 </div>
             </div>
@@ -289,14 +98,11 @@
                             class="py-2 px-2 inline-flex justify-center items-center gap-2 rounded-full border border-transparent font-semibold bg-purple-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                             Schedule List</h3>
 
-
                         <a href="{{ route('sync-calender') }}"
                             class="py-2 px-2 inline-flex justify-center items-center gap-2 rounded-full border border-transparent font-semibold bg-blue-500 text-white hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                            Syncronize Google Calendar
+                            Synchronize Google Calendar
                         </a>
-
                         <label for="table-search" class="sr-only">Search</label>
-
                         <div class="flex items-center justify-center bg-green">
                             <input type="text" id="search-input" class="px-4 py-2 w-80" placeholder="Search...">
                             <button type="button" id="search-button"
@@ -307,7 +113,6 @@
                                 </svg>
                             </button>
                         </div>
-
                     </div>
 
                     <table
@@ -420,368 +225,8 @@
     </section>
 
 
-    <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center"
-        id="modal-id">
-        <div class="relative w-full max-w-2xl max-h-full">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Add Event</h3>
-                    <button onclick="toggleModal('modal-id')" type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="defaultModal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-6 space-y-6">
-                    <form class="space-y-4 md:space-y-6" method="post" action="{{ url('store-schedule') }}">
-                        @csrf
-
-                        <div class="input-container">
-                            <input type="text" class="input-field" id="summmery" name="summmery" required>
-                            <label for="summmery" class="input-label">Add Title (To Whom) - Required</label>
-                        </div>
-
-                        <div class="input-container">
-                            <input type="text" class="input-field" id="location" name="location"
-                                value="8A Rochford way Girrawheen WA 6064">
-                            <label for="location" class="input-label">Location (Optional)</label>
-                        </div>
-
-                        <div class="input-container">
-                            <input type="text" class="input-field" id="phone" name="phone">
-                            <label for="phone" class="input-label">Phone No</label>
-                        </div>
-
-                        <div class="input-container">
-                            <select name="colorId" required id="colorId" class="input-field">
-                                <option value=""></option>
-                                @foreach ($rooms as $v)
-                                    <option value="{{ $v->id }}"
-                                        style="background:{{ $v->color }};color:white;">{{ $v->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <label for="colorId" class="input-label">With Whom - Required</label>
-                        </div>
-
-
-                        <div class="input-container">
-                            <label>Start Date: </label>
-                            <input type="date" name="startdatetime" id="swalEvtStartdatetime" class=""
-                                onchange="handleStartDateTimeChange2()" value="'+startedDate+'"
-                                placeholder="Start Time & Date" required />
-                            <select onchange="handleStartDateTimeChange2()" name="swalEvtstarthourmin" required=""
-                                id="swalEvtstarthourmin" class="">
-                                <option value="00:00">00:00</option>
-                                <option value="00:15">00:15</option>
-                                <option value="00:30">00:30</option>
-                                <option value="00:45">00:45</option>
-                                <option value="01:00">01:00</option>
-                                <option value="01:15">01:15</option>
-                                <option value="01:30">01:30</option>
-                                <option value="01:45">01:45</option>
-                                <option value="02:00">02:00</option>
-                                <option value="02:15">02:15</option>
-                                <option value="02:30">02:30</option>
-                                <option value="02:45">02:45</option>
-                                <option value="03:00">03:00</option>
-                                <option value="03:15">03:15</option>
-                                <option value="03:30">03:30</option>
-                                <option value="03:45">03:45</option>
-                                <option value="04:00">04:00</option>
-                                <option value="04:15">04:15</option>
-                                <option value="04:30">04:30</option>
-                                <option value="04:45">04:45</option>
-                                <option value="05:00">05:00</option>
-                                <option value="05:15">05:15</option>
-                                <option value="05:30">05:30</option>
-                                <option value="05:45">05:45</option>
-                                <option value="06:00">06:00</option>
-                                <option value="06:15">06:15</option>
-                                <option value="06:30">06:30</option>
-                                <option value="06:45">06:45</option>
-                                <option value="07:00">07:00</option>
-                                <option value="07:15">07:15</option>
-                                <option value="07:30">07:30</option>
-                                <option value="07:45">07:45</option>
-                                <option value="08:00">08:00</option>
-                                <option value="08:15">08:15</option>
-                                <option value="08:30">08:30</option>
-                                <option value="08:45">08:45</option>
-                                <option value="09:00">09:00</option>
-                                <option value="09:15">09:15</option>
-                                <option value="09:30">09:30</option>
-                                <option value="09:45">09:45</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:15">10:15</option>
-                                <option value="10:30">10:30</option>
-                                <option value="10:45">10:45</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:15">11:15</option>
-                                <option value="11:30">11:30</option>
-                                <option value="11:45">11:45</option>
-                                <option value="12:00">12:00</option>
-                                <option value="12:15">12:15</option>
-                                <option value="12:30">12:30</option>
-                                <option value="12:45">12:45</option>
-                                <option value="13:00">13:00</option>
-                                <option value="13:15">13:15</option>
-                                <option value="13:30">13:30</option>
-                                <option value="13:45">13:45</option>
-                                <option value="14:00" selected="">14:00</option>
-                                <option value="14:15">14:15</option>
-                                <option value="14:30">14:30</option>
-                                <option value="14:45">14:45</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:15">15:15</option>
-                                <option value="15:30">15:30</option>
-                                <option value="15:45">15:45</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:15">16:15</option>
-                                <option value="16:30">16:30</option>
-                                <option value="16:45">16:45</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:15">17:15</option>
-                                <option value="17:30">17:30</option>
-                                <option value="17:45">17:45</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:15">18:15</option>
-                                <option value="18:30">18:30</option>
-                                <option value="18:45">18:45</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:15">19:15</option>
-                                <option value="19:30">19:30</option>
-                                <option value="19:45">19:45</option>
-                                <option value="20:00">20:00</option>
-                                <option value="20:15">20:15</option>
-                                <option value="20:30">20:30</option>
-                                <option value="20:45">20:45</option>
-                                <option value="21:00">21:00</option>
-                                <option value="21:15">21:15</option>
-                                <option value="21:30">21:30</option>
-                                <option value="21:45">21:45</option>
-                                <option value="22:00">22:00</option>
-                                <option value="22:15">22:15</option>
-                                <option value="22:30">22:30</option>
-                                <option value="22:45">22:45</option>
-                                <option value="23:00">23:00</option>
-                                <option value="23:15">23:15</option>
-                                <option value="23:30">23:30</option>
-                                <option value="23:45">23:45</option>
-                            </select>
-                        </div>
-
-
-                        <div class="input-container">
-                            <label>End Date: </label><input type="date" name="enddatetime" id="swalEvtEnddatetime"
-                                class=" " value="'+endedDate+'" required placeholder="End Time & Date" />
-                            <select name="swalEvtendhourmin" required="" id="swalEvtendhourmin" class="">
-                                <option value="00:00">00:00</option>
-                                <option value="00:15">00:15</option>
-                                <option value="00:30">00:30</option>
-                                <option value="00:45">00:45</option>
-                                <option value="01:00">01:00</option>
-                                <option value="01:15">01:15</option>
-                                <option value="01:30" selected="">01:30</option>
-                                <option value="01:45">01:45</option>
-                                <option value="02:00">02:00</option>
-                                <option value="02:15">02:15</option>
-                                <option value="02:30">02:30</option>
-                                <option value="02:45">02:45</option>
-                                <option value="03:00">03:00</option>
-                                <option value="03:15">03:15</option>
-                                <option value="03:30">03:30</option>
-                                <option value="03:45">03:45</option>
-                                <option value="04:00">04:00</option>
-                                <option value="04:15">04:15</option>
-                                <option value="04:30">04:30</option>
-                                <option value="04:45">04:45</option>
-                                <option value="05:00">05:00</option>
-                                <option value="05:15">05:15</option>
-                                <option value="05:30">05:30</option>
-                                <option value="05:45">05:45</option>
-                                <option value="06:00">06:00</option>
-                                <option value="06:15">06:15</option>
-                                <option value="06:30">06:30</option>
-                                <option value="06:45">06:45</option>
-                                <option value="07:00">07:00</option>
-                                <option value="07:15">07:15</option>
-                                <option value="07:30">07:30</option>
-                                <option value="07:45">07:45</option>
-                                <option value="08:00">08:00</option>
-                                <option value="08:15">08:15</option>
-                                <option value="08:30">08:30</option>
-                                <option value="08:45">08:45</option>
-                                <option value="09:00">09:00</option>
-                                <option value="09:15">09:15</option>
-                                <option value="09:30">09:30</option>
-                                <option value="09:45">09:45</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:15">10:15</option>
-                                <option value="10:30">10:30</option>
-                                <option value="10:45">10:45</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:15">11:15</option>
-                                <option value="11:30">11:30</option>
-                                <option value="11:45">11:45</option>
-                                <option value="12:00">12:00</option>
-                                <option value="12:15">12:15</option>
-                                <option value="12:30">12:30</option>
-                                <option value="12:45">12:45</option>
-                                <option value="13:00">13:00</option>
-                                <option value="13:15">13:15</option>
-                                <option value="13:30">13:30</option>
-                                <option value="13:45">13:45</option>
-                                <option value="14:00">14:00</option>
-                                <option value="14:15">14:15</option>
-                                <option value="14:30">14:30</option>
-                                <option value="14:45">14:45</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:15">15:15</option>
-                                <option value="15:30">15:30</option>
-                                <option value="15:45">15:45</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:15">16:15</option>
-                                <option value="16:30">16:30</option>
-                                <option value="16:45">16:45</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:15">17:15</option>
-                                <option value="17:30">17:30</option>
-                                <option value="17:45">17:45</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:15">18:15</option>
-                                <option value="18:30">18:30</option>
-                                <option value="18:45">18:45</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:15">19:15</option>
-                                <option value="19:30">19:30</option>
-                                <option value="19:45">19:45</option>
-                                <option value="20:00">20:00</option>
-                                <option value="20:15">20:15</option>
-                                <option value="20:30">20:30</option>
-                                <option value="20:45">20:45</option>
-                                <option value="21:00">21:00</option>
-                                <option value="21:15">21:15</option>
-                                <option value="21:30">21:30</option>
-                                <option value="21:45">21:45</option>
-                                <option value="22:00">22:00</option>
-                                <option value="22:15">22:15</option>
-                                <option value="22:30">22:30</option>
-                                <option value="22:45">22:45</option>
-                                <option value="23:00">23:00</option>
-                                <option value="23:15">23:15</option>
-                                <option value="23:30">23:30</option>
-                                <option value="23:45">23:45</option>
-                            </select>
-                        </div>
-
-
-                        <div class="input-container">
-                            <textarea name="description" class="input-field" required=""></textarea>
-                            <label for="description" class="input-label">Enter Description</label>
-                        </div>
-
-                        <div class="input-container">
-                            <select name="recurrence_type" required id="recurrence_type" class="input-field">
-                                <option selected value="none">No Recurring</option>
-                                <option value="daily">Daily</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="yearly">Yearly</option>
-                            </select>
-                        </div>
-
-                        <button type="submit"
-                            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create
-                            an schedule</button>
-
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-    <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center"
-        id="user-modal-id">
-        <div class="relative w-full max-w-2xl max-h-full">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">User Information Update</h3>
-                    <button onclick="toggleModal('user-modal-id')" type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="defaultModal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-6 space-y-6">
-                    <form class="space-y-4 md:space-y-6" method="post" action="{{ url('user-update') }}">
-                        @csrf
-
-                        <div class="input-container">
-                            <input type="hidden" id="userid" name="userid" required>
-                            <input type="text" class="input-field" id="user_name" name="name" required>
-                            <label for="user_name" class="input-label">Enter Name</label>
-                        </div>
-
-                        <div class="input-container">
-                            <input type="email" class="input-field" id="user_email" name="email" required>
-                            <label for="user_email" class="input-label">Enter Email</label>
-                        </div>
-
-                        <div class="input-container">
-                            <input type="text" class="input-field" id="user_color_name" name="color_name"
-                                required>
-                            <label for="user_color_name" class="input-label">Enter Color Name</label>
-                        </div>
-
-                        <div class="input-container">
-                            <input type="color" class="input-field w-2/2 h-11" id="user_color" name="color"
-                                required>
-                            <label for="user_color" class="input-label">Enter color code</label>
-                        </div>
-
-                        <div class="input-container">
-                            <input type="text" class="input-field" id="user_calendar_id" name="calendar_id"
-                                required>
-                            <label for="user_calendar_id" class="input-label">Enter calendar id</label>
-                        </div>
-
-                        <div class="input-container">
-                            <input type="text" class="input-field" id="user_password" name="password" required>
-                            <label for="user_password" class="input-label">Enter Password</label>
-                        </div>
-
-
-                        <button type="submit"
-                            class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Update
-                            Info's</button>
-
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
+    @include('calendar.modals.add-event-modal')
+    @include('calendar.modals.user-info-modal')
     @php
         // $setting = DB::table('settings')
         //     ->where('id', 1)
@@ -789,60 +234,7 @@
 
         $setting = 'des';
     @endphp
-    <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none "
-        id="setting-modal">
-        <div class="relative w-full max-w-2xl max-h-full">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Settings</h3>
-                    <button onclick="toggleModal('setting-modal')" type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="defaultModal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-6 ">
-                    <form method="post" action="{{ url('setting-update') }}">
-                        @csrf
-
-                        {{-- <div class="input-container">
-                            <input type="hidden" id="id" name="id" value="1" required
-                                value="{{ $setting->id }}">
-                            <input type="text" class="input-field" id="webtitle" name="webtitle" required
-                                value="{{ $setting->webtitle }}">
-                            <label for="webtitle" class="input-label">Enter webtitle</label>
-                        </div> --}}
-
-                        {{-- <div class="input-container">
-                            <input type="text" class="input-field" id="phone" name="phone" required
-                                value="{{ $setting->phone }}">
-                            <label for="user_email" class="input-label">Enter phone</label>
-                        </div>
-
-                        <div class="input-container">
-                            <textarea name="message" class="input-field" id="message" required value="{{ $setting->message }}">{{ $setting->message }}</textarea>
-                            <label for="message" class="input-label">Enter message</label>
-                        </div> --}}
-
-
-                        <button type="submit"
-                            class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Update
-                            Settings</button>
-
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    @include('calendar.modals.setting-modal')
 
 
     <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="user-modal-id-backdrop"></div>
@@ -856,8 +248,6 @@
             document.getElementById(modalID + "-backdrop").classList.toggle("flex");
         }
     </script>
-
-
 
     <!-- Event Details Modal -->
     <div id="eventDetailsModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
@@ -922,8 +312,6 @@
             }).showToast();
         </script>
     @endif
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1016,7 +404,6 @@
 
                             var isSelected = timeString2 === endedTime ? 'selected' :
                                 ''; // Check if the option should be selected
-
                             endhourmin += '<option value="' + timeString2 + '" ' + isSelected + '>' +
                                 timeString2 + '</option>';
                         }
@@ -1161,8 +548,6 @@
                                 optionsHTML +=
                                     '<option value="{{ $v->id }}" style="background:{{ $v->color }};color:white" {{ $v->id == '+info.event.extendedProps.user_id+' ? `selected` : '' }}>{{ $v->name }}</option>';
                             @endforeach
-
-
 
                             var StartdateTimeString = new Date(info.event.extendedProps
                                 .cus_start);
@@ -1324,7 +709,6 @@
 
             calendar.render();
 
-
             document.getElementById('search-button').addEventListener('click', function() {
                 var searchQuery = document.getElementById('search-input').value;
                 // Build the URL with the search parameter
@@ -1420,8 +804,6 @@
         });
     </script>
 
-
-    <!--<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
     <script>
         function handleStartDateTimeChange() {
             const startDateInput = document.getElementById('swalEvtStartdatetimeCal');
@@ -1453,7 +835,6 @@
             endDateInput.value = formattedEndDate;
             endHourMinSelect.value = formattedEndTime;
         }
-
 
         function handleStartDateTimeChange2() {
             const startDateInput = document.getElementById('swalEvtStartdatetime');
@@ -1519,8 +900,6 @@
             endHourMinSelect.value = formattedEndTime;
         }
 
-
-
         $(document).ready(function() {
             $(".date_picker").flatpickr({
                 enableTime: true,
@@ -1562,7 +941,6 @@
         function handler2(e) {
             var startDatetimeInput = document.getElementById('swalEvtStartdatetime_edit');
             var endDatetimeInput = document.getElementById('swalEvtEnddatetime_edit');
-
             var startDatetime = new Date(startDatetimeInput.value);
 
             if (!isNaN(startDatetime)) {
@@ -1589,8 +967,6 @@
             }
         }
 
-
-
         $('#startdatetime').on('change', function() {
             const originalDate = new Date(this.value);
             const newDate = new Date(originalDate.getTime() + 30 * 60000);
@@ -1608,7 +984,6 @@
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         }
 
-
         const inputFields = document.querySelectorAll('.input-field');
 
         inputFields.forEach(input => {
@@ -1621,8 +996,6 @@
             });
         });
 
-
-
         function userInfoUpdae(userid, full_name, email, color_name, color, calendar_id) {
 
             $('#userid').val(userid);
@@ -1632,14 +1005,11 @@
             $('#user_color').val(color).addClass('has-content');
             $('#user_calendar_id').val(calendar_id).addClass('has-content');
 
-
             let modalID = 'user-modal-id';
             document.getElementById(modalID).classList.toggle("hidden");
             document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
             document.getElementById(modalID).classList.toggle("flex");
             document.getElementById(modalID + "-backdrop").classList.toggle("flex");
-
-
         }
     </script>
 

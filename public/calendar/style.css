@@ -1,0 +1,182 @@
+/* Customize the width and height of the scroll bar */
+::-webkit-scrollbar {
+    width: 4px;
+    /* You can adjust this value to change the width */
+    height: 4px;
+    /* You can adjust this value to change the height */
+}
+
+/* Customize the track (the area behind the thumb) */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Change the background color as desired */
+}
+
+/* Customize the thumb (the draggable scrolling element) */
+::-webkit-scrollbar-thumb {
+    background: red;
+    /* Change the color of the thumb */
+    border-radius: 6px;
+    /* Adjust the border radius for rounded corners */
+}
+
+/* Customize the thumb when hovering */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Change the color when hovering */
+}
+
+
+
+.login-fornm {
+    position: relative;
+    background-color: #1D0E1A;
+    border: 2px solid #1D0E1A;
+    margin-inline: 1.5rem;
+    row-gap: 1.25rem;
+    backdrop-filter: blur(20px);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.login-fornm p {
+    color: white;
+
+}
+
+.login-fornm h3 {
+    color: white;
+
+}
+
+.form-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #271F25;
+    border-radius: 5px;
+    background: #374151;
+    color: white;
+}
+
+.input-field2 {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #271F25;
+    border-radius: 5px;
+    background: #374151;
+    color: white;
+}
+
+.input-label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 5px;
+    font-size: 12px;
+    color: #999;
+    pointer-events: none;
+    transition: top 0.3s, font-size 0.3s, color 0.3s;
+}
+
+.input-field:focus+.input-label,
+.has-content+.input-label {
+    top: 8px;
+    right: 0px;
+    font-size: 10px;
+    color: white;
+
+}
+
+.input-field:focus-visible {
+    border-color: #484849;
+    /* Change this to your desired color */
+    outline: none;
+    /* Optional: Remove default browser focus outline */
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: var(--bs-nav-pills-link-active-color);
+    background-color: #0d6efd00;
+    border-bottom: 1px solid white;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0px;
+}
+
+.nav-link {
+    color: #747b87;
+}
+
+/* Styles for the loading indicator */
+#loadingIndicator {
+    z-index: 9999;
+}
+
+/* Styles for the spinner (adjust as needed) */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.py-1 {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.fc-day-grid-container {
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    .fc-day-grid-container {
+        overflow-x: scroll;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .fc .fc-toolbar-title {
+        font-size: 13px !important;
+    }
+
+    .fc .fc-button {
+        padding: 0.1em 0.3em;
+    }
+}
+
+h3:hover {
+    background-color: #009933;
+    color: white !important;
+}
