@@ -22,7 +22,7 @@ function ajaxStoreModal(e, form, modal) {
                 text: res.message,
             }).then((confirm) => {
                 if (confirm) {
-                    $(".modal").style.display = "none";
+                    $("#" + modal).style.display = "none";
                     $(form).trigger("reset");
                 }
             });
