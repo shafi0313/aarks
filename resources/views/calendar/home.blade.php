@@ -54,10 +54,7 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none"> @csrf </form> --}}
             </div>
         </div>
-
-
-
-
+        <button onclick="toggleModal('addRoomModal')" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-8 ml-8">Add Room</button>
 
         <div class="hidden sm:block grid grid-cols-1 gap-1 md:grid-cols-3">
             <div class="md:col-span-3 mt-4">
@@ -225,8 +222,20 @@
     </section>
 
 
-    @include('calendar.modals.add-event-modal')
+    @include('calendar.modals.add-room-modal')
     @include('calendar.modals.user-info-modal')
+    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="user-modal-id-backdrop"></div>
+    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
+    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="addRoomModal-backdrop"></div>
+
+    <script type="text/javascript">
+        function toggleModal(modalID) {
+            document.getElementById(modalID).classList.toggle("hidden");
+            document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+            document.getElementById(modalID).classList.toggle("flex");
+            document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+        }
+    </script>
     @php
         // $setting = DB::table('settings')
         //     ->where('id', 1)
@@ -237,17 +246,7 @@
     @include('calendar.modals.setting-modal')
 
 
-    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="user-modal-id-backdrop"></div>
-    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
 
-    <script type="text/javascript">
-        function toggleModal(modalID) {
-            document.getElementById(modalID).classList.toggle("hidden");
-            document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
-            document.getElementById(modalID).classList.toggle("flex");
-            document.getElementById(modalID + "-backdrop").classList.toggle("flex");
-        }
-    </script>
 
     <!-- Event Details Modal -->
     <div id="eventDetailsModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
@@ -276,6 +275,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js">
     </script>
+    <script src="{{ asset('calendar/js/plugin.js') }}"></script>
 
     @if (Session::has('success'))
         <script>
@@ -411,43 +411,44 @@
 
                     const {
                         value: formValues
-                    } = await Swal.fire({
+                    } =
+                    await Swal.fire({
                         title: 'Add Event',
-                        html: '<input type="text" class="input-field2" id="swalEvtSummmery" name="summmery" placeholder="Add Title (To Whom) - Required" required>' +
-                            '<input type="text" class="input-field2" id="swalEvtLocation" name="location" placeholder="Location (Optional)" value="8A Rochford way Girrawheen WA 6064">' +
-                            '<input type="text" class="input-field2" id="swalEvtPhone" name="phone" placeholder="Enter Phone No" required>' +
-                            '<select name="colorId" required id="swalEvtColorId" class="input-field2"><option value="">With Whom - Required</option>' +
-                            @foreach ($rooms as $v)
-                                '<option value="{{ $v->id }}" style="background:{{ $v->color }};color:white;">{{ $v->name }}</option>' +
-                            @endforeach
-                        '</select>' +
-                        '<label>Start Date: </label><input type="date" name="swalEvtStartdatetimeCal" id="swalEvtStartdatetimeCal" class=""   onchange="handleStartDateTimeChange()" value="' +
-                        startedDate +
-                        '" placeholder="Start Time & Date" required /><select onchange="handleStartDateTimeChange()" name="swalEvtstarthourminCal" required id="swalEvtstarthourminCal" class=""  >' +
-                        starthourmin + '</select>' +
-                        '<br><label>End Date: </label><input type="date" name="swalEvtEnddatetimeCal" id="swalEvtEnddatetimeCal" class=" " value="' +
-                        endedDate +
-                        '"  required placeholder="End Time & Date" /><select name="swalEvtendhourminCal" required id="swalEvtendhourminCal" class="">' +
-                        endhourmin +
-                        '</select><select name="swalEvtrecurrence_type" required id="swalEvtrecurrence_type" class="input-field2"><option selected value="none">No Recurring</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select>' +
-                        '<textarea name="description" id="swalEvtDescription" class="input-field2"  placeholder="Enter Description"  required=""></textarea>',
+                        html:
+                            '<input type="text" class="input-field2" id="swalEvtCustomerName" name="customer_name" placeholder="Add Title (Customer Name) (Required)" required>' +
+                            '<input type="text" class="input-field2" id="swalEvtResPerson" name="res_person" placeholder="Responsible Person (Optional)">' +
+                            '<input type="text" class="input-field2" id="swalEvtPhone" name="phone" placeholder="Enter Phone No (Required)" required>' +
+                            '<select name="room_id" required id="swalEvtRoomId" class="input-field2"><option value="">Room No. (Required)</option>' +
+                                @foreach ($rooms as $room)
+                                    '<option value="{{ $room->id }}">{{ $room->name }}</option>' +
+                                @endforeach
+                            '</select>' +
+                            '<label>Start Date: </label><input type="date" name="swalEvtStartdatetimeCal" id="swalEvtStartdatetimeCal" onchange="handleStartDateTimeChange()" value="' +
+                            startedDate +
+                            '" placeholder="Start Time & Date" required /><select onchange="handleStartDateTimeChange()" name="swalEvtstarthourminCal" required id="swalEvtstarthourminCal" >' +
+                            starthourmin + '</select>' +
+                            '<br><label>End Date: </label><input type="date" name="swalEvtEnddatetimeCal" id="swalEvtEnddatetimeCal" value="' +
+                            endedDate +
+                            '"  required placeholder="End Time & Date" /><select name="swalEvtendhourminCal" required id="swalEvtendhourminCal" >' +
+                            endhourmin +
+                            '<input type="text" class="input-field2" id="swalEvtResDay" name="day" placeholder="Dayes (Required)">' +
+                            '<textarea name="description" id="swalEvtDescription" class="input-field2"  placeholder="Enter Description (Note) (Required)" required></textarea>',
                         focusConfirm: false,
                         showCancelButton: true,
                         cancelButtonText: 'Close',
                         confirmButtonText: 'Submit',
                         preConfirm: () => {
                             return [
-                                document.getElementById('swalEvtSummmery').value,
-                                document.getElementById('swalEvtLocation').value,
+                                document.getElementById('swalEvtCustomerName').value,
+                                document.getElementById('swalEvtResPerson').value,
                                 document.getElementById('swalEvtPhone').value,
-                                document.getElementById('swalEvtColorId').value,
-                                document.getElementById('swalEvtStartdatetimeCal')
-                                .value,
+                                document.getElementById('swalEvtRoomId').value,
+                                document.getElementById('swalEvtStartdatetimeCal').value,
                                 document.getElementById('swalEvtstarthourminCal').value,
                                 document.getElementById('swalEvtEnddatetimeCal').value,
                                 document.getElementById('swalEvtendhourminCal').value,
+                                document.getElementById('swalEvtResDay').value,
                                 document.getElementById('swalEvtDescription').value,
-                                document.getElementById('swalEvtrecurrence_type').value,
                             ]
                         }
                     });

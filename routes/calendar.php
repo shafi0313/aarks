@@ -2,9 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Calendar\HomeController;
+use App\Http\Controllers\Calendar\RoomController;
 
 
-Route::get('/', [HomeController::class,'index'])->name('calendar.home');
+Route::name('calender.')->group(function(){
+    Route::get('/', [HomeController::class,'index'])->name('home');
+    Route::post('/rooms/store', [RoomController::class, 'store'])->name('rooms.store');
+});
+
+
 Route::get('/events', [HomeController::class,'getEvents'])->name('events');
 Route::post('/store-schedule', [HomeController::class,'store'])->name('store-schedule');
 Route::get('/sync-calender', [HomeController::class,'sync_calender'])->name('sync-calender');
@@ -26,3 +32,5 @@ Route::post('/events-update', [HomeController::class,'event_update'])->name('eve
 // Route::post('/user-delete', [HomeController::class,'destroy'])->name('user-delete');
 // Route::get('/user-edit/{id}', [HomeController::class,'user-edit'])->name('user-edit');
 Route::post('/user-update', [HomeController::class,'user_update'])->name('user-update');
+
+

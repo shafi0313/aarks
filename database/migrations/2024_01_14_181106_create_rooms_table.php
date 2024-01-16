@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('color')->nullable();
+            $table->unsignedTinyInteger('no_of_bed')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
