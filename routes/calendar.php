@@ -5,7 +5,7 @@ use App\Http\Controllers\Calendar\HomeController;
 use App\Http\Controllers\Calendar\RoomController;
 
 
-Route::name('calender.')->group(function(){
+Route::name('calendar.')->group(function(){
     Route::get('/', [HomeController::class,'index'])->name('home');
     Route::post('/rooms/store', [RoomController::class, 'store'])->name('rooms.store');
 });
