@@ -7,7 +7,11 @@ use App\Http\Controllers\Calendar\RoomController;
 
 Route::name('calendar.')->group(function(){
     Route::get('/', [HomeController::class,'index'])->name('home');
-    Route::post('/rooms/store', [RoomController::class, 'store'])->name('rooms.store');
+    Route::controller(RoomController::class)->prefix('rooms')->name('rooms.')->group(function(){
+        Route::get('/', [RoomController::class, 'index'])->name('index');
+        Route::post('/store', [RoomController::class, 'store'])->name('store');
+        Route::delete('/destroy', [RoomController::class, 'destroy'])->name('destroy');
+    });
 });
 
 

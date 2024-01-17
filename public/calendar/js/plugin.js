@@ -5,6 +5,7 @@ $(function () {
         },
     });
 });
+
 function ajaxStoreModal(e, form, modal) {
     e.preventDefault();
     // let formData = $(form).serialize();

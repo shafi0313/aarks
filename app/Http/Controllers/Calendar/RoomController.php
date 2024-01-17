@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
+    public function index()
+    {
+        $rooms = Room::where('client_id', client()->id)->get();
+        return response()->json(['rooms'=>$rooms]);
+    }
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -17,8 +22,19 @@ class RoomController extends Controller
         ]);
         $data['client_id'] = client()->id;
         try {
-            Room::create($data);
+            Room::updateOrCreate(['id' => $request->id], $data);
             return response()->json(['message' => 'The information has been inserted'], 200);
+        } catch (\Exception $e) {
+            // return $e->getMessage();
+            return response()->json(['message' => 'Oops something went wrong, Please try again.'], 500);
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        try {
+            Room::find($request->id)->delete();
+            return response()->json(['message' => 'The information has been deleted'], 200);
         } catch (\Exception $e) {
             // return $e->getMessage();
             return response()->json(['message' => 'Oops something went wrong, Please try again.'], 500);

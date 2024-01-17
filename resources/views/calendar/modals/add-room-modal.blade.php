@@ -19,7 +19,7 @@
                 </div>
                 <!-- Modal body -->
                 <div class="p-6 space-y-6">
-                    <form class="space-y-4 md:space-y-6" onsubmit="ajaxStoreModal(event, this, 'addRoomModal')" action="{{ route('calender.rooms.store') }}">
+                    <form class="space-y-4 md:space-y-6" onsubmit="roomStore(event, this, 'addRoomModal')" action="{{ route('calendar.rooms.store') }}">
                         @csrf
                         <div class="input-container">
                             <input type="text" class="input-field" name="name" required>

@@ -54,18 +54,19 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none"> @csrf </form> --}}
             </div>
         </div>
-        <button onclick="toggleModal('addRoomModal')" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-8 ml-8">Add Room</button>
+        <button onclick="toggleModal('addRoomModal')" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-8 ml-8">Add
+            Room</button>
 
         <div class="hidden sm:block grid grid-cols-1 gap-1 md:grid-cols-3">
             <div class="md:col-span-3 mt-4">
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-2 lg:grid-cols-10"
-                    style="background:#ac725e;color:white;">
-                    @foreach ($rooms as $room)
-                        <p value="1" class="bg-orange-500 text-white text-center py-1"
-                            style="background:{{ $room->color }};color:white;cursor: pointer;">
-                            {{-- @if (Auth::user()->email == 'focustaxationwa@gmail.com') onclick="userInfoUpdae('{{ $v->id }}','{{ $v->name }}','{{ $v->email }}','{{ $v->color }}','{{ $v->color }}','{{ $v->calendar_id }}')" @endif> --}}
+                    style="background:#ac725e;color:white;" id="rooms">
+                    {{-- @foreach ($rooms as $room)
+                        <p class="bg-orange-500 text-white text-center py-1"
+                            style="color:white;cursor: pointer;">
                             {{ $room->name }} </p>
-                    @endforeach
+                    @endforeach --}}
+                    <span></span>
                 </div>
             </div>
         </div>
@@ -223,10 +224,12 @@
 
 
     @include('calendar.modals.add-room-modal')
-    @include('calendar.modals.user-info-modal')
+    @include('calendar.modals.edit-room-modal')
     <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="user-modal-id-backdrop"></div>
     <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
     <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="addRoomModal-backdrop"></div>
+    <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="editRoomModal-backdrop"></div>
+    @include('calendar.room-js')
 
     <script type="text/javascript">
         function toggleModal(modalID) {
@@ -414,25 +417,24 @@
                     } =
                     await Swal.fire({
                         title: 'Add Event',
-                        html:
-                            '<input type="text" class="input-field2" id="swalEvtCustomerName" name="customer_name" placeholder="Add Title (Customer Name) (Required)" required>' +
+                        html: '<input type="text" class="input-field2" id="swalEvtCustomerName" name="customer_name" placeholder="Add Title (Customer Name) (Required)" required>' +
                             '<input type="text" class="input-field2" id="swalEvtResPerson" name="res_person" placeholder="Responsible Person (Optional)">' +
                             '<input type="text" class="input-field2" id="swalEvtPhone" name="phone" placeholder="Enter Phone No (Required)" required>' +
                             '<select name="room_id" required id="swalEvtRoomId" class="input-field2"><option value="">Room No. (Required)</option>' +
-                                @foreach ($rooms as $room)
-                                    '<option value="{{ $room->id }}">{{ $room->name }}</option>' +
-                                @endforeach
-                            '</select>' +
-                            '<label>Start Date: </label><input type="date" name="swalEvtStartdatetimeCal" id="swalEvtStartdatetimeCal" onchange="handleStartDateTimeChange()" value="' +
-                            startedDate +
-                            '" placeholder="Start Time & Date" required /><select onchange="handleStartDateTimeChange()" name="swalEvtstarthourminCal" required id="swalEvtstarthourminCal" >' +
-                            starthourmin + '</select>' +
-                            '<br><label>End Date: </label><input type="date" name="swalEvtEnddatetimeCal" id="swalEvtEnddatetimeCal" value="' +
-                            endedDate +
-                            '"  required placeholder="End Time & Date" /><select name="swalEvtendhourminCal" required id="swalEvtendhourminCal" >' +
-                            endhourmin +
-                            '<input type="text" class="input-field2" id="swalEvtResDay" name="day" placeholder="Dayes (Required)">' +
-                            '<textarea name="description" id="swalEvtDescription" class="input-field2"  placeholder="Enter Description (Note) (Required)" required></textarea>',
+                            @foreach ($rooms as $room)
+                                '<option value="{{ $room->id }}">{{ $room->name }}</option>' +
+                            @endforeach
+                        '</select>' +
+                        '<label>Start Date: </label><input type="date" name="swalEvtStartdatetimeCal" id="swalEvtStartdatetimeCal" onchange="handleStartDateTimeChange()" value="' +
+                        startedDate +
+                        '" placeholder="Start Time & Date" required /><select onchange="handleStartDateTimeChange()" name="swalEvtstarthourminCal" required id="swalEvtstarthourminCal" >' +
+                        starthourmin + '</select>' +
+                        '<br><label>End Date: </label><input type="date" name="swalEvtEnddatetimeCal" id="swalEvtEnddatetimeCal" value="' +
+                        endedDate +
+                        '"  required placeholder="End Time & Date" /><select name="swalEvtendhourminCal" required id="swalEvtendhourminCal" >' +
+                        endhourmin +
+                        '<input type="text" class="input-field2" id="swalEvtResDay" name="day" placeholder="Dayes (Required)">' +
+                        '<textarea name="description" id="swalEvtDescription" class="input-field2"  placeholder="Enter Description (Note) (Required)" required></textarea>',
                         focusConfirm: false,
                         showCancelButton: true,
                         cancelButtonText: 'Close',
@@ -443,7 +445,8 @@
                                 document.getElementById('swalEvtResPerson').value,
                                 document.getElementById('swalEvtPhone').value,
                                 document.getElementById('swalEvtRoomId').value,
-                                document.getElementById('swalEvtStartdatetimeCal').value,
+                                document.getElementById('swalEvtStartdatetimeCal')
+                                .value,
                                 document.getElementById('swalEvtstarthourminCal').value,
                                 document.getElementById('swalEvtEnddatetimeCal').value,
                                 document.getElementById('swalEvtendhourminCal').value,
