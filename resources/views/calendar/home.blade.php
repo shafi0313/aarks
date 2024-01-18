@@ -434,7 +434,8 @@
                         '"  required placeholder="End Time & Date" /><select name="swalEvtendhourminCal" required id="swalEvtendhourminCal" >' +
                         endhourmin +
                         '<input type="text" class="input-field2" id="swalEvtResDay" name="day" placeholder="Dayes (Required)">' +
-                        '<textarea name="description" id="swalEvtDescription" class="input-field2"  placeholder="Enter Description (Note) (Required)" required></textarea>',
+                        '<textarea name="description" id="swalEvtDescription" class="input-field2"  placeholder="Enter Description (Note) (Required)" required></textarea>' +
+                        '<a href="{{ route('calendar.invoices.index') }}" class="">Payment</a>',
                         focusConfirm: false,
                         showCancelButton: true,
                         cancelButtonText: 'Close',

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Calendar\HomeController;
+use App\Http\Controllers\Calendar\InvoiceController;
 use App\Http\Controllers\Calendar\RoomController;
 
 
@@ -11,6 +12,12 @@ Route::name('calendar.')->group(function(){
         Route::get('/', [RoomController::class, 'index'])->name('index');
         Route::post('/store', [RoomController::class, 'store'])->name('store');
         Route::delete('/destroy', [RoomController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::controller(InvoiceController::class)->prefix('invoices')->name('invoices.')->group(function(){
+        Route::get('/', [InvoiceController::class, 'index'])->name('index');
+        Route::get('/create/{profession}', [InvoiceController::class, 'create'])->name('create');
+        Route::get('/get-tax', [InvoiceController::class, 'getTax'])->name('get_tax');
     });
 });
 

@@ -89,7 +89,7 @@ class DedotrController extends Controller
     public function jobDelete(Request $r)
     {
         Dedotr_job::findOrFail($r->id)->delete();
-        return response()->json(['status'=>200,'message'=>'Template Deelete']);
+        return response()->json(['status'=>200,'message'=>'Template Delete']);
     }
     public function create()
     {
