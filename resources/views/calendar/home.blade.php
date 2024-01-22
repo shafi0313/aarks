@@ -434,8 +434,8 @@
                         '"  required placeholder="End Time & Date" /><select name="swalEvtendhourminCal" required id="swalEvtendhourminCal" >' +
                         endhourmin +
                         '<input type="text" class="input-field2" id="swalEvtResDay" name="day" placeholder="Dayes (Required)">' +
-                        '<textarea name="description" id="swalEvtDescription" class="input-field2"  placeholder="Enter Description (Note) (Required)" required></textarea>' +
-                        '<a href="{{ route('calendar.invoices.index') }}" class="">Payment</a>',
+                        '<textarea name="description" id="swalEvtDescription" class="input-field2 mb-2" placeholder="Enter Description (Note) (Required)" required></textarea>' +
+                        '<a href="{{ route('calendar.invoices.index') }}" class="bg-blue-500 text-white px-4 py-2 mr-2 rounded-md">Payment</a>',
                         focusConfirm: false,
                         showCancelButton: true,
                         cancelButtonText: 'Close',
@@ -446,8 +446,7 @@
                                 document.getElementById('swalEvtResPerson').value,
                                 document.getElementById('swalEvtPhone').value,
                                 document.getElementById('swalEvtRoomId').value,
-                                document.getElementById('swalEvtStartdatetimeCal')
-                                .value,
+                                document.getElementById('swalEvtStartdatetimeCal').value,
                                 document.getElementById('swalEvtstarthourminCal').value,
                                 document.getElementById('swalEvtEnddatetimeCal').value,
                                 document.getElementById('swalEvtendhourminCal').value,
@@ -461,7 +460,7 @@
                         // Add event
                         console.log('Form Values:', formValues); // Add this line
                         //  console.log('Summary:', document.getElementById('summmery').value);
-                        fetch("{{ route('events-store') }}", {
+                        fetch("{{ route('events.store') }}", {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -478,7 +477,8 @@
                             .then(data => {
                                 if (data.status == 1) {
                                     Swal.fire('Event added successfully!', '', 'success');
-                                } else {
+                                }
+                                else {
                                     Swal.fire(data.message, '', 'error');
                                 }
 
@@ -491,21 +491,23 @@
 
                 eventClick: function(info) {
                     info.jsEvent.preventDefault();
-
                     // change the border color
                     info.el.style.borderColor = 'red';
                     Swal.fire({
-                        title: info.event.title,
+                        // title: info.event.customer_name,
                         //text: info.event.extendedProps.description,
                         icon: 'info',
-                        html: '<p>Description : ' + info.event.extendedProps.description +
-                            '</p><p>Phone : ' + info.event.extendedProps.phone +
-                            '</p><p> Location : ' + info.event.extendedProps.location +
-                            '</p><p> Start Time : ' + info.event.extendedProps.cus_start +
-                            '</p><p> End Time : ' + info.event.extendedProps.cus_end +
-                            '</p><p> Created By : ' + info.event.extendedProps.created +
-                            '</p><p> Recurring Type : ' + info.event.extendedProps
-                            .recurrence_type + '</p>',
+                        html: `
+                                <p>Customer Name : ${info.event.extendedProps.customer_name}</p>
+                                <p>Responsible Person : ${info.event.extendedProps.res_person}</p>
+                                <p>Phone : ${info.event.extendedProps.phone}</p>
+                                <p>Room : ${info.event.extendedProps.room}</p>
+                                <p>Start Time : ${info.event.extendedProps.cus_start}</p>
+                                <p>End Time : ${info.event.extendedProps.cus_end}</p>
+                                <p class="mb-3">Description : ${info.event.extendedProps.description}</p>
+                                <a href="{{ route('calendar.invoices.index') }}/${info.event.extendedProps.event_id}" class="bg-blue-500 text-white px-4 py-2 mr-2 rounded-md">Payment</a>
+                            `,
+
                         showCloseButton: true,
                         showCancelButton: true,
                         showDenyButton: true,

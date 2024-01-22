@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spatie\GoogleCalendar\Event;
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -47,112 +48,183 @@ class HomeController extends Controller
                     ->orWhere('startdatetime', 'like', '%' . $searchQuery . '%');
             })->get();
         } else {
-            $events = Calendar::where(function ($query) use ($start, $end) {
+            $events = Calendar::whereClientId(client()->id)->where(function ($query) use ($start, $end) {
                 $query->where('startdatetime', '<=', $end)
                     ->where('enddatetime', '>=', $start);
             })->get();
         }
-        // $events = Calendar::all();
-
-
-
         $formattedEvents = [];
-
         foreach ($events as $event) {
-            if ($event->recurrence_type != "none") {
-                $occurrences = $this->calculateOccurrences($event, $start, $end);
-                foreach ($occurrences as $occurrence) {
-                    $formattedEvents[] = $this->formatEvent2($occurrence);
-                }
-            } else {
-                $formattedEvents[] = $this->formatEvent($event);
-            }
+            $formattedEvents[] = $this->formatEvent($event);
         }
-
         return response()->json($formattedEvents);
     }
 
     private function formatEvent($event)
     {
-        // $userInfo = User::where('id', $event->user_id)->select('name', 'id', 'color_code')->first();
-
         return [
-            'calender_id' => $event->calender_id,
-            'title' => $event->summmery,
-            'start' => $event->startdatetime,
-            'end' => $event->enddatetime,
-            'cus_start' => $event->startdatetime,
-            'cus_end' => $event->enddatetime,
-            'description' => $event->description,
-            'phone' => $event->phone,
-            'location' => $event->location,
-            // 'color' => $userInfo->color_code,
-            'created' => client()->name,
-            'user_id' => $event->user_id,
-            'recurrence_type' => $event->recurrence_type,
+            'event_id'      => $event->id,
+            'calender_id'   => $event->calender_id,
+            'customer_name' => $event->customer_name,
+            'res_person'    => $event->res_person,
+            'start'         => $event->startdatetime,
+            'end'           => $event->enddatetime,
+            'cus_start'     => $event->startdatetime,
+            'cus_end'       => $event->enddatetime,
+            'phone'         => $event->phone,
+            'room'          => $event->room->name,
+            'day'           => $event->day,
+            'description'   => $event->description,
         ];
     }
 
-    private function formatEvent2($event)
+    public function event_store(Request $request)
     {
-        $userInfo = User::where('id', $event['user_id'])->select('name', 'id', 'color_code')->first();
+        // return $request->all();
+        if (isset($request->event_data) && is_array($request->event_data)) {
+            $value1 = isset($request->event_data[0]) ? $request->event_data[0] : null;
+            $value2 = isset($request->event_data[2]) ? $request->event_data[2] : 1;
+            $value3 = isset($request->event_data[3]) ? $request->event_data[3] : null;
+            $value4 = isset($request->event_data[6]) ? $request->event_data[6] : null;
 
-        return [
-            'calender_id' => $event['calender_id'],
-            'title' => $event['summmery'],
-            'start' => $event['startdatetime'],
-            'end' => $event['enddatetime'],
-            'cus_start' => $event['startdatetime'],
-            'cus_end' => $event['enddatetime'],
-            'description' => $event['description'],
-            'phone' => $event['phone'],
-            'location' => $event['location'],
-            'color' => $userInfo->color_code,
-            'created' => $userInfo->name,
-            'user_id' => $event['user_id'],
-            'recurrence_type' => $event['recurrence_type'],
-        ];
-    }
-
-    private function calculateOccurrences($baseEvent, $start, $end)
-    {
-        $occurrences = [];
-        $currentDate = Carbon::parse($baseEvent->startdatetime);
-
-        if ($baseEvent->recurrence_type != "none") {
-            while ($currentDate <= $end) {
-
-                $startdatetime = $currentDate;
-                $datetime_object = new DateTime($startdatetime);
-                $start_time = $datetime_object->format('H:i:s');
-                $date_only = $datetime_object->format('Y-m-d');
-
-                $enddatetime = $baseEvent->enddatetime;
-                $edatetime_object = new DateTime($enddatetime);
-                $end_time = $edatetime_object->format('H:i:s');
-
-                $datetime_object = new DateTime($date_only . ' ' . $end_time);
-                $enddatetimee = $datetime_object->format('Y-m-d H:i:s');
-
-                $baseEventArray = $baseEvent->toArray();
-                $baseEventArray['startdatetime'] = $currentDate->format('Y-m-d H:i:s');
-                $baseEventArray['enddatetime'] = $enddatetimee;
-                $occurrences[] = $baseEventArray;
-
-                if ($baseEvent->recurrence_type === 'daily') {
-                    $currentDate->addDay();
-                } elseif ($baseEvent->recurrence_type === 'weekly') {
-                    $currentDate->addWeek();
-                } elseif ($baseEvent->recurrence_type === 'monthly') {
-                    $currentDate->addMonth();
-                } elseif ($baseEvent->recurrence_type === 'yearly') {
-                    $currentDate->addYear();
-                }
+            if (empty($value1)) {
+                // At least one of the values is empty
+                return response()->json(['message' => 'To Whom field is required'], 400);
             }
+
+            if (empty($value2)) {
+                // At least one of the values is empty
+                return response()->json(['message' => 'Phone number field is required'], 400);
+            }
+
+            if (empty($value3)) {
+                // At least one of the values is empty
+                return response()->json(['message' => 'With whom field is required'], 400);
+            }
+        } else {
+            $response = array('status' => 0, 'message' => 'Data is missing');
+            return response()->json($response);
         }
 
-        return $occurrences;
+        $inputDateTime = $request->event_data[4] . ' ' . $request->event_data[5];
+        $dateTime = new DateTime($inputDateTime);
+        $startDateTime = $dateTime->format('Y-m-d H:i:s');
+
+        $inputDateTime2 = $request->event_data[6] . ' ' . $request->event_data[7];
+        $dateTime2      = new DateTime($inputDateTime2);
+        $endDateTime    = $dateTime2->format('Y-m-d H:i:s');
+
+        // $userInfo = User::find($request->event_data[3]);
+
+        // if (empty($request->event_data[1])) {
+        //     $location = '8A Rochford way Girrawheen WA 6064';
+        // } else {
+        //     $location = $request->event_data[1];
+        // }
+
+        // $event = new Event;
+        // $inputDateTime       = $request->event_data[4];
+        // $timestamp           = strtotime($inputDateTime);
+        // $formattedDateTime   = date('Y-m-d H:i:s', $timestamp);
+
+
+        // $event->name = $request->event_data[0];
+        // $event->description =  $request->event_data[8] .' Phone No: "' . $request->event_data[2]. ' " ';
+        // $event->colorId = $userInfo->color_id;
+        // $event->location =  $location;
+        // $event->startDateTime = Carbon::createFromFormat('Y-m-d H:i:s',$startDateTime);
+        // $event->endDateTime = Carbon::createFromFormat('Y-m-d H:i:s',$endDateTime);
+
+        // $new = $event->save();
+
+        Calendar::create([
+            'client_id'     => client()->id,
+            'calender_id'   => Str::random(10),
+
+            'customer_name' => $request->event_data[0],
+            'res_person'    => $request->event_data[1],
+            'phone'         => $request->event_data[2],
+            'room_id'       => $request->event_data[3],
+            'startdatetime' => $startDateTime,
+            'enddatetime'   => $endDateTime,
+            'day'           => $request->event_data[8],
+            'description'   => $request->event_data[9],
+            // 'recurrence_type' => $request->event_data[9],
+            // 'status'          => 0,
+        ]);
+        try {
+            $response = array('status' => 1, 'message' => 'Event Successfully created');
+            return response()->json($response);
+        } catch (Exception $e) {
+            // return $e->getMessage();
+            $response = array('status' => 0, 'message' => $e->getMessage());
+            return response()->json($response);
+        }
+
+        // $response = array('status' => 1, 'message' => 'Success post data');
+        // return response()->json($response);
     }
+
+    // private function formatEvent2($event)
+    // {
+    //     $userInfo = Client::where('id', client()->id)->first();
+
+    //     return [
+    //         'calender_id' => $event['calender_id'],
+    //         'title' => $event['summmery'],
+    //         'start' => $event['startdatetime'],
+    //         'end' => $event['enddatetime'],
+    //         'cus_start' => $event['startdatetime'],
+    //         'cus_end' => $event['enddatetime'],
+    //         'description' => $event['description'],
+    //         'phone' => $event['phone'],
+    //         // 'location' => $event['location'],
+    //         // 'color' => $userInfo->color_code,
+    //         // 'created' => $userInfo->name,
+    //         // 'user_id' => client()->id,
+    //         // 'recurrence_type' => $event['recurrence_type'],
+    //     ];
+    // }
+
+    // private function calculateOccurrences($baseEvent, $start, $end)
+    // {
+    //     $occurrences = [];
+    //     $currentDate = Carbon::parse($baseEvent->startdatetime);
+
+    //     if ($baseEvent->recurrence_type != "none") {
+    //         while ($currentDate <= $end) {
+
+    //             $startdatetime = $currentDate;
+    //             $datetime_object = new DateTime($startdatetime);
+    //             $start_time = $datetime_object->format('H:i:s');
+    //             $date_only = $datetime_object->format('Y-m-d');
+
+    //             $enddatetime = $baseEvent->enddatetime;
+    //             $edatetime_object = new DateTime($enddatetime);
+    //             $end_time = $edatetime_object->format('H:i:s');
+
+    //             $datetime_object = new DateTime($date_only . ' ' . $end_time);
+    //             $enddatetimee = $datetime_object->format('Y-m-d H:i:s');
+
+    //             $baseEventArray = $baseEvent->toArray();
+    //             $baseEventArray['startdatetime'] = $currentDate->format('Y-m-d H:i:s');
+    //             $baseEventArray['enddatetime'] = $enddatetimee;
+    //             $occurrences[] = $baseEventArray;
+
+    //             if ($baseEvent->recurrence_type === 'daily') {
+    //                 $currentDate->addDay();
+    //             } elseif ($baseEvent->recurrence_type === 'weekly') {
+    //                 $currentDate->addWeek();
+    //             } elseif ($baseEvent->recurrence_type === 'monthly') {
+    //                 $currentDate->addMonth();
+    //             } elseif ($baseEvent->recurrence_type === 'yearly') {
+    //                 $currentDate->addYear();
+    //             }
+    //         }
+    //     }
+
+    //     return $occurrences;
+    // }
 
 
     public function getEvents_back(Request $request)
@@ -332,100 +404,24 @@ class HomeController extends Controller
 
 
         Calendar::create([
-            'user_id' => client()->id,
-            'calender_id' => Str::random(10),
-            'summmery' => $request->summmery,
-            'location' => $location,
-            'phone' => $request->phone ?? 1,
-            'colorId' => $request->colorId,
-            'description' => $request->description,
-            'recurrence_type' => $request->recurrence_type,
-            'startdatetime' => $startDateTime,
-            'enddatetime' => $endDateTime,
-            'status' => 0,
+            'user_id'         => client()->id,
+            'calender_id'     => Str::random(10),
+            'summmery'        => $request->summmery,
+            'location'        => $location,
+            'phone'           => $request->phone ?? 1,
+            // 'colorId'         => $request->colorId,
+            'description'     => $request->description,
+            // 'recurrence_type' => $request->recurrence_type,
+            'startdatetime'   => $startDateTime,
+            'enddatetime'     => $endDateTime,
+            'status'          => 0,
         ]);
         Session::flash('success', 'Event created successful....');
         return redirect()->back();
     }
 
 
-    public function event_store(Request $request)
-    {
-        // return 'ok';
 
-        if (isset($request->event_data) && is_array($request->event_data)) {
-            $value1 = isset($request->event_data[0]) ? $request->event_data[0] : null;
-            $value2 = isset($request->event_data[2]) ? $request->event_data[2] : 1;
-            $value3 = isset($request->event_data[3]) ? $request->event_data[3] : null;
-            $value4 = isset($request->event_data[6]) ? $request->event_data[6] : null;
-
-            if (empty($value1)) {
-                // At least one of the values is empty
-                return response()->json(['message' => 'To Whom field is required'], 400);
-            }
-
-            if (empty($value2)) {
-                // At least one of the values is empty
-                return response()->json(['message' => 'Phone number field is required'], 400);
-            }
-
-            if (empty($value3)) {
-                // At least one of the values is empty
-                return response()->json(['message' => 'With whom field is required'], 400);
-            }
-        } else {
-            $response = array('status' => 0, 'message' => 'Data is missing');
-            return response()->json($response);
-        }
-
-        $inputDateTime = $request->event_data[4] . ' ' . $request->event_data[5];
-        $dateTime = new DateTime($inputDateTime);
-        $startDateTime = $dateTime->format('Y-m-d H:i:s');
-
-        $inputDateTime2 = $request->event_data[6] . ' ' . $request->event_data[7];
-        $dateTime2      = new DateTime($inputDateTime2);
-        $endDateTime    = $dateTime2->format('Y-m-d H:i:s');
-
-        // $userInfo = User::find($request->event_data[3]);
-
-        if (empty($request->event_data[1])) {
-            $location = '8A Rochford way Girrawheen WA 6064';
-        } else {
-            $location = $request->event_data[1];
-        }
-
-        // $event = new Event;
-        // $inputDateTime       = $request->event_data[4];
-        // $timestamp           = strtotime($inputDateTime);
-        // $formattedDateTime   = date('Y-m-d H:i:s', $timestamp);
-
-
-        // $event->name = $request->event_data[0];
-        // $event->description =  $request->event_data[8] .' Phone No: "' . $request->event_data[2]. ' " ';
-        // $event->colorId = $userInfo->color_id;
-        // $event->location =  $location;
-        // $event->startDateTime = Carbon::createFromFormat('Y-m-d H:i:s',$startDateTime);
-        // $event->endDateTime = Carbon::createFromFormat('Y-m-d H:i:s',$endDateTime);
-
-        // $new = $event->save();
-
-        Calendar::create([
-            'client_id' => client()->id,
-            'calender_id' => Str::random(10), //$new->id,
-            'summmery' => $request->event_data[0],
-            'location' => $location,
-            'phone' => $request->event_data[2] ?? 1,
-            // 'colorId' => $userInfo->color_code,
-            'description' => $request->event_data[8],
-            'recurrence_type' => $request->event_data[9],
-            'startdatetime' => $startDateTime,
-            'enddatetime' => $endDateTime,
-            'status' => 0,
-        ]);
-
-        $response = array('status' => 1, 'message' => 'Success post data');
-        return response()->json($response);
-    }
 
     public function update(Request $request, $id = null)
     {

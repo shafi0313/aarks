@@ -15,8 +15,8 @@ Route::name('calendar.')->group(function(){
     });
 
     Route::controller(InvoiceController::class)->prefix('invoices')->name('invoices.')->group(function(){
-        Route::get('/', [InvoiceController::class, 'index'])->name('index');
-        Route::get('/create/{profession}', [InvoiceController::class, 'create'])->name('create');
+        Route::get('/{calendar_id?}', [InvoiceController::class, 'index'])->name('index');
+        Route::get('/create/{profession}/{calendar_id}', [InvoiceController::class, 'create'])->name('create');
         Route::get('/get-tax', [InvoiceController::class, 'getTax'])->name('get_tax');
     });
 });
@@ -31,7 +31,7 @@ Route::get('/delete/{id}', [HomeController::class,'delete'])->name('delete');
 Route::delete('/destroy/{id}', [HomeController::class,'destroy'])->name('destroy');
 Route::post('/update', [HomeController::class,'update'])->name('update');
 
-Route::post('/events-store', [HomeController::class,'event_store'])->name('events-store');
+Route::post('/events-store', [HomeController::class,'event_store'])->name('events.store'); //*** */
 Route::post('/events-delete', [HomeController::class,'destroy'])->name('events-delete');
 Route::get('/events-edit/{id}', [HomeController::class,'event_edit'])->name('events-edit');
 Route::post('/events-update', [HomeController::class,'event_update'])->name('events-update');

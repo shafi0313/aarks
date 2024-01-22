@@ -22,7 +22,7 @@ return new class extends Migration
             $table->dateTime('startdatetime');
             $table->dateTime('enddatetime');
             $table->text('description');
-            $table->text('status');
+            // $table->text('status');
             $table->timestamps();
         });
     }
