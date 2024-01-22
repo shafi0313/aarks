@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Calendar;
 use App\Models\Client;
 use App\Models\Gsttbl;
 use App\Models\Period;
+use App\Models\Calendar;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use App\Models\GeneralLedger;
@@ -27,7 +28,7 @@ class InvoiceController extends Controller
         return view('calendar.invoice.select_activity', compact('client','calendar_id'));
     }
 
-    public function create(Profession $profession)
+    public function create(Profession $profession, $calendar_id)
     {
         $client  = Client::find(client()->id);
         $payment  = $client->payment;
@@ -50,7 +51,9 @@ class InvoiceController extends Controller
             ->orderBy('code', 'asc')
             ->get();
 
-        return view('calendar.invoice.service_invoice', compact('client', 'customers', 'codes', 'profession', 'liquid_codes'));
+        $calendar = Calendar::find($calendar_id);
+
+        return view('calendar.invoice.service_invoice', compact('client', 'customers', 'codes', 'profession', 'liquid_codes', 'calendar'));
     }
 
     public function getTax(Request $request)

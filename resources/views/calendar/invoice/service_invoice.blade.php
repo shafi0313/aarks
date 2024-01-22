@@ -34,11 +34,11 @@
                                 <div class="row one_of_container d-none">
                                     <div class="col-2 form-group">
                                         <label>Customer Name: <span class="t_red">*</span></label>
-                                        <input type="text" name="name" class="form-control one_of_input">
+                                        <input type="text" name="name" value="{{ $calendar->customer_name }}" class="form-control one_of_input">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Phone:</label>
-                                        <input type="tel" name="phone" class="form-control">
+                                        <input type="tel" name="phone" value="{{ $calendar->phone }}" class="form-control">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Email:</label>
