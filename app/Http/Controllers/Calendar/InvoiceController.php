@@ -65,12 +65,13 @@ class InvoiceController extends Controller
         } else {
             $tax = 'no';
         }
-        return response()->json(['tax' => $tax]);
+        return response()->json(['tax' => $tax, 'status' => 200]);
     }
 
     // Invoice Store
     public function store(DedotrQuoteRequest $request)
     {
+        // return $request;
         $data = $request->validated();
 
         $client = Client::find($request->client_id);
@@ -131,6 +132,7 @@ class InvoiceController extends Controller
             $message = ['status' => 406, 'message' => 'Something went wrong. Please try again.'];
             return response()->json($message);
         }
+        // return 'ok';
 
         foreach ($request->chart_id as $i => $chart_id) {
             $data['chart_id']       = $chart_id;
@@ -138,15 +140,15 @@ class InvoiceController extends Controller
             $data['inv_no']         = $inv_no;
             $data['disc_rate']      = $request->disc_rate[$i];
             $data['disc_amount']    = $request->disc_amount[$i];
-            $data['freight_charge'] = $request->freight_charge[$i];
+            // $data['freight_charge'] = $request->freight_charge[$i];
             $data['is_tax']         = $request->is_tax[$i];
             $data['tax_rate']       = $request->tax_rate[$i];
-            $data['job_des']        = $request->job_des[$i];
-            $data['job_title']      = $request->job_title[$i];
+            // $data['job_des']        = $request->job_des[$i];
+            // $data['job_title']      = $request->job_title[$i];
             $data['price']          = $request->price[$i];
             $data['amount']         = $request->totalamount[$i];
             $data['accum_amount']   = $request->totalamount[$i] + Dedotr::where('client_id', $client->id)->where('profession_id', $request->profession_id)->where('customer_card_id', $request->customer_card_id)->sum('amount');
-
+            // return $data;
             Dedotr::create($data);
         }
 
@@ -159,6 +161,12 @@ class InvoiceController extends Controller
 
             DedotrPaymentReceive::create($payment);
         }
+
+        $cACode = ClientAccountCode::where('client_id', $client->id)
+            ->where('profession_id', $request->profession_id)
+            ->where('id', $request->chart_id)
+            ->first(['id','code']);
+
         $dedotrs = Dedotr::where('client_id', $client->id)
             ->where('tran_id', $tran_id)
             ->whereIn('chart_id', $request->chart_id)
@@ -171,7 +179,7 @@ class InvoiceController extends Controller
             'trn_date'           => $tran_date,
             'trn_id'             => $tran_id,
             'source'             => 'PIN',
-            'chart_code'         => $request->chart_id[0],
+            'chart_code'         => $cACode->code,
             'gross_amount'       => $request->payment_amount,
             'gross_cash_amount'  => 0,
             'gst_accrued_amount' => 0,
@@ -301,7 +309,8 @@ class InvoiceController extends Controller
             ->get();
         // Account code from INV
         foreach ($gstData->where('source', 'INV') as $gd) {
-            $code                     = $codes->where('code', $gd->chart_code)->first();
+            // return$gd->first()->chart_code;
+            $code                     = $codes->where('code', $gd->first()->chart_code)->first();
             $ledger['chart_id']               = $code->code;
             $ledger['client_account_code_id'] = $code->id;
             $ledger['balance']                = abs($gd->net_amount);

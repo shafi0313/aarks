@@ -17,8 +17,12 @@ Route::name('calendar.')->group(function(){
     Route::controller(InvoiceController::class)->prefix('invoices')->name('invoices.')->group(function(){
         Route::get('/{calendar_id?}', [InvoiceController::class, 'index'])->name('index');
         Route::get('/create/{profession}/{calendar_id}', [InvoiceController::class, 'create'])->name('create');
-        Route::get('/get-tax', [InvoiceController::class, 'getTax'])->name('get_tax');
+        Route::post('/store', [InvoiceController::class, 'store'])->name('store');
+
     });
+    // Not working in group
+    Route::get('/get_tax', [InvoiceController::class, 'getTax'])->name('get_tax');
+
 });
 
 

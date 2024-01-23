@@ -18,7 +18,8 @@
                                 </ul>
                             </div>
                         @endif
-                        <form id="invoiceStore" action="{{ route('invoice.store') }}" method="POST" autocomplete="off">
+                        <form id="invoiceStore" action="{{ route('calendar.invoices.store') }}" method="POST"
+                            autocomplete="off">
                             @csrf
                             <div class="card-body">
                                 <div class="row">
@@ -34,11 +35,13 @@
                                 <div class="row one_of_container d-none">
                                     <div class="col-2 form-group">
                                         <label>Customer Name: <span class="t_red">*</span></label>
-                                        <input type="text" name="name" value="{{ $calendar->customer_name }}" class="form-control one_of_input">
+                                        <input type="text" name="name" value="{{ $calendar->customer_name }}"
+                                            class="form-control one_of_input">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Phone:</label>
-                                        <input type="tel" name="phone" value="{{ $calendar->phone }}" class="form-control">
+                                        <input type="tel" name="phone" value="{{ $calendar->phone }}"
+                                            class="form-control">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Email:</label>
@@ -137,7 +140,7 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label>Account Code: <span class="t_red">*</span></label>
-                                            <select name="chart_id" class="form-control form-control-sm" id="chart_id"
+                                            <select name="chart_id" class="form-control form-control-sm chart_id" id="chart_id"
                                                 required>
                                                 <option disabled selected value>Select Account Code</option>
                                                 @foreach ($codes as $code)
@@ -315,7 +318,7 @@
                                     <input type="hidden" name="disc_amount[]" value="${disc_amount}" />
                                     <input type="hidden" name="tax_rate[]" value="${trate}" />
                                     <input type="hidden" name="is_tax[]" value="${tax}" />
-                                    ${tax === 'yes' ? '<input type="hidden" name="gst_amt[]" value="${gst}" />' : '<input type="hidden" name="gst_amt[]" value="0" />'}
+                                    <input type="hidden" name="gst_amt[]" value="${trate}" />
                                     <input type="hidden" name="totalamount[]" value="${totalamount}" />
                                     <a class="item-delete" href="#"><i class="fas fa-trash"></i></a>
                                 </td>
@@ -341,19 +344,24 @@
                         serialMaintain();
                     });
 
-                    $(document).on('change', '#chart_id', function() {
+                    $(document).on('change', '.chart_id', function() {
                         var chart_id = $(this).val();
                         $.ajax({
-                            url: '{{ route('calendar.invoices.get_tax') }}',
+                            url: '{{ route('calendar.get_tax') }}',
                             method: 'get',
                             data: {
                                 chart_id: chart_id
                             },
-                            success: res => {
+                            success: function(res) {
+                                console.log(chart_id);
                                 $('#is_tax').val(res.tax);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.error("AJAX Error:", textStatus, errorThrown);
                             }
                         });
                     });
+
 
 
 
