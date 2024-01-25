@@ -65,7 +65,7 @@ class DedotrInvoiceController extends Controller
             return $q->select('id', 'dedotr_inv', 'payment_amount')->where('client_id', $client->id);
         }, 'customer' => fn ($q) => $q->select('id', 'name')])->where('client_id', $client->id)
             ->where('chart_id', 'not like', '551%')
-            ->where('job_title', '!=', '')
+            // ->where('job_title', '!=', '')
             ->groupBy(['tran_id'])
             // ->groupBy(['customer_card_id','inv_no'])
             ->get();
@@ -363,7 +363,7 @@ class DedotrInvoiceController extends Controller
 
         // Retain Earning For each Transaction
         // RetainEarning::tranRetain($cid, $pid, $tran_id, $ledger, ['INV', 'INV']);
-        
+
         try {
             if ($request->ajax() && $period) {
                 DB::commit();
