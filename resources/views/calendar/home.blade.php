@@ -434,8 +434,7 @@
                         '"  required placeholder="End Time & Date" /><select name="swalEvtendhourminCal" required id="swalEvtendhourminCal" >' +
                         endhourmin +
                         '<input type="text" class="input-field2" id="swalEvtResDay" name="day" placeholder="Dayes (Required)">' +
-                        '<textarea name="description" id="swalEvtDescription" class="input-field2 mb-2" placeholder="Enter Description (Note) (Required)" required></textarea>' +
-                        '<a href="{{ route('calendar.invoices.index') }}" class="bg-blue-500 text-white px-4 py-2 mr-2 rounded-md">Payment</a>',
+                        '<textarea name="description" id="swalEvtDescription" class="input-field2 mb-2" placeholder="Enter Description (Note) (Required)" required></textarea>',
                         focusConfirm: false,
                         showCancelButton: true,
                         cancelButtonText: 'Close',
@@ -506,6 +505,7 @@
                                 <p>End Time : ${info.event.extendedProps.cus_end}</p>
                                 <p class="mb-3">Description : ${info.event.extendedProps.description}</p>
                                 <a href="{{ route('calendar.invoices.index') }}/${info.event.extendedProps.event_id}" class="bg-blue-500 text-white px-4 py-2 mr-2 rounded-md">Payment</a>
+                                <a href="{{ route('calendar.invoices.index') }}/${info.event.extendedProps.event_id}" class="bg-red-500 text-white px-4 py-2 mr-2 rounded-md">Due</a>
                             `,
 
                         showCloseButton: true,
