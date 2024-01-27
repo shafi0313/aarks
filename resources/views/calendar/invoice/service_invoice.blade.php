@@ -80,7 +80,7 @@
                                     <div class="col-2 form-group">
                                         <label>Invoice Date: <span class="t_red">*</span> </label>
                                         <input required class="form-control form-control-sm datepicker" type="text"
-                                            name="start_date" data-date-format="dd/mm/yyyy">
+                                            name="start_date" value="{{ Carbon\Carbon::parse($calendar->enddatetime)->format('d/m/Y') }}" data-date-format="dd/mm/yyyy">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Inv No: </label>
