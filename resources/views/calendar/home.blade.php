@@ -418,8 +418,11 @@
                     await Swal.fire({
                         title: 'Add Event',
                         html: '<input type="text" class="input-field2" id="swalEvtCustomerName" name="customer_name" placeholder="Add Title (Customer Name) (Required)" required>' +
-                            '<input type="text" class="input-field2" id="swalEvtResPerson" name="res_person" placeholder="Responsible Person (Optional)">' +
+                            // '<input type="text" class="input-field2" id="swalEvtResPerson" name="res_person" placeholder="Responsible Person (Optional)">' +
                             '<input type="text" class="input-field2" id="swalEvtPhone" name="phone" placeholder="Enter Phone No (Required)" required>' +
+                            '<input type="text" class="input-field2" id="swalEvtAddress" name="address" placeholder="Enter Address. Ex:4 Toronto P (Required)" required>' +
+                            '<input type="text" class="input-field2" id="swalEvtCity" name="city" placeholder="Enter City. Ex: Wanneroo (Required)" required>' +
+                            '<input type="text" class="input-field2" id="swalEvtState" name="state" placeholder="Enter State. Ex: WA, 6065 (Required)" required>' +
                             '<select name="room_id" required id="swalEvtRoomId" class="input-field2"><option value="">Room No. (Required)</option>' +
                             @foreach ($rooms as $room)
                                 '<option value="{{ $room->id }}">{{ $room->name }}</option>' +

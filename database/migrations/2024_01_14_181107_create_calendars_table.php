@@ -16,8 +16,10 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->foreignId('room_id')->constrained()->cascadeOnDelete();
             $table->string('customer_name');
-            $table->string('res_person')->nullable();
             $table->string('phone',64);
+            $table->string('address');
+            $table->string('city');
+            $table->string('state');
             $table->unsignedBigInteger('day')->nullable();
             $table->dateTime('startdatetime');
             $table->dateTime('enddatetime');
