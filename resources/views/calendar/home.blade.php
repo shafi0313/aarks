@@ -451,7 +451,8 @@
                                 document.getElementById('swalEvtCity').value,
                                 document.getElementById('swalEvtState').value,
                                 document.getElementById('swalEvtRoomId').value,
-                                document.getElementById('swalEvtStartdatetimeCal').value,
+                                document.getElementById('swalEvtStartdatetimeCal')
+                                .value,
                                 document.getElementById('swalEvtstarthourminCal').value,
                                 document.getElementById('swalEvtEnddatetimeCal').value,
                                 document.getElementById('swalEvtendhourminCal').value,
@@ -482,8 +483,7 @@
                             .then(data => {
                                 if (data.status == 1) {
                                     Swal.fire('Event added successfully!', '', 'success');
-                                }
-                                else {
+                                } else {
                                     Swal.fire(data.message, '', 'error');
                                 }
 
