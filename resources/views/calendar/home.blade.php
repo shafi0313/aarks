@@ -445,8 +445,11 @@
                         preConfirm: () => {
                             return [
                                 document.getElementById('swalEvtCustomerName').value,
-                                document.getElementById('swalEvtResPerson').value,
+                                // document.getElementById('swalEvtResPerson').value,
                                 document.getElementById('swalEvtPhone').value,
+                                document.getElementById('swalEvtAddress').value,
+                                document.getElementById('swalEvtCity').value,
+                                document.getElementById('swalEvtState').value,
                                 document.getElementById('swalEvtRoomId').value,
                                 document.getElementById('swalEvtStartdatetimeCal').value,
                                 document.getElementById('swalEvtstarthourminCal').value,

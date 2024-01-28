@@ -66,12 +66,14 @@ class HomeController extends Controller
             'event_id'      => $event->id,
             'calender_id'   => $event->calender_id,
             'customer_name' => $event->customer_name,
-            'res_person'    => $event->res_person,
+            'phone'         => $event->phone,
+            'address'       => $event->address,
+            'city'          => $event->city,
+            'state'         => $event->state,
             'start'         => $event->startdatetime,
             'end'           => $event->enddatetime,
             'cus_start'     => $event->startdatetime,
             'cus_end'       => $event->enddatetime,
-            'phone'         => $event->phone,
             'room'          => $event->room->name,
             'day'           => $event->day,
             'description'   => $event->description,
@@ -82,87 +84,65 @@ class HomeController extends Controller
     {
         // return $request->all();
         if (isset($request->event_data) && is_array($request->event_data)) {
-            $value1 = isset($request->event_data[0]) ? $request->event_data[0] : null;
-            $value2 = isset($request->event_data[2]) ? $request->event_data[2] : 1;
-            $value3 = isset($request->event_data[3]) ? $request->event_data[3] : null;
-            $value4 = isset($request->event_data[6]) ? $request->event_data[6] : null;
+            $value0  = isset($request->event_data[0]) ? $request->event_data[0] : null;
+            $value1  = isset($request->event_data[1]) ? $request->event_data[1] : null;
+            $value2  = isset($request->event_data[2]) ? $request->event_data[2] : null;
+            $value3  = isset($request->event_data[3]) ? $request->event_data[3] : null;
+            $value4  = isset($request->event_data[4]) ? $request->event_data[4] : null;
+            $value10 = isset($request->event_data[10]) ? $request->event_data[10] : null;
 
-            if (empty($value1)) {
-                // At least one of the values is empty
-                return response()->json(['message' => 'To Whom field is required'], 400);
+            if (empty($value0)) {
+                return response()->json(['message' => 'Customer Name is required'], 400);
             }
-
-            if (empty($value2)) {
-                // At least one of the values is empty
+            if (empty($value1)) {
                 return response()->json(['message' => 'Phone number field is required'], 400);
             }
-
+            if (empty($value2)) {
+                return response()->json(['message' => 'Address field is required'], 400);
+            }
             if (empty($value3)) {
-                // At least one of the values is empty
-                return response()->json(['message' => 'With whom field is required'], 400);
+                return response()->json(['message' => 'City field is required'], 400);
+            }
+            if (empty($value4)) {
+                return response()->json(['message' => 'State field is required'], 400);
+            }
+            if (empty($value10)) {
+                return response()->json(['message' => 'Days field is required'], 400);
             }
         } else {
             $response = array('status' => 0, 'message' => 'Data is missing');
             return response()->json($response);
         }
 
-        $inputDateTime = $request->event_data[4] . ' ' . $request->event_data[5];
+        $inputDateTime = $request->event_data[6] . ' ' . $request->event_data[7];
         $dateTime = new DateTime($inputDateTime);
         $startDateTime = $dateTime->format('Y-m-d H:i:s');
 
-        $inputDateTime2 = $request->event_data[6] . ' ' . $request->event_data[7];
+        $inputDateTime2 = $request->event_data[8] . ' ' . $request->event_data[9];
         $dateTime2      = new DateTime($inputDateTime2);
         $endDateTime    = $dateTime2->format('Y-m-d H:i:s');
-
-        // $userInfo = User::find($request->event_data[3]);
-
-        // if (empty($request->event_data[1])) {
-        //     $location = '8A Rochford way Girrawheen WA 6064';
-        // } else {
-        //     $location = $request->event_data[1];
-        // }
-
-        // $event = new Event;
-        // $inputDateTime       = $request->event_data[4];
-        // $timestamp           = strtotime($inputDateTime);
-        // $formattedDateTime   = date('Y-m-d H:i:s', $timestamp);
-
-
-        // $event->name = $request->event_data[0];
-        // $event->description =  $request->event_data[8] .' Phone No: "' . $request->event_data[2]. ' " ';
-        // $event->colorId = $userInfo->color_id;
-        // $event->location =  $location;
-        // $event->startDateTime = Carbon::createFromFormat('Y-m-d H:i:s',$startDateTime);
-        // $event->endDateTime = Carbon::createFromFormat('Y-m-d H:i:s',$endDateTime);
-
-        // $new = $event->save();
 
         Calendar::create([
             'client_id'     => client()->id,
             'calender_id'   => Str::random(10),
-
             'customer_name' => $request->event_data[0],
-            'res_person'    => $request->event_data[1],
-            'phone'         => $request->event_data[2],
-            'room_id'       => $request->event_data[3],
+            'phone'         => $request->event_data[1],
+            'address'       => $request->event_data[2],
+            'city'          => $request->event_data[3],
+            'state'         => $request->event_data[4],
+            'room_id'       => $request->event_data[5],
             'startdatetime' => $startDateTime,
             'enddatetime'   => $endDateTime,
-            'day'           => $request->event_data[8],
-            'description'   => $request->event_data[9],
-            // 'recurrence_type' => $request->event_data[9],
-            // 'status'          => 0,
+            'day'           => $request->event_data[10],
+            'description'   => $request->event_data[11],
         ]);
         try {
             $response = array('status' => 1, 'message' => 'Event Successfully created');
             return response()->json($response);
         } catch (Exception $e) {
-            // return $e->getMessage();
             $response = array('status' => 0, 'message' => $e->getMessage());
             return response()->json($response);
         }
-
-        // $response = array('status' => 1, 'message' => 'Success post data');
-        // return response()->json($response);
     }
 
     // private function formatEvent2($event)
