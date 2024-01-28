@@ -504,8 +504,10 @@
                         icon: 'info',
                         html: `
                                 <p>Customer Name : ${info.event.extendedProps.customer_name}</p>
-                                <p>Responsible Person : ${info.event.extendedProps.res_person}</p>
                                 <p>Phone : ${info.event.extendedProps.phone}</p>
+                                <p>Address : ${info.event.extendedProps.address}</p>
+                                <p>City : ${info.event.extendedProps.city}</p>
+                                <p>State : ${info.event.extendedProps.state}</p>
                                 <p>Room : ${info.event.extendedProps.room}</p>
                                 <p>Start Time : ${info.event.extendedProps.cus_start}</p>
                                 <p>End Time : ${info.event.extendedProps.cus_end}</p>
