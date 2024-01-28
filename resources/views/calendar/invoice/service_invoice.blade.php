@@ -32,7 +32,19 @@
                                 <input type="hidden" name="client_id" value="{{ $client->id }}">
                                 <input type="hidden" name="source" value="invoice">
                                 <input type="hidden" name="profession_id" value="{{ $profession->id }}">
-                                <div class="row one_of_container d-none">
+                                <div class="row one_of_container">
+                                    <div class="col-2 form-group">
+                                        <label>Customer Name: <span class="t_red">*</span></label>
+                                        <select onchange="oneOfCustomer(this)" required
+                                            class="form-control  form-control-sm" name="customer_card_id">
+                                            <option disabled selected value>Select Customer</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}"
+                                                    data-card_type="{{ $customer->customer_type }}" @selected($customer->name=='ONE of Customer')>{{ $customer->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="col-2 form-group">
                                         <label>Customer Name: <span class="t_red">*</span></label>
                                         <input type="text" name="name" value="{{ $calendar->customer_name }}"
@@ -57,25 +69,15 @@
                                         <input type="text" name="city" placeholder="Wanneroo"
                                             class="form-control one_of_input">
                                     </div>
+                                    <hr>
+                                </div>
+                                <div class="row">
+
+
                                     <div class="col-2 form-group">
                                         <label>State & Post Code: <span class="t_red">*</span></label>
                                         <input type="text" name="state" placeholder="WA, 6065"
                                             class="form-control one_of_input">
-                                    </div>
-                                    <hr>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2 form-group">
-                                        <label>Customer Name: <span class="t_red">*</span></label>
-                                        <select onchange="oneOfCustomer(this)" required
-                                            class="form-control  form-control-sm" name="customer_card_id">
-                                            <option disabled selected value>Select Customer</option>
-                                            @foreach ($customers as $customer)
-                                                <option value="{{ $customer->id }}"
-                                                    data-card_type="{{ $customer->customer_type }}">{{ $customer->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Invoice Date: <span class="t_red">*</span> </label>
@@ -428,17 +430,17 @@
                 }
             }
 
-            function oneOfCustomer(value) {
-                let select = $(value);
-                let card_type = select.find(':selected').data('card_type');
-                if (card_type == 'default') {
-                    $(".one_of_container").removeClass('d-none');
-                    $(".one_of_input").prop('required', 'required');
-                } else {
-                    $(".one_of_container").addClass('d-none');
-                    $(".one_of_input").prop('required', '');
-                }
-            }
+            // function oneOfCustomer(value) {
+            //     let select = $(value);
+            //     let card_type = select.find(':selected').data('card_type');
+            //     if (card_type == 'default') {
+            //         $(".one_of_container").removeClass('d-none');
+            //         $(".one_of_input").prop('required', 'required');
+            //     } else {
+            //         $(".one_of_container").addClass('d-none');
+            //         $(".one_of_input").prop('required', '');
+            //     }
+            // }
         </script>
     @endpush
 @stop
