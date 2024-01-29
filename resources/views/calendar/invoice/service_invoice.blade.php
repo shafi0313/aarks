@@ -33,10 +33,10 @@
                                 <input type="hidden" name="source" value="invoice">
                                 <input type="hidden" name="profession_id" value="{{ $profession->id }}">
                                 <div class="row one_of_container">
-                                    <div class="col-2 form-group">
+                                    <div class="col-2 form-group d-none">
                                         <label>Customer Name: <span class="t_red">*</span></label>
                                         <select onchange="oneOfCustomer(this)" required
-                                            class="form-control  form-control-sm" name="customer_card_id">
+                                            class="form-control form-control-sm" name="customer_card_id">
                                             <option disabled selected value>Select Customer</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->id }}"
@@ -57,26 +57,24 @@
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Email:</label>
-                                        <input type="email" name="email" class="form-control">
+                                        <input type="email" name="email" value="{{ $calendar->email }}" class="form-control">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Address: <span class="t_red">*</span></label>
-                                        <input type="text" name="address" placeholder="4 Toronto Pl"
+                                        <input type="text" name="address" value="{{ $calendar->address }}" placeholder="4 Toronto Pl"
                                             class="form-control one_of_input">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>City: <span class="t_red">*</span></label>
-                                        <input type="text" name="city" placeholder="Wanneroo"
+                                        <input type="text" name="city" value="{{ $calendar->city }}" placeholder="Wanneroo"
                                             class="form-control one_of_input">
                                     </div>
                                     <hr>
                                 </div>
                                 <div class="row">
-
-
                                     <div class="col-2 form-group">
                                         <label>State & Post Code: <span class="t_red">*</span></label>
-                                        <input type="text" name="state" placeholder="WA, 6065"
+                                        <input type="text" name="state" value="{{ $calendar->state }}" placeholder="WA, 6065"
                                             class="form-control one_of_input">
                                     </div>
                                     <div class="col-2 form-group">
