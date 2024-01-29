@@ -110,7 +110,6 @@
                                         </label>
                                         <input class="form-control form-control-sm ourRefInput" type="text"
                                             name="" placeholder="Our Reference">
-
                                     </div> --}}
                                 </div>
 
@@ -132,7 +131,6 @@
                                         <label class="">Job Title:<span class="t_red">*</span> </label>
                                         <input class="form-control form-control-sm" type="text" name="job_title" placeholder="Job Title" id="job_title">
                                     </div>
-
                                     <div class="form-group mx-1" style="width: 250px">
                                         <label>Job Description:<span class="t_red">*</span> <button type="button" class="btn btn-warning btn-sm"
                                                 style="padding:0 13px; font-size:12px" data-toggle="modal" data-target="#job"><i
