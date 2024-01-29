@@ -35,12 +35,13 @@
                                 <div class="row one_of_container">
                                     <div class="col-2 form-group d-none">
                                         <label>Customer Name: <span class="t_red">*</span></label>
-                                        <select onchange="oneOfCustomer(this)" required
-                                            class="form-control form-control-sm" name="customer_card_id">
+                                        <select onchange="oneOfCustomer(this)" required class="form-control form-control-sm"
+                                            name="customer_card_id">
                                             <option disabled selected value>Select Customer</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->id }}"
-                                                    data-card_type="{{ $customer->customer_type }}" @selected($customer->name=='ONE of Customer')>{{ $customer->name }}
+                                                    data-card_type="{{ $customer->customer_type }}"
+                                                    @selected($customer->name == 'ONE of Customer')>{{ $customer->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -57,30 +58,33 @@
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Email:</label>
-                                        <input type="email" name="email" value="{{ $calendar->email }}" class="form-control">
+                                        <input type="email" name="email" value="{{ $calendar->email }}"
+                                            class="form-control">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Address: <span class="t_red">*</span></label>
-                                        <input type="text" name="address" value="{{ $calendar->address }}" placeholder="4 Toronto Pl"
-                                            class="form-control one_of_input">
+                                        <input type="text" name="address" value="{{ $calendar->address }}"
+                                            placeholder="4 Toronto Pl" class="form-control one_of_input">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>City: <span class="t_red">*</span></label>
-                                        <input type="text" name="city" value="{{ $calendar->city }}" placeholder="Wanneroo"
-                                            class="form-control one_of_input">
+                                        <input type="text" name="city" value="{{ $calendar->city }}"
+                                            placeholder="Wanneroo" class="form-control one_of_input">
                                     </div>
                                     <hr>
-                                {{-- </div>
+                                    {{-- </div>
                                 <div class="row"> --}}
                                     <div class="col-2 form-group">
                                         <label>State & Post Code: <span class="t_red">*</span></label>
-                                        <input type="text" name="state" value="{{ $calendar->state }}" placeholder="WA, 6065"
-                                            class="form-control one_of_input">
+                                        <input type="text" name="state" value="{{ $calendar->state }}"
+                                            placeholder="WA, 6065" class="form-control one_of_input">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Invoice Date: <span class="t_red">*</span> </label>
                                         <input required class="form-control form-control-sm datepicker" type="text"
-                                            name="start_date" value="{{ Carbon\Carbon::parse($calendar->enddatetime)->format('d/m/Y') }}" data-date-format="dd/mm/yyyy">
+                                            name="start_date"
+                                            value="{{ Carbon\Carbon::parse($calendar->enddatetime)->format('d/m/Y') }}"
+                                            data-date-format="dd/mm/yyyy">
                                     </div>
                                     <div class="col-2 form-group">
                                         <label>Inv No: </label>
@@ -140,8 +144,8 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label>Account Code: <span class="t_red">*</span></label>
-                                            <select name="chart_id" class="form-control form-control-sm chart_id" id="chart_id"
-                                                required>
+                                            <select name="chart_id" class="form-control form-control-sm chart_id"
+                                                id="chart_id" required>
                                                 <option disabled selected value>Select Account Code</option>
                                                 @foreach ($codes as $code)
                                                     <option value="{{ $code->id }}">{{ $code->name }}
@@ -259,14 +263,10 @@
         </div>
     </section>
 
-    <!-- Page Content End -->
-    {{-- @include('frontend.sales.modal') --}}
     @push('script')
         <script>
             $(document).ready(function() {
                 $(function() {
-                    // readData();
-                    // jobReadData();
                     $('.add-item').on('click', function() {
                         var chart_name = $('#chart_id :selected').text();
                         var chart_id = $('#chart_id :selected').val();
@@ -325,8 +325,6 @@
                             </tr>`;
 
                         // Now 'html' contains the refactored HTML string
-
-
                         toast('success', 'Added');
                         $('.item-table tbody').append(html);
                         $('#chart_id').val('');
@@ -361,9 +359,6 @@
                             }
                         });
                     });
-
-
-
 
                     $("#save").on('click', function(e) {
                         e.preventDefault();
@@ -427,18 +422,6 @@
                     $("#payment_amount").attr('disabled', 'disabled')
                 }
             }
-
-            // function oneOfCustomer(value) {
-            //     let select = $(value);
-            //     let card_type = select.find(':selected').data('card_type');
-            //     if (card_type == 'default') {
-            //         $(".one_of_container").removeClass('d-none');
-            //         $(".one_of_input").prop('required', 'required');
-            //     } else {
-            //         $(".one_of_container").addClass('d-none');
-            //         $(".one_of_input").prop('required', '');
-            //     }
-            // }
         </script>
     @endpush
 @stop
