@@ -70,8 +70,8 @@
                                             class="form-control one_of_input">
                                     </div>
                                     <hr>
-                                </div>
-                                <div class="row">
+                                {{-- </div>
+                                <div class="row"> --}}
                                     <div class="col-2 form-group">
                                         <label>State & Post Code: <span class="t_red">*</span></label>
                                         <input type="text" name="state" value="{{ $calendar->state }}" placeholder="WA, 6065"
