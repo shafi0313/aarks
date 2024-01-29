@@ -117,15 +117,14 @@
                         class="hidden sm:block section overflow-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-200 w-full text-sm text-center text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr class="">
-
                                 <th scope="col" class="px-6 py-3" align="left">
-                                    Meeting Description
+                                    Customer Name
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Phone Number
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Location
+                                    Address
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Start Time
@@ -145,49 +144,42 @@
                             @foreach ($all_list as $v)
                                 <tr
                                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-
                                     <th scope="row" class="" align="left">
-
-                                        <div class="">
-                                            <div class="text-base font-semibold">{{ $v['summmery'] }} ~~~
-                                                @php echo $v['description']; @endphp</div>
+                                        <div>
+                                            <div class="text-base font-semibold">
+                                                {{ $v['customer_name'] }}
+                                            </div>
                                         </div>
                                     </th>
-
-                                    <td class="">
+                                    <td>
                                         <div class="flex items-center">
                                             {{ $v['phone'] }}
                                         </div>
                                     </td>
-                                    <td class="">
+                                    <td>
                                         <div class="flex items-center">
-                                            {{ $v['location'] }}
+                                            {{ $v['address'] }}
                                         </div>
                                     </td>
-
-                                    <td class="">
+                                    <td>
                                         <div class="flex items-center">
                                             {{ $v['startdatetime'] }}
                                         </div>
                                     </td>
-
-                                    <td class="">
+                                    <td>
                                         <div class="flex items-center">
                                             {{ $v['enddatetime'] }}
                                         </div>
                                     </td>
-
-                                    <td class="">
+                                    <td>
                                         <div class="flex items-center">
                                             @if ($v['status'] == 0)
                                                 <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Pending
                                             @else
                                                 <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Sent
                                             @endif
-
                                         </div>
                                     </td>
-
                                     <td align="center" class=" ">
                                         <div class="flex items-center">
                                             <!-- <a  href="{{ url('edit/' . $v->calender_id) }}"  class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
@@ -248,9 +240,6 @@
     @endphp
     @include('calendar.modals.setting-modal')
 
-
-
-
     <!-- Event Details Modal -->
     <div id="eventDetailsModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
         <div class="bg-white p-8 w-96 rounded-lg shadow-lg">
@@ -273,7 +262,6 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js">
@@ -367,8 +355,6 @@
                     }
                 },
                 select: async function(start, end, allDay) {
-
-
                     var startDate = new Date(start.startStr);
                     var endDate = new Date(start.endStr);
 
@@ -747,7 +733,6 @@
                     }
                 });
             });
-
 
             // document.getElementById('search-button').addEventListener('click', function() {
             //     var searchQuery =  document.getElementById('search-input').value;
