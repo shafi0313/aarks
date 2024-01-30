@@ -469,7 +469,7 @@ class InvoiceController extends Controller
             ->where('source', 'INV')
             ->forceDelete();
 
-        foreach ($request->job_title as $i => $jobTitle) {
+        foreach ($request->inv_id as $i => $jobTitle) {
             $dedotr = Dedotr::where('id', $request->inv_id[$i])->first();
             $rprice = $gst_total = $request->price[$i];
             $gst    = $trate     = $disc_amount = 0;
@@ -478,9 +478,9 @@ class InvoiceController extends Controller
                 $disc_amount = $rprice * ($request->disc_rate[$i] / 100);
                 $rprice      = $gst_total = ($rprice - $disc_amount);
             }
-            if ($request->freight_charge[$i] != '') {
-                $rprice = $gst_total = ($request->freight_charge[$i]) + ($rprice);
-            }
+            // if ($request->freight_charge[$i] != '') {
+            //     $rprice = $gst_total = ($request->freight_charge[$i]) + ($rprice);
+            // }
             if ($request->is_tax[$i] == 'yes') {
                 $rprice = ($rprice) + ($rprice * 0.1);
                 $gst    = $gst_total * 0.1;

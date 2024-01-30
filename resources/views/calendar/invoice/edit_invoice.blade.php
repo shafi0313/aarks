@@ -18,7 +18,7 @@
                             </div>
                             <hr>
                             <form
-                                action="{{ route('invoice.invupdate', [$invoice->inv_no, $invoice->client_id, $invoice->profession_id]) }}"
+                                action="{{ route('calendar.invoices.update', [$invoice->inv_no, $invoice->client_id, $invoice->profession_id]) }}"
                                 method="POST" autocomplete="off">
                                 @csrf @method('put')
                                 @if ($errors->any())
@@ -98,7 +98,7 @@
                                         <div class="form-group">
                                             <label>Account Code: <span class="t_red">*</span></label>
                                             <select name="chart_id" class="form-control form-control-sm chart_id"
-                                                id="chart_id" required>
+                                                id="chart_id">
                                                 <option disabled selected value>Select Account Code</option>
                                                 @foreach ($codes as $code)
                                                     <option value="{{ $code->id }}">{{ $code->name }}
@@ -384,10 +384,11 @@
                                     <td>
                                     <input type="hidden" name="inv_id[]" value="${v.id}">
                                     <input type="hidden" name="tax_rate[]" value="${v.tax_rate}">
+                                    <input type="hidden" name="chart_id[]" value="${v.chart_id}">
                                     <div class="row mx-auto">
                                         <div class="form-group mx-1">
                                         <label>Account Code: </label>
-                                        <input step="any" class="form-control form-control-sm" type="text" name="price[]" value="${v.client_account_code2.name}">
+                                        <input step="any" class="form-control form-control-sm" type="text" value="${v.client_account_code2.name}">
                                         </div>
                                         <div class="form-group mx-1">
                                         <label>Price: </label>
