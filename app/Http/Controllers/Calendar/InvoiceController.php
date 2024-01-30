@@ -396,4 +396,341 @@ class InvoiceController extends Controller
         }
         // return response()->json($message);
     }
+
+    // Edit Invoice
+    public function edit(Request $request, $inv_no, Client $client, $customer)
+    {
+        $invoices = Dedotr::with(['client', 'customer','clientAccountCode2'])
+            ->where('client_id', $client->id)
+            ->where('customer_card_id', $customer)
+            // ->where('job_title', '!=', '')
+            ->where('inv_no', $inv_no)
+            ->get();
+        $invoice   = $invoices->first();
+        $profession = Profession::findOrFail($invoice->profession_id);
+        if (periodLock($client->id, $invoice->tran_date)) {
+            Alert::error('Your enter data period is locked, check administration');
+            return back();
+        }
+        if ($request->ajax()) {
+            return response()->json(['invoices' => $invoices, 'status' => 200]);
+        }
+        if ($invoices->count() > 0) {
+            $client    = Client::find($invoice->client_id);
+            $customers = CustomerCard::where('client_id', $client->id)->get();
+            $codes     = ClientAccountCode::where('client_id', $invoice->client_id)
+                ->where('profession_id', $invoice->profession_id)
+                ->where(function ($q) {
+                    $q->where('code', 'like', '1%')
+                        ->orWhere('code', 'like', '2%')
+                        ->orWhere('code', 'like', '5%')
+                        ->orWhere('code', 'like', '9%');
+                })
+                ->where('type', '2')
+                ->orderBy('code')
+                ->get();
+            return view('calendar.invoice.edit_invoice', compact('codes', 'invoice', 'invoices', 'customers', 'client', 'profession'));
+        } else {
+            toast('No data found', 'error');
+            return redirect()->route('invoice.manage');
+        }
+    }
+
+    // Update Invoice
+    public function update(DedotrQuoteRequest $request, $invoice, Client $client, Profession $profession)
+    {
+        // return $request;
+        $data = $request->validated();
+
+        $data['tran_date'] = $tran_date = makeBackendCompatibleDate($request->start_date);
+        if (periodLock($client->id, $tran_date)) {
+            Alert::error('Your enter data period is locked, check administration');
+            return back();
+        }
+        $accumData = Dedotr::where('client_id', $request->client_id)
+            ->where('profession_id', $profession->id)
+            ->where('customer_card_id', $request->customer_card_id)
+            ->where('tran_id', $request->tran_id)
+            ->get();
+
+        if ($accumData->count() != Dedotr::where('tran_id', $request->tran_id)->count()) {
+            Alert::error('There is a big problem. Please contact the administrator.');
+            return back();
+        }
+        DB::beginTransaction();
+        Gsttbl::where('client_id', $request->client_id)
+            ->where('profession_id', $profession->id)
+            ->where('trn_id', $request->tran_id)
+            ->where('source', 'INV')
+            ->forceDelete();
+        GeneralLedger::where('client_id', $request->client_id)
+            ->where('profession_id', $profession->id)
+            ->where('transaction_id', $request->tran_id)
+            ->where('source', 'INV')
+            ->forceDelete();
+
+        foreach ($request->job_title as $i => $jobTitle) {
+            $dedotr = Dedotr::where('id', $request->inv_id[$i])->first();
+            $rprice = $gst_total = $request->price[$i];
+            $gst    = $trate     = $disc_amount = 0;
+
+            if ($request->disc_rate[$i] != '') {
+                $disc_amount = $rprice * ($request->disc_rate[$i] / 100);
+                $rprice      = $gst_total = ($rprice - $disc_amount);
+            }
+            if ($request->freight_charge[$i] != '') {
+                $rprice = $gst_total = ($request->freight_charge[$i]) + ($rprice);
+            }
+            if ($request->is_tax[$i] == 'yes') {
+                $rprice = ($rprice) + ($rprice * 0.1);
+                $gst    = $gst_total * 0.1;
+                $trate  = 10.00;
+            } else {
+                $trate = 0.00;
+            }
+            // return $rprice;
+
+            $data['job_title']      = $jobTitle;
+            $data['job_des']        = $request->job_des[$i];
+            $data['amount']         = $rprice;
+            $data['price']          = $request->price[$i];
+            $data['disc_rate']      = $request->disc_rate[$i];
+            $data['disc_amount']    = $disc_amount;
+            $data['freight_charge'] = $request->freight_charge[$i];
+            $data['chart_id']       = $request->chart_id[$i];
+            $data['is_tax']         = $request->is_tax[$i];
+            $data['tax_rate']       = $request->tax_rate[$i];
+
+            // return $data;
+            if ($dedotr) {
+                $data['accum_amount']         = $dedotr->accum_amount;
+                $data['accum_payment_amount'] = $dedotr->accum_payment_amount;
+                $dedotr->update($data);
+            } else {
+                $data['accum_amount']         = $rprice + $accumData->sum('amount');
+                $data['accum_payment_amount'] = $accumData->max('accum_payment_amount');
+                Dedotr::create($data);
+            }
+        }
+
+        // GST TABLE CALCULATION
+        $dedotrs = Dedotr::where('client_id', $request->client_id)
+            ->where('profession_id', $profession->id)
+            ->where('inv_no', $invoice)
+            ->where('tran_id', $request->tran_id)
+            ->where('customer_card_id', $request->customer_card_id)
+            ->orderBy('chart_id')
+            ->get();
+        foreach ($dedotrs->groupBy('chart_id') as $dedotr) {
+            $gst = [
+                'gst_cash_amount' => 0,
+                'client_id'       => $dedotr->first()->client_id,
+                'profession_id'   => $dedotr->first()->profession_id,
+                'chart_code'      => $dedotr->first()->chart_id,
+                'source'          => 'INV',
+                'trn_id'          => $dedotr->first()->tran_id,
+                'trn_date'        => $dedotr->first()->tran_date,
+            ];
+
+            $amount         = $dedotr->sum('amount');
+            $price          = $dedotr->sum('price');
+            $disc_rate      = $dedotr->sum('disc_rate') / $dedotr->count();
+            $freight_charge = $dedotr->sum('freight_charge');
+            if ($dedotr->first()->is_tax == 'yes') {
+                $fPrice          = $price + ($price * 0.1);
+                $pgst            = $price * 0.1;
+                $fDisc_rate      = $price * ($disc_rate / 100) + (($price * ($disc_rate / 100)) * 0.1);
+                $dgst            = ($price * ($disc_rate / 100)) * 0.1;
+                $fFreight_charge = $freight_charge + ($freight_charge * 0.1);
+                $fgst            = $freight_charge * 0.1;
+            } else {
+                $fPrice          = $price;
+                $pgst            = 0;
+                $fDisc_rate      = $price * ($disc_rate / 100);
+                $dgst            = 0;
+                $fFreight_charge = $freight_charge;
+                $fgst            = 0;
+            }
+
+            $gst['gross_amount']       = $fPrice;
+            $gst['gst_accrued_amount'] = $pgst;
+            $gst['net_amount']         = $fPrice - $pgst;
+
+            $checksGst = Gsttbl::where('client_id', $request->client_id)
+                ->where('profession_id', $profession->id)
+                ->where('trn_id', $dedotr->first()->tran_id)
+                ->where('source', 'INV')->get();
+
+            $checkGst = $checksGst->where('chart_code', $dedotr->first()->chart_id)->first();
+            if ($checkGst) {
+                $checkGst->update($gst);
+            } else {
+                Gsttbl::create($gst);
+            }
+            //Freight Charge [If Freight Charge Inserted]
+            if ($dedotr->first()->freight_charge != '' && $fFreight_charge - $fgst != 0) {
+                $gst['gross_amount']       = $fFreight_charge;
+                $gst['gst_accrued_amount'] = $fgst;
+                $gst['net_amount']         = $fFreight_charge - $fgst;
+                if ($dedotr->first()->is_tax == 'yes') {
+                    $gst['chart_code']         = 191295;
+                    $checkfr                   = $checksGst->where('chart_code', 191295)->first();
+                    $gst['gross_amount']       = $fFreight_charge;
+                    $gst['gst_accrued_amount'] = $fgst;
+                    $gst['net_amount']         = $fFreight_charge - $fgst;
+                    if ($checkfr != '') {
+                        $checkfr->update($gst);
+                    } else {
+                        Gsttbl::create($gst);
+                    }
+                } else {
+                    $gst['chart_code']         = 191296;
+                    $checkfr                   = $checksGst->where('chart_code', 191296)->first();
+                    $gst['gross_amount']       = $fFreight_charge;
+                    $gst['gst_accrued_amount'] = $fgst;
+                    $gst['net_amount']         = $fFreight_charge - $fgst;
+                    if ($checkfr != '') {
+                        $checkfr->update($gst);
+                    } else {
+                        Gsttbl::create($gst);
+                    }
+                }
+            }
+
+            //Discount of Sales/Services [If discount data inserted]
+            if ($dedotr->first()->disc_rate != '' && $fDisc_rate + $dgst != 0) {
+                $gst['gross_amount']       = -$fDisc_rate;
+                $gst['gst_accrued_amount'] = -$dgst;
+                $gst['net_amount']         = -$fDisc_rate + $dgst;
+                if ($dedotr->first()->is_tax == 'yes') {
+                    $gst['chart_code']         = 191998;
+                    $checkdis                  = $checksGst->where('chart_code', 191998)->first();
+                    $gst['gross_amount']       = -$fDisc_rate;
+                    $gst['gst_accrued_amount'] = -$dgst;
+                    $gst['net_amount']         = -$fDisc_rate + $dgst;
+                    if ($checkdis != '') {
+                        $checkdis->update($gst);
+                    } else {
+                        Gsttbl::create($gst);
+                    }
+                } else {
+                    $gst['chart_code']         = 191999;
+                    $checkdis                  = $checksGst->where('chart_code', 191999)->first();
+                    $gst['gross_amount']       = -$fDisc_rate;
+                    $gst['gst_accrued_amount'] = -$dgst;
+                    $gst['net_amount']         = -$fDisc_rate + $dgst;
+                    if ($checkdis != '') {
+                        $checkdis->update($gst);
+                    } else {
+                        Gsttbl::create($gst);
+                    }
+                }
+            }
+        }
+
+        // Ledger DATA
+        $ledger['date']           = $tran_date;
+        $ledger['narration']      = $dedotr->first()->customer->name;
+        $ledger['source']         = 'INV';
+        $ledger['client_id']      = $cid              = $client->id;
+        $ledger['profession_id']  = $pid              = $profession->id;
+        $ledger['transaction_id'] = $tran_id          = $dedotrs->first()->tran_id;
+        $ledger['balance_type']   = 2;
+        $ledger['debit']          = $ledger['credit'] = 0;
+
+        $gstData = Gsttbl::where('client_id', $request->client_id)
+            ->where('profession_id', $profession->id)
+            ->where('trn_id', $dedotrs->first()->tran_id)
+            ->where('trn_date', $tran_date->format('Y-m-d'))
+            ->where('source', 'INV')
+            ->orderBy('chart_code')
+            ->get();
+
+        $codes = ClientAccountCode::where('client_id', $client->id)
+            ->where('profession_id', $profession->id)
+            ->orderBy('code')
+            ->get();
+        $genLedger = GeneralLedger::where('client_id', $client->id)
+            ->where('profession_id', $profession->id)
+            ->where('transaction_id', $dedotrs->first()->tran_id)
+            ->where('source', 'INV')
+            ->get();
+
+        $genLoopData = $genLedger;
+        $genTrade    = $genLedger;
+
+        // Account code from INV
+        foreach ($gstData as $gd) {
+            $code                     = $codes->where('code', $gd->chart_code)->first();
+            $ledger['chart_id']               = $code->code;
+            $ledger['client_account_code_id'] = $code->id;
+            $ledger['balance']                = abs($gd->net_amount);
+            $ledger['gst']                    = abs($gd->gst_accrued_amount);
+            if ($code->code == 191998 || $code->code == 191999) {
+                $ledger['balance_type'] = 1;
+                $ledger['debit']        = abs($gd->gross_amount);
+                $ledger['credit']       = 0;
+            } else {
+                $ledger['balance_type'] = 2;
+                $ledger['debit']        = 0;
+                $ledger['credit']       = abs($gd->gross_amount);
+            }
+            $genLed = $genLoopData->where('chart_id', $gd->chart_code)->first();
+            if ($gd->gross_amount != 0) {
+                if ($genLed != '') {
+                    $genLed->update($ledger);
+                } else {
+                    GeneralLedger::create($ledger);
+                }
+            }
+        }
+        // Trade Debotrs code
+        if ($dedotrs->sum('amount') - $dedotrs->first()->payment_amount != 0) {
+            $trade                            = $codes->where('code', 552100)->first();
+            $ledger['balance_type']           = 1;
+            $ledger['chart_id']               = $trade->code;
+            $ledger['client_account_code_id'] = $trade->id;
+            $ledger['balance']                = $ledger['debit'] = $dedotrs->sum('amount') - $dedotrs->first()->payment_amount;
+            $ledger['credit']                 = $ledger['gst'] = 0;
+            $genCredit                        = $genTrade->where('chart_id', 552100)->first();
+            if ($genCredit != '') {
+                $genCredit->update($ledger);
+            } else {
+                GeneralLedger::create($ledger);
+            }
+        }
+
+        // Gst Clear code
+        if ($gstData->sum('gst_accrued_amount') != 0) {
+            $gstpay                           = $codes->where('code', 912100)->first();
+            $ledger['balance_type']           = 2;
+            $ledger['chart_id']               = $gstpay->code;
+            $ledger['client_account_code_id'] = $gstpay->id;
+            $ledger['balance']                = $ledger['credit'] = $gstData->sum('gst_accrued_amount');
+            $ledger['debit']                  = $ledger['gst']    = 0;
+            $genClear                         = $genLedger->where('chart_id', 912100)->first();
+            if ($genClear != '') {
+                $genClear->update($ledger);
+            } else {
+                GeneralLedger::create($ledger);
+            }
+        }
+
+
+
+        //RetailEarning Calculation
+        // RetainEarning::retain($cid, $pid, $tran_date, $ledger, ['INV', 'INV']);
+        // Retain Earning For each Transaction
+        // RetainEarning::tranRetain($cid, $pid, $tran_id, $ledger, ['INV', 'INV']);
+        //RetailEarning Calculation End....
+
+        try {
+            DB::commit();
+            toast('Invoice Update Success', 'success');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            toast($e->getMessage(), 'error');
+        }
+        return redirect()->route('invoice.manage');
+    }
 }

@@ -52,7 +52,7 @@
                                         <input class="form-control form-control-sm" readonly type="text" name="inv_no"
                                             value="{{ $invoice->inv_no }}">
                                     </div>
-                                    <div class="col-2 form-group">
+                                    {{-- <div class="col-2 form-group">
                                         <label>Your Reference: </label>
                                         <input class="form-control form-control-sm" type="text" name="your_ref"
                                             value="{{ $invoice->your_ref }}">
@@ -66,10 +66,10 @@
                                         <input class="form-control form-control-sm ourRefInput" type="text"
                                             name="our_ref" placeholder="{{ $invoice->customer->customer_ref }}">
 
-                                    </div>
+                                    </div> --}}
                                 </div>
 
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-sm-11 form-group">
                                         <label>Quote terms and Conditions: </label>
                                         <textarea class="form-control" rows="2" placeholder="Quote terms and Conditions" id="tearms_area"
@@ -80,8 +80,100 @@
                                         <button type="button" class="btn btn-warning" data-toggle="modal"
                                             data-target="#quote"><i class="far fa-clipboard"></i></button>
                                     </div>
+                                </div> --}}
+                                <div class="row mx-auto">
+                                    {{-- <div class="form-group mx-1">
+                                        <label class="">Job Title:<span class="t_red">*</span> </label>
+                                        <input class="form-control form-control-sm" type="text" name="job_title" placeholder="Job Title" id="job_title">
+                                    </div>
+                                    <div class="form-group mx-1" style="width: 250px">
+                                        <label>Job Description:<span class="t_red">*</span> <button type="button" class="btn btn-warning btn-sm"
+                                                style="padding:0 13px; font-size:12px" data-toggle="modal" data-target="#job"><i
+                                                    class="fas fa-sticky-note"></i></button>
+                                        </label>
+                                        <textarea class="form-control form-control-sm" rows="1" name="job_des" placeholder="Job Description"
+                                            id="job_des"></textarea>
+                                    </div> --}}
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Account Code: <span class="t_red">*</span></label>
+                                            <select name="chart_id" class="form-control form-control-sm chart_id"
+                                                id="chart_id" required>
+                                                <option disabled selected value>Select Account Code</option>
+                                                @foreach ($codes as $code)
+                                                    <option value="{{ $code->id }}">{{ $code->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mx-1">
+                                        <label>Price:<span class="t_red">*</span> </label>
+                                        <input class="form-control form-control-sm" step="any" type="Number"
+                                            name="price" id="price" placeholder="Price">
+                                    </div>
+                                    <div class="form-group mx-1">
+                                        <label>Disc %: </label>
+                                        <input class="form-control form-control-sm" step="any" type="Number"
+                                            name="disc_rate" id="disc_rate" placeholder="Disc %">
+                                    </div>
+                                    {{-- @if (!in_array('Services', $profession->industryCategories->pluck('name')->toArray())) --}}
+                                    {{-- <div class="form-group mx-1" style="width: 120px">
+                                            <label>Freight Charge: </label>
+                                            <input class="form-control form-control-sm" step="any" type="Number" name="freight_charge"
+                                                id="freight_charge">
+                                        </div> --}}
+                                    {{-- @else
+                                        <div class="form-group mx-1" style="width: 120px">
+                                            <label>Freight Charge: </label>
+                                            <input class="form-control form-control-sm" disabled placeholder="0.00" step="any" type="Number"
+                                                id="freight_charge">
+                                        </div>
+                                    @endif --}}
+                                    {{-- <div class="form-group mx-1" style="width: 130px">
+                                        <label>Income Account: </label>
+                                        <input type="hidden" name="chart_id" id="chart_id">
+                                        <input class="form-control form-control-sm" type="text" readonly id="ac_code_name">
+                                    </div> --}}
+
+                                    <div class="form-group mx-1" style="width:70px">
+                                        <label>Tax: </label>
+                                        <input type="text" name="is_tax" step="any" id="is_tax" readonly value
+                                            class="form-control form-control-sm">
+                                    </div>
+                                    <div style="margin-top: 32px;margin-left:7px">
+                                        <button class="btn btn-success btn-sm add-item" type="button">Add</button>
+                                    </div>
                                 </div>
-                                @include('frontend.sales.job')
+                                <hr>
+
+                                <table class="table table-striped table-bordered table-hover table-sm item-table">
+                                    <thead class="text-center" style="font-size: 15px;">
+                                        <tr>
+                                            <th width="4%">SN</th>
+                                            <th width="%">Account Code</th>
+                                            <th width="8%">Price </th>
+                                            <th width="7%">Disc %</th>
+                                            {{-- <th width="11%">Freight Chrg</th> --}}
+                                            {{-- <th width="10%">Account</th> --}}
+                                            <th width="9%">Tax Rate</th>
+                                            <th width="12%">Amount AUD</th>
+                                            <th width="3%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="5" class="text-right">Total:</th>
+                                            <th class="text-right sub-total">$ 0.00 </th>
+                                            <th>
+                                                <input type="hidden" name="total_amount" id="total_amount">
+                                                <input type="hidden" name="gst_amt_subtotal" id="gst_amt_subtotal">
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                                 <div></div>
                                 <table class="table table-light table-bordered">
                                     <tbody class="invContent">
@@ -120,37 +212,24 @@
 
         //COPY FTOM ONLINE
         $('.add-item').on('click', function() {
-            var job_title = $('#job_title').val();
-            var job_description = $('#job_des').val();
+            var chart_name = $('#chart_id :selected').text();
+            var chart_id = $('#chart_id :selected').val();
             var price = $('#price').val();
             var disc = $('#disc_rate').val() == '' ? 0 : $('#disc_rate').val();
-            var freight = $('#freight_charge').val() == '' ? 0 : $('#freight_charge').val();
-            var account = $('#ac_code_name').val();
-            var chart_id = $('#chart_id').val();
             var tax = $('#is_tax').val();
 
-            if (job_title == '') {
-                toast('warning', 'Please enter job title');
-                $('#job_title').focus();
-                return false;
-            }
-            if (job_description == '') {
-                toast('warning', 'Please enter job description');
-                $('#job_des').focus();
+            if (chart_id == '') {
+                alert('Please select account code');
+                $('#chart_id').focus();
                 return false;
             }
             if (price == '') {
-                toast('warning', 'Please enter price');
+                alert('Please enter price');
                 $('#price').focus();
                 return false;
             }
-            if (account == '') {
-                toast('warning', 'Income Account Tax');
-                $('#ac_code_name').focus();
-                return false;
-            }
             if (tax == '') {
-                toast('warning', 'Income Tax');
+                alert('Income Tax');
                 $('#is_tax').focus();
                 return false;
             }
@@ -160,48 +239,39 @@
                 disc_amount = totalamount * (disc / 100);
                 totalamount = gst_total = (totalamount - (totalamount * (disc / 100)));
             }
-            if (freight != '') {
-                totalamount = gst_total = parseFloat(freight) + parseFloat(totalamount);
-            }
             if (tax == 'yes') {
                 totalamount = parseFloat(totalamount) + (totalamount * 0.1);
                 gst = gst_total * 0.1;
-                trate = '10.00';
+                trate = 10.00;
             } else {
-                trate = '0.00'
+                trate = 0.00;
             }
             var pro_name = $('#ac_code_name').val();
-            var html = '<tr>';
-            html += '<tr class="trData"><td class="serial"></td><td>' + job_description + '</td><td>' + parseFloat(
-                    price).toFixed(2) + '</td><td class="text-right">' + parseFloat(disc).toFixed(2) +
-                '</td><td class="text-right">' + parseFloat(freight).toFixed(2) + '</td><td class="text-right">' +
-                pro_name + '</td><td class="text-right">' + trate + '</td><td class="text-right">' + parseFloat(
-                    totalamount).toFixed(2) + '</td><td align="center">';
-            html += '<input type="hidden" name="job_title[]" value="' + job_title + '" />';
-            html += '<input type="hidden" name="inv_id[]">';
-            html += '<input type="hidden" name="job_des[]" value="' + job_description + '" />';
-            html += '<input type="hidden" name="price[]" value="' + price + '" />';
-            html += '<input type="hidden" name="disc_rate[]" value="' + disc + '" />';
-            html += '<input type="hidden" name="disc_amount[]" value="' + disc_amount + '" />';
-            html += '<input type="hidden" name="freight_charge[]" value="' + freight + '" />';
-            // html += '<input type="hidden" name="account[]" value="' + account + '" />';
-            html += '<input type="hidden" name="is_tax[]" value="' + tax + '" />';
-            html += '<input type="hidden" name="tax_rate[]" value="' + trate + '" />';
-            if (tax == 'yes') {
-                html += '<input type="hidden" name="gst_amt[]" value="' + gst + '" />';
-            } else {
-                html += '<input type="hidden" name="gst_amt[]" value="0" />';
-            }
-            html += '<input type="hidden" name="totalamount[]" value="' + totalamount + '" />';
-            html += '<input type="hidden" name="chart_id[]" value="' + chart_id + '" />';
-            html += '<a class="item-delete" href="#"><i class="fas fa-trash"></i></a></td></tr>';
+            let html = `
+                <tr class="trData">
+                    <td class="serial"></td>
+                    <td>${chart_name}</td>
+                    <td>${parseFloat(price).toFixed(2)}</td>
+                    <td class="text-right">${parseFloat(disc).toFixed(2)}</td>
+                    <td class="text-right">${trate}</td>
+                    <td class="text-right">${parseFloat(totalamount).toFixed(2)}</td>
+                    <td align="center">
+                        <input type="hidden" name="chart_id[]" value="${chart_id}" />
+                        <input type="hidden" name="price[]" value="${price}" />
+                        <input type="hidden" name="disc_rate[]" value="${disc}" />
+                        <input type="hidden" name="disc_amount[]" value="${disc_amount}" />
+                        <input type="hidden" name="tax_rate[]" value="${trate}" />
+                        <input type="hidden" name="is_tax[]" value="${tax}" />
+                        <input type="hidden" name="gst_amt[]" value="${trate}" />
+                        <input type="hidden" name="totalamount[]" value="${totalamount}" />
+                        <a class="item-delete" href="#"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>`;
             toast('success', 'Code Added');
             $('.item-table tbody').append(html);
-            $('#job_title').val('');
-            $('#job_des').val('');
+            $('#chart_id').val('');
             $('#price').val('');
             $('#disc_rate').val('');
-            $('#freight_charge').val('');
             serialMaintain();
         });
 
@@ -211,6 +281,24 @@
             toast('warning', 'item removed!');
             e.preventDefault();
             serialMaintain();
+        });
+
+        $(document).on('change', '.chart_id', function() {
+            var chart_id = $(this).val();
+            $.ajax({
+                url: '{{ route('calendar.get_tax') }}',
+                method: 'get',
+                data: {
+                    chart_id: chart_id
+                },
+                success: function(res) {
+                    console.log(chart_id);
+                    $('#is_tax').val(res.tax);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX Error:", textStatus, errorThrown);
+                }
+            });
         });
 
         function serialMaintain() {
@@ -284,34 +372,49 @@
 
         function Quotes() {
             $.ajax({
-                url: '{{ route('invoice.invedit', [$invoice->inv_no, $invoice->client_id, $invoice->customer_card_id]) }}',
+                url: '{{ route('calendar.invoices.edit', [$invoice->inv_no, $invoice->client_id, $invoice->customer_card_id]) }}',
                 method: 'get',
                 success: res => {
                     if (res.status == 200) {
                         let jobData = '';
                         $.each(res.invoices, function(i, v) {
                             console.log(v.job_des);
-                            jobData += '<tr><td>  <input type="hidden" name="inv_id[]" value="' + v.id +
-                                '"><input type="hidden" name="tax_rate[]" value="' + v.tax_rate +
-                                '"><div class="row mx-auto"><div class="form-group mx-1"><label class="">Job Title: </label><input class="form-control form-control-sm" type="text" name="job_title[]" placeholder="Job Title" value="' +
-                                v.job_title +
-                                '"></div><div class="form-group mx-1" style="width: 240px"><label>Job Description: </label> <textarea class="form-control  form-control-sm" rows="1" name="job_des[]" placeholder="Job Description">' +
-                                v.job_des +
-                                '</textarea> </div><div class="form-group mx-1" style="width: 100px"><label>Price: </label><input step="any" class="form-control form-control-sm" type="Number" name="price[]" value="' +
-                                v.price +
-                                '"></div><div class="form-group mx-1" style="width: 100px"><label>Disc %: </label><input step="any" class="form-control form-control-sm" type="Number" name="disc_rate[]" value="' +
-                                v.disc_rate +
-                                '"></div><div class="form-group mx-1" style="width: 120px"><label>Freight Charge: </label><input class="form-control form-control-sm" step="any" type="Number" name="freight_charge[]"value="' +
-                                v.freight_charge +
-                                '"></div><div class="form-group mx-1" style="width: 130px"><label>Income Account: </label><input type="hidden" name="chart_id[]" id="chart_id" value="' +
-                                v.chart_id +
-                                '"><input class="form-control form-control-sm" type="text" readonly id="`ac_code_name" value="' +
-                                v.chart_id +
-                                '"></div><div class="form-group mx-1" style="width:70px"><label>Tax: </label><input type="text" name="is_tax[]" id="is_tax" readonly class="form-control form-control-sm" value="' +
-                                v.is_tax +
-                                '"></div><div style="margin-top: 32px;margin-left:7px"><button class="btn btn-danger btn-sm" type="button" onclick="deleteData(' +
-                                v.id +
-                                ')"><i class="far fa-trash-alt"></i></button></div></div></td></tr>';
+                            jobData += `
+                                <tr>
+                                    <td>
+                                    <input type="hidden" name="inv_id[]" value="${v.id}">
+                                    <input type="hidden" name="tax_rate[]" value="${v.tax_rate}">
+                                    <div class="row mx-auto">
+                                        <div class="form-group mx-1">
+                                        <label>Account Code: </label>
+                                        <input step="any" class="form-control form-control-sm" type="text" name="price[]" value="${v.client_account_code2.name}">
+                                        </div>
+                                        <div class="form-group mx-1">
+                                        <label>Price: </label>
+                                        <input step="any" class="form-control form-control-sm" type="Number" name="price[]" value="${v.price}">
+                                        </div>
+                                        <div class="form-group mx-1">
+                                        <label>Disc %: </label>
+                                        <input step="any" class="form-control form-control-sm" type="Number" name="disc_rate[]" value="${v.disc_rate}">
+                                        </div>
+                                        <div class="form-group mx-1">
+                                        <label>Income Account: </label>
+                                        <input type="hidden" name="chart_id[]" id="chart_id" value="${v.chart_id}">
+                                        <input class="form-control form-control-sm" type="text" readonly id="ac_code_name" value="${v.chart_id}">
+                                        </div>
+                                        <div class="form-group mx-1" style="width:70px">
+                                        <label>Tax: </label>
+                                        <input type="text" name="is_tax[]" id="is_tax" readonly class="form-control form-control-sm" value="${v.is_tax}">
+                                        </div>
+                                        <div style="margin-top: 32px; margin-left:7px">
+                                        <button class="btn btn-danger btn-sm" type="button" onclick="deleteData(${v.id})">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                        </div>
+                                    </div>
+                                    </td>
+                                </tr>`;
+
                         });
                         $(".invContent").html(jobData);
                     } else {

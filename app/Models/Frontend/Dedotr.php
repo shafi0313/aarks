@@ -24,6 +24,11 @@ class Dedotr extends Model
     {
         return $this->belongsTo(ClientAccountCode::class, 'chart_id', 'code');
     }
+    // for client account code
+    public function clientAccountCode2()
+    {
+        return $this->belongsTo(ClientAccountCode::class, 'chart_id', 'id');
+    }
     public function client()
     {
         return $this->belongsTo(Client::class);

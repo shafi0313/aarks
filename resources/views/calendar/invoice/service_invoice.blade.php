@@ -33,7 +33,7 @@
                                 <input type="hidden" name="source" value="invoice">
                                 <input type="hidden" name="profession_id" value="{{ $profession->id }}">
                                 <div class="row one_of_container">
-                                    <div class="col-2 form-group d-none">
+                                    <div class="col-2 form-group">
                                         <label>Customer Name: <span class="t_red">*</span></label>
                                         <select onchange="oneOfCustomer(this)" required class="form-control form-control-sm"
                                             name="customer_card_id">
@@ -328,7 +328,6 @@
                         $('#chart_id').val('');
                         $('#price').val('');
                         $('#disc_rate').val('');
-                        $('#freight_charge').val('');
                         serialMaintain();
                     });
 

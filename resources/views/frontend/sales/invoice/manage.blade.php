@@ -79,8 +79,15 @@
                                                             class="btn btn-primary btn-sm">
                                                             <i class="far fa-envelope-open"></i>
                                                         </a>
-                                                        <a title="Invoice Edit"
-                                                            href="{{ route('invoice.invedit', [$invoice->inv_no, $client->id, $invoice->customer_card_id]) }}"
+
+                                                        @php
+                                                            if ($invoice->job_title != '') {
+                                                                $route = route('invoice.invedit', [$invoice->inv_no, $client->id, $invoice->customer_card_id]);
+                                                            } else {
+                                                                $route = route('calendar.invoices.edit', [$invoice->inv_no, $client->id, $invoice->customer_card_id]);
+                                                            }
+                                                        @endphp
+                                                        <a title="Invoice Edit" href="{{ $route }}"
                                                             class="btn btn-warning btn-sm">
                                                             <i class="fas fa-edit"></i>
                                                         </a>

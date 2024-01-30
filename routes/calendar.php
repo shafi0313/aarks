@@ -18,6 +18,7 @@ Route::name('calendar.')->group(function(){
         Route::get('/{calendar_id?}', [InvoiceController::class, 'index'])->name('index');
         Route::get('/create/{profession}/{calendar_id}', [InvoiceController::class, 'create'])->name('create');
         Route::post('/store', [InvoiceController::class, 'store'])->name('store');
+        Route::get('/edit/{inv}/{client}/{customer}', [InvoiceController::class, 'edit'])->name('edit');
 
     });
     // Not working in group
