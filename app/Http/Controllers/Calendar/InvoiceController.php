@@ -490,13 +490,13 @@ class InvoiceController extends Controller
             }
             // return $rprice;
 
-            $data['job_title']      = $jobTitle;
-            $data['job_des']        = $request->job_des[$i];
+            // $data['job_title']      = $jobTitle;
+            // $data['job_des']        = $request->job_des[$i];
             $data['amount']         = $rprice;
             $data['price']          = $request->price[$i];
             $data['disc_rate']      = $request->disc_rate[$i];
             $data['disc_amount']    = $disc_amount;
-            $data['freight_charge'] = $request->freight_charge[$i];
+            // $data['freight_charge'] = $request->freight_charge[$i];
             $data['chart_id']       = $request->chart_id[$i];
             $data['is_tax']         = $request->is_tax[$i];
             $data['tax_rate']       = $request->tax_rate[$i];

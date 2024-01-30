@@ -32,7 +32,7 @@
                                 <input type="hidden" name="client_id" value="{{ $client->id }}">
                                 <input type="hidden" name="source" value="invoice">
                                 <input type="hidden" name="profession_id" value="{{ $profession->id }}">
-                                <div class="row one_of_container">
+                                <div class="row ">
                                     <div class="col-2 form-group">
                                         <label>Customer Name: <span class="t_red">*</span></label>
                                         <select onchange="oneOfCustomer(this)" required class="form-control form-control-sm"
@@ -46,27 +46,28 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-2 form-group">
+
+                                    <div class="col-2 form-group one_of_container">
                                         <label>Customer Name: <span class="t_red">*</span></label>
                                         <input type="text" name="name" value="{{ $calendar->customer_name }}"
                                             class="form-control one_of_input">
                                     </div>
-                                    <div class="col-2 form-group">
+                                    <div class="col-2 form-group one_of_container">
                                         <label>Phone:</label>
                                         <input type="tel" name="phone" value="{{ $calendar->phone }}"
                                             class="form-control">
                                     </div>
-                                    <div class="col-2 form-group">
+                                    <div class="col-2 form-group one_of_container">
                                         <label>Email:</label>
                                         <input type="email" name="email" value="{{ $calendar->email }}"
                                             class="form-control">
                                     </div>
-                                    <div class="col-2 form-group">
+                                    <div class="col-2 form-group one_of_container">
                                         <label>Address: <span class="t_red">*</span></label>
                                         <input type="text" name="address" value="{{ $calendar->address }}"
                                             placeholder="4 Toronto Pl" class="form-control one_of_input">
                                     </div>
-                                    <div class="col-2 form-group">
+                                    <div class="col-2 form-group one_of_container">
                                         <label>City: <span class="t_red">*</span></label>
                                         <input type="text" name="city" value="{{ $calendar->city }}"
                                             placeholder="Wanneroo" class="form-control one_of_input">
@@ -74,7 +75,7 @@
                                     <hr>
                                     {{-- </div>
                                 <div class="row"> --}}
-                                    <div class="col-2 form-group">
+                                    <div class="col-2 form-group one_of_container">
                                         <label>State & Post Code: <span class="t_red">*</span></label>
                                         <input type="text" name="state" value="{{ $calendar->state }}"
                                             placeholder="WA, 6065" class="form-control one_of_input">
@@ -417,6 +418,18 @@
                     $("#payment_amount").removeAttr('disabled')
                 } else {
                     $("#payment_amount").attr('disabled', 'disabled')
+                }
+            }
+
+            function oneOfCustomer(value) {
+                let select = $(value);
+                let card_type = select.find(':selected').data('card_type');
+                if (card_type == 'default') {
+                    $(".one_of_container").removeClass('d-none');
+                    $(".one_of_input").prop('required', 'required');
+                } else {
+                    $(".one_of_container").addClass('d-none');
+                    $(".one_of_input").prop('required', '');
                 }
             }
         </script>
