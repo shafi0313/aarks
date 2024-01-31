@@ -25,7 +25,7 @@ class InvoiceController extends Controller
     public function index($calendar_id)
     {
         $client = Client::with('professions')->find(client()->id);
-        return view('calendar.invoice.select_activity', compact('client','calendar_id'));
+        return view('calendar.invoice.select_activity', compact('client', 'calendar_id'));
     }
 
     public function create(Profession $profession, $calendar_id)
@@ -165,7 +165,7 @@ class InvoiceController extends Controller
         $cACode = ClientAccountCode::where('client_id', $client->id)
             ->where('profession_id', $request->profession_id)
             ->where('id', $request->chart_id)
-            ->first(['id','code']);
+            ->first(['id', 'code']);
 
         $dedotrs = Dedotr::where('client_id', $client->id)
             ->where('tran_id', $tran_id)
@@ -400,7 +400,7 @@ class InvoiceController extends Controller
     // Edit Invoice
     public function edit(Request $request, $inv_no, Client $client, $customer)
     {
-        $invoices = Dedotr::with(['client', 'customer','clientAccountCode2'])
+        $invoices = Dedotr::with(['client', 'customer', 'clientAccountCode2'])
             ->where('client_id', $client->id)
             ->where('customer_card_id', $customer)
             // ->where('job_title', '!=', '')
@@ -449,10 +449,10 @@ class InvoiceController extends Controller
         }
         $accumData = Dedotr::where('client_id', $request->client_id)
             ->where('profession_id', $profession->id)
-            ->where('customer_card_id', $request->customer_card_id)
+            // ->where('customer_card_id', $request->customer_card_id)
             ->where('tran_id', $request->tran_id)
             ->get();
-
+            
         if ($accumData->count() != Dedotr::where('tran_id', $request->tran_id)->count()) {
             Alert::error('There is a big problem. Please contact the administrator.');
             return back();
@@ -469,8 +469,8 @@ class InvoiceController extends Controller
             ->where('source', 'INV')
             ->forceDelete();
 
-        foreach ($request->inv_id as $i => $jobTitle) {
-            $dedotr = Dedotr::where('id', $request->inv_id[$i])->first();
+        foreach ($request->chart_id as $i => $chart_id) {
+            // $dedotr = Dedotr::where('id', $request->inv_id[$i])->first();
             $rprice = $gst_total = $request->price[$i];
             $gst    = $trate     = $disc_amount = 0;
 
@@ -501,8 +501,8 @@ class InvoiceController extends Controller
             $data['is_tax']         = $request->is_tax[$i];
             $data['tax_rate']       = $request->tax_rate[$i];
 
-            // return $data;
-            if ($dedotr) {
+            if (isset($request->inv_id[$i])) {
+                $dedotr = Dedotr::where('id', $request->inv_id[$i])->first();
                 $data['accum_amount']         = $dedotr->accum_amount;
                 $data['accum_payment_amount'] = $dedotr->accum_payment_amount;
                 $dedotr->update($data);
@@ -661,7 +661,7 @@ class InvoiceController extends Controller
 
         // Account code from INV
         foreach ($gstData as $gd) {
-            $code                     = $codes->where('code', $gd->chart_code)->first();
+            $code                             = $codes->where('code', $gd->first()->chart_code)->first();
             $ledger['chart_id']               = $code->code;
             $ledger['client_account_code_id'] = $code->id;
             $ledger['balance']                = abs($gd->net_amount);
