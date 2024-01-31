@@ -386,7 +386,7 @@
                                     <input type="hidden" name="tax_rate[]" value="${v.tax_rate}">
                                     <input type="hidden" name="chart_id[]" value="${v.chart_id}">
                                     <div class="row mx-auto">
-                                        <div class="form-group mx-1">
+                                        <div class="form-group mx-1" style="width:42%">
                                         <label>Account Code: </label>
                                         <input step="any" class="form-control form-control-sm" type="text" value="${v.client_account_code2.name}">
                                         </div>
@@ -399,11 +399,6 @@
                                         <input step="any" class="form-control form-control-sm" type="Number" name="disc_rate[]" value="${v.disc_rate}">
                                         </div>
                                         <div class="form-group mx-1">
-                                        <label>Income Account: </label>
-                                        <input type="hidden" name="chart_id[]" id="chart_id" value="${v.chart_id}">
-                                        <input class="form-control form-control-sm" type="text" readonly id="ac_code_name" value="${v.chart_id}">
-                                        </div>
-                                        <div class="form-group mx-1" style="width:70px">
                                         <label>Tax: </label>
                                         <input type="text" name="is_tax[]" id="is_tax" readonly class="form-control form-control-sm" value="${v.is_tax}">
                                         </div>
