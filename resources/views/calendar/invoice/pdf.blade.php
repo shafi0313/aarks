@@ -113,7 +113,7 @@
                             style="border-right: 1px solid #000;border-bottom: 1px solid #000;font-size: 10pt;">
                             <strong>Invoice Number</strong>
                         </td>
-                        <td align="center"
+                        {{-- <td align="center"
                             style="border-right: 1px solid #000;border-bottom: 1px solid #000;font-size: 10pt;">
                             <strong>Your Ref</strong>
                         </td>
@@ -124,19 +124,19 @@
 
                         <td align="center" style="border-bottom: 1px solid #000;font-size: 10pt;">
                             <strong> Due Date</strong>
-                        </td>
+                        </td> --}}
                     </tr>
                     <tr>
                         <td align="center" style="border-right:1px solid #000;font-size: 10pt;">
                             {{ bdDate($inv->tran_date) }}</td>
                         <td align="left" style="border-right:1px solid #000;font-size: 10pt;">
                             {{ invoice($inv->inv_no) }}</td>
-                        <td align="center" style="border-right:1px solid #000;font-size: 10pt;">
+                        {{-- <td align="center" style="border-right:1px solid #000;font-size: 10pt;">
                             {{ $inv->your_ref }}</td>
                         <td align="right" style="border-right:1px solid #000;font-size: 10pt;">
                             {{ $inv->our_ref }}</td>
                         <td align="center" style="font-size: 10pt;">
-                        </td>
+                        </td> --}}
                     </tr>
                 </table>
             </td>
