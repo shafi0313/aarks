@@ -61,7 +61,7 @@ class DedotrInvoiceController extends Controller
     public function manage()
     {
         $client   = client();
-        $invoices = Dedotr::filter()->selectRaw('id, job_title,tran_date,tran_id,inv_no,amount,customer_card_id, sum(amount) as totalAmt')->with(['payments' => function ($q) use ($client) {
+        $invoices = Dedotr::filter()->selectRaw('id, job_title,tran_date,tran_id,inv_no,amount,customer_card_id, sum(amount) as totalAmt, calendar_id')->with(['payments' => function ($q) use ($client) {
             return $q->select('id', 'dedotr_inv', 'payment_amount')->where('client_id', $client->id);
         }, 'customer' => fn ($q) => $q->select('id', 'name')])->where('client_id', $client->id)
             ->where('chart_id', 'not like', '551%')

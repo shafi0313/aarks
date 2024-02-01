@@ -68,9 +68,17 @@
                                                 <td class="text-success text-right">$
                                                     {{ number_format($invoice->payments->sum('payment_amount'), 2) }} </td>
                                                 <td>
+                                                    @php
+                                                        if ($invoice->job_title != '') {
+                                                            $editRoute = route('invoice.invedit', [$invoice->inv_no, $client->id, $invoice->customer_card_id]);
+                                                            $printRoute = route('inv.report', ['service', $invoice->inv_no, $client->id, $invoice->customer_card_id]);
+                                                        } else {
+                                                            $editRoute = route('calendar.invoices.edit', [$invoice->inv_no, $client->id, $invoice->customer_card_id, $invoice->calendar_id]);
+                                                            $printRoute = route('calendar.invoices.report', ['service', $invoice->inv_no, $client->id, $invoice->customer_card_id, $invoice->calendar_id]);
+                                                        }
+                                                    @endphp
                                                     <div class="action">
-                                                        <a title="Invoice Print"
-                                                            href="{{ route('inv.report', ['service', $invoice->inv_no, $client->id, $invoice->customer_card_id]) }}"
+                                                        <a title="Invoice Print" href="{{ $printRoute }}"
                                                             class="btn btn-success btn-sm">
                                                             <i class="fas fa-print"></i>
                                                         </a>
@@ -80,14 +88,8 @@
                                                             <i class="far fa-envelope-open"></i>
                                                         </a>
 
-                                                        @php
-                                                            if ($invoice->job_title != '') {
-                                                                $route = route('invoice.invedit', [$invoice->inv_no, $client->id, $invoice->customer_card_id]);
-                                                            } else {
-                                                                $route = route('calendar.invoices.edit', [$invoice->inv_no, $client->id, $invoice->customer_card_id]);
-                                                            }
-                                                        @endphp
-                                                        <a title="Invoice Edit" href="{{ $route }}"
+
+                                                        <a title="Invoice Edit" href="{{ $editRoute }}"
                                                             class="btn btn-warning btn-sm">
                                                             <i class="fas fa-edit"></i>
                                                         </a>

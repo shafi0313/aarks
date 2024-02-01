@@ -15,11 +15,15 @@ Route::name('calendar.')->group(function(){
     });
 
     Route::controller(InvoiceController::class)->prefix('invoices')->name('invoices.')->group(function(){
-        Route::get('/{calendar_id?}', [InvoiceController::class, 'index'])->name('index');
-        Route::get('/create/{profession}/{calendar_id}', [InvoiceController::class, 'create'])->name('create');
-        Route::post('/store', [InvoiceController::class, 'store'])->name('store');
-        Route::get('/edit/{inv}/{client}/{customer}', [InvoiceController::class, 'edit'])->name('edit');
-        Route::put('/update/{inv}/{client}/{profession}', [InvoiceController::class, 'update'])->name('update');
+        Route::get('/{calendar_id?}', 'index')->name('index');
+        Route::get('/create/{profession}/{calendar_id}', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{inv}/{client}/{customer}', 'edit')->name('edit');
+        Route::put('/update/{inv}/{client}/{profession}', 'update')->name('update');
+
+        Route::get('/report/{source}/{inv_no}/{client}/{customer}/{calendar_id}', 'report')->name('report');
+        Route::get('/report/print/{source}/{inv_no}/{client}/{customer}/{calendar_id}', 'print')->name('report.print');
+        // Route::get('/invoice/report/mail/{source}/{inv_no}/{client}', 'mail')->name('inv.report.mail');
 
     });
     // Not working in group

@@ -59,6 +59,8 @@ class DedotrQuoteRequest extends FormRequest
             "gst_amt"          => 'sometimes',
             "gst_amt_subtotal" => 'sometimes',
             "sub_val"          => 'sometimes',
+            // For calendar invoice
+            "calendar_id"      => 'sometimes',
         ];
     }
 }

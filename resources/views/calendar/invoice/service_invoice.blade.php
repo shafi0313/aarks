@@ -21,6 +21,10 @@
                         <form id="invoiceStore" action="{{ route('calendar.invoices.store') }}" method="POST"
                             autocomplete="off">
                             @csrf
+                            <input type="hidden" name="calendar_id" value="{{ $calendar->id }}">
+                            <input type="hidden" name="client_id" value="{{ $client->id }}">
+                            <input type="hidden" name="source" value="invoice">
+                            <input type="hidden" name="profession_id" value="{{ $profession->id }}">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-5">
@@ -29,9 +33,6 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <input type="hidden" name="client_id" value="{{ $client->id }}">
-                                <input type="hidden" name="source" value="invoice">
-                                <input type="hidden" name="profession_id" value="{{ $profession->id }}">
                                 <div class="row ">
                                     <div class="col-2 form-group">
                                         <label>Customer Name: <span class="t_red">*</span></label>

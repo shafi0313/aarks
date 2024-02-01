@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Calendar;
 
+use PDF;
 use App\Models\Client;
 use App\Models\Gsttbl;
 use App\Models\Period;
@@ -15,7 +16,6 @@ use App\Models\ClientAccountCode;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Frontend\CustomerCard;
-use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\DedotrQuoteRequest;
 use App\Models\Frontend\DedotrPaymentReceive;
@@ -452,7 +452,7 @@ class InvoiceController extends Controller
             // ->where('customer_card_id', $request->customer_card_id)
             ->where('tran_id', $request->tran_id)
             ->get();
-            
+
         if ($accumData->count() != Dedotr::where('tran_id', $request->tran_id)->count()) {
             Alert::error('There is a big problem. Please contact the administrator.');
             return back();
@@ -732,5 +732,36 @@ class InvoiceController extends Controller
             toast($e->getMessage(), 'error');
         }
         return redirect()->route('invoice.manage');
+    }
+
+    public function report($source, $inv_no, Client $client, $customer)
+    {
+        $client   = Client::find(client()->id);
+        $invoices = Dedotr::with(['client', 'customer','payments' => function ($q) use ($client) {
+            return $q->where('client_id', $client->id);
+        }])->where('client_id', $client->id)
+            ->where('customer_card_id', $customer)
+            ->where('inv_no', $inv_no)
+            ->get();
+        if ($source == 'item') {
+            return view('frontend.sales.inv-report.invItem', compact('client', 'source', 'invoices', 'inv_no'));
+        }
+        // return $invoices;
+        return view('calendar.invoice.print', compact('client', 'source', 'invoices', 'inv_no'));
+    }
+    public function print($source, $inv_no, Client $client)
+    {
+        $client   = Client::find($client->id);
+        $invoices = Dedotr::with(['client', 'customer'])->where('client_id', $client->id)
+            ->where('inv_no', $inv_no)->get();
+        $inv = $invoices->first();
+
+        if ($source == 'item') {
+            // return view('frontend.sales.inv-report.invItemPrint1', compact('client', 'source', 'invoices'));
+            $pdf = PDF::loadView('frontend.sales.inv-report.invItemPrint1', compact('client', 'source', 'invoices'));
+        } else {
+            $pdf = PDF::loadView('calendar.invoice.pdf', compact('client', 'source', 'invoices'));
+        }
+        return $pdf->setPaper('a4', 'portrait')->setWarnings(false)->stream();
     }
 }
