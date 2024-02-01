@@ -23,7 +23,6 @@
                                     $inv = $invoices->first();
                                     info($inv);
                                     $customer = $invoices->first()->customer;
-                                    // info($customer);
                                     $one_of = \App\Models\CustomerTempInfo::whereCustomerCardId($customer->id)
                                         ->whereInvNo($inv->inv_no)
                                         ->first();
@@ -89,8 +88,8 @@
                                     <thead>
                                         <tr>
                                             <td width="1%" align="center">Sl</td>
-                                            <td width="13%" align="center">Job Title</td>
-                                            <td width="40%" align="center">Job Des</td>
+                                            <td width="20%" align="center">Start Time</td>
+                                            <td width="20%" align="center">End Time</td>
                                             <td width="8%" align="center">Amount</td>
                                             <td width="2%" align="center">Dis%</td>
                                             <td width="10%" align="center">Total Amount</td>
@@ -101,8 +100,8 @@
                                         @foreach ($invoices as $i => $invoice)
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
-                                                <td>{{ $invoice->job_title }}</td>
-                                                <td>{{ $invoice->job_des }}</td>
+                                                <td>{{ Carbon\Carbon::parse($invoice->calendar->startdatetime)->format('d/m/Y, H:i A') }}</td>
+                                                <td>{{ Carbon\Carbon::parse($invoice->calendar->enddatetime)->format('d/m/Y, H:i A') }}</td>
                                                 <td>{{ number_format($invoice->price, 2) }}</td>
                                                 <td>{{ number_format($invoice->disc_rate, 2) }}</td>
                                                 <td>{{ number_format($invoice->amount, 2) }}</td>
@@ -122,11 +121,11 @@
                                             <td width="80%">Total Amount(Without GST)</td>
                                             <td class="text-right">{{ number_format($invoices->sum('price'), 2) }}</td>
                                         </tr>
-                                        <tr>
+                                        {{-- <tr>
                                             <td>Freight Charge</td>
                                             <td class="text-right">{{ number_format($invoices->sum('freight_charge'), 2) }}
                                             </td>
-                                        </tr>
+                                        </tr> --}}
                                         <tr>
                                             <td>GST </td>
                                             <td class="text-right">

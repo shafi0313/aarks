@@ -737,7 +737,7 @@ class InvoiceController extends Controller
     public function report($source, $inv_no, Client $client, $customer)
     {
         $client   = Client::find(client()->id);
-        $invoices = Dedotr::with(['client', 'customer','payments' => function ($q) use ($client) {
+        $invoices = Dedotr::with(['client', 'customer', 'calendar','payments' => function ($q) use ($client) {
             return $q->where('client_id', $client->id);
         }])->where('client_id', $client->id)
             ->where('customer_card_id', $customer)

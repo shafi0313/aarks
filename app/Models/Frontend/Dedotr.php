@@ -3,6 +3,7 @@
 namespace App\Models\Frontend;
 
 use App\Models\Client;
+use App\Models\Calendar;
 use App\Models\Profession;
 use App\Models\ClientAccountCode;
 use App\Models\Frontend\CustomerCard;
@@ -50,6 +51,10 @@ class Dedotr extends Model
     public function payments()
     {
         return $this->hasMany(DedotrPaymentReceive::class, 'dedotr_inv', 'inv_no');
+    }
+    public function calendar()
+    {
+        return $this->belongsTo(Calendar::class);
     }
     public function trashedPayments()
     {
