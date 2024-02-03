@@ -154,7 +154,11 @@
                         </td>
                         <td align="center"
                             style="border-right: 1px solid #000;border-bottom: 1px solid #000;font-size: 10pt;">
-                            <strong>Job Des</strong>
+                            <strong>End Time</strong>
+                        </td>
+                        <td align="center"
+                            style="border-right: 1px solid #000;border-bottom: 1px solid #000;font-size: 10pt;">
+                            <strong>End Time</strong>
                         </td>
                         <td align="center"
                             style="border-right: 1px solid #000;border-bottom: 1px solid #000;font-size: 10pt;">
@@ -179,7 +183,12 @@
                                 {{ $i + 1 }}</td>
                             <td align="center"
                                 style="border-right: 1px solid #000;border-bottom: 1px solid #000;font-size: 10pt;">
-                                {{ $invoice->job_des }}</td>
+                                {{ Carbon\Carbon::parse($invoice->calendar->startdatetime)->format('d/m/Y, H:i A') }}
+                            </td>
+                            <td align="center"
+                                style="border-right: 1px solid #000;border-bottom: 1px solid #000;font-size: 10pt;">
+                                {{ Carbon\Carbon::parse($invoice->calendar->enddatetime)->format('d/m/Y, H:i A') }}
+                            </td>
                             <td align="center"
                                 style="border-right: 1px solid #000;border-bottom: 1px solid #000;font-size: 10pt;">
                                 {{ number_format($invoice->price, 2) }}</td>
@@ -204,7 +213,7 @@
                 <table border="0" cellpadding="5" cellspacing="0" width="100%">
                     <tr>
                         <td width="55%" valign="top">
-                            {!! $inv->quote_terms !!}
+                            {{-- {!! $inv->quote_terms !!} --}}
                         </td>
                         <td width="45%" border="0" style="border-left:1px solid black;">
                             <table width="100%" border="0">
@@ -215,13 +224,13 @@
                                     <td style="border-bottom:1px solid black;border-right:1px solid black;"
                                         class="text-right">{{ number_format($invoices->sum('price'), 2) }}</td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <td style="border-bottom:1px solid black;border-right:1px solid black;">Freight
                                         Charge</td>
                                     <td style="border-bottom:1px solid black;border-right:1px solid black;"
                                         class="text-right">{{ number_format($invoices->sum('freight_charge'), 2) }}
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td style="border-bottom:1px solid black;border-right:1px solid black;">GST </td>
                                     <td style="border-bottom:1px solid black;border-right:1px solid black;"

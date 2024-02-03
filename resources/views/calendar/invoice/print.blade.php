@@ -100,8 +100,10 @@
                                         @foreach ($invoices as $i => $invoice)
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
-                                                <td>{{ Carbon\Carbon::parse($invoice->calendar->startdatetime)->format('d/m/Y, H:i A') }}</td>
-                                                <td>{{ Carbon\Carbon::parse($invoice->calendar->enddatetime)->format('d/m/Y, H:i A') }}</td>
+                                                <td>{{ Carbon\Carbon::parse($invoice->calendar->startdatetime)->format('d/m/Y, H:i A') }}
+                                                </td>
+                                                <td>{{ Carbon\Carbon::parse($invoice->calendar->enddatetime)->format('d/m/Y, H:i A') }}
+                                                </td>
                                                 <td>{{ number_format($invoice->price, 2) }}</td>
                                                 <td>{{ number_format($invoice->disc_rate, 2) }}</td>
                                                 <td>{{ number_format($invoice->amount, 2) }}</td>
@@ -189,7 +191,7 @@
                                                 class="fa fa-"></i> EMAIL </a>
                                     </div>
                                     <div class="mx-2">
-                                        <a href="{{ route('inv.report.print', ['service', $inv_no, $client->id, $customer->id]) }}"
+                                        <a href="{{ route('calendar.invoices.report.pdf', ['service', $inv_no, $client->id, $customer->id, $invoices->first()->calendar_id]) }}"
                                             target="_blank" class="btn btn-outline-info text-dark btn-lg"> <i
                                                 class="fa fa-print"></i> PRINT</a>
                                     </div>
