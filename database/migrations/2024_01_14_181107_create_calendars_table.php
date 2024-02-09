@@ -17,13 +17,13 @@ return new class extends Migration
             $table->foreignId('room_id')->constrained()->cascadeOnDelete();
             $table->string('customer_name');
             $table->string('phone',64);
-            $table->string('address');
-            $table->string('city');
-            $table->string('state');
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
             $table->unsignedBigInteger('day')->nullable();
             $table->dateTime('startdatetime');
             $table->dateTime('enddatetime');
-            $table->text('description');
+            $table->text('description')->nullable();
             // $table->text('status');
             $table->timestamps();
         });
