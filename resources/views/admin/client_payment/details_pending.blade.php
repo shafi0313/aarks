@@ -33,7 +33,7 @@
                                     </tr>
                                     <tr>
                                         <td>Package Name: </td>
-                                        <td><strong>{{ $payment->pack_name }}</strong></td>
+                                        <td><strong>{{ $payment->subscription->name }}</strong></td>
                                     </tr>
                                     <tr>
                                         <td>Time Duration: </td>

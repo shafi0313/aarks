@@ -65,7 +65,13 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <div class="action-buttons" style="display: flex; justify-content: center; font-size: 16px">
+                                                        <div class="action-buttons"
+                                                            style="display: flex; justify-content: center; font-size: 16px">
+                                                            <a title="Client Payment Approve" class="green"
+                                                                href="{{ route('client_payment_pending_details', $paylist->id) }}"
+                                                                style="margin-right: 10px">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
                                                             <a title="Client Payment Edit" class="green"
                                                                 href="{{ route('client_payment_edit', $paylist->id) }}">
                                                                 <i class="ace-icon fa fa-pencil"></i>
@@ -74,7 +80,8 @@
                                                                 action="{{ route('client_payment_delete', $paylist->id) }}"
                                                                 method="post">
                                                                 @csrf @method('DELETE')
-                                                                <button type="submit" class="red delete" style="border: none; background: transparent; margin-left: 10px">
+                                                                <button type="submit" class="red delete"
+                                                                    style="border: none; background: transparent; margin-left: 10px">
                                                                     <i class="ace-icon fa fa-trash-o"></i>
                                                                 </button>
                                                             </form>
