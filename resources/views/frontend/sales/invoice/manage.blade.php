@@ -74,7 +74,7 @@
                                                             $printRoute = route('inv.report', ['service', $invoice->inv_no, $client->id, $invoice->customer_card_id]);
                                                         } else {
                                                             $editRoute = route('calendar.invoices.edit', [$invoice->inv_no, $client->id, $invoice->customer_card_id, $invoice->calendar_id]);
-                                                            $printRoute = route('calendar.invoices.report', ['service', $invoice->inv_no, $client->id, $invoice->customer_card_id, $invoice->calendar_id]);
+                                                            $printRoute = route('calendar.invoices.report', ['service', $invoice->inv_no, $client->id, $invoice->customer_card_id, $invoice->calendar_id ?? 0]);
                                                         }
                                                     @endphp
                                                     <div class="action">
