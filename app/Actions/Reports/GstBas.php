@@ -127,19 +127,34 @@ class GstBas extends Controller
             ->where('chart_code', 'like', '95%')
             ->sum('gst_cash_amount');
 
-        $expenses = Gsttbl::select(GSTVisible())
+        $expenses = Gsttbl::with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])
             ->where('client_id', $client_id)
-            ->whereProfessionId($profession->id)
-            ->whereBetween('trn_date', [$dateFrom, $dateTo])
+            ->whereIn('profession_id', $profession->id)
             ->where('source', '!=', 'INV')
+            ->whereBetween('trn_date', [$dateFrom, $dateTo])
             ->where(function ($q) {
                 $q->where('chart_code', 'like', '2%')
                     ->orWhere('chart_code', 'like', '56%');
             })
-            ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+            ->selectRaw('sum(gst_cash_amount) as gst_cash_amount')
+            ->get()->each(function ($item) {
                 $this->gstAbs($item);
             }); // _________1B_________
         $expense = $sum95 > 0 ? $expenses->sum('gst_cash_amount') - abs($sum95) : $expenses->sum('gst_cash_amount') + abs($sum95); // _________1B_________
+
+        // $expenses = Gsttbl::select(GSTVisible())
+        //     ->where('client_id', $client_id)
+        //     ->whereProfessionId($profession->id)
+        //     ->whereBetween('trn_date', [$dateFrom, $dateTo])
+        //     ->where('source', '!=', 'INV')
+        //     ->where(function ($q) {
+        //         $q->where('chart_code', 'like', '2%')
+        //             ->orWhere('chart_code', 'like', '56%');
+        //     })
+        //     ->with(['accountCodes' => fn ($q) => $q->whereClientId($client_id)->select('id', 'code', 'type', 'gst_code')])->get()->each(function ($item) {
+        //         $this->gstAbs($item);
+        //     }); // _________1B_________
+        // $expense = $sum95 > 0 ? $expenses->sum('gst_cash_amount') - abs($sum95) : $expenses->sum('gst_cash_amount') + abs($sum95); // _________1B_________
 
         $w1 = Gsttbl::select(GSTVisible())
             ->where('client_id', $client_id)
