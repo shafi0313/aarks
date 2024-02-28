@@ -308,7 +308,7 @@
                                                 href="{{ route('card_list_select_activity') }}">Card List/Edit</a>
                                         </div>
                                     </li>
-
+                                    @if ($client->paymentList->subscription->amount > 40)
                                     <li class="nav-item menu_dropdown">
                                         <a class="nav-link menu_dropdown-toggle {{ $mp == 'report' ? 'active' : '' }}"
                                             href="#" id="navbarmenu_dropdown" role="button"
@@ -333,16 +333,14 @@
                                                 href="{{ route('incl.index') }}">Profit
                                                 &amp; Loss(GST <span style="color:red">Excl</span>)</a>
 
-
                                             <a class="menu_dropdown-item {{ $p == 'bs' ? 'active' : '' }}"
                                                 href="{{ route('balance.select') }}">Balance
                                                 Sheet</a>
-
-
                                         </div>
                                     </li>
+                                    @endif
                                     {{-- Advanced Report Start --}}
-                                    @if ($client->paymentList->subscription->amount > 40)
+                                    @if ($client->paymentList->subscription->amount > 50)
                                         <li class="nav-item menu_dropdown">
                                             <a class="nav-link menu_dropdown-toggle {{ $mp == 'advr' ? 'active' : '' }}"
                                                 href="#" id="navbarmenu_dropdown" role="button"
