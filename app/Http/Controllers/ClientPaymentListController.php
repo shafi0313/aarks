@@ -43,7 +43,7 @@ class ClientPaymentListController extends Controller
         }
         return view('admin.client_payment.details_pending', compact('payment'));
     }
-    
+
     public function edit(ClientPaymentList $payment)
     {
         if ($error = $this->sendPermissionError('admin.client_payment.edit')) {
@@ -61,8 +61,8 @@ class ClientPaymentListController extends Controller
         $bill         = $payment->bill - Creditor::whereClientId($client->id)->whereBetween('tran_date', [$payment->started_at->format('Y-m-d'), $payment->expire_at->format('Y-m-d')])->count();
         $bill_payment = $payment->payment - CreditorPaymentReceive::whereClientId($client->id)->whereBetween('tran_date', [$payment->started_at->format('Y-m-d'), $payment->expire_at->format('Y-m-d')])->count();
 
-        $plans = Subscription::get(['id','name','interval','amount']);
-        return view('admin.client_payment.edit', compact(['payment', 'client','quation','invoice','receipt','bill_quation','bill','bill_payment','plans']));
+        $plans = Subscription::get(['id', 'name', 'interval', 'amount']);
+        return view('admin.client_payment.edit', compact(['payment', 'client', 'quation', 'invoice', 'receipt', 'bill_quation', 'bill', 'bill_payment', 'plans']));
     }
     public function update(Request $request, ClientPaymentList $paylist)
     {
@@ -113,6 +113,7 @@ class ClientPaymentListController extends Controller
             return $error;
         }
         try {
+            ClientPaymentList::whereClientId($paylist->client_id)->whereNot('id', $paylist->id)->update(['is_expire' => 1]);
             $paylist->update(['status' => !$paylist->status]);
             toast('Services Active!', 'success');
         } catch (\Exception $e) {
