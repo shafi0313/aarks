@@ -115,7 +115,8 @@
                                                         class="fa-solid fa-angle-down"></i></a>
                                                 <div class="menu_dropdown-menu" aria-labelledby="navbarmenu_dropdown">
                                                     <a class="menu_dropdown-item {{ $p == 'invCat' ? 'active' : '' }}"
-                                                        href="{{ route('inv_category.index') }}">Add/Edit Category, Sub Category</a>
+                                                        href="{{ route('inv_category.index') }}">Add/Edit Category,
+                                                        Sub Category</a>
                                                     <a class="menu_dropdown-item {{ $p == 'invAdd' ? 'active' : '' }}"
                                                         href="{{ route('inv_item.index') }}">Add Item</a>
                                                     <a class="menu_dropdown-item {{ $p == 'invEdit' ? 'active' : '' }}"
@@ -309,35 +310,35 @@
                                         </div>
                                     </li>
                                     @if ($client->paymentList->subscription->amount > 40)
-                                    <li class="nav-item menu_dropdown">
-                                        <a class="nav-link menu_dropdown-toggle {{ $mp == 'report' ? 'active' : '' }}"
-                                            href="#" id="navbarmenu_dropdown" role="button"
-                                            data-toggle="menu_dropdown" aria-haspopup="true"
-                                            aria-expanded="false">Report<i class="fa-solid fa-angle-down"></i></a>
-                                        <div class="menu_dropdown-menu" aria-labelledby="navbarmenu_dropdown">
-                                            <a class="menu_dropdown-item {{ $p == 'cbasis' ? 'active' : '' }}"
-                                                href="{{ route('cbasis.index') }}">GST/BAS(Cash Basis)</a>
-                                            <a class="menu_dropdown-item {{ $p == 'abasis' ? 'active' : '' }}"
-                                                href="{{ route('abasis.index') }}">GST/BAS(Accrued Basis)</a>
-                                            <a class="menu_dropdown-item {{ $p == 'gl' ? 'active' : '' }}"
-                                                href="{{ route('ledger.select') }}">General
-                                                Ledger</a>
-                                            <a class="menu_dropdown-item {{ $p == 'tb' ? 'active' : '' }}"
-                                                href="{{ route('trial.profession') }}">Trial
-                                                Balance</a>
+                                        <li class="nav-item menu_dropdown">
+                                            <a class="nav-link menu_dropdown-toggle {{ $mp == 'report' ? 'active' : '' }}"
+                                                href="#" id="navbarmenu_dropdown" role="button"
+                                                data-toggle="menu_dropdown" aria-haspopup="true"
+                                                aria-expanded="false">Report<i class="fa-solid fa-angle-down"></i></a>
+                                            <div class="menu_dropdown-menu" aria-labelledby="navbarmenu_dropdown">
+                                                <a class="menu_dropdown-item {{ $p == 'cbasis' ? 'active' : '' }}"
+                                                    href="{{ route('cbasis.index') }}">GST/BAS(Cash Basis)</a>
+                                                <a class="menu_dropdown-item {{ $p == 'abasis' ? 'active' : '' }}"
+                                                    href="{{ route('abasis.index') }}">GST/BAS(Accrued Basis)</a>
+                                                <a class="menu_dropdown-item {{ $p == 'gl' ? 'active' : '' }}"
+                                                    href="{{ route('ledger.select') }}">General
+                                                    Ledger</a>
+                                                <a class="menu_dropdown-item {{ $p == 'tb' ? 'active' : '' }}"
+                                                    href="{{ route('trial.profession') }}">Trial
+                                                    Balance</a>
 
-                                            <a class="menu_dropdown-item {{ $p == 'pexcl' ? 'active' : '' }}"
-                                                href="{{ route('excl.index') }}">Profit
-                                                &amp; Loss(GST <span style="color:red">Incl</span>)</a>
-                                            <a class="menu_dropdown-item {{ $p == 'pincl' ? 'active' : '' }}"
-                                                href="{{ route('incl.index') }}">Profit
-                                                &amp; Loss(GST <span style="color:red">Excl</span>)</a>
+                                                <a class="menu_dropdown-item {{ $p == 'pexcl' ? 'active' : '' }}"
+                                                    href="{{ route('excl.index') }}">Profit
+                                                    &amp; Loss(GST <span style="color:red">Incl</span>)</a>
+                                                <a class="menu_dropdown-item {{ $p == 'pincl' ? 'active' : '' }}"
+                                                    href="{{ route('incl.index') }}">Profit
+                                                    &amp; Loss(GST <span style="color:red">Excl</span>)</a>
 
-                                            <a class="menu_dropdown-item {{ $p == 'bs' ? 'active' : '' }}"
-                                                href="{{ route('balance.select') }}">Balance
-                                                Sheet</a>
-                                        </div>
-                                    </li>
+                                                <a class="menu_dropdown-item {{ $p == 'bs' ? 'active' : '' }}"
+                                                    href="{{ route('balance.select') }}">Balance
+                                                    Sheet</a>
+                                            </div>
+                                        </li>
                                     @endif
                                     {{-- Advanced Report Start --}}
                                     @if ($client->paymentList->subscription->amount > 50)
@@ -414,7 +415,9 @@
                                                 <a class="menu_dropdown-item {{ $p == 'avdbudget' ? 'active' : '' }}"
                                                     href="{{ route('client-avd.budget.index') }}">Budget</a>
 
-                                                <a class="menu_dropdown-item" href="{{ route('client-avd.monthly_business_analysis.index') }}">Monthly Business Analysis Details P & L</a>
+                                                <a class="menu_dropdown-item"
+                                                    href="{{ route('client-avd.monthly_business_analysis.index') }}">Monthly
+                                                    Business Analysis Details P & L</a>
                                                 <a class="menu_dropdown-item" href="#">Ratio Analysis</a>
                                             </div>
                                         </li>
