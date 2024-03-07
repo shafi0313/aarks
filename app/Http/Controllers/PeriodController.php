@@ -206,15 +206,13 @@ class PeriodController extends Controller
             return $error;
         }
 
-
-
-        $start_date    = $period->start_date->format('Y-m-d');
-        $end_date      = $period->end_date->format('Y-m-d');
+        $start_date    = $period->start_date;
+        $end_date      = $period->end_date;
         $profession_id = $period->profession_id;
         $client_id     = $period->client_id;
 
         $latestPeriod = Period::whereClient_id($client_id)->where('profession_id', $profession_id)->latest()->first()->id;
-        if($latestPeriod != $period->id){
+        if ($latestPeriod != $period->id) {
             Alert::error('Error', 'Please delete latest period first');
             return back();
         }
